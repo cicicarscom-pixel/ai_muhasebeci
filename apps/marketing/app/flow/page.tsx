@@ -196,17 +196,8 @@ export default function FlowPage() {
                 <h3 className="font-headline-md text-headline-md text-on-surface mb-4">Kusursuz Veri Çıkarımı</h3>
                 <p className="font-body-sm text-body-sm text-on-surface-variant mb-8">Gelişmiş OCR teknolojisi ile fatura ve fişleri saniyeler içinde dijitalleştirin. İnsan hatasını sıfıra indirin.</p>
               </div>
-              <div className="relative z-10 flex-1 w-full bg-background/50 border border-outline/50 rounded-xl mt-auto overflow-hidden flex items-center justify-center p-4">
-                <div className="relative w-full max-w-[200px] aspect-[1/1.4] bg-surface border border-outline rounded shadow-lg p-3">
-                  <div className="space-y-3 opacity-30">
-                    <div className="h-2 w-1/2 bg-on-surface rounded"></div>
-                    <div className="h-px w-full bg-on-surface"></div>
-                    <div className="h-2 w-full bg-on-surface rounded"></div>
-                    <div className="h-2 w-4/5 bg-on-surface rounded"></div>
-                    <div className="h-2 w-full bg-on-surface rounded"></div>
-                  </div>
-                  <div className="absolute top-0 left-0 w-full h-[2px] bg-primary shadow-[0_0_8px_rgba(0,229,255,0.8)] animate-flow-scan"></div>
-                </div>
+              <div className="relative z-10 w-full mt-auto rounded-xl border border-outline/50 overflow-hidden shadow-2xl group-hover:scale-[1.02] transition-transform duration-500">
+                <img src="/images/ocr-intelligence.jpg" alt="Workigom Flow OCR" className="w-full h-auto object-cover" />
               </div>
             </div>
             {/* Accounting Bridge (Wide) */}
