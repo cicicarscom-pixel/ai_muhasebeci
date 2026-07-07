@@ -182,18 +182,9 @@ export default function FlowPage() {
                 <h3 className="font-headline-md text-headline-md text-on-surface mb-4">Yapay Zeka Destekli Sosyal Medya Ekibiniz</h3>
                 <p className="font-body-md text-body-md text-on-surface-variant mb-8">İşletmeniz için özgün içerikler oluşturun, görseller üretin ve tüm sosyal medya hesaplarınızı tek bir takvim üzerinden yönetin. Markanızın sesini AI ile güçlendirin.</p>
               </div>
-              <div className="relative z-10 w-full h-48 mt-auto rounded-xl border border-outline/50 bg-background/50 overflow-hidden flex items-end justify-center px-8">
-                <div className="w-full max-w-sm bg-surface border border-outline rounded-t-xl p-4 shadow-2xl translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                  <div className="flex items-center gap-3 mb-4 border-b border-outline pb-4">
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-primary to-purple-500"></div>
-                    <div className="h-4 w-24 bg-surface-bright rounded"></div>
-                  </div>
-                  <div className="space-y-2">
-                    <div className="h-3 w-full bg-surface-bright rounded"></div>
-                    <div className="h-3 w-5/6 bg-surface-bright rounded"></div>
-                    <div className="h-3 w-4/6 bg-surface-bright rounded"></div>
-                  </div>
-                </div>
+              </div>
+              <div className="relative z-10 w-full mt-auto rounded-xl border border-outline/50 overflow-hidden shadow-2xl group-hover:scale-[1.02] transition-transform duration-500">
+                <img src="/images/social-media-team.jpg" alt="Workigom Flow Sosyal Medya" className="w-full h-auto object-cover" />
               </div>
             </div>
             {/* OCR Intelligence (Small Square) */}
