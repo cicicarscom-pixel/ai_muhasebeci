@@ -1,6 +1,5 @@
 import './flow.css';
 import FlowThreeJs from '../../components/flow/FlowThreeJs';
-import FlowShader from '../../components/flow/FlowShader';
 import FlowInteractive from '../../components/flow/FlowInteractive';
 
 export default function FlowPage() {
@@ -86,33 +85,9 @@ export default function FlowPage() {
                 </a>
               </div>
             </div>
-            {/* Hero 3D Visual */}
-            <div className="relative h-[500px] w-full rounded-3xl border border-outline/50 bg-surface/20 backdrop-blur-3xl overflow-hidden flex items-center justify-center group">
-              <div className="absolute inset-0 bg-gradient-to-tr from-[#00E5FF]/10 to-[#7B61FF]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-              
-              <div className="absolute inset-0 w-full h-full">
-                <FlowShader />
-              </div>
-
-              {/* Floating UI Elements */}
-              <div className="absolute top-8 left-8 glass-panel rounded-xl p-4 flex items-center gap-4 animate-flow-float">
-                <div className="w-10 h-10 rounded-lg bg-[#7B61FF]/20 flex items-center justify-center">
-                  <span className="material-symbols-outlined text-[#7B61FF]">receipt_long</span>
-                </div>
-                <div>
-                  <p className="font-label-sm text-label-sm text-on-surface-variant">Yeni Fatura İşlendi</p>
-                  <p className="font-body-sm text-body-sm text-on-surface font-medium">₺12,500.00</p>
-                </div>
-              </div>
-              <div className="absolute bottom-8 right-8 glass-panel rounded-xl p-4 flex items-center gap-4 animate-flow-float-reverse">
-                <div className="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center">
-                  <span className="material-symbols-outlined text-primary">campaign</span>
-                </div>
-                <div>
-                  <p className="font-label-sm text-label-sm text-on-surface-variant">AI İçerik Hazır</p>
-                  <p className="font-body-sm text-body-sm text-on-surface font-medium">Instagram Gönderisi</p>
-                </div>
-              </div>
+            {/* Hero Visual */}
+            <div className="relative w-full rounded-3xl border border-outline/50 overflow-hidden shadow-[0_0_50px_rgba(0,229,255,0.15)] flex items-center justify-center group">
+              <img src="/images/hero-ai-system.jpg" alt="Workigom Flow AI System" className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-700" />
             </div>
           </div>
         </section>
