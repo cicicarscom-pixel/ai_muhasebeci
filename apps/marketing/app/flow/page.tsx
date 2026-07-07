@@ -22,7 +22,9 @@ export default function FlowPage() {
                 <span className="material-symbols-outlined text-primary text-[18px]" style={{ fontVariationSettings: "'FILL' 1" }}>dataset</span>
               </div>
             </div>
-            <span className="text-headline-md font-headline-lg font-bold text-on-surface tracking-tight">Workigom</span>
+            <span className="text-headline-md font-headline-lg font-bold tracking-tight">
+              <span className="text-white">Workigom</span> <span className="text-[#00E5FF]">Flow</span>
+            </span>
           </a>
           {/* Navigation Links */}
           <div className="hidden md:flex items-center gap-8">
