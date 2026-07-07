@@ -182,7 +182,6 @@ export default function FlowPage() {
                 <h3 className="font-headline-md text-headline-md text-on-surface mb-4">Yapay Zeka Destekli Sosyal Medya Ekibiniz</h3>
                 <p className="font-body-md text-body-md text-on-surface-variant mb-8">İşletmeniz için özgün içerikler oluşturun, görseller üretin ve tüm sosyal medya hesaplarınızı tek bir takvim üzerinden yönetin. Markanızın sesini AI ile güçlendirin.</p>
               </div>
-              </div>
               <div className="relative z-10 w-full mt-auto rounded-xl border border-outline/50 overflow-hidden shadow-2xl group-hover:scale-[1.02] transition-transform duration-500">
                 <img src="/images/social-media-team.jpg" alt="Workigom Flow Sosyal Medya" className="w-full h-auto object-cover" />
               </div>
