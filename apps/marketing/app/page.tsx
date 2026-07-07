@@ -141,17 +141,20 @@ export default function MarketingPage() {
                     <div className="w-[2px] h-full path-line rounded animation-delay-400" style={{background: "linear-gradient(180deg, transparent, rgba(0, 216, 255, 0.2), rgba(0, 216, 255, 0.8), rgba(0, 216, 255, 0.2), transparent)", backgroundSize: "100% 200%", animation: "move-gradient-v 3s linear infinite"}}></div>
                     <div className="w-[2px] h-full path-line rounded animation-delay-800" style={{background: "linear-gradient(180deg, transparent, rgba(0, 216, 255, 0.2), rgba(0, 216, 255, 0.8), rgba(0, 216, 255, 0.2), transparent)", backgroundSize: "100% 200%", animation: "move-gradient-v 3s linear infinite"}}></div>
                   </div>
-                  <div className="relative w-44 h-44 rounded-2xl flex flex-col items-center justify-center z-10 group">
-                    {/* Spinning Aura Glow Behind the Box (Gök mavisi, lacivert, turkuaz) */}
-                    <div className="absolute -inset-3 rounded-[32px] bg-[conic-gradient(from_0deg,#00a2ff,#1e3a8a,#06b6d4,#00a2ff)] opacity-60 blur-xl animate-[spin_8s_linear_infinite]"></div>
+                  <div className="relative w-44 h-44 rounded-2xl flex flex-col items-center justify-center z-10 group shadow-[0_0_30px_rgba(0,162,255,0.4)]">
+                    {/* Background Aura Glow */}
+                    <div className="absolute -inset-3 rounded-[32px] bg-[conic-gradient(from_0deg,#00a2ff,#1e3a8a,#06b6d4,#00a2ff)] opacity-50 blur-xl animate-[spin_8s_linear_infinite]"></div>
                     
-                    {/* Solid Opaque Background and Fixed Neon Border */}
-                    <div className="absolute inset-0 rounded-2xl bg-[#1c1b1d] border-[1.5px] border-[#00a2ff] shadow-[0_0_15px_rgba(0,162,255,0.5),inset_0_0_10px_rgba(0,162,255,0.2)]"></div>
+                    {/* Thick Spinning Neon Border (3px thick) */}
+                    <div className="absolute inset-0 rounded-2xl overflow-hidden">
+                       <div className="absolute inset-[-100%] bg-[conic-gradient(from_0deg,#00a2ff,#1e3a8a,#06b6d4,#00a2ff)] animate-[spin_4s_linear_infinite]"></div>
+                       {/* Opaque inner background */}
+                       <div className="absolute inset-[3px] bg-[#1c1b1d] rounded-[13px] shadow-[inset_0_0_15px_rgba(0,162,255,0.2)]"></div>
+                    </div>
 
                     {/* Content (z-20 to sit above the background and border) */}
                     <div className="absolute inset-0 flex flex-col items-center justify-center z-20">
-                      <div className="absolute inset-3 border border-[#00a2ff]/30 rounded-xl opacity-80 animate-pulse drop-shadow-[0_0_5px_rgba(0,162,255,0.5)]"></div>
-                      <div className="absolute inset-4 border border-[#00a2ff]/50 rounded-lg"></div>
+                      <div className="absolute inset-[14px] border border-[#00a2ff]/40 rounded-xl opacity-80 animate-pulse drop-shadow-[0_0_5px_rgba(0,162,255,0.5)]"></div>
                       <span className="material-symbols-outlined text-[#00a2ff] text-[44px] mb-2 drop-shadow-[0_0_10px_rgba(0,162,255,0.8)] mt-1">memory</span>
                       <span className="font-label-md text-white text-sm font-bold">Workigom AI</span>
                     </div>
