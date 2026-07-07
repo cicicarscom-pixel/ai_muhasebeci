@@ -94,9 +94,23 @@ export default function FlowPage() {
 
         {/* 2. Ecosystem Section */}
         <section className="max-w-7xl mx-auto px-margin mb-32 relative" id="cozumler">
-          <div className="text-center mb-16">
-            <h2 className="font-headline-lg text-headline-lg text-on-surface mb-4">Tek Bir Yapay Zeka.<br />İki Profesyonel. Tek Çalışma Alanı.</h2>
-            <p className="font-body-md text-body-md text-on-surface-variant max-w-2xl mx-auto">İşletme sahibi ve muhasebeci arasındaki duvarları yıkıyoruz. Gerçek zamanlı veri senkronizasyonu ile kusursuz işbirliği.</p>
+          <div className="text-center mb-20 relative z-10">
+            {/* Glowing background behind text */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[200px] bg-gradient-to-r from-[#00E5FF]/20 to-[#4edea3]/20 blur-[100px] -z-10 pointer-events-none rounded-full"></div>
+            
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-outline bg-surface/80 backdrop-blur-md mb-6 shadow-lg shadow-[#00E5FF]/5">
+              <span className="material-symbols-outlined text-[18px] text-[#4edea3]">handshake</span>
+              <span className="font-label-sm text-label-sm text-on-surface uppercase tracking-widest font-semibold">Kusursuz Ekosistem</span>
+            </div>
+            
+            <h2 className="font-display-sm md:font-display-md text-display-sm md:text-display-md mb-6 leading-tight font-extrabold tracking-tight">
+              <span className="text-white drop-shadow-md">Tek Bir Yapay Zeka.</span><br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00E5FF] to-[#4edea3] drop-shadow-[0_0_15px_rgba(0,229,255,0.3)]">İki Profesyonel. Tek Çalışma Alanı.</span>
+            </h2>
+            
+            <p className="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto leading-relaxed">
+              İşletme sahibi ve muhasebeci arasındaki duvarları yıkıyoruz. Gerçek zamanlı veri senkronizasyonu ile kusursuz işbirliği.
+            </p>
           </div>
           <div className="relative w-full rounded-3xl border border-outline bg-surface p-8 md:p-16 overflow-hidden">
             {/* Grid Background */}
