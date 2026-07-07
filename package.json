@@ -1,0 +1,10 @@
+{
+  "name": "workigom",
+  "private": true,
+  "scripts": {
+    "dev": "turbo run dev"
+  },
+  "devDependencies": {
+    "turbo": "latest"
+  }
+}
