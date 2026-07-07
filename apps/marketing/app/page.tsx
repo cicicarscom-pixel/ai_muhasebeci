@@ -35,7 +35,7 @@ export default function MarketingPage() {
                 
                 {/* 1. Left Side: Mobile Frame (Business Owner) */}
                 <div className="flex flex-col items-center gap-6 relative">
-                  <h3 className="font-headline-md text-xl text-primary text-center mb-2">Workigom Flow</h3>
+                  <h3 className="font-headline-md text-xl text-primary text-center mb-2"><span className="text-white">Workigom</span> Flow</h3>
                   <div className="w-[280px] h-[580px] bg-surface-container rounded-[40px] border-[8px] border-surface-container-high relative overflow-hidden shadow-2xl phone-shadow flex flex-col">
                     <div className="absolute top-0 inset-x-0 h-6 flex justify-center z-20">
                       <div className="w-32 h-6 bg-surface-container-high rounded-b-xl"></div>
@@ -85,17 +85,31 @@ export default function MarketingPage() {
                         <div className="mt-auto px-4 py-2 flex items-center gap-2 text-on-surface-variant"><span className="material-symbols-outlined text-[18px]">settings</span><span className="text-xs">Settings</span></div>
                       </div>
                     </div>
-                    <div className="h-20 bg-surface-container-lowest border-t border-outline-subtle flex justify-around items-center px-4 z-20">
-                      <div className="flex flex-col items-center gap-1 text-on-surface-variant"><span className="material-symbols-outlined text-[20px]">smart_toy</span><span className="text-[8px]">AI Assistant</span></div>
-                      <div className="flex flex-col items-center gap-1 text-on-surface-variant"><span className="material-symbols-outlined text-[20px]">account_balance_wallet</span><span className="text-[8px]">AI Accounting</span></div>
-                      <div className="flex flex-col items-center gap-1 text-primary relative">
-                        <div className="absolute -top-4 w-12 h-12 bg-surface-container rounded-full flex items-center justify-center border-4 border-surface-container-high shadow-[0_0_15px_rgba(0,216,255,0.3)]">
-                          <span className="material-symbols-outlined text-[24px]">home</span>
-                        </div>
-                        <span className="text-[8px] mt-6">Home</span>
+                    <div className="h-20 bg-[#16181D] rounded-b-[32px] border-t border-outline-subtle flex justify-around items-center px-4 z-20 relative shadow-[0_20px_50px_rgba(0,216,255,0.4)]">
+                      <div className="flex flex-col items-center gap-1 text-primary">
+                        <span className="material-symbols-outlined text-[22px]">memory</span>
+                        <span className="text-[10px] font-bold">AI Assistant</span>
                       </div>
-                      <div className="flex flex-col items-center gap-1 text-on-surface-variant"><span className="material-symbols-outlined text-[20px]">share</span><span className="text-[8px]">Social Media</span></div>
-                      <div className="flex flex-col items-center gap-1 text-on-surface-variant"><span className="material-symbols-outlined text-[20px]">analytics</span><span className="text-[8px]">Analytics</span></div>
+                      <div className="flex flex-col items-center gap-1 text-on-surface-variant opacity-70">
+                        <span className="material-symbols-outlined text-[22px]">account_balance_wallet</span>
+                        <span className="text-[10px] font-medium">AI Accounting</span>
+                      </div>
+                      <div className="flex flex-col items-center gap-1 text-primary relative">
+                        <div className="absolute -top-10 w-16 h-16 rounded-full flex items-center justify-center p-[2px] bg-gradient-to-tr from-primary via-purple-500 to-fuchsia-500 shadow-[0_0_20px_rgba(0,216,255,0.4)]">
+                          <div className="w-full h-full bg-[#16181D] rounded-full flex items-center justify-center">
+                            <span className="material-symbols-outlined text-white text-[28px]" data-weight="fill">home</span>
+                          </div>
+                        </div>
+                        <span className="text-[10px] font-bold mt-7 drop-shadow-[0_0_5px_rgba(0,216,255,0.8)]">Home</span>
+                      </div>
+                      <div className="flex flex-col items-center gap-1 text-on-surface-variant opacity-70">
+                        <span className="material-symbols-outlined text-[22px]">share</span>
+                        <span className="text-[10px] font-medium">Social Media</span>
+                      </div>
+                      <div className="flex flex-col items-center gap-1 text-on-surface-variant opacity-70">
+                        <span className="material-symbols-outlined text-[22px]">bar_chart</span>
+                        <span className="text-[10px] font-medium">Analytics</span>
+                      </div>
                     </div>
                   </div>
                   <div className="flex flex-col items-center gap-2 mt-4">
@@ -148,7 +162,7 @@ export default function MarketingPage() {
 
                 {/* 3. Right Side: Desktop Frame (Accountant) */}
                 <div className="flex flex-col items-center gap-6 relative">
-                  <h3 className="font-headline-md text-xl text-primary text-center mb-2">Workigom Ledger</h3>
+                  <h3 className="font-headline-md text-xl text-primary text-center mb-2"><span className="text-white">Workigom</span> Ledger</h3>
                   <div className="relative w-[480px] flex flex-col items-center">
                     <div className="w-full h-[300px] bg-surface-container-lowest rounded-t-xl rounded-b-sm border-t border-l border-r border-outline-subtle p-2 shadow-2xl overflow-hidden relative flex flex-col">
                       <div className="flex-1 bg-surface-dim rounded border border-outline-subtle flex flex-col overflow-hidden">
