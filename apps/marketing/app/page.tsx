@@ -13,7 +13,7 @@ export default function MarketingPage() {
           </div>
         </div>
         <div className="flex items-center gap-gutter">
-          <a className="text-on-surface hover:bg-surface-container-low transition-all duration-200 px-3 py-1.5 rounded" href="#">Giriş Yap</a>
+          <a className="text-on-surface hover:bg-surface-container-low transition-all duration-200 px-3 py-1.5 rounded" href="/login">Giriş Yap</a>
           <button className="bg-primary-container text-on-primary-container font-label-md text-label-md px-4 py-2 rounded font-bold hover:bg-surface-tint transition-colors active:scale-95 duration-150 ease-in-out">Demo Randevusu Al</button>
         </div>
       </nav>
@@ -25,7 +25,10 @@ export default function MarketingPage() {
           <div className="absolute right-1/4 bottom-1/3 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] pointer-events-none opacity-40"></div>
           
           <div className="max-w-7xl mx-auto px-container-padding flex flex-col items-center relative z-10">
-            <div className="text-center mb-20 max-w-3xl">
+            <div className="text-center mb-20 max-w-3xl flex flex-col items-center">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-4 tracking-tight drop-shadow-lg">
+                Workigom <span className="text-primary">Ledger</span>
+              </h1>
               <h2 className="font-display-lg text-display-lg text-on-surface mb-4">İşletmeler ve Mali Müşavirler Arasındaki İlk Akıllı Köprü</h2>
               <p className="font-body-lg text-body-lg text-on-surface-variant">Karmaşık iletişim kanallarını ve manuel veri girişini tek bir akıllı iş akışında birleştiriyoruz.</p>
             </div>
