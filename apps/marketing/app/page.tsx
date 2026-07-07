@@ -141,20 +141,21 @@ export default function MarketingPage() {
                     <div className="w-[2px] h-full path-line rounded animation-delay-400" style={{background: "linear-gradient(180deg, transparent, rgba(0, 216, 255, 0.2), rgba(0, 216, 255, 0.8), rgba(0, 216, 255, 0.2), transparent)", backgroundSize: "100% 200%", animation: "move-gradient-v 3s linear infinite"}}></div>
                     <div className="w-[2px] h-full path-line rounded animation-delay-800" style={{background: "linear-gradient(180deg, transparent, rgba(0, 216, 255, 0.2), rgba(0, 216, 255, 0.8), rgba(0, 216, 255, 0.2), transparent)", backgroundSize: "100% 200%", animation: "move-gradient-v 3s linear infinite"}}></div>
                   </div>
-                  <div className="relative w-44 h-44 rounded-2xl flex flex-col items-center justify-center z-10 group shadow-[0_0_30px_rgba(0,162,255,0.4)]">
-                    {/* Background Aura Glow */}
-                    <div className="absolute -inset-3 rounded-[32px] bg-[conic-gradient(from_0deg,#00a2ff,#1e3a8a,#06b6d4,#00a2ff)] opacity-50 blur-xl animate-[spin_8s_linear_infinite]"></div>
-                    
-                    {/* Thick Spinning Neon Border (3px thick) */}
-                    <div className="absolute inset-0 rounded-2xl overflow-hidden">
-                       <div className="absolute inset-[-100%] bg-[conic-gradient(from_0deg,#00a2ff,#1e3a8a,#06b6d4,#00a2ff)] animate-[spin_4s_linear_infinite]"></div>
+                  <div className="relative w-44 h-44 rounded-[20px] flex flex-col items-center justify-center z-10 group shadow-[0_0_30px_rgba(0,162,255,0.8)]">
+                    {/* Thick Spinning Rainbow Border (4px thick) */}
+                    <div className="absolute inset-0 rounded-[20px] overflow-hidden">
+                       {/* Exact 1500x1500 spinning LinearGradient from BotYonetimiScreen */}
+                       <div 
+                         className="absolute top-1/2 left-1/2 w-[300%] h-[300%] -translate-x-1/2 -translate-y-1/2 animate-[spin_4s_linear_infinite]"
+                         style={{ background: "linear-gradient(135deg, #ff0000, #00ff00, #0000ff, #ff00ff, #00ffff, #ffff00, #ff0000)" }}
+                       ></div>
                        {/* Opaque inner background */}
-                       <div className="absolute inset-[3px] bg-[#1c1b1d] rounded-[13px] shadow-[inset_0_0_15px_rgba(0,162,255,0.2)]"></div>
+                       <div className="absolute inset-[4px] bg-[#1c1b1d] rounded-[16px]"></div>
                     </div>
 
                     {/* Content (z-20 to sit above the background and border) */}
                     <div className="absolute inset-0 flex flex-col items-center justify-center z-20">
-                      <div className="absolute inset-[14px] border border-[#00a2ff]/40 rounded-xl opacity-80 animate-pulse drop-shadow-[0_0_5px_rgba(0,162,255,0.5)]"></div>
+                      <div className="absolute inset-[14px] border-2 border-[#00a2ff]/50 rounded-xl opacity-80 animate-pulse drop-shadow-[0_0_8px_rgba(0,162,255,0.6)]"></div>
                       <span className="material-symbols-outlined text-[#00a2ff] text-[44px] mb-2 drop-shadow-[0_0_10px_rgba(0,162,255,0.8)] mt-1">memory</span>
                       <span className="font-label-md text-white text-sm font-bold">Workigom AI</span>
                     </div>
