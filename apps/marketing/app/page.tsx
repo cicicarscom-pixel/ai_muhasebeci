@@ -31,7 +31,7 @@ export default function MarketingPage() {
                 <span className="material-symbols-outlined text-[20px] group-hover:scale-110 transition-transform">dataset</span>
                 <span className="font-label-lg font-semibold">Workigom Flow</span>
               </a>
-              <a href="/" className="flex-1 px-6 py-3 rounded-xl border border-[#4edea3]/30 bg-[#4edea3]/10 text-[#4edea3] hover:bg-[#4edea3]/20 transition-all duration-300 flex items-center justify-center gap-2 group shadow-[0_0_15px_rgba(78,222,163,0.1)] hover:shadow-[0_0_25px_rgba(78,222,163,0.2)]">
+              <a href="/ledger" className="flex-1 px-6 py-3 rounded-xl border border-[#4edea3]/30 bg-[#4edea3]/10 text-[#4edea3] hover:bg-[#4edea3]/20 transition-all duration-300 flex items-center justify-center gap-2 group shadow-[0_0_15px_rgba(78,222,163,0.1)] hover:shadow-[0_0_25px_rgba(78,222,163,0.2)]">
                 <span className="material-symbols-outlined text-[20px] group-hover:scale-110 transition-transform">account_balance</span>
                 <span className="font-label-lg font-semibold">Workigom Ledger</span>
               </a>
