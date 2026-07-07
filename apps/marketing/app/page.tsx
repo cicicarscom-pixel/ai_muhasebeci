@@ -25,10 +25,7 @@ export default function MarketingPage() {
           <div className="absolute right-1/4 bottom-1/3 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] pointer-events-none opacity-40"></div>
           
           <div className="max-w-7xl mx-auto px-container-padding flex flex-col items-center relative z-10">
-            <div className="text-center mb-20 max-w-3xl flex flex-col items-center">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-4 tracking-tight drop-shadow-lg">
-                Workigom <span className="text-primary">Ledger</span>
-              </h1>
+            <div className="text-center mb-20 max-w-3xl">
               <h2 className="font-display-lg text-display-lg text-on-surface mb-4">İşletmeler ve Mali Müşavirler Arasındaki İlk Akıllı Köprü</h2>
               <p className="font-body-lg text-body-lg text-on-surface-variant">Karmaşık iletişim kanallarını ve manuel veri girişini tek bir akıllı iş akışında birleştiriyoruz.</p>
             </div>
@@ -249,7 +246,10 @@ export default function MarketingPage() {
               <span className="w-1.5 h-1.5 rounded-full bg-primary-container animate-pulse"></span>
               <span className="font-label-md text-label-md text-on-surface">Workigom OS 2.0 Yayında</span>
             </div>
-            <h1 className="font-display-lg text-display-lg text-on-surface">Modern Muhasebe Ofisleri İçin Yapay Zeka Destekli İşletim Sistemi</h1>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-2 tracking-tight drop-shadow-lg">
+              Workigom <span className="text-primary">Ledger</span>
+            </h2>
+            <h1 className="font-display-lg text-display-lg text-on-surface mb-2">Modern Muhasebe Ofisleri İçin Yapay Zeka Destekli İşletim Sistemi</h1>
             <p className="font-body-lg text-body-lg text-on-surface-variant max-w-md">
               Faturaları incelemek için saatlerinizi harcamayı bırakın. Belgeleri bir kez yükleyin; Workigom AI siz daha açmadan her şeyi okur, kategorize eder ve doğrular.
             </p>
