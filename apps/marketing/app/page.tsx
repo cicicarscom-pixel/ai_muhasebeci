@@ -69,13 +69,12 @@ export default function MarketingPage() {
                           <div className="flex justify-between w-full"><div className="w-2/3 h-1 bg-gray-200"></div><div className="w-1/4 h-1 bg-gray-200"></div></div>
                           <div className="flex justify-between w-full"><div className="w-1/3 h-1 bg-gray-200"></div><div className="w-1/4 h-1 bg-gray-200"></div></div>
                         </div>
-                      </div>
-                      <div className="absolute bottom-32 left-1/2 -translate-x-1/2 w-[260px] bg-surface-container-high/90 backdrop-blur border border-outline-subtle rounded-xl p-3 flex items-center gap-3 shadow-lg z-30 transform translate-x-10">
-                        <div className="w-8 h-8 rounded-full bg-primary-container/20 flex items-center justify-center border border-primary/30">
-                          <span className="material-symbols-outlined text-primary text-[18px]">check</span>
+                        <div className="absolute bottom-28 right-2 w-max max-w-[150px] bg-surface-container-high/90 backdrop-blur border border-outline-subtle rounded-xl p-2.5 flex items-center gap-2 shadow-lg z-30">
+                        <div className="w-6 h-6 rounded-full bg-primary-container/20 flex shrink-0 items-center justify-center border border-primary/30">
+                          <span className="material-symbols-outlined text-primary text-[14px]">check</span>
                         </div>
-                        <span className="font-label-md text-on-surface text-sm">Invoice Uploaded &amp; Shared</span>
-                      </div>
+                        <span className="font-label-md text-on-surface text-[10px] leading-tight">Invoice Uploaded & Shared</span>
+                      </div>                     </div>
                       <div className="absolute left-0 top-16 bottom-20 w-[140px] bg-surface-container-high/95 backdrop-blur border-r border-outline-subtle rounded-r-2xl z-20 flex flex-col py-4 gap-1 shadow-lg transform -translate-x-4">
                         <div className="px-4 py-2 flex items-center gap-2 text-on-surface-variant"><span className="material-symbols-outlined text-[18px]">home</span><span className="text-xs">Home</span></div>
                         <div className="px-4 py-2 flex items-center gap-2 bg-primary/20 text-primary border-l-2 border-primary"><span className="material-symbols-outlined text-[18px]">dashboard</span><span className="text-xs">Workspace</span></div>
@@ -85,30 +84,30 @@ export default function MarketingPage() {
                         <div className="mt-auto px-4 py-2 flex items-center gap-2 text-on-surface-variant"><span className="material-symbols-outlined text-[18px]">settings</span><span className="text-xs">Settings</span></div>
                       </div>
                     </div>
-                    <div className="h-20 bg-[#16181D] rounded-b-[32px] border-t border-outline-subtle flex justify-around items-center px-4 z-20 relative shadow-[0_20px_50px_rgba(0,216,255,0.4)]">
-                      <div className="flex flex-col items-center gap-1 text-primary">
-                        <span className="material-symbols-outlined text-[22px]">memory</span>
-                        <span className="text-[10px] font-bold">AI Assistant</span>
+                    <div className="h-16 bg-[#16181D] rounded-b-[32px] border-t border-outline-subtle flex justify-between items-center px-2 z-20 relative shadow-[0_20px_50px_rgba(0,216,255,0.4)]">
+                      <div className="flex flex-col items-center gap-0.5 text-primary w-12">
+                        <span className="material-symbols-outlined text-[18px]">memory</span>
+                        <span className="text-[7px] font-bold whitespace-nowrap">AI Assistant</span>
                       </div>
-                      <div className="flex flex-col items-center gap-1 text-on-surface-variant opacity-70">
-                        <span className="material-symbols-outlined text-[22px]">account_balance_wallet</span>
-                        <span className="text-[10px] font-medium">AI Accounting</span>
+                      <div className="flex flex-col items-center gap-0.5 text-on-surface-variant opacity-70 w-12">
+                        <span className="material-symbols-outlined text-[18px]">account_balance_wallet</span>
+                        <span className="text-[7px] font-medium whitespace-nowrap">AI Accounting</span>
                       </div>
-                      <div className="flex flex-col items-center gap-1 text-primary relative">
-                        <div className="absolute -top-10 w-16 h-16 rounded-full flex items-center justify-center p-[2px] bg-gradient-to-tr from-primary via-purple-500 to-fuchsia-500 shadow-[0_0_20px_rgba(0,216,255,0.4)]">
+                      <div className="flex flex-col items-center text-primary relative w-14">
+                        <div className="absolute -top-8 w-12 h-12 rounded-full flex items-center justify-center p-[2px] bg-gradient-to-tr from-primary via-purple-500 to-fuchsia-500 shadow-[0_0_15px_rgba(0,216,255,0.4)]">
                           <div className="w-full h-full bg-[#16181D] rounded-full flex items-center justify-center">
-                            <span className="material-symbols-outlined text-white text-[28px]" data-weight="fill">home</span>
+                            <span className="material-symbols-outlined text-white text-[24px]" data-weight="fill">home</span>
                           </div>
                         </div>
-                        <span className="text-[10px] font-bold mt-7 drop-shadow-[0_0_5px_rgba(0,216,255,0.8)]">Home</span>
+                        <span className="text-[8px] font-bold mt-5 drop-shadow-[0_0_5px_rgba(0,216,255,0.8)]">Home</span>
                       </div>
-                      <div className="flex flex-col items-center gap-1 text-on-surface-variant opacity-70">
-                        <span className="material-symbols-outlined text-[22px]">share</span>
-                        <span className="text-[10px] font-medium">Social Media</span>
+                      <div className="flex flex-col items-center gap-0.5 text-on-surface-variant opacity-70 w-12">
+                        <span className="material-symbols-outlined text-[18px]">share</span>
+                        <span className="text-[7px] font-medium whitespace-nowrap">Social Media</span>
                       </div>
-                      <div className="flex flex-col items-center gap-1 text-on-surface-variant opacity-70">
-                        <span className="material-symbols-outlined text-[22px]">bar_chart</span>
-                        <span className="text-[10px] font-medium">Analytics</span>
+                      <div className="flex flex-col items-center gap-0.5 text-on-surface-variant opacity-70 w-12">
+                        <span className="material-symbols-outlined text-[18px]">bar_chart</span>
+                        <span className="text-[7px] font-medium whitespace-nowrap">Analytics</span>
                       </div>
                     </div>
                   </div>
