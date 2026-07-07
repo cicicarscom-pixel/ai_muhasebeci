@@ -1,8 +1,8 @@
 import "./globals.css";
 
 export const metadata = {
-  title: "Workigom AI - Muhasebeciler Ýçin Akýllý Ýþletim Sistemi",
-  description: "Workigom AI Ýþletim Sistemi",
+  title: "Workigom AI - Muhasebeciler ï¿½ï¿½in Akï¿½llï¿½ ï¿½ï¿½letim Sistemi",
+  description: "Workigom AI ï¿½ï¿½letim Sistemi",
 };
 
 export default function RootLayout({
