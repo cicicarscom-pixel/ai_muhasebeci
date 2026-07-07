@@ -1,0 +1,116 @@
+# Workigom (AI Muhasebeci) Proje Dokümantasyonu
+
+Bu belge, **Workigom Ledger** ve **Workigom Flow** projelerinin mimari yapısını, tasarım kararlarını, kullanılan animasyonları ve yapılandırma detaylarını içerir. Bu dosya, projede yapılacak yeni geliştirmelerde bir rehber olarak kullanılmalıdır.
+
+## 🏗️ Proje Yapısı
+Proje, bir **Turborepo** monorepo yapısı üzerine inşa edilmiştir.
+
+- **Paket Yöneticisi:** `pnpm`
+- **Framework:** `Next.js 14` (App Router)
+- **Stil Aracı:** `Tailwind CSS`
+- **3D & Animasyonlar:** `Three.js`, `React Three Fiber`, `Framer Motion` (veya özel WebGL Shader'lar)
+
+Klasör dizini şu şekildedir:
+```text
+workigom/
+├── apps/
+│   └── marketing/       # Ana Landing Page uygulaması (Flow & Ledger)
+├── packages/            # Gelecekte eklenebilecek ortak kütüphaneler
+├── pnpm-workspace.yaml  # Monorepo yapılandırması
+└── turbo.json           # Turborepo yapılandırması
+```
+
+---
+
+## 🎨 Tasarım Sistemi ve Renk Paleti
+
+Workigom, modern bir "Dark Mode" arayüzüne (Glassmorphism) sahiptir. Premium ve teknolojik bir his vermek için belirli renkler kullanılır.
+
+### Renk Değerleri
+- **Ana Arka Plan (Background):** `#0B0C0D` (Derin Siyah/Koyu Gri)
+- **Yüzey (Surface):** `rgba(22, 24, 29, 0.6)` (Glassmorphism / Yarı saydam gri)
+- **Vurgu Rengi 1 (Cyan - Flow):** `#00E5FF` (Neon Turkuaz - Sosyal Medya ve Akış için)
+- **Vurgu Rengi 2 (Green - Ledger):** `#4edea3` (Zümrüt Yeşili - Muhasebe, Güven, Veri için)
+- **İkincil Vurgu (Purple):** `#7B61FF` (Yapay Zeka ve Teknoloji hissi için)
+
+### Glassmorphism (Cam Efekti) Yapısı
+Projedeki kartlarda ve navigasyon barlarında "Bento Grid" mantığı kullanılır ve arka planlar yarı saydamdır:
+```css
+/* Tailwind CSS Örneği */
+.glass-panel {
+  @apply bg-[#16181D]/60 backdrop-blur-xl border border-white/5;
+}
+```
+
+---
+
+## 💫 Özel Animasyonlar ve Yapılandırmalar
+
+Projede "Wow" efekti yaratmak için bazı karmaşık animasyonlar oluşturulmuştur. Lütfen bu yapıları bozmadan veya yeniden oluştururken bu kurallara uyun.
+
+### 1. Gökkuşağı Border (Dönen Aura Efekti)
+Sayfadaki önemli kartların veya elementlerin etrafında dönen ışık hüzmesi efekti için kullanılan yapılandırmadır.
+
+**Nasıl Yapılır?**
+Kartın içerisine absolute olarak bir `conic-gradient` eklenir ve `animate-spin` (veya benzeri bir sonsuz döngü) ile yavaşça döndürülür. Mask (padding) ile ortası boşaltılıp kenarlık (border) gibi görünmesi sağlanır.
+
+**Tailwind Yapılandırması (`tailwind.config.ts`):**
+```typescript
+keyframes: {
+  'flow-spin': {
+    from: { transform: 'rotate(0deg)' },
+    to: { transform: 'rotate(360deg)' },
+  }
+},
+animation: {
+  'flow-spin': 'flow-spin 8s linear infinite',
+}
+```
+
+**Kullanım Örneği:**
+```tsx
+<div className="relative rounded-2xl overflow-hidden p-[2px]">
+  {/* Dönen Gökkuşağı Gradienti */}
+  <div className="absolute inset-[-50%] bg-[conic-gradient(from_0deg,#ff0000,#ffff00,#00ff00,#00ffff,#0000ff,#ff00ff,#ff0000)] animate-flow-spin blur-md opacity-70"></div>
+  
+  {/* Kartın İçeriği (Arka Plan ile) */}
+  <div className="relative bg-background w-full h-full rounded-xl z-10">
+    İçerik buraya gelecek
+  </div>
+</div>
+```
+
+### 2. Aura Glow (Arkadan Vuran Mavi/Turkuaz Işık)
+"Sistem Talimatı Kartı" veya "Hero Bölümü" gibi yerlerde arkadan hafifçe yansıyan dönen mavi bir ışık efekti yaratmak için kullanılır.
+
+**Kullanım Örneği:**
+```tsx
+<div className="relative">
+  {/* Arkadaki Glow */}
+  <div className="absolute inset-0 bg-[conic-gradient(from_0deg,#00E5FF,#1e3a8a,#06b6d4,#00E5FF)] opacity-50 blur-[80px] animate-flow-spin -z-10"></div>
+  
+  {/* Ana Kart */}
+  <div className="glass-panel p-8">
+     İçerik
+  </div>
+</div>
+```
+
+### 3. WebGL ve Three.js Arka Planları (FlowShader)
+Sayfanın ana arka planında fare hareketine duyarlı 3 boyutlu bir sıvı/akışkan veya küre (Icosahedron) efekti bulunur.
+
+- **Konum:** `apps/marketing/components/flow/FlowThreeJs.tsx`
+- **Mantık:** Fare ekranın neresindeyse ışık kaynağı ve kamera o yöne doğru yavaşça ivmelenerek (lerp kullanarak) hareket eder.
+- **Renkler:** Işıklar genellikle `#00E5FF` ve `#7B61FF` renklerindedir.
+
+---
+
+## 🚀 Komutlar (Turborepo)
+
+Projede geliştirme yapmak için her zaman **kök dizinde (root)** şu komutları çalıştırın:
+
+- **Geliştirme Ortamı:** `pnpm dev` (apps altındaki tüm projeleri başlatır)
+- **Derleme (Build):** `pnpm build`
+- **Lint:** `pnpm lint`
+
+**Not:** Bu dosya proje standartlarını korumak için oluşturulmuştur. Yeni bir "Wow" efekti eklendiğinde lütfen formülünü buraya not etmeyi unutmayın.
