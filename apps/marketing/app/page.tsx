@@ -141,11 +141,26 @@ export default function MarketingPage() {
                     <div className="w-[2px] h-full path-line rounded animation-delay-400" style={{background: "linear-gradient(180deg, transparent, rgba(0, 216, 255, 0.2), rgba(0, 216, 255, 0.8), rgba(0, 216, 255, 0.2), transparent)", backgroundSize: "100% 200%", animation: "move-gradient-v 3s linear infinite"}}></div>
                     <div className="w-[2px] h-full path-line rounded animation-delay-800" style={{background: "linear-gradient(180deg, transparent, rgba(0, 216, 255, 0.2), rgba(0, 216, 255, 0.8), rgba(0, 216, 255, 0.2), transparent)", backgroundSize: "100% 200%", animation: "move-gradient-v 3s linear infinite"}}></div>
                   </div>
-                  <div className="w-40 h-40 bg-surface-container-lowest border border-outline-subtle rounded-2xl flex flex-col items-center justify-center relative z-10 glow-cyan-strong shadow-2xl">
-                    <div className="absolute inset-3 border-2 border-primary rounded-xl opacity-80 animate-pulse glow-cyan"></div>
-                    <div className="absolute inset-4 border border-primary/50 rounded-lg"></div>
-                    <span className="material-symbols-outlined text-primary text-[40px] mb-2 drop-shadow-[0_0_8px_rgba(0,216,255,0.8)]">memory</span>
-                    <span className="font-label-md text-on-surface text-sm font-bold">Workigom AI</span>
+                  <div className="relative w-44 h-44 rounded-2xl flex flex-col items-center justify-center z-10 shadow-[0_0_40px_rgba(0,216,255,0.4)] group">
+                    {/* Spinning Aura Glow Behind the Box */}
+                    <div className="absolute -inset-2 rounded-[24px] bg-[conic-gradient(from_0deg,var(--tw-gradient-stops))] from-[#00D8FF] via-[#a855f7] to-[#00D8FF] opacity-50 blur-xl animate-[spin_4s_linear_infinite]"></div>
+                    
+                    {/* The Spinning Border Effect Container */}
+                    <div className="absolute inset-0 rounded-2xl overflow-hidden bg-surface-container-lowest">
+                       {/* Spinning Gradient Line */}
+                       <div className="absolute inset-[-100%] bg-[conic-gradient(from_0deg,transparent_0_180deg,#00D8FF_270deg,#a855f7_360deg)] animate-[spin_3s_linear_infinite]"></div>
+                       
+                       {/* Solid Inner Background to hide the center of the gradient */}
+                       <div className="absolute inset-[2px] bg-[#16181D] rounded-[14px]"></div>
+                    </div>
+
+                    {/* Content (z-20 to sit above the background and border) */}
+                    <div className="absolute inset-0 flex flex-col items-center justify-center z-20">
+                      <div className="absolute inset-3 border border-primary/30 rounded-xl opacity-80 animate-pulse glow-cyan"></div>
+                      <div className="absolute inset-4 border border-primary/50 rounded-lg"></div>
+                      <span className="material-symbols-outlined text-primary text-[44px] mb-2 drop-shadow-[0_0_8px_rgba(0,216,255,0.8)] mt-1">memory</span>
+                      <span className="font-label-md text-white text-sm font-bold">Workigom AI</span>
+                    </div>
                   </div>
                   <div className="flex flex-col items-center gap-2 mt-8 w-max text-center">
                     <div className="bg-surface-container border border-outline-subtle rounded-full px-4 py-2 flex items-center gap-2">
