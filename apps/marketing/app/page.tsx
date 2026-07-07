@@ -142,10 +142,13 @@ export default function MarketingPage() {
                     <div className="w-[2px] h-full path-line rounded animation-delay-800" style={{background: "linear-gradient(180deg, transparent, rgba(0, 216, 255, 0.2), rgba(0, 216, 255, 0.8), rgba(0, 216, 255, 0.2), transparent)", backgroundSize: "100% 200%", animation: "move-gradient-v 3s linear infinite"}}></div>
                   </div>
                   <div className="relative w-44 h-44 rounded-[20px] flex flex-col items-center justify-center z-10 group shadow-[0_0_30px_rgba(0,162,255,0.8)]">
+                    {/* Background Aura Glow */}
+                    <div className="absolute -inset-3 rounded-[32px] bg-[conic-gradient(from_0deg,#00a2ff,#1e3a8a,#06b6d4,#00a2ff)] opacity-50 blur-xl animate-[spin_12s_linear_infinite]"></div>
+                    
                     {/* Thick Spinning Rainbow Border (3px thick) */}
                     <div className="absolute inset-0 rounded-[20px] overflow-hidden">
                        {/* Web'de tam bir gökkuşağı çerçevesi elde etmek için conic-gradient kullanılmalıdır */}
-                       <div className="absolute inset-[-100%] bg-[conic-gradient(from_0deg,#ff0000,#ffff00,#00ff00,#00ffff,#0000ff,#ff00ff,#ff0000)] animate-[spin_4s_linear_infinite]"></div>
+                       <div className="absolute inset-[-100%] bg-[conic-gradient(from_0deg,#ff0000,#ffff00,#00ff00,#00ffff,#0000ff,#ff00ff,#ff0000)] animate-[spin_8s_linear_infinite]"></div>
                        {/* Opaque inner background */}
                        <div className="absolute inset-[3px] bg-[#1c1b1d] rounded-[17px]"></div>
                     </div>
