@@ -142,15 +142,12 @@ export default function MarketingPage() {
                     <div className="w-[2px] h-full path-line rounded animation-delay-800" style={{background: "linear-gradient(180deg, transparent, rgba(0, 216, 255, 0.2), rgba(0, 216, 255, 0.8), rgba(0, 216, 255, 0.2), transparent)", backgroundSize: "100% 200%", animation: "move-gradient-v 3s linear infinite"}}></div>
                   </div>
                   <div className="relative w-44 h-44 rounded-[20px] flex flex-col items-center justify-center z-10 group shadow-[0_0_30px_rgba(0,162,255,0.8)]">
-                    {/* Thick Spinning Rainbow Border (4px thick) */}
+                    {/* Thick Spinning Rainbow Border (3px thick) */}
                     <div className="absolute inset-0 rounded-[20px] overflow-hidden">
-                       {/* Exact 1500x1500 spinning LinearGradient from BotYonetimiScreen */}
-                       <div 
-                         className="absolute top-1/2 left-1/2 w-[300%] h-[300%] -translate-x-1/2 -translate-y-1/2 animate-[spin_4s_linear_infinite]"
-                         style={{ background: "linear-gradient(135deg, #ff0000, #00ff00, #0000ff, #ff00ff, #00ffff, #ffff00, #ff0000)" }}
-                       ></div>
+                       {/* Web'de tam bir gökkuşağı çerçevesi elde etmek için conic-gradient kullanılmalıdır */}
+                       <div className="absolute inset-[-100%] bg-[conic-gradient(from_0deg,#ff0000,#ffff00,#00ff00,#00ffff,#0000ff,#ff00ff,#ff0000)] animate-[spin_4s_linear_infinite]"></div>
                        {/* Opaque inner background */}
-                       <div className="absolute inset-[4px] bg-[#1c1b1d] rounded-[16px]"></div>
+                       <div className="absolute inset-[3px] bg-[#1c1b1d] rounded-[17px]"></div>
                     </div>
 
                     {/* Content (z-20 to sit above the background and border) */}
