@@ -25,6 +25,18 @@ export default function MarketingPage() {
           <div className="absolute right-1/4 bottom-1/3 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] pointer-events-none opacity-40"></div>
           
           <div className="max-w-7xl mx-auto px-container-padding flex flex-col items-center relative z-10">
+            {/* Ürünlere Geçiş Butonları */}
+            <div className="flex flex-col sm:flex-row justify-center gap-4 mb-12 w-full max-w-lg">
+              <a href="/flow" className="flex-1 px-6 py-3 rounded-xl border border-[#00E5FF]/30 bg-[#00E5FF]/5 text-[#00E5FF] hover:bg-[#00E5FF]/10 transition-all duration-300 flex items-center justify-center gap-2 group shadow-[0_0_15px_rgba(0,229,255,0.1)] hover:shadow-[0_0_25px_rgba(0,229,255,0.2)]">
+                <span className="material-symbols-outlined text-[20px] group-hover:scale-110 transition-transform">dataset</span>
+                <span className="font-label-lg font-semibold">Workigom Flow</span>
+              </a>
+              <a href="/" className="flex-1 px-6 py-3 rounded-xl border border-[#4edea3]/30 bg-[#4edea3]/10 text-[#4edea3] hover:bg-[#4edea3]/20 transition-all duration-300 flex items-center justify-center gap-2 group shadow-[0_0_15px_rgba(78,222,163,0.1)] hover:shadow-[0_0_25px_rgba(78,222,163,0.2)]">
+                <span className="material-symbols-outlined text-[20px] group-hover:scale-110 transition-transform">account_balance</span>
+                <span className="font-label-lg font-semibold">Workigom Ledger</span>
+              </a>
+            </div>
+
             <div className="text-center mb-20 max-w-3xl">
               <h2 className="font-display-lg text-display-lg text-on-surface mb-4">İşletmeler ve Mali Müşavirler Arasındaki İlk Akıllı Köprü</h2>
               <p className="font-body-lg text-body-lg text-on-surface-variant">Karmaşık iletişim kanallarını ve manuel veri girişini tek bir akıllı iş akışında birleştiriyoruz.</p>

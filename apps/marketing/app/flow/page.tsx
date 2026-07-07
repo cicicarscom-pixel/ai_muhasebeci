@@ -50,6 +50,19 @@ export default function FlowPage() {
           <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-center z-10">
             {/* Hero Content */}
             <div className="flex flex-col items-start max-w-2xl">
+              
+              {/* Ürünlere Geçiş Butonları */}
+              <div className="flex flex-col sm:flex-row gap-4 mb-10 w-full max-w-lg">
+                <a href="/flow" className="flex-1 px-6 py-3 rounded-xl border border-[#00E5FF]/30 bg-[#00E5FF]/10 text-[#00E5FF] transition-all duration-300 flex items-center justify-center gap-2 group shadow-[0_0_20px_rgba(0,229,255,0.2)]">
+                  <span className="material-symbols-outlined text-[20px]">dataset</span>
+                  <span className="font-label-lg font-semibold">Workigom Flow</span>
+                </a>
+                <a href="/" className="flex-1 px-6 py-3 rounded-xl border border-[#4edea3]/30 bg-[#4edea3]/5 text-[#4edea3] hover:bg-[#4edea3]/10 transition-all duration-300 flex items-center justify-center gap-2 group shadow-[0_0_15px_rgba(78,222,163,0.1)] hover:shadow-[0_0_25px_rgba(78,222,163,0.2)]">
+                  <span className="material-symbols-outlined text-[20px] group-hover:scale-110 transition-transform">account_balance</span>
+                  <span className="font-label-lg font-semibold">Workigom Ledger</span>
+                </a>
+              </div>
+
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-outline bg-surface/50 backdrop-blur-md mb-8">
                 <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
                 <span className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest">Workigom OS 2.0 Yayında</span>
