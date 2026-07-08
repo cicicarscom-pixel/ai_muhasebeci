@@ -5,7 +5,8 @@ export const revalidate = 0; // Prevent caching
 
 export default function MarketingPage() {
   return (
-    <div className="min-h-screen bg-[#05070A] font-sans selection:bg-[#00F0FF]/30 text-white overflow-x-hidden relative flex flex-col">
+    <div className="bg-red-500 text-white text-9xl font-black text-center p-10 z-[99999] relative">DENEME 1 DENEME 1</div>
+<div className="min-h-screen bg-[#05070A] font-sans selection:bg-[#00F0FF]/30 text-white overflow-x-hidden relative flex flex-col">
       {/* GLOBAL NOISE & AMBIENT GLOW */}
       <div className="fixed inset-0 z-0 pointer-events-none">
         <div className="absolute top-[-300px] left-1/2 -translate-x-1/2 w-[1000px] h-[1000px] bg-[radial-gradient(circle_at_center,rgba(0,240,255,0.06)_0%,transparent_60%)] blur-[100px]"></div>
