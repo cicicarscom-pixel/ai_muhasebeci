@@ -5,7 +5,7 @@ import { BackgroundEffects } from '../../components/effects/BackgroundEffects';
 import { Navbar } from '../../components/layout/Navbar';
 import { GlowButton } from '../../components/ui/GlowButton';
 import { GlassCard } from '../../components/ui/GlassCard';
-import { Play, CheckCircle, Star, ArrowRight, Bot, Image as ImageIcon, Receipt, BarChart3, CloudLightning, ShieldCheck, Mail, Workflow, FileText, Smartphone, ListChecks, UserCheck, Clock } from 'lucide-react';
+import { Play, CheckCircle, Star, ArrowRight, Bot, Image as ImageIcon, Receipt, BarChart3, CloudLightning, ShieldCheck, Mail, Workflow, FileText, Smartphone, ListChecks, UserCheck, Clock, MessageSquare } from 'lucide-react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { InstagramIcon, WhatsAppIcon, FacebookIcon, GoogleIcon, TikTokIcon } from '../../components/icons/social';
 import { fadeIn, staggerContainer } from '../../animations/fade';
