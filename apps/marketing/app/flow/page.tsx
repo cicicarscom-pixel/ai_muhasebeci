@@ -1,416 +1,362 @@
-import './flow.css';
-import FlowThreeJs from '../../components/flow/FlowThreeJs';
-import FlowInteractive from '../../components/flow/FlowInteractive';
+"use client";
 
-export default function FlowPage() {
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Instagram, MessageCircle, Facebook, Star, MessageSquare, CheckCircle, Play, FileText, Bot, ArrowRight, LineChart, MessageSquarePlus, UploadCloud, FileCheck, DollarSign, BarChart3, LayoutDashboard, Clock } from 'lucide-react';
+import { cn } from '../../utils/cn';
+
+// Hero Node Animation Component
+const NodeAnimation = () => {
   return (
-    <div className="bg-background text-on-surface antialiased overflow-x-hidden selection:bg-primary selection:text-background relative">
-      <FlowInteractive />
-      {/* Global Background Shader */}
-      <div className="fixed inset-0 z-[-1] opacity-30 mix-blend-screen pointer-events-none">
-        <FlowThreeJs />
+    <div className="relative w-full h-[400px] flex items-center justify-center">
+      {/* Central AI Node */}
+      <motion.div 
+        initial={{ scale: 0.8, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 1, ease: "easeOut" }}
+        className="absolute z-10 w-32 h-32 rounded-full bg-indigo-900/40 border border-indigo-500/50 flex items-center justify-center backdrop-blur-md shadow-[0_0_50px_rgba(139,92,246,0.3)]"
+      >
+        <span className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-purple-500">AI</span>
+      </motion.div>
+
+      {/* Connected Nodes - Left (Inputs) */}
+      <div className="absolute left-0 top-1/2 -translate-y-1/2 flex flex-col gap-6">
+        {[
+          { icon: Instagram, color: "text-pink-500", label: "Instagram", count: "23" },
+          { icon: MessageCircle, color: "text-green-500", label: "WhatsApp", count: "15" },
+          { icon: Facebook, color: "text-blue-500", label: "Facebook", count: "12" },
+        ].map((item, i) => (
+          <motion.div 
+            key={i}
+            initial={{ x: -50, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ delay: 0.3 + (i * 0.2) }}
+            className="flex items-center gap-3 bg-white/5 border border-white/10 rounded-full py-2 px-4 backdrop-blur-sm"
+          >
+            <item.icon className={cn("w-5 h-5", item.color)} />
+            <span className="text-sm text-gray-300">{item.label}</span>
+            <span className="text-xs font-medium bg-white/10 px-2 py-0.5 rounded-full text-white">{item.count}</span>
+          </motion.div>
+        ))}
       </div>
 
-      {/* TopNavBar */}
-      <nav className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-xl border-b border-white/5 transition-all duration-300" id="global-nav">
-        <div className="flex justify-between items-center max-w-7xl mx-auto px-margin h-20">
-          {/* Brand */}
-          <a className="flex items-center gap-2 group" href="#">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#00E5FF] to-[#7B61FF] p-[1px]">
-              <div className="w-full h-full bg-background rounded-[7px] flex items-center justify-center">
-                <span className="material-symbols-outlined text-primary text-[18px]" style={{ fontVariationSettings: "'FILL' 1" }}>dataset</span>
-              </div>
+      {/* Connected Nodes - Right (Outputs) */}
+      <div className="absolute right-0 top-1/2 -translate-y-1/2 flex flex-col gap-6">
+        {[
+          { title: "AI YANITLIYOR", icon: Bot, desc: "Merhaba! Size nasıl..." },
+          { title: "İÇERİK ÜRETİLİYOR", icon: Star, desc: "Yeni gönderi hazır!" },
+          { title: "MUHASEBE İŞLENİYOR", icon: FileText, desc: "Fatura okundu." },
+        ].map((item, i) => (
+          <motion.div 
+            key={i}
+            initial={{ x: 50, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ delay: 0.5 + (i * 0.2) }}
+            className="flex flex-col bg-white/5 border border-white/10 rounded-xl p-3 backdrop-blur-sm min-w-[160px]"
+          >
+            <div className="text-[10px] font-semibold text-cyan-400 mb-1">{item.title}</div>
+            <div className="flex items-center gap-2">
+              <div className="bg-white/10 p-1.5 rounded-md"><item.icon className="w-4 h-4 text-purple-400" /></div>
+              <span className="text-xs text-gray-300">{item.desc}</span>
             </div>
-            <span className="text-headline-md font-headline-lg font-bold tracking-tight">
-              <span className="text-white">Workigom</span> <span className="text-[#00E5FF]">Flow</span>
+          </motion.div>
+        ))}
+      </div>
+      
+      {/* Connecting Lines (Simplified with CSS for brevity) */}
+      <svg className="absolute inset-0 w-full h-full -z-10 pointer-events-none" preserveAspectRatio="none">
+         <path d="M150,100 C250,100 250,200 400,200" stroke="rgba(139,92,246,0.3)" strokeWidth="2" fill="none" />
+         <path d="M150,200 C250,200 250,200 400,200" stroke="rgba(139,92,246,0.3)" strokeWidth="2" fill="none" />
+         <path d="M150,300 C250,300 250,200 400,200" stroke="rgba(139,92,246,0.3)" strokeWidth="2" fill="none" />
+      </svg>
+    </div>
+  );
+};
+
+export default function FlowLandingPage() {
+  return (
+    <div className="min-h-screen bg-[#0B0D14] text-white selection:bg-cyan-500/30 overflow-x-hidden">
+      
+      {/* 1. HERO SECTION */}
+      <section className="relative max-w-7xl mx-auto px-6 pt-32 pb-24 grid lg:grid-cols-2 gap-12 items-center">
+        {/* Background glow */}
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-purple-600/20 rounded-full blur-[120px] -z-10" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-cyan-600/20 rounded-full blur-[120px] -z-10" />
+
+        <div className="flex flex-col items-start space-y-8 relative z-10">
+          <div className="inline-flex items-center px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-xs font-medium tracking-wide">
+            YENİ NESİL AI İŞLETİM SİSTEMİ
+          </div>
+          <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight leading-[1.1]">
+            İşletmenizi Yöneten Tek <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600">
+              Yapay Zeka
             </span>
-          </a>
-          {/* Navigation Links */}
-          <div className="hidden md:flex items-center gap-8">
-            <a className="text-on-surface-variant hover:text-primary transition-colors duration-200 font-body-md text-body-md" href="#ozellikler">Özellikler</a>
-            <a className="text-on-surface-variant hover:text-primary transition-colors duration-200 font-body-md text-body-md" href="#cozumler">Çözümler</a>
-            <a className="text-on-surface-variant hover:text-primary transition-colors duration-200 font-body-md text-body-md" href="#fiyatlandirma">Fiyatlandırma</a>
+          </h1>
+          <p className="text-lg text-gray-400 max-w-lg leading-relaxed">
+            Sosyal medyadan muhasebeye, müşteri iletişiminden içerik üretimine kadar tüm iş süreçlerinizi tek platformda otonom yapay zeka ile yönetin.
+          </p>
+          
+          <div className="flex flex-wrap gap-4 items-center">
+            <button className="px-8 py-3.5 rounded-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-medium hover:opacity-90 transition-opacity flex items-center gap-2 shadow-[0_0_20px_rgba(0,216,255,0.3)]">
+              Ücretsiz Deneyin <ArrowRight className="w-4 h-4" />
+            </button>
+            <button className="px-8 py-3.5 rounded-full bg-white/5 border border-white/10 text-white font-medium hover:bg-white/10 transition-colors flex items-center gap-2">
+              <Play className="w-4 h-4" /> Canlı Demo İzle
+            </button>
           </div>
-          {/* Actions */}
-          <div className="flex items-center gap-4">
-            <a className="hidden md:block text-on-surface-variant hover:text-primary transition-colors duration-200 font-body-sm text-body-sm font-medium" href="#">Giriş Yap</a>
-            <a className="h-10 px-6 rounded-full bg-primary text-background font-label-md text-label-md font-semibold flex items-center justify-center hover:bg-white transition-colors duration-300 glowing-button" href="#">
-              Ücretsiz Başla
-            </a>
+
+          <div className="pt-8 flex items-center gap-8 border-t border-white/10 w-full">
+             <div className="flex -space-x-3">
+                {[1,2,3,4].map(i => (
+                  <div key={i} className="w-10 h-10 rounded-full bg-gray-800 border-2 border-[#0B0D14]" />
+                ))}
+             </div>
+             <div>
+               <div className="flex items-center gap-1 text-yellow-500">
+                 {[1,2,3,4,5].map(i => <Star key={i} className="w-4 h-4 fill-current" />)}
+                 <span className="text-white ml-2 font-semibold">4.9/5</span>
+               </div>
+               <p className="text-xs text-gray-500 mt-1">1,000+ işletme AI Esnaf kullanıyor</p>
+             </div>
           </div>
         </div>
-      </nav>
 
-      <main className="pt-24 md:pt-32 pb-32">
-        {/* 1. Hero Section */}
-        <section className="relative min-h-[921px] flex items-center justify-center overflow-hidden px-margin mb-32">
-          <div className="absolute inset-0 z-0 flex items-center justify-center opacity-50">
-            <div className="w-[800px] h-[800px] rounded-full bg-primary/5 blur-[120px]"></div>
-            <div className="absolute w-[600px] h-[600px] rounded-full bg-[#7B61FF]/5 blur-[100px] translate-x-1/4 translate-y-1/4"></div>
+        <div className="relative z-10 hidden lg:block">
+          <NodeAnimation />
+        </div>
+      </section>
+
+      {/* 2. UNIFIED INBOX MOCKUP */}
+      <section className="relative max-w-7xl mx-auto px-6 py-24">
+        <div className="text-center mb-16 space-y-4">
+           <div className="inline-flex items-center px-3 py-1 rounded-full bg-white/5 border border-white/10 text-gray-300 text-xs font-medium tracking-wide">
+             AI OMNICHANNEL GELEN KUTUSU
+           </div>
+           <h2 className="text-4xl font-bold">Tüm Kanallar<br/>Tek Gelen Kutusunda</h2>
+           <p className="text-gray-400 max-w-2xl mx-auto">
+             Instagram, WhatsApp, Facebook ve daha fazlasından gelen tüm mesajlar tek ekranda. AI asistanınız 7/24 otomatik yanıtlar.
+           </p>
+        </div>
+
+        {/* Dashboard Mockup */}
+        <div className="relative rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl p-4 overflow-hidden shadow-2xl shadow-indigo-500/10">
+          <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent pointer-events-none" />
+          
+          {/* Mockup Top Bar */}
+          <div className="flex items-center gap-2 mb-4 px-2">
+             <div className="w-3 h-3 rounded-full bg-red-500/50" />
+             <div className="w-3 h-3 rounded-full bg-yellow-500/50" />
+             <div className="w-3 h-3 rounded-full bg-green-500/50" />
           </div>
-          <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-center z-10">
-            {/* Hero Content */}
-            <div className="flex flex-col items-start max-w-2xl">
-              
-              {/* Ürünlere Geçiş Butonları */}
-              <div className="flex flex-col sm:flex-row gap-4 mb-10 w-full max-w-lg">
-                <a href="/flow" className="flex-1 px-6 py-3 rounded-xl border border-[#00E5FF]/30 bg-[#00E5FF]/10 text-[#00E5FF] transition-all duration-300 flex items-center justify-center gap-2 group shadow-[0_0_20px_rgba(0,229,255,0.2)]">
-                  <span className="material-symbols-outlined text-[20px]">dataset</span>
-                  <span className="font-label-lg font-semibold">Workigom Flow</span>
-                </a>
-                <a href="/" className="flex-1 px-6 py-3 rounded-xl border border-[#4edea3]/30 bg-[#4edea3]/5 text-[#4edea3] hover:bg-[#4edea3]/10 transition-all duration-300 flex items-center justify-center gap-2 group shadow-[0_0_15px_rgba(78,222,163,0.1)] hover:shadow-[0_0_25px_rgba(78,222,163,0.2)]">
-                  <span className="material-symbols-outlined text-[20px] group-hover:scale-110 transition-transform">account_balance</span>
-                  <span className="font-label-lg font-semibold">Workigom Ledger</span>
-                </a>
-              </div>
 
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-outline bg-surface/50 backdrop-blur-md mb-8">
-                <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
-                <span className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest">Workigom OS 2.0 Yayında</span>
-              </div>
-              <h1 className="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-gradient mb-6 leading-tight">
-                Modern İşletmeler İçin <br />
-                <span className="text-gradient-accent">Yapay Zeka</span> İşletim Sistemi.
-              </h1>
-              <p className="font-body-lg text-body-lg text-on-surface-variant mb-10 max-w-xl leading-relaxed">
-                Muhasebe, sosyal medya ve operasyonel süreçlerinizi tek bir akıllı merkezden yönetin. İşletmenizi büyütmeye odaklanın, gerisini yapay zekaya bırakın.
-              </p>
-              <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
-                <a className="w-full sm:w-auto h-12 px-8 rounded-full bg-primary text-background font-body-md text-body-md font-medium flex items-center justify-center hover:bg-white transition-all duration-300 glowing-button group" href="#">
-                  Platformu Keşfet
-                  <span className="material-symbols-outlined ml-2 group-hover:translate-x-1 transition-transform">arrow_forward</span>
-                </a>
-                <a className="w-full sm:w-auto h-12 px-8 rounded-full bg-surface border border-outline text-on-surface font-body-md text-body-md font-medium flex items-center justify-center hover:bg-surface-variant hover:border-primary/30 transition-all duration-300" href="#">
-                  Demo İzle
-                </a>
-              </div>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 h-[600px]">
+            {/* Sidebar */}
+            <div className="hidden md:flex flex-col gap-2 border-r border-white/10 pr-4">
+               <div className="flex items-center gap-2 text-white font-medium p-2 mb-4">
+                 <LayoutDashboard className="w-5 h-5 text-cyan-400" />
+                 <span>AI Esnaf</span>
+               </div>
+               {[
+                 { label: "Gelen Kutusu", active: true, badge: "62" },
+                 { label: "Tüm Mesajlar" },
+                 { label: "Instagram" },
+                 { label: "WhatsApp" },
+                 { label: "Facebook" },
+               ].map((item, i) => (
+                 <div key={i} className={cn("flex justify-between items-center p-2.5 rounded-lg text-sm cursor-pointer", item.active ? "bg-white/10 text-white" : "text-gray-400 hover:bg-white/5")}>
+                   <span>{item.label}</span>
+                   {item.badge && <span className="bg-indigo-500 text-xs px-2 py-0.5 rounded-full">{item.badge}</span>}
+                 </div>
+               ))}
             </div>
-            {/* Hero Visual */}
-            <div className="relative w-full rounded-3xl border border-outline/50 overflow-hidden shadow-[0_0_50px_rgba(0,229,255,0.15)] flex items-center justify-center group">
-              <img src="/images/hero-ai-system.jpg" alt="Workigom Flow AI System" className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-700" />
+
+            {/* Chat List */}
+            <div className="hidden md:flex flex-col gap-2 border-r border-white/10 pr-4 col-span-1">
+               <div className="font-medium p-2 border-b border-white/10 mb-2">Tüm Mesajlar</div>
+               {[
+                 { name: "Instagram DM", text: "Merhaba, fiyat bilgisi alabilir miyim?", time: "2dk", unread: true },
+                 { name: "WhatsApp", text: "Siparişim ne zaman kargoya verilir?", time: "5dk", unread: false },
+               ].map((chat, i) => (
+                 <div key={i} className={cn("p-3 rounded-xl cursor-pointer transition-colors", chat.unread ? "bg-white/5 border border-white/10" : "hover:bg-white/5")}>
+                   <div className="flex justify-between items-center mb-1">
+                     <span className="font-medium text-sm text-gray-200">{chat.name}</span>
+                     <span className="text-xs text-gray-500">{chat.time}</span>
+                   </div>
+                   <p className="text-xs text-gray-400 truncate">{chat.text}</p>
+                 </div>
+               ))}
+            </div>
+
+            {/* Chat Area */}
+            <div className="col-span-1 md:col-span-2 flex flex-col relative bg-black/20 rounded-xl border border-white/5">
+               <div className="p-4 border-b border-white/10 flex justify-between items-center">
+                 <span className="font-medium text-sm">Instagram DM</span>
+               </div>
+               
+               <div className="flex-1 p-4 flex flex-col gap-4 overflow-hidden relative">
+                 {/* Messages */}
+                 <div className="self-start max-w-[80%] bg-white/10 rounded-2xl rounded-tl-sm p-3 text-sm text-gray-200 border border-white/5">
+                   Merhaba, bu ürünün fiyatı nedir? Stokta var mı?
+                 </div>
+                 
+                 <div className="self-end max-w-[80%] bg-gradient-to-r from-indigo-500/20 to-purple-500/20 rounded-2xl rounded-tr-sm p-3 text-sm text-gray-200 border border-indigo-500/30 relative mt-4">
+                   <div className="absolute -top-3 -right-2 bg-gradient-to-r from-cyan-400 to-blue-500 text-[10px] font-bold px-2 py-0.5 rounded-full text-black shadow-lg">
+                     AI YANITLADI
+                   </div>
+                   Merhaba! 👋 Ürünümüzün fiyatı 1.250₺'dir. Stoklarımızda mevcut. Sipariş vermek ister misiniz?
+                 </div>
+                 
+                 <div className="self-start max-w-[80%] bg-white/10 rounded-2xl rounded-tl-sm p-3 text-sm text-gray-200 border border-white/5">
+                   Teşekkürler!
+                 </div>
+               </div>
+
+               {/* Input area */}
+               <div className="p-3 border-t border-white/10 mt-auto">
+                 <div className="bg-white/5 border border-white/10 rounded-full p-2 flex items-center">
+                   <input type="text" placeholder="Yanıt yaz..." className="bg-transparent border-none outline-none flex-1 px-3 text-sm text-gray-300" />
+                   <button className="w-8 h-8 rounded-full bg-indigo-500 flex items-center justify-center text-white">
+                     <Play className="w-4 h-4 ml-0.5" />
+                   </button>
+                 </div>
+               </div>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* 2. Ecosystem Section */}
-        <section className="max-w-7xl mx-auto px-margin mb-32 relative" id="cozumler">
-          <div className="text-center mb-20 relative z-10">
-            {/* Glowing background behind text */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[200px] bg-gradient-to-r from-[#00E5FF]/20 to-[#4edea3]/20 blur-[100px] -z-10 pointer-events-none rounded-full"></div>
-            
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-outline bg-surface/80 backdrop-blur-md mb-6 shadow-lg shadow-[#00E5FF]/5">
-              <span className="material-symbols-outlined text-[18px] text-[#4edea3]">handshake</span>
-              <span className="font-label-sm text-label-sm text-on-surface uppercase tracking-widest font-semibold">Kusursuz Ekosistem</span>
+      {/* 3. BENTO GRID (AI GÜCÜ) */}
+      <section className="relative max-w-7xl mx-auto px-6 py-24">
+        <div className="text-center mb-16">
+           <h2 className="text-3xl font-bold mb-4">İşletmenizi Büyüten AI Gücü</h2>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {/* Card 1 */}
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-6 flex flex-col hover:bg-white/10 transition-colors group">
+            <h3 className="font-semibold text-lg mb-2 flex items-center gap-2"><Star className="text-pink-500 w-5 h-5"/> AI İçerik Üretimi</h3>
+            <p className="text-sm text-gray-400 mb-6 flex-1">Sadece birkaç kelime ile profesyonel görseller ve metinler oluşturun.</p>
+            <div className="h-32 rounded-xl bg-gradient-to-br from-purple-900/50 to-pink-900/50 border border-pink-500/20 flex items-center justify-center relative overflow-hidden group-hover:border-pink-500/50 transition-colors">
+              <span className="font-bold text-pink-200 text-lg z-10 drop-shadow-md">YENİ SEZON İNDİRİMİ!</span>
             </div>
-            
-            <h2 className="font-display-sm md:font-display-md text-display-sm md:text-display-md mb-6 leading-tight font-extrabold tracking-tight">
-              <span className="text-white drop-shadow-md">Tek Bir Yapay Zeka.</span><br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00E5FF] to-[#4edea3] drop-shadow-[0_0_15px_rgba(0,229,255,0.3)]">İki Profesyonel. Tek Çalışma Alanı.</span>
-            </h2>
-            
-            <p className="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto leading-relaxed">
-              İşletme sahibi ve muhasebeci arasındaki duvarları yıkıyoruz. Gerçek zamanlı veri senkronizasyonu ile kusursuz işbirliği.
+          </div>
+
+          {/* Card 2 */}
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-6 flex flex-col hover:bg-white/10 transition-colors group">
+            <h3 className="font-semibold text-lg mb-2 flex items-center gap-2"><FileText className="text-cyan-500 w-5 h-5"/> AI Muhasebe</h3>
+            <p className="text-sm text-gray-400 mb-6 flex-1">Faturaları tarayın, AI tüm bilgileri ayıklar ve kaydeder.</p>
+            <div className="h-32 rounded-xl bg-cyan-950/30 border border-cyan-500/20 p-3 flex flex-col relative group-hover:border-cyan-500/50 transition-colors">
+              <div className="w-full bg-white/5 p-2 rounded text-[10px] text-gray-400 font-mono flex-1 border border-white/5">
+                FATURA<br/>
+                Tarih: 24.05.2024<br/>
+                Tutar: ₺2,450.00
+              </div>
+              <div className="absolute bottom-2 right-2 bg-green-500/20 text-green-400 text-[10px] px-2 py-1 rounded font-medium border border-green-500/20">
+                %99.2 Doğruluk
+              </div>
+            </div>
+          </div>
+
+          {/* Card 3 */}
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-6 flex flex-col hover:bg-white/10 transition-colors group">
+            <h3 className="font-semibold text-lg mb-2 flex items-center gap-2"><Bot className="text-purple-500 w-5 h-5"/> AI Asistan</h3>
+            <p className="text-sm text-gray-400 mb-6 flex-1">Doğal dil ile işletmenizle ilgili her soruya anında cevap alın.</p>
+            <div className="h-32 rounded-xl bg-purple-950/30 border border-purple-500/20 flex flex-col justify-end p-2 gap-2 group-hover:border-purple-500/50 transition-colors">
+              <div className="self-end bg-white/10 rounded-lg p-2 text-[10px] text-gray-300 max-w-[80%]">Bu ayki toplam harcamam ne?</div>
+              <div className="self-start bg-purple-500/20 border border-purple-500/30 rounded-lg p-2 text-[10px] text-purple-200 max-w-[80%]">Toplam harcamanız ₺45,250.00'dır.</div>
+            </div>
+          </div>
+
+          {/* Card 4 */}
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-6 flex flex-col hover:bg-white/10 transition-colors group">
+            <h3 className="font-semibold text-lg mb-2 flex items-center gap-2"><LineChart className="text-blue-500 w-5 h-5"/> AI Analitik</h3>
+            <p className="text-sm text-gray-400 mb-6 flex-1">Tüm performans verilerinizi akıllı grafiklerle analiz edin.</p>
+            <div className="h-32 rounded-xl bg-blue-950/30 border border-blue-500/20 flex flex-col justify-between p-3 group-hover:border-blue-500/50 transition-colors">
+              <div className="text-xs text-gray-400">Toplam Gelir</div>
+              <div className="text-xl font-bold text-white">₺125,430</div>
+              <div className="mt-auto h-10 w-full flex items-end justify-between gap-1">
+                {[40, 70, 45, 90, 65, 100, 80].map((h, i) => (
+                  <div key={i} className="w-full bg-blue-500/50 rounded-t-sm transition-all duration-500" style={{ height: `${h}%` }} />
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 4. WORKFLOW */}
+      <section className="relative max-w-7xl mx-auto px-6 py-24 border-t border-white/5">
+        <div className="text-center mb-16">
+           <div className="inline-flex items-center px-3 py-1 rounded-full bg-white/5 border border-white/10 text-gray-300 text-xs font-medium tracking-wide mb-4">
+             AKILLI MUHASEBE SÜRECİ
+           </div>
+           <h2 className="text-3xl font-bold">Fatura'dan Rapor'a<br/>Otomatik Yolculuk</h2>
+        </div>
+
+        <div className="flex flex-col md:flex-row justify-between items-center gap-8 md:gap-4 relative">
+           {/* Horizontal Line for Desktop */}
+           <div className="hidden md:block absolute top-8 left-10 right-10 h-0.5 bg-gradient-to-r from-cyan-500/20 via-purple-500/20 to-blue-500/20 -z-10" />
+
+           {[
+             { step: "1", title: "Tarama", desc: "Faturanızı çekin veya yükleyin.", icon: UploadCloud },
+             { step: "2", title: "AI Okuma", desc: "Tüm bilgileri otomatik çıkarır.", icon: Bot },
+             { step: "3", title: "Kategorize", desc: "Giderler otomatik kategorize edilir.", icon: Grid },
+             { step: "4", title: "Muhasebeci", desc: "Muhasebeciniz anında belgeyi alır.", icon: FileCheck },
+             { step: "5", title: "Onay", desc: "Onaylanır ve programa aktarılır.", icon: CheckCircle },
+             { step: "6", title: "Rapor", desc: "Raporlarınız otomatik oluşturulur.", icon: BarChart3 },
+           ].map((item, i) => (
+             <div key={i} className="flex flex-col items-center text-center max-w-[150px] relative group">
+               <div className="w-16 h-16 rounded-2xl bg-[#0B0D14] border border-white/10 flex items-center justify-center mb-4 relative z-10 group-hover:border-purple-500/50 transition-colors shadow-lg">
+                 <item.icon className="w-6 h-6 text-gray-300 group-hover:text-purple-400 transition-colors" />
+                 <div className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-indigo-600 text-[10px] font-bold flex items-center justify-center border border-[#0B0D14]">
+                   {item.step}
+                 </div>
+               </div>
+               <h4 className="font-semibold text-sm mb-1">{item.title}</h4>
+               <p className="text-[11px] text-gray-500 leading-tight">{item.desc}</p>
+             </div>
+           ))}
+        </div>
+      </section>
+
+      {/* 5. CTA & FOOTER */}
+      <section className="relative max-w-5xl mx-auto px-6 py-24">
+        <div className="bg-gradient-to-br from-indigo-900/40 to-purple-900/20 border border-white/10 rounded-3xl p-8 md:p-12 overflow-hidden relative shadow-2xl flex flex-col md:flex-row items-center justify-between gap-8">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/10 rounded-full blur-[80px]" />
+          
+          <div className="z-10 flex-1">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">İşletmenizin Geleceği<br/>Bugünden Başlasın</h2>
+            <p className="text-gray-300 mb-8 max-w-md">
+              AI Esnaf ile tanışın, işlerinizi kolaylaştırın ve büyümenize odaklanın.
             </p>
-          </div>
-          <div className="relative w-full rounded-3xl border border-outline bg-surface p-8 md:p-16 overflow-hidden">
-            {/* Grid Background */}
-            <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: "linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)", backgroundSize: "32px 32px", backgroundPosition: "center center" }}></div>
-            <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-12">
-              {/* Business Owner Node */}
-              <div className="flex-1 flex flex-col items-center text-center">
-                <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-surface to-surface-variant border border-outline flex items-center justify-center mb-6 relative group">
-                  <div className="absolute inset-0 rounded-2xl bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-xl"></div>
-                  <span className="material-symbols-outlined text-[40px] text-on-surface">storefront</span>
-                  <div className="absolute right-0 top-1/2 w-4 h-4 bg-primary rounded-full translate-x-1/2 -translate-y-1/2 hidden md:block ring-4 ring-background"></div>
-                </div>
-                <h3 className="font-headline-sm text-headline-sm text-on-surface mb-2">İşletme Sahibi</h3>
-                <p className="font-body-sm text-body-sm text-on-surface-variant">Faturaları tarar, harcamaları girer, finansal durumu anlık izler.</p>
-              </div>
-              {/* AI Core (Center) */}
-              <div className="relative flex flex-col items-center justify-center shrink-0">
-                <div className="hidden md:block absolute top-1/2 left-[-100%] right-[-100%] h-[2px] bg-gradient-to-r from-transparent via-primary/50 to-transparent -translate-y-1/2 -z-10">
-                  <div className="absolute top-0 bottom-0 left-0 w-1/3 bg-gradient-to-r from-transparent via-[#00E5FF] to-transparent animate-flow-slide"></div>
-                </div>
-                <div className="w-32 h-32 rounded-full border border-primary/30 p-2 relative bg-background z-10">
-                  <div className="absolute inset-0 rounded-full bg-primary/10 animate-pulse"></div>
-                  <div className="w-full h-full rounded-full bg-gradient-to-br from-surface to-surface-variant border border-outline flex items-center justify-center relative overflow-hidden">
-                    <span className="material-symbols-outlined text-[48px] text-primary" style={{ fontVariationSettings: "'FILL' 1" }}>neurology</span>
-                    <div className="absolute inset-0 border-t-2 border-primary rounded-full animate-spin opacity-50" style={{ animationDuration: "3s" }}></div>
-                  </div>
-                </div>
-                <div className="mt-6 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20">
-                  <span className="font-label-md text-label-md text-primary font-medium tracking-wide">Workigom AI Core</span>
-                </div>
-              </div>
-              {/* Accountant Node */}
-              <div className="flex-1 flex flex-col items-center text-center">
-                <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-surface to-surface-variant border border-outline flex items-center justify-center mb-6 relative group">
-                  <div className="absolute inset-0 rounded-2xl bg-[#7B61FF]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-xl"></div>
-                  <span className="material-symbols-outlined text-[40px] text-on-surface">account_balance</span>
-                  <div className="absolute left-0 top-1/2 w-4 h-4 bg-[#7B61FF] rounded-full -translate-x-1/2 -translate-y-1/2 hidden md:block ring-4 ring-background"></div>
-                </div>
-                <h3 className="font-headline-sm text-headline-sm text-on-surface mb-2">Mali Müşavir</h3>
-                <p className="font-body-sm text-body-sm text-on-surface-variant">İşlenmiş verileri onaylar, beyannameleri hazırlar, danışmanlık verir.</p>
-              </div>
+            <div className="flex flex-wrap gap-4">
+              <button className="px-6 py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-medium hover:opacity-90 transition-opacity">
+                Ücretsiz Hesap Oluştur →
+              </button>
+              <button className="px-6 py-3 rounded-xl bg-white/5 border border-white/10 text-white font-medium hover:bg-white/10 transition-colors">
+                Demo Talep Et
+              </button>
             </div>
           </div>
-        </section>
 
-        {/* 3 & 4. Bento Grid Features */}
-        <section className="max-w-7xl mx-auto px-margin mb-32" id="ozellikler">
-          <div className="text-center mb-16">
-            <h2 className="font-headline-lg text-headline-lg text-on-surface mb-4">Her Şey İçin Tek Sistem</h2>
-            <p className="font-body-md text-body-md text-on-surface-variant max-w-2xl mx-auto">Modern teknolojilerle donatılmış araç seti ile işletmenizi geleceğe taşıyın.</p>
-          </div>
-          <div className="bento-grid">
-            {/* Social Media (Large Square) */}
-            <div className="bento-item col-span-12 lg:col-span-8 p-8 md:p-10 min-h-[400px] flex flex-col justify-between group">
-              <div className="ambient-glow" id="glow-social"></div>
-              <div className="relative z-10 max-w-md">
-                <div className="w-12 h-12 rounded-xl bg-surface border border-outline flex items-center justify-center mb-6">
-                  <span className="material-symbols-outlined text-[#00E5FF]">share</span>
-                </div>
-                <h3 className="font-headline-md text-headline-md text-on-surface mb-4">Yapay Zeka Destekli Sosyal Medya Ekibiniz</h3>
-                <p className="font-body-md text-body-md text-on-surface-variant mb-8">İşletmeniz için özgün içerikler oluşturun, görseller üretin ve tüm sosyal medya hesaplarınızı tek bir takvim üzerinden yönetin. Markanızın sesini AI ile güçlendirin.</p>
-              </div>
-              <div className="relative z-10 w-full mt-auto rounded-xl border border-outline/50 overflow-hidden shadow-2xl group-hover:scale-[1.02] transition-transform duration-500">
-                <img src="/images/social-media-team.jpg" alt="Workigom Flow Sosyal Medya" className="w-full h-auto object-cover" />
-              </div>
-            </div>
-            {/* OCR Intelligence (Small Square) */}
-            <div className="bento-item col-span-12 lg:col-span-4 p-8 min-h-[400px] flex flex-col group">
-              <div className="ambient-glow" id="glow-ocr"></div>
-              <div className="relative z-10">
-                <div className="w-12 h-12 rounded-xl bg-surface border border-outline flex items-center justify-center mb-6">
-                  <span className="material-symbols-outlined text-[#7B61FF]">document_scanner</span>
-                </div>
-                <h3 className="font-headline-md text-headline-md text-on-surface mb-4">Kusursuz Veri Çıkarımı</h3>
-                <p className="font-body-sm text-body-sm text-on-surface-variant mb-8">Gelişmiş OCR teknolojisi ile fatura ve fişleri saniyeler içinde dijitalleştirin. İnsan hatasını sıfıra indirin.</p>
-              </div>
-              <div className="relative z-10 w-full mt-auto rounded-xl border border-outline/50 overflow-hidden shadow-2xl group-hover:scale-[1.02] transition-transform duration-500">
-                <img src="/images/ocr-intelligence.jpg" alt="Workigom Flow OCR" className="w-full h-auto object-cover" />
-              </div>
-            </div>
-            {/* Accounting Bridge (Wide) */}
-            <div className="bento-item col-span-12 p-8 md:p-12 relative overflow-hidden group">
-              <div className="ambient-glow" id="glow-bridge"></div>
-              <div className="relative z-10 max-w-2xl mb-12">
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-bright border border-outline mb-6">
-                  <span className="material-symbols-outlined text-[16px] text-[#00E5FF]">sync_alt</span>
-                  <span className="font-label-sm text-label-sm text-on-surface uppercase tracking-wider">Otomasyon</span>
-                </div>
-                <h3 className="font-headline-md text-headline-md text-on-surface mb-4">Devrim Niteliğinde Muhasebe Köprüsü</h3>
-                <p className="font-body-md text-body-md text-on-surface-variant">Manuel veri girişine son. Belgelerinizi sisteme yükleyin, yapay zeka saniyeler içinde işlesin ve mali müşavirinizin ekranına anında düşsün.</p>
-              </div>
-              <div className="relative z-10 grid grid-cols-1 md:grid-cols-4 gap-6">
-                {/* Step 1 */}
-                <div className="bg-background/80 border border-outline rounded-2xl p-6 relative">
-                  <div className="w-8 h-8 rounded-full bg-surface border border-outline flex items-center justify-center font-label-sm text-primary mb-4 absolute -top-4 left-6">01</div>
-                  <span className="material-symbols-outlined text-on-surface-variant mb-4 text-[28px]">photo_camera</span>
-                  <h4 className="font-body-md text-body-md text-on-surface font-medium mb-2">Fotoğraf Çek</h4>
-                  <p className="font-label-md text-label-md text-on-surface-variant">Mobil uygulama ile belgenin fotoğrafını çekin.</p>
-                </div>
-                <div className="hidden md:flex items-center justify-center -mx-4 z-20">
-                  <span className="material-symbols-outlined text-outline-variant">arrow_forward</span>
-                </div>
-                {/* Step 2 */}
-                <div className="bg-background/80 border border-outline rounded-2xl p-6 relative">
-                  <div className="w-8 h-8 rounded-full bg-surface border border-outline flex items-center justify-center font-label-sm text-primary mb-4 absolute -top-4 left-6">02</div>
-                  <span className="material-symbols-outlined text-on-surface-variant mb-4 text-[28px]">smart_toy</span>
-                  <h4 className="font-body-md text-body-md text-on-surface font-medium mb-2">Veri Çıkar</h4>
-                  <p className="font-label-md text-label-md text-on-surface-variant">AI tüm bilgileri %99.9 doğrulukla okur.</p>
-                </div>
-                <div className="hidden md:flex items-center justify-center -mx-4 z-20">
-                  <span className="material-symbols-outlined text-outline-variant">arrow_forward</span>
-                </div>
-                {/* Step 3 */}
-                <div className="bg-background/80 border border-outline rounded-2xl p-6 relative">
-                  <div className="w-8 h-8 rounded-full bg-surface border border-outline flex items-center justify-center font-label-sm text-[#7B61FF] mb-4 absolute -top-4 left-6">03</div>
-                  <span className="material-symbols-outlined text-on-surface-variant mb-4 text-[28px]">category</span>
-                  <h4 className="font-body-md text-body-md text-on-surface font-medium mb-2">Kategorize Et</h4>
-                  <p className="font-label-md text-label-md text-on-surface-variant">Gider türünü ve vergi dilimini otomatik belirler.</p>
-                </div>
-                <div className="hidden md:flex items-center justify-center -mx-4 z-20">
-                  <span className="material-symbols-outlined text-outline-variant">arrow_forward</span>
-                </div>
-                {/* Step 4 */}
-                <div className="bg-background/80 border border-outline rounded-2xl p-6 relative">
-                  <div className="w-8 h-8 rounded-full bg-surface border border-outline flex items-center justify-center font-label-sm text-[#7B61FF] mb-4 absolute -top-4 left-6">04</div>
-                  <span className="material-symbols-outlined text-on-surface-variant mb-4 text-[28px]">send</span>
-                  <h4 className="font-body-md text-body-md text-on-surface font-medium mb-2">Muhasebeciye Gönder</h4>
-                  <p className="font-label-md text-label-md text-on-surface-variant">İşlenmiş veri müşavirinizin paneline düşer.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* 5. AI Business Assistant Chat Interface */}
-        <section className="max-w-7xl mx-auto px-margin mb-32">
-          <div className="premium-card rounded-3xl overflow-hidden grid grid-cols-1 lg:grid-cols-2">
-            <div className="p-12 flex flex-col justify-center border-b lg:border-b-0 lg:border-r border-outline">
-              <div className="w-16 h-16 rounded-2xl bg-surface-bright border border-outline flex items-center justify-center mb-8 relative">
-                <div className="absolute inset-0 bg-primary/20 rounded-2xl blur-lg"></div>
-                <span className="material-symbols-outlined text-[32px] text-primary" style={{ fontVariationSettings: "'FILL' 1" }}>forum</span>
-              </div>
-              <h2 className="font-headline-lg text-headline-lg text-on-surface mb-6">7/24 İşletme Asistanınız</h2>
-              <p className="font-body-lg text-body-lg text-on-surface-variant mb-8">Finansal verileriniz üzerinden sorular sorun, raporlar isteyin veya stratejik tavsiyeler alın. Workigom AI, işletmenizi sizin kadar iyi tanır.</p>
-              <ul className="space-y-4">
-                <li className="flex items-center gap-3 text-on-surface font-body-md">
-                  <span className="material-symbols-outlined text-primary text-[20px]">check_circle</span>
-                  Anlık Finansal Durum Raporlaması
-                </li>
-                <li className="flex items-center gap-3 text-on-surface font-body-md">
-                  <span className="material-symbols-outlined text-primary text-[20px]">check_circle</span>
-                  Nakit Akışı Tahmini
-                </li>
-                <li className="flex items-center gap-3 text-on-surface font-body-md">
-                  <span className="material-symbols-outlined text-primary text-[20px]">check_circle</span>
-                  Vergi Yükümlülüğü Hesaplamaları
-                </li>
-              </ul>
-            </div>
-            {/* Chat Interface Mockup */}
-            <div className="bg-background/80 p-8 flex flex-col">
-              <div className="flex-1 space-y-6 mb-6">
-                {/* User Message */}
-                <div className="flex justify-end">
-                  <div className="bg-surface-bright border border-outline rounded-2xl rounded-tr-sm p-4 max-w-[80%]">
-                    <p className="font-body-sm text-on-surface">Geçen aya göre pazarlama harcamalarımız ne durumda?</p>
-                  </div>
-                </div>
-                {/* AI Message */}
-                <div className="flex justify-start">
-                  <div className="flex gap-3 max-w-[90%]">
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-purple-600 flex items-center justify-center shrink-0 mt-1">
-                      <span className="material-symbols-outlined text-background text-[16px]" style={{ fontVariationSettings: "'FILL' 1" }}>neurology</span>
-                    </div>
-                    <div className="bg-surface border border-outline rounded-2xl rounded-tl-sm p-4">
-                      <p className="font-body-sm text-on-surface mb-3">Pazarlama harcamalarınız geçen aya göre <strong>%15 artış</strong> gösterdi. Ancak bu artış, müşteri edinme maliyetini (CAC) düşürerek toplam gelirinize <strong>%22 pozitif</strong> yansıdı.</p>
-                      <div className="h-2 w-full bg-surface-bright rounded-full overflow-hidden">
-                        <div className="h-full bg-primary w-[65%] rounded-full"></div>
-                      </div>
-                      <p className="font-label-sm text-on-surface-variant mt-2 text-right">ROI: 3.2x</p>
-                    </div>
-                  </div>
-                </div>
-                {/* User Message 2 */}
-                <div className="flex justify-end">
-                  <div className="bg-surface-bright border border-outline rounded-2xl rounded-tr-sm p-4 max-w-[80%]">
-                    <p className="font-body-sm text-on-surface">Bu veriyi PDF olarak raporla.</p>
-                  </div>
-                </div>
-                {/* AI Message Loading */}
-                <div className="flex justify-start">
-                  <div className="flex gap-3">
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-purple-600 flex items-center justify-center shrink-0 mt-1">
-                      <span className="material-symbols-outlined text-background text-[16px]" style={{ fontVariationSettings: "'FILL' 1" }}>neurology</span>
-                    </div>
-                    <div className="bg-surface border border-outline rounded-2xl rounded-tl-sm p-4 flex items-center gap-2">
-                      <span className="w-2 h-2 bg-on-surface-variant rounded-full animate-bounce"></span>
-                      <span className="w-2 h-2 bg-on-surface-variant rounded-full animate-bounce" style={{ animationDelay: "0.2s" }}></span>
-                      <span className="w-2 h-2 bg-on-surface-variant rounded-full animate-bounce" style={{ animationDelay: "0.4s" }}></span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              {/* Input Area */}
-              <div className="relative mt-auto">
-                <input className="w-full bg-surface border border-outline rounded-full py-4 pl-6 pr-14 font-body-sm text-on-surface focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all placeholder:text-on-surface-variant/50" placeholder="Workigom AI'a sorun..." type="text" />
-                <button className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center hover:bg-primary/20 transition-colors">
-                  <span className="material-symbols-outlined">arrow_upward</span>
-                </button>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* 6. Enterprise Security & GDPR */}
-        <section className="border-y border-outline bg-surface/30 py-24 mb-32">
-          <div className="max-w-7xl mx-auto px-margin">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center md:text-left">
-              <div className="md:col-span-1">
-                <h2 className="font-headline-md text-headline-md text-on-surface mb-4">Kurumsal Seviye Güvenlik</h2>
-                <p className="font-body-sm text-body-sm text-on-surface-variant">Verileriniz en yüksek şifreleme standartlarıyla korunur. KVKK ve GDPR uyumlu altyapımızla işletmeniz güvende.</p>
-              </div>
-              <div className="md:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-8">
-                <div className="flex items-start gap-4 text-left">
-                  <div className="w-10 h-10 rounded-lg bg-surface border border-outline flex items-center justify-center shrink-0">
-                    <span className="material-symbols-outlined text-primary">lock</span>
-                  </div>
-                  <div>
-                    <h4 className="font-body-md font-medium text-on-surface mb-1">256-bit AES Şifreleme</h4>
-                    <p className="font-body-sm text-on-surface-variant">Tüm verileriniz beklerken ve iletilirken banka standartlarında şifrelenir.</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-4 text-left">
-                  <div className="w-10 h-10 rounded-lg bg-surface border border-outline flex items-center justify-center shrink-0">
-                    <span className="material-symbols-outlined text-primary">policy</span>
-                  </div>
-                  <div>
-                    <h4 className="font-body-md font-medium text-on-surface mb-1">KVKK & GDPR Uyumu</h4>
-                    <p className="font-body-sm text-on-surface-variant">Kişisel veri koruma kanunlarına tam uyumlu altyapı mimarisi.</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-4 text-left">
-                  <div className="w-10 h-10 rounded-lg bg-surface border border-outline flex items-center justify-center shrink-0">
-                    <span className="material-symbols-outlined text-primary">cloud_done</span>
-                  </div>
-                  <div>
-                    <h4 className="font-body-md font-medium text-on-surface mb-1">Yedekli Bulut Mimarisi</h4>
-                    <p className="font-body-sm text-on-surface-variant">Verileriniz farklı coğrafi lokasyonlarda anlık olarak yedeklenir.</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-4 text-left">
-                  <div className="w-10 h-10 rounded-lg bg-surface border border-outline flex items-center justify-center shrink-0">
-                    <span className="material-symbols-outlined text-primary">verified_user</span>
-                  </div>
-                  <div>
-                    <h4 className="font-body-md font-medium text-on-surface mb-1">Gelişmiş Erişim Kontrolü</h4>
-                    <p className="font-body-sm text-on-surface-variant">Rol tabanlı yetkilendirme ile kimin neye erişebileceğini siz belirleyin.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* CTA Section */}
-        <section className="max-w-4xl mx-auto px-margin text-center">
-          <h2 className="font-headline-lg text-headline-lg text-on-surface mb-6">İşletmenizi geleceğe taşımaya hazır mısınız?</h2>
-          <p className="font-body-lg text-body-lg text-on-surface-variant mb-10">Kredi kartı gerektirmez. 14 gün boyunca tüm özellikleri ücretsiz deneyin.</p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a className="w-full sm:w-auto h-14 px-8 rounded-full bg-primary text-background font-body-md text-body-md font-semibold flex items-center justify-center hover:bg-white transition-all duration-300 glowing-button" href="#">
-              Ücretsiz Hesabınızı Oluşturun
-            </a>
-          </div>
-        </section>
-      </main>
-
-      {/* Footer */}
-      <footer className="w-full bg-surface-container-lowest border-t border-outline-variant/30">
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-xl max-w-7xl mx-auto px-margin py-3xl">
-          {/* Brand Column */}
-          <div className="col-span-2 md:col-span-1 flex flex-col gap-4">
-            <a className="text-headline-sm font-headline-sm font-bold text-on-surface" href="#">Workigom</a>
-            <p className="font-body-sm text-body-sm text-primary-fixed-dim">© 2024 Workigom. All rights reserved.</p>
-          </div>
-          {/* Links Columns */}
-          <div className="flex flex-col gap-3">
-            <a className="font-body-sm text-body-sm text-on-surface-variant hover:text-primary-fixed transition-colors" href="#">Ürün</a>
-          </div>
-          <div className="flex flex-col gap-3">
-            <a className="font-body-sm text-body-sm text-on-surface-variant hover:text-primary-fixed transition-colors" href="#">Şirket</a>
-          </div>
-          <div className="flex flex-col gap-3">
-            <a className="font-body-sm text-body-sm text-on-surface-variant hover:text-primary-fixed transition-colors" href="#">Destek</a>
-            <a className="font-body-sm text-body-sm text-on-surface-variant hover:text-primary-fixed transition-colors" href="#">Yasal</a>
-          </div>
-          <div className="flex flex-col gap-3">
-            <a className="font-body-sm text-body-sm text-on-surface-variant hover:text-primary-fixed transition-colors" href="#">TR/EN</a>
+          <div className="z-10 flex flex-col gap-4 text-sm bg-black/20 p-6 rounded-2xl border border-white/5">
+             <div className="flex items-center gap-3">
+               <CheckCircle className="w-5 h-5 text-green-400" />
+               <span className="text-gray-200">14 Gün Ücretsiz Deneme</span>
+             </div>
+             <div className="flex items-center gap-3">
+               <Bot className="w-5 h-5 text-purple-400" />
+               <span className="text-gray-200">Kurulum Desteği</span>
+             </div>
+             <div className="flex items-center gap-3">
+               <Clock className="w-5 h-5 text-cyan-400" />
+               <span className="text-gray-200">7/24 Destek</span>
+             </div>
           </div>
         </div>
-      </footer>
+      </section>
+
     </div>
   );
 }
