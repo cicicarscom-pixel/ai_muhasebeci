@@ -36,7 +36,7 @@ export default function MarketingPage() {
 
         <div className="flex items-center gap-5">
           <a href="#" className="text-[13px] font-semibold text-gray-300 hover:text-white transition-colors">Giriş Yap</a>
-          <button className="bg-btn-gradient text-white text-[13px] font-bold px-6 py-2.5 rounded-full hover:shadow-neon-purple transition-all duration-300 transform hover:scale-105 border border-white/10">
+          <button className="bg-gradient-to-r from-ai-cyan to-ai-purple text-white text-[13px] font-bold px-6 py-2.5 rounded-full hover:shadow-neon-purple transition-all duration-300 transform hover:scale-105 border border-white/10">
             Ücretsiz Dene
           </button>
         </div>
@@ -48,17 +48,15 @@ export default function MarketingPage() {
         {/* Left Column (Text & Buttons) */}
         <div className="flex-1 flex flex-col items-start z-20">
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-ai-purple/10 border border-ai-purple/30 mb-8 shadow-[0_0_15px_rgba(138,43,226,0.3)] backdrop-blur-md">
-             <span className="w-2 h-2 rounded-full bg-ai-cyan animate-pulse shadow-[0_0_8px_rgba(0,240,255,1)]"></span>
-             <span className="text-[10px] font-bold tracking-widest text-ai-cyan uppercase">YENİ NESİL AI İŞLETİM SİSTEMİ</span>
+          <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-transparent border border-ai-purple/40 mb-8 shadow-[0_0_15px_rgba(138,43,226,0.1)]">
+             <span className="text-[11px] font-bold tracking-wider text-gray-300 uppercase">YENİ NESİL, AI İŞLETİM SİSTEMİ</span>
           </div>
           
           <h1 className="text-[64px] md:text-[72px] leading-[1.05] font-extrabold tracking-tight mb-6">
             İşletmenizi<br />
             Yöneten Tek<br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-ai-cyan via-blue-500 to-ai-purple animate-pulse-slow inline-block pb-2 drop-shadow-lg">
-              Yapay Zeka
-            </span>
+            <span className="text-ai-cyan drop-shadow-[0_0_15px_rgba(0,240,255,0.4)]">Yapay </span>
+            <span className="text-ai-purple drop-shadow-[0_0_15px_rgba(138,43,226,0.4)]">Zeka</span>
           </h1>
           
           <p className="text-gray-400 text-lg md:text-xl max-w-lg mb-8 leading-relaxed font-light">
@@ -75,11 +73,11 @@ export default function MarketingPage() {
           
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row items-center gap-4 mb-12 w-full sm:w-auto">
-            <button className="w-full sm:w-auto bg-gradient-to-r from-ai-cyan to-ai-blue text-white font-bold px-8 py-4 rounded-full flex items-center justify-center gap-2 hover:shadow-[0_0_25px_rgba(0,240,255,0.6)] transition-all duration-300 group border border-white/10">
-              Ücretsiz Deneyin <span className="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">arrow_forward</span>
+            <button className="w-full sm:w-auto bg-gradient-to-r from-[#00c6ff] to-[#0072ff] text-white font-bold px-8 py-3.5 rounded-full flex items-center justify-center gap-2 hover:shadow-[0_0_20px_rgba(0,198,255,0.5)] transition-all duration-300 group border-none">
+              Ücretsiz Deneyin <span className="material-symbols-outlined text-lg group-hover:translate-x-1 transition-transform">arrow_forward</span>
             </button>
-            <button className="w-full sm:w-auto bg-ai-card border border-gray-700 text-white font-medium px-8 py-4 rounded-full flex items-center justify-center gap-3 hover:bg-gray-800 hover:border-gray-500 transition-colors">
-              <span className="w-7 h-7 rounded-full border border-gray-500 flex items-center justify-center bg-gray-800"><span className="material-symbols-outlined text-[16px] ml-0.5">play_arrow</span></span>
+            <button className="w-full sm:w-auto bg-transparent border border-gray-700 text-white font-medium px-8 py-3.5 rounded-full flex items-center justify-center gap-3 hover:bg-gray-800 transition-colors">
+              <span className="w-6 h-6 rounded-full border border-gray-400 flex items-center justify-center"><span className="material-symbols-outlined text-[14px] ml-0.5">play_arrow</span></span>
               Canlı Demo İzle
             </button>
           </div>
@@ -108,21 +106,19 @@ export default function MarketingPage() {
         </div>
 
         {/* Right Column (AI Core Graphic) */}
-        <div className="flex-1 relative h-[700px] w-full flex items-center justify-center z-10 perspective-1000 hidden lg:flex">
+        <div className="flex-1 relative h-[700px] w-full flex items-center justify-center z-10 hidden lg:flex mt-10">
           
           {/* Background glowing rings */}
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <div className="w-[550px] h-[550px] rounded-full border border-ai-purple/10 animate-[spin_20s_linear_infinite] absolute"></div>
-            <div className="w-[400px] h-[400px] rounded-full border border-ai-cyan/20 animate-[spin_15s_linear_reverse_infinite] absolute"></div>
-            <div className="w-[300px] h-[300px] bg-ai-cyan/10 blur-[100px] rounded-full absolute mix-blend-screen"></div>
+            <div className="w-[450px] h-[450px] rounded-full border border-[#00F0FF]/10 absolute animate-[spin_20s_linear_infinite]"></div>
+            <div className="w-[300px] h-[300px] rounded-full border border-[#8A2BE2]/20 absolute animate-[spin_15s_linear_reverse_infinite]"></div>
+            <div className="w-[200px] h-[200px] bg-ai-cyan/20 blur-[80px] rounded-full absolute mix-blend-screen"></div>
           </div>
 
           {/* Central AI Brain */}
-          <div className="absolute z-30 w-36 h-36 rounded-[2rem] bg-gradient-to-br from-ai-cyan/30 to-ai-purple/30 border border-ai-cyan/60 backdrop-blur-2xl flex items-center justify-center shadow-[0_0_40px_rgba(0,240,255,0.4)] animate-pulse-slow">
-            <div className="w-[110px] h-[110px] rounded-2xl bg-[#0B0C10] flex items-center justify-center shadow-inner relative overflow-hidden">
-               <div className="absolute inset-0 bg-gradient-to-t from-ai-cyan/20 to-transparent"></div>
-               <span className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-br from-ai-cyan to-ai-purple drop-shadow-[0_0_15px_rgba(0,240,255,0.8)] z-10">AI</span>
-            </div>
+          <div className="absolute z-30 w-32 h-32 rounded-full bg-[#0B0C10] border-[3px] border-[#00F0FF] flex items-center justify-center shadow-[0_0_50px_rgba(0,240,255,0.6)] relative">
+            <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#00F0FF]/20 to-transparent"></div>
+            <span className="text-5xl font-black text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.8)] z-10">AI</span>
           </div>
 
           {/* Connectors & Nodes Container */}
@@ -131,94 +127,98 @@ export default function MarketingPage() {
             {/* SVG Connecting lines */}
             <svg className="absolute inset-0 w-full h-full" style={{overflow: 'visible'}}>
                <defs>
-                 <linearGradient id="pink-grad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stopColor="#ff0066" /><stop offset="100%" stopColor="#8A2BE2" /></linearGradient>
-                 <linearGradient id="green-grad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stopColor="#25D366" /><stop offset="100%" stopColor="#00F0FF" /></linearGradient>
-                 <linearGradient id="blue-grad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stopColor="#1877F2" /><stop offset="100%" stopColor="#00F0FF" /></linearGradient>
-                 <linearGradient id="yellow-grad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stopColor="#F5B400" /><stop offset="100%" stopColor="#8A2BE2" /></linearGradient>
-                 <linearGradient id="cyan-purple-grad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stopColor="#00F0FF" /><stop offset="100%" stopColor="#8A2BE2" /></linearGradient>
+                 <linearGradient id="glow-line-cyan" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stopColor="rgba(0,240,255,0.2)" /><stop offset="100%" stopColor="rgba(0,240,255,0.8)" /></linearGradient>
+                 <linearGradient id="glow-line-purple" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stopColor="rgba(138,43,226,0.8)" /><stop offset="100%" stopColor="rgba(138,43,226,0.2)" /></linearGradient>
                </defs>
 
-               {/* Left side lines */}
-               <path d="M 120,180 C 200,180 250,350 300,350" fill="none" stroke="url(#pink-grad)" strokeWidth="1.5" className="animate-[dash_3s_linear_infinite]" strokeDasharray="5,5" />
-               <path d="M 120,260 C 200,260 250,350 300,350" fill="none" stroke="url(#green-grad)" strokeWidth="1.5" className="animate-[dash_3s_linear_infinite]" strokeDasharray="5,5" />
-               <path d="M 120,350 C 200,350 250,350 300,350" fill="none" stroke="url(#blue-grad)" strokeWidth="1.5" className="animate-[dash_3s_linear_infinite]" strokeDasharray="5,5" />
-               <path d="M 120,440 C 200,440 250,350 300,350" fill="none" stroke="url(#yellow-grad)" strokeWidth="1.5" className="animate-[dash_3s_linear_infinite]" strokeDasharray="5,5" />
-               <path d="M 120,520 C 200,520 250,350 300,350" fill="none" stroke="url(#blue-grad)" strokeWidth="1.5" className="animate-[dash_3s_linear_infinite]" strokeDasharray="5,5" />
+               {/* Left side lines connecting to center (X=350, Y=350) from Left Nodes */}
+               <path d="M 150,150 C 250,150 250,350 320,350" fill="none" stroke="url(#glow-line-cyan)" strokeWidth="2" className="drop-shadow-[0_0_5px_rgba(0,240,255,0.5)]" />
+               <path d="M 150,230 C 250,230 250,350 320,350" fill="none" stroke="url(#glow-line-cyan)" strokeWidth="2" className="drop-shadow-[0_0_5px_rgba(0,240,255,0.5)]" />
+               <path d="M 150,310 C 250,310 250,350 320,350" fill="none" stroke="url(#glow-line-cyan)" strokeWidth="2" className="drop-shadow-[0_0_5px_rgba(0,240,255,0.5)]" />
+               <path d="M 150,390 C 250,390 250,350 320,350" fill="none" stroke="url(#glow-line-cyan)" strokeWidth="2" className="drop-shadow-[0_0_5px_rgba(0,240,255,0.5)]" />
+               <path d="M 150,470 C 250,470 250,350 320,350" fill="none" stroke="url(#glow-line-cyan)" strokeWidth="2" className="drop-shadow-[0_0_5px_rgba(0,240,255,0.5)]" />
 
-               {/* Right side lines */}
-               <path d="M 400,350 C 450,350 500,200 550,200" fill="none" stroke="url(#cyan-purple-grad)" strokeWidth="1.5" className="animate-[dash_3s_linear_infinite]" strokeDasharray="5,5" />
-               <path d="M 400,350 C 450,350 500,350 550,350" fill="none" stroke="url(#cyan-purple-grad)" strokeWidth="1.5" className="animate-[dash_3s_linear_infinite]" strokeDasharray="5,5" />
-               <path d="M 400,350 C 450,350 500,500 550,500" fill="none" stroke="url(#cyan-purple-grad)" strokeWidth="1.5" className="animate-[dash_3s_linear_infinite]" strokeDasharray="5,5" />
+               {/* Right side lines connecting from center to Right Nodes */}
+               <path d="M 380,350 C 450,350 450,180 550,180" fill="none" stroke="url(#glow-line-purple)" strokeWidth="2" className="drop-shadow-[0_0_5px_rgba(138,43,226,0.5)]" />
+               <path d="M 380,350 C 450,350 450,350 550,350" fill="none" stroke="url(#glow-line-purple)" strokeWidth="2" className="drop-shadow-[0_0_5px_rgba(138,43,226,0.5)]" />
+               <path d="M 380,350 C 450,350 450,520 550,520" fill="none" stroke="url(#glow-line-purple)" strokeWidth="2" className="drop-shadow-[0_0_5px_rgba(138,43,226,0.5)]" />
             </svg>
 
-            {/* Left Nodes (Inputs) - Absolute positioned to match paths */}
-            <div className="absolute left-[30px] top-[155px] flex items-center gap-3 bg-[#13151A]/90 backdrop-blur-md border border-gray-700/50 rounded-full pl-2 pr-4 py-2 hover:border-pink-500/50 transition-colors shadow-lg">
-              <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] flex items-center justify-center"><span className="material-symbols-outlined text-white text-sm">photo_camera</span></div>
-              <span className="text-[13px] font-medium text-gray-200 w-20">Instagram</span>
-              <span className="bg-pink-500/20 text-pink-400 text-[10px] px-2 py-0.5 rounded-full font-bold border border-pink-500/30">23</span>
+            {/* Left Nodes Title */}
+            <div className="absolute left-[30px] top-[100px] text-[10px] font-bold text-gray-400 tracking-widest uppercase">MÜŞTERİ KANALLARI</div>
+
+            {/* Left Nodes (Inputs) */}
+            <div className="absolute left-[30px] top-[135px] flex items-center gap-3">
+              <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] flex items-center justify-center"><span className="material-symbols-outlined text-white text-[16px]">photo_camera</span></div>
+              <span className="text-[13px] font-medium text-gray-200 w-24">Instagram</span>
+              <span className="bg-[#FF0055] text-white text-[10px] px-2 py-0.5 rounded-full font-bold">23</span>
             </div>
             
-            <div className="absolute left-[50px] top-[235px] flex items-center gap-3 bg-[#13151A]/90 backdrop-blur-md border border-gray-700/50 rounded-full pl-2 pr-4 py-2 hover:border-green-500/50 transition-colors shadow-lg">
-              <div className="w-8 h-8 rounded-full bg-[#25D366] flex items-center justify-center"><span className="material-symbols-outlined text-white text-sm">chat</span></div>
-              <span className="text-[13px] font-medium text-gray-200 w-20">WhatsApp</span>
-              <span className="bg-green-500/20 text-green-400 text-[10px] px-2 py-0.5 rounded-full font-bold border border-green-500/30">15</span>
+            <div className="absolute left-[30px] top-[215px] flex items-center gap-3">
+              <div className="w-8 h-8 rounded-full bg-[#25D366] flex items-center justify-center"><span className="material-symbols-outlined text-white text-[16px]">chat</span></div>
+              <span className="text-[13px] font-medium text-gray-200 w-24">WhatsApp</span>
+              <span className="bg-[#FF0055] text-white text-[10px] px-2 py-0.5 rounded-full font-bold">15</span>
             </div>
             
-            <div className="absolute left-[60px] top-[325px] flex items-center gap-3 bg-[#13151A]/90 backdrop-blur-md border border-gray-700/50 rounded-full pl-2 pr-4 py-2 hover:border-blue-500/50 transition-colors shadow-lg">
-              <div className="w-8 h-8 rounded-full bg-[#1877F2] flex items-center justify-center"><span className="material-symbols-outlined text-white text-sm">thumb_up</span></div>
-              <span className="text-[13px] font-medium text-gray-200 w-20">Facebook</span>
-              <span className="bg-blue-500/20 text-blue-400 text-[10px] px-2 py-0.5 rounded-full font-bold border border-blue-500/30">12</span>
+            <div className="absolute left-[30px] top-[295px] flex items-center gap-3">
+              <div className="w-8 h-8 rounded-full bg-[#1877F2] flex items-center justify-center"><span className="material-symbols-outlined text-white text-[16px]">thumb_up</span></div>
+              <span className="text-[13px] font-medium text-gray-200 w-24">Facebook</span>
+              <span className="bg-[#1877F2] text-white text-[10px] px-2 py-0.5 rounded-full font-bold">12</span>
             </div>
             
-            <div className="absolute left-[50px] top-[415px] flex items-center gap-3 bg-[#13151A]/90 backdrop-blur-md border border-gray-700/50 rounded-full pl-2 pr-4 py-2 hover:border-yellow-500/50 transition-colors shadow-lg">
-              <div className="w-8 h-8 rounded-full bg-[#F5B400] flex items-center justify-center"><span className="material-symbols-outlined text-white text-sm">star</span></div>
-              <span className="text-[13px] font-medium text-gray-200 w-20 truncate">Google Yorumlar</span>
-              <span className="bg-yellow-500/20 text-yellow-400 text-[10px] px-2 py-0.5 rounded-full font-bold border border-yellow-500/30">8</span>
+            <div className="absolute left-[30px] top-[375px] flex items-center gap-3">
+              <div className="w-8 h-8 rounded-full bg-[#F5B400] flex items-center justify-center"><span className="material-symbols-outlined text-white text-[16px]">star</span></div>
+              <span className="text-[13px] font-medium text-gray-200 w-24 truncate">Google Yorumlar</span>
+              <span className="bg-[#F5B400] text-white text-[10px] px-2.5 py-0.5 rounded-full font-bold">8</span>
             </div>
             
-            <div className="absolute left-[30px] top-[495px] flex items-center gap-3 bg-[#13151A]/90 backdrop-blur-md border border-gray-700/50 rounded-full pl-2 pr-4 py-2 hover:border-blue-400/50 transition-colors shadow-lg">
-              <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-[#00B2FF] to-[#006AFF] flex items-center justify-center"><span className="material-symbols-outlined text-white text-sm">forum</span></div>
-              <span className="text-[13px] font-medium text-gray-200 w-20">Messenger</span>
-              <span className="bg-blue-400/20 text-blue-400 text-[10px] px-2 py-0.5 rounded-full font-bold border border-blue-400/30">7</span>
+            <div className="absolute left-[30px] top-[455px] flex items-center gap-3">
+              <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-[#00B2FF] to-[#006AFF] flex items-center justify-center"><span className="material-symbols-outlined text-white text-[16px]">forum</span></div>
+              <span className="text-[13px] font-medium text-gray-200 w-24">Messenger</span>
+              <span className="bg-[#00B2FF] text-white text-[10px] px-2.5 py-0.5 rounded-full font-bold">7</span>
             </div>
 
-            {/* Right Nodes (Outputs) - Absolute positioned to match paths */}
-            <div className="absolute right-[0px] top-[140px] bg-[#13151A]/90 backdrop-blur-xl border border-gray-700/50 rounded-xl p-3 shadow-glass flex flex-col gap-2 w-[220px] animate-float hover:scale-105 transition-transform pointer-events-auto" style={{animationDelay: '0s'}}>
-               <div className="text-[10px] font-bold text-ai-cyan uppercase tracking-wider flex items-center justify-between mb-1">
-                 <span>AI YANITLIYOR</span>
-                 <div className="w-5 h-5 rounded-full bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] flex items-center justify-center"><span className="material-symbols-outlined text-[10px] text-white">photo_camera</span></div>
-               </div>
-               <div className="bg-gray-800/80 rounded-lg p-2.5 flex items-start gap-2 border border-gray-700">
-                 <div className="w-6 h-6 rounded-full bg-gray-600 flex-shrink-0 mt-0.5 overflow-hidden">
-                    <img src="https://i.pravatar.cc/100?img=9" alt="user" />
+            {/* Right Nodes (Outputs) */}
+            
+            {/* Output 1 */}
+            <div className="absolute right-[0px] top-[110px] flex flex-col gap-2 w-[220px]">
+               <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">AI YANITLIYOR</div>
+               <div className="bg-[#161920]/90 backdrop-blur-md border border-gray-700/50 rounded-xl p-3 shadow-glass">
+                 <div className="flex items-center gap-2 mb-2">
+                   <div className="w-6 h-6 rounded-full bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] flex items-center justify-center"><span className="material-symbols-outlined text-[12px] text-white">photo_camera</span></div>
                  </div>
-                 <div className="text-[11px] leading-[1.4] text-gray-200">Merhaba! Size nasıl yardımcı olabilirim?</div>
+                 <div className="bg-[#252A33] rounded-lg p-2.5 text-[11px] leading-[1.4] text-gray-200 border border-gray-700">
+                   Merhaba! Size nasıl yardımcı olabilirim?
+                 </div>
+                 <div className="flex gap-1 mt-2">
+                   <div className="w-2 h-2 rounded-full bg-gray-600 animate-pulse"></div>
+                   <div className="w-2 h-2 rounded-full bg-gray-600 animate-pulse delay-75"></div>
+                   <div className="w-2 h-2 rounded-full bg-gray-600 animate-pulse delay-150"></div>
+                 </div>
                </div>
             </div>
 
-            <div className="absolute right-[-20px] top-[290px] bg-[#13151A]/90 backdrop-blur-xl border border-gray-700/50 rounded-xl p-3 shadow-glass flex flex-col gap-2 w-[220px] animate-float hover:scale-105 transition-transform pointer-events-auto" style={{animationDelay: '1s'}}>
-               <div className="text-[10px] font-bold text-ai-pink uppercase tracking-wider flex items-center justify-between mb-1">
-                 <span>İÇERİK ÜRETİLİYOR</span>
-                 <span className="material-symbols-outlined text-[16px] text-ai-pink">auto_awesome</span>
-               </div>
-               <div className="bg-gray-800/80 rounded-lg p-2.5 flex items-center gap-3 border border-gray-700">
+            {/* Output 2 */}
+            <div className="absolute right-[0px] top-[280px] flex flex-col gap-2 w-[220px]">
+               <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">İÇERİK ÜRETİLİYOR</div>
+               <div className="bg-[#161920]/90 backdrop-blur-md border border-gray-700/50 rounded-xl p-3 shadow-glass flex items-center gap-3">
                  <div className="w-12 h-12 rounded bg-gradient-to-br from-purple-900 to-pink-900 flex-shrink-0 flex items-center justify-center overflow-hidden relative border border-pink-500/30">
                    <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-30"></div>
-                   <span className="text-[10px] font-black text-white z-10 rotate-[-15deg] drop-shadow-md">YENİ!</span>
+                   <span className="text-[8px] font-black text-white z-10 rotate-[-15deg] drop-shadow-md leading-tight text-center">YENİ<br/>SEZON</span>
                  </div>
-                 <div className="text-[11px] leading-tight text-gray-200 font-medium">Yeni gönderi hazır! ✨</div>
+                 <div className="flex flex-col gap-1">
+                   <div className="text-[11px] leading-tight text-gray-200 font-medium">Yeni gönderi hazır! ✨</div>
+                 </div>
                </div>
             </div>
 
-            <div className="absolute right-[0px] top-[440px] bg-[#13151A]/90 backdrop-blur-xl border border-gray-700/50 rounded-xl p-3 shadow-glass flex flex-col gap-2 w-[220px] animate-float hover:scale-105 transition-transform pointer-events-auto" style={{animationDelay: '2s'}}>
-               <div className="text-[10px] font-bold text-[#b785f5] uppercase tracking-wider flex items-center justify-between mb-1">
-                 <span>MUHASEBE GİRİŞİYOR</span>
-                 <span className="material-symbols-outlined text-[16px] text-[#b785f5]">receipt_long</span>
-               </div>
-               <div className="bg-gray-800/80 rounded-lg p-2.5 flex flex-col gap-2 border border-gray-700">
-                 <div className="flex justify-between items-center text-[11px]">
-                   <span className="text-gray-400">Durum:</span>
-                   <span className="text-green-400 font-medium">Fatura okundu</span>
+            {/* Output 3 */}
+            <div className="absolute right-[0px] top-[430px] flex flex-col gap-2 w-[220px]">
+               <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">MUHASEBEYE İŞLENİYOR</div>
+               <div className="bg-[#161920]/90 backdrop-blur-md border border-gray-700/50 rounded-xl p-3 shadow-glass flex flex-col gap-2">
+                 <div className="flex items-center gap-2 mb-1">
+                   <span className="material-symbols-outlined text-[16px] text-blue-400">description</span>
+                   <span className="text-[12px] font-bold text-gray-200">Fatura okundu</span>
                  </div>
                  <div className="flex justify-between items-center text-[11px]">
                    <span className="text-gray-400">KDV:</span>
@@ -237,48 +237,54 @@ export default function MarketingPage() {
 
       {/* --- Stats Row --- */}
       <section className="relative z-20 w-full max-w-7xl mx-auto px-6 mb-24">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4 border border-gray-800 rounded-2xl p-4 bg-[#101216]/50 backdrop-blur-sm">
           
-          <div className="bg-[#101216] border border-gray-800 rounded-2xl p-6 flex items-center gap-5 hover:border-[#00F0FF]/30 hover:bg-[#13161a] transition-all duration-300 group shadow-lg">
-             <div className="w-14 h-14 rounded-xl bg-[#00F0FF]/10 border border-[#00F0FF]/20 flex items-center justify-center group-hover:scale-110 transition-transform">
-               <span className="material-symbols-outlined text-[#00F0FF] text-2xl">forum</span>
+          <div className="flex items-center gap-4 px-6 py-2">
+             <div className="w-12 h-12 rounded-full bg-[#00F0FF]/10 flex items-center justify-center border border-[#00F0FF]/20">
+               <span className="material-symbols-outlined text-[#00F0FF] text-xl">forum</span>
              </div>
              <div className="flex flex-col">
-               <span className="text-3xl font-extrabold text-white">12.5K+</span>
-               <span className="text-[13px] text-gray-400 font-medium mt-1">Mesaj Yanıtlandı</span>
+               <span className="text-2xl font-extrabold text-white">12.5K+</span>
+               <span className="text-[12px] text-gray-400 font-medium mt-0.5">Mesaj Yanıtlandı</span>
              </div>
           </div>
           
-          <div className="bg-[#101216] border border-gray-800 rounded-2xl p-6 flex items-center gap-5 hover:border-[#b785f5]/30 hover:bg-[#13161a] transition-all duration-300 group shadow-lg">
-             <div className="w-14 h-14 rounded-xl bg-[#b785f5]/10 border border-[#b785f5]/20 flex items-center justify-center group-hover:scale-110 transition-transform">
-               <span className="material-symbols-outlined text-[#b785f5] text-2xl">description</span>
+          <div className="w-px h-12 bg-gray-800 hidden md:block"></div>
+          
+          <div className="flex items-center gap-4 px-6 py-2">
+             <div className="w-12 h-12 rounded-full bg-[#b785f5]/10 flex items-center justify-center border border-[#b785f5]/20">
+               <span className="material-symbols-outlined text-[#b785f5] text-xl">description</span>
              </div>
              <div className="flex flex-col">
-               <span className="text-3xl font-extrabold text-white">3.2K+</span>
-               <span className="text-[13px] text-gray-400 font-medium mt-1">Belge İşlendi</span>
+               <span className="text-2xl font-extrabold text-white">3.2K+</span>
+               <span className="text-[12px] text-gray-400 font-medium mt-0.5">Belge İşlendi</span>
              </div>
           </div>
           
-          <div className="bg-[#101216] border border-gray-800 rounded-2xl p-6 flex items-center gap-5 hover:border-[#25D366]/30 hover:bg-[#13161a] transition-all duration-300 group shadow-lg">
-             <div className="w-14 h-14 rounded-xl bg-[#25D366]/10 border border-[#25D366]/20 flex items-center justify-center group-hover:scale-110 transition-transform">
-               <span className="material-symbols-outlined text-[#25D366] text-2xl">verified</span>
+          <div className="w-px h-12 bg-gray-800 hidden md:block"></div>
+          
+          <div className="flex items-center gap-4 px-6 py-2">
+             <div className="w-12 h-12 rounded-full bg-[#25D366]/10 flex items-center justify-center border border-[#25D366]/20">
+               <span className="material-symbols-outlined text-[#25D366] text-xl">verified</span>
              </div>
              <div className="flex flex-col">
-               <span className="text-3xl font-extrabold text-white">98.7%</span>
-               <span className="text-[13px] text-gray-400 font-medium mt-1">Doğruluk Oranı</span>
+               <span className="text-2xl font-extrabold text-white">98.7%</span>
+               <span className="text-[12px] text-gray-400 font-medium mt-0.5">Doğruluk Oranı</span>
              </div>
           </div>
           
-          <div className="bg-[#101216] border border-gray-800 rounded-2xl p-6 flex items-center gap-5 hover:border-[#F5B400]/30 hover:bg-[#13161a] transition-all duration-300 group shadow-lg">
-             <div className="w-14 h-14 rounded-xl bg-[#F5B400]/10 border border-[#F5B400]/20 flex items-center justify-center group-hover:scale-110 transition-transform">
-               <span className="material-symbols-outlined text-[#F5B400] text-2xl">bolt</span>
+          <div className="w-px h-12 bg-gray-800 hidden md:block"></div>
+          
+          <div className="flex items-center gap-4 px-6 py-2">
+             <div className="w-12 h-12 rounded-full bg-[#F5B400]/10 flex items-center justify-center border border-[#F5B400]/20">
+               <span className="material-symbols-outlined text-[#F5B400] text-xl">bolt</span>
              </div>
              <div className="flex flex-col">
-               <span className="text-3xl font-extrabold text-white">7/24</span>
-               <span className="text-[13px] text-gray-400 font-medium mt-1">Kesintisiz Hizmet</span>
+               <span className="text-2xl font-extrabold text-white">7/24</span>
+               <span className="text-[12px] text-gray-400 font-medium mt-0.5">Kesintisiz Hizmet</span>
              </div>
           </div>
-
+          
         </div>
       </section>
 
