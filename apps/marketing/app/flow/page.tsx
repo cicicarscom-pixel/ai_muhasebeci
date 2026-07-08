@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Camera, MessageCircle, Globe, Star, MessageSquare, CheckCircle, Play, FileText, Bot, ArrowRight, LineChart, MessageSquarePlus, UploadCloud, FileCheck, DollarSign, BarChart3, LayoutDashboard, Clock } from 'lucide-react';
+import { Camera, MessageCircle, Globe, Star, MessageSquare, CheckCircle, Play, FileText, Bot, ArrowRight, LineChart, MessageSquarePlus, UploadCloud, FileCheck, DollarSign, BarChart3, LayoutDashboard, Clock, Grid } from 'lucide-react';
 import { cn } from '../../utils/cn';
 
 // Hero Node Animation Component
