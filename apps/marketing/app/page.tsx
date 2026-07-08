@@ -108,132 +108,228 @@ export default function MarketingPage() {
         {/* Right Column (AI Core Graphic) */}
         <div className="flex-1 relative h-[700px] w-full flex items-center justify-center z-10 hidden lg:flex mt-10">
           
-          {/* Background glowing rings */}
+          {/* Background Ambient Glow */}
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
-            <div className="w-[500px] h-[500px] rounded-full border-[1px] border-dashed border-[#00F0FF]/30 absolute animate-[spin_40s_linear_infinite]"></div>
-            <div className="w-[350px] h-[350px] rounded-full border-[2px] border-[#8A2BE2]/50 absolute animate-[spin_20s_linear_reverse_infinite]"></div>
-            <div className="w-[200px] h-[200px] bg-gradient-to-r from-[#00F0FF]/30 to-[#8A2BE2]/30 blur-[80px] rounded-full absolute mix-blend-screen"></div>
+            <div className="w-[300px] h-[300px] bg-gradient-to-r from-blue-600/20 to-purple-600/20 blur-[100px] rounded-full absolute mix-blend-screen"></div>
           </div>
 
-          {/* Central AI Brain */}
-          <div className="absolute z-30 w-32 h-32 rounded-full bg-[#07090E] border-[2px] border-[#00F0FF]/80 flex items-center justify-center shadow-[0_0_80px_rgba(0,240,255,0.7),inset_0_0_30px_rgba(138,43,226,0.5)] relative overflow-hidden">
-            <span className="text-6xl font-black text-white drop-shadow-[0_0_15px_rgba(255,255,255,1)] z-10">AI</span>
-          </div>
-
-          {/* Connectors & Nodes Container */}
+          {/* SVG Connecting lines */}
           <div className="absolute inset-0 w-full h-full pointer-events-none z-10">
-            
-            {/* SVG Connecting lines */}
             <svg className="absolute inset-0 w-full h-full" style={{overflow: 'visible'}}>
                <defs>
-                 <linearGradient id="neon-cyan" x1="0%" y1="0%" x2="100%" y2="0%">
-                   <stop offset="0%" stopColor="rgba(0,240,255,0.1)" />
-                   <stop offset="100%" stopColor="rgba(0,240,255,1)" />
+                 <linearGradient id="neon-blue-pink" x1="0%" y1="0%" x2="100%" y2="0%">
+                   <stop offset="0%" stopColor="rgba(0,150,255,0.8)" />
+                   <stop offset="50%" stopColor="rgba(200,50,255,0.8)" />
+                   <stop offset="100%" stopColor="rgba(255,0,150,0.8)" />
                  </linearGradient>
-                 <linearGradient id="neon-purple" x1="0%" y1="0%" x2="100%" y2="0%">
-                   <stop offset="0%" stopColor="rgba(138,43,226,1)" />
-                   <stop offset="100%" stopColor="rgba(138,43,226,0.1)" />
+                 <linearGradient id="neon-pink-blue" x1="0%" y1="0%" x2="100%" y2="0%">
+                   <stop offset="0%" stopColor="rgba(255,0,150,0.8)" />
+                   <stop offset="50%" stopColor="rgba(200,50,255,0.8)" />
+                   <stop offset="100%" stopColor="rgba(0,150,255,0.8)" />
                  </linearGradient>
-                 <filter id="glow-filter" x="-20%" y="-20%" width="140%" height="140%">
-                   <feGaussianBlur stdDeviation="3" result="blur" />
+                 <filter id="glow-strong" x="-20%" y="-20%" width="140%" height="140%">
+                   <feGaussianBlur stdDeviation="4" result="blur" />
                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
                  </filter>
                </defs>
 
-               {/* Left side lines connecting to center (Assumed center is at X=300, Y=350) */}
-               <path d="M 160,165 C 220,165 240,350 280,350" fill="none" stroke="url(#neon-cyan)" strokeWidth="2.5" filter="url(#glow-filter)" />
-               <path d="M 160,245 C 220,245 240,350 280,350" fill="none" stroke="url(#neon-cyan)" strokeWidth="2.5" filter="url(#glow-filter)" />
-               <path d="M 160,325 C 220,325 240,350 280,350" fill="none" stroke="url(#neon-cyan)" strokeWidth="2.5" filter="url(#glow-filter)" />
-               <path d="M 160,405 C 220,405 240,350 280,350" fill="none" stroke="url(#neon-cyan)" strokeWidth="2.5" filter="url(#glow-filter)" />
-               <path d="M 160,485 C 220,485 240,350 280,350" fill="none" stroke="url(#neon-cyan)" strokeWidth="2.5" filter="url(#glow-filter)" />
+               {/* Left side lines connecting to center globe (Globe center ~ X=300, Y=350) */}
+               {/* Start points approx at X=100 (right edge of left box), Y spaced out */}
+               <path d="M 80,180 C 180,180 200,280 230,300" fill="none" stroke="url(#neon-blue-pink)" strokeWidth="2.5" filter="url(#glow-strong)" />
+               <path d="M 80,240 C 180,240 190,310 210,320" fill="none" stroke="url(#neon-blue-pink)" strokeWidth="2.5" filter="url(#glow-strong)" />
+               <path d="M 80,300 C 150,300 170,330 200,340" fill="none" stroke="url(#neon-blue-pink)" strokeWidth="2.5" filter="url(#glow-strong)" />
+               <path d="M 80,360 C 150,360 170,370 200,360" fill="none" stroke="url(#neon-blue-pink)" strokeWidth="2.5" filter="url(#glow-strong)" />
+               <path d="M 80,420 C 180,420 190,390 210,380" fill="none" stroke="url(#neon-blue-pink)" strokeWidth="2.5" filter="url(#glow-strong)" />
+               <path d="M 80,480 C 180,480 200,420 230,400" fill="none" stroke="url(#neon-blue-pink)" strokeWidth="2.5" filter="url(#glow-strong)" />
 
-               {/* Right side lines connecting from center to Right Nodes */}
-               <path d="M 320,350 C 360,350 380,180 430,180" fill="none" stroke="url(#neon-purple)" strokeWidth="2.5" filter="url(#glow-filter)" />
-               <path d="M 320,350 C 360,350 380,330 430,330" fill="none" stroke="url(#neon-purple)" strokeWidth="2.5" filter="url(#glow-filter)" />
-               <path d="M 320,350 C 360,350 380,480 430,480" fill="none" stroke="url(#neon-purple)" strokeWidth="2.5" filter="url(#glow-filter)" />
+               {/* Right side lines connecting from center globe to Right Nodes */}
+               <path d="M 370,290 C 420,270 430,160 480,160" fill="none" stroke="url(#neon-pink-blue)" strokeWidth="2.5" filter="url(#glow-strong)" />
+               <path d="M 390,310 C 430,310 440,260 480,260" fill="none" stroke="url(#neon-pink-blue)" strokeWidth="2.5" filter="url(#glow-strong)" />
+               <path d="M 390,390 C 430,390 440,360 480,360" fill="none" stroke="url(#neon-pink-blue)" strokeWidth="2.5" filter="url(#glow-strong)" />
+               <path d="M 370,410 C 420,430 430,500 480,500" fill="none" stroke="url(#neon-pink-blue)" strokeWidth="2.5" filter="url(#glow-strong)" />
             </svg>
+          </div>
 
-            {/* Left Nodes Title */}
-            <div className="absolute left-[30px] top-[110px] text-[10px] font-bold text-gray-500 tracking-widest uppercase">MÜŞTERİ KANALLARI</div>
+          {/* Left Box: TÜM KANALLAR TEK YERDE */}
+          <div className="absolute left-[-100px] top-[140px] w-[260px] bg-[#0A0D14]/90 backdrop-blur-xl border border-[#1E293B]/80 rounded-2xl p-5 shadow-2xl z-20">
+            <div className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-5">TÜM KANALLAR TEK YERDE</div>
+            
+            <div className="flex flex-col gap-4">
+              <div className="flex items-center justify-between group">
+                <div className="flex items-center gap-3">
+                  <div className="w-[32px] h-[32px] rounded-[10px] bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] flex items-center justify-center shadow-lg"><span className="material-symbols-outlined text-white text-[18px]">photo_camera</span></div>
+                  <span className="text-[14px] font-medium text-gray-100">Instagram</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="bg-[#E11D48] text-white text-[12px] px-3 py-0.5 rounded-full font-bold">23</span>
+                  <div className="w-1.5 h-1.5 rounded-full bg-blue-500 shadow-[0_0_10px_rgba(0,150,255,1)] relative"><div className="absolute inset-0 bg-blue-400 rounded-full animate-ping"></div></div>
+                </div>
+              </div>
+              
+              <div className="flex items-center justify-between group">
+                <div className="flex items-center gap-3">
+                  <div className="w-[32px] h-[32px] rounded-[10px] bg-[#25D366] flex items-center justify-center shadow-lg"><span className="material-symbols-outlined text-white text-[18px]">chat</span></div>
+                  <span className="text-[14px] font-medium text-gray-100">WhatsApp</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="bg-[#2563EB] text-white text-[12px] px-3 py-0.5 rounded-full font-bold">15</span>
+                  <div className="w-1.5 h-1.5 rounded-full bg-blue-500 shadow-[0_0_10px_rgba(0,150,255,1)]"></div>
+                </div>
+              </div>
+              
+              <div className="flex items-center justify-between group">
+                <div className="flex items-center gap-3">
+                  <div className="w-[32px] h-[32px] rounded-[10px] bg-[#1877F2] flex items-center justify-center shadow-lg"><span className="material-symbols-outlined text-white text-[18px]">thumb_up</span></div>
+                  <span className="text-[14px] font-medium text-gray-100">Facebook</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="bg-[#2563EB] text-white text-[12px] px-3 py-0.5 rounded-full font-bold">12</span>
+                  <div className="w-1.5 h-1.5 rounded-full bg-blue-500 shadow-[0_0_10px_rgba(0,150,255,1)]"></div>
+                </div>
+              </div>
+              
+              <div className="flex items-center justify-between group">
+                <div className="flex items-center gap-3">
+                  <div className="w-[32px] h-[32px] rounded-[10px] bg-[#F5B400] flex items-center justify-center shadow-lg"><span className="material-symbols-outlined text-white text-[18px]">star</span></div>
+                  <span className="text-[14px] font-medium text-gray-100">Google Yorumlar</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="bg-[#2563EB] text-white text-[12px] px-3 py-0.5 rounded-full font-bold">8</span>
+                  <div className="w-1.5 h-1.5 rounded-full bg-blue-500 shadow-[0_0_10px_rgba(0,150,255,1)]"></div>
+                </div>
+              </div>
+              
+              <div className="flex items-center justify-between group">
+                <div className="flex items-center gap-3">
+                  <div className="w-[32px] h-[32px] rounded-[10px] bg-gradient-to-tr from-[#00B2FF] to-[#006AFF] flex items-center justify-center shadow-lg"><span className="material-symbols-outlined text-white text-[18px]">forum</span></div>
+                  <span className="text-[14px] font-medium text-gray-100">Messenger</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="bg-[#2563EB] text-white text-[12px] px-3 py-0.5 rounded-full font-bold">7</span>
+                  <div className="w-1.5 h-1.5 rounded-full bg-blue-500 shadow-[0_0_10px_rgba(0,150,255,1)]"></div>
+                </div>
+              </div>
 
-            {/* Left Nodes (Inputs) */}
-            <div className="absolute left-[30px] top-[150px] flex items-center gap-3">
-              <div className="w-[30px] h-[30px] rounded-[8px] bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] flex items-center justify-center shadow-lg"><span className="material-symbols-outlined text-white text-[16px]">photo_camera</span></div>
-              <span className="text-[13px] font-bold text-gray-100 w-24">Instagram</span>
-              <span className="bg-[#E11D48] text-white text-[10px] px-2.5 py-0.5 rounded-full font-bold">23</span>
+              <div className="flex items-center justify-between group">
+                <div className="flex items-center gap-3">
+                  <div className="w-[32px] h-[32px] rounded-[10px] bg-[#0A66C2] flex items-center justify-center shadow-lg"><span className="material-symbols-outlined text-white text-[18px]">work</span></div>
+                  <span className="text-[14px] font-medium text-gray-100">LinkedIn</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="bg-[#2563EB] text-white text-[12px] px-3 py-0.5 rounded-full font-bold">4</span>
+                  <div className="w-1.5 h-1.5 rounded-full bg-blue-500 shadow-[0_0_10px_rgba(0,150,255,1)] relative"><div className="absolute inset-0 bg-blue-400 rounded-full animate-ping delay-300"></div></div>
+                </div>
+              </div>
             </div>
+          </div>
+
+          {/* Central AI Sphere */}
+          <div className="absolute z-30 flex flex-col items-center justify-center left-[50%] top-[50%] -translate-x-1/2 -translate-y-1/2">
             
-            <div className="absolute left-[30px] top-[230px] flex items-center gap-3">
-              <div className="w-[30px] h-[30px] rounded-[8px] bg-[#25D366] flex items-center justify-center shadow-lg"><span className="material-symbols-outlined text-white text-[16px]">chat</span></div>
-              <span className="text-[13px] font-bold text-gray-100 w-24">WhatsApp</span>
-              <span className="bg-[#E11D48] text-white text-[10px] px-2.5 py-0.5 rounded-full font-bold">15</span>
-            </div>
-            
-            <div className="absolute left-[30px] top-[310px] flex items-center gap-3">
-              <div className="w-[30px] h-[30px] rounded-[8px] bg-[#1877F2] flex items-center justify-center shadow-lg"><span className="material-symbols-outlined text-white text-[16px]">thumb_up</span></div>
-              <span className="text-[13px] font-bold text-gray-100 w-24">Facebook</span>
-              <span className="bg-[#1877F2] text-white text-[10px] px-2.5 py-0.5 rounded-full font-bold">12</span>
-            </div>
-            
-            <div className="absolute left-[30px] top-[390px] flex items-center gap-3">
-              <div className="w-[30px] h-[30px] rounded-[8px] bg-[#F5B400] flex items-center justify-center shadow-lg"><span className="material-symbols-outlined text-white text-[16px]">star</span></div>
-              <span className="text-[13px] font-bold text-gray-100 w-24 truncate">Google Yorumlar</span>
-              <span className="bg-[#F5B400] text-[#422006] text-[10px] px-3 py-0.5 rounded-full font-extrabold">8</span>
-            </div>
-            
-            <div className="absolute left-[30px] top-[470px] flex items-center gap-3">
-              <div className="w-[30px] h-[30px] rounded-[8px] bg-gradient-to-tr from-[#00B2FF] to-[#006AFF] flex items-center justify-center shadow-lg"><span className="material-symbols-outlined text-white text-[16px]">forum</span></div>
-              <span className="text-[13px] font-bold text-gray-100 w-24">Messenger</span>
-              <span className="bg-[#00B2FF] text-white text-[10px] px-3 py-0.5 rounded-full font-bold">7</span>
+            {/* Top Chat Bubble */}
+            <div className="absolute top-[-90px] left-[-80px] bg-[#101524] border border-[#232D42] rounded-2xl rounded-br-sm p-3 w-[180px] shadow-2xl flex flex-col gap-1 z-40">
+              <div className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">AI ASİSTAN</div>
+              <div className="text-[12px] text-gray-200">Merhaba! Size nasıl yardımcı olabilirim?</div>
+              {/* Floating audio icon next to it */}
+              <div className="absolute right-[-40px] top-[20px] w-8 h-8 rounded-full bg-[#101524] border border-[#232D42] flex items-center justify-center shadow-lg">
+                <span className="material-symbols-outlined text-[14px] text-blue-400 animate-pulse">graphic_eq</span>
+              </div>
             </div>
 
-            {/* Right Nodes (Outputs) */}
+            {/* Glowing 3D Wireframe Globe */}
+            <div className="w-[180px] h-[180px] rounded-full relative flex items-center justify-center">
+              {/* Intense backdrop glow */}
+              <div className="absolute inset-0 bg-gradient-to-tr from-[#FF00AA]/60 via-[#8A2BE2]/60 to-[#00F0FF]/60 blur-[30px] rounded-full"></div>
+              
+              {/* Wireframe grids */}
+              <div className="absolute w-full h-full rounded-full border border-blue-400/40 shadow-[inset_0_0_50px_rgba(0,100,255,0.8)]"></div>
+              <div className="absolute w-full h-full rounded-full border border-blue-400/40 rotate-[45deg] scale-x-50"></div>
+              <div className="absolute w-full h-full rounded-full border border-blue-400/40 rotate-[-45deg] scale-x-50"></div>
+              <div className="absolute w-full h-full rounded-full border border-blue-400/40 rotate-[90deg] scale-y-50"></div>
+              
+              {/* Inner dark core */}
+              <div className="w-[120px] h-[120px] bg-[#05070A] rounded-full shadow-[0_0_40px_rgba(138,43,226,0.8)] flex items-center justify-center z-10 border border-purple-500/30 relative overflow-hidden">
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-600/30 via-transparent to-transparent"></div>
+                <span className="text-6xl font-black text-white drop-shadow-[0_0_15px_rgba(255,255,255,1)] z-10">AI</span>
+              </div>
+
+              {/* Connecting light dots on edge */}
+              <div className="absolute left-[-5px] top-[40px] w-2 h-2 rounded-full bg-[#00F0FF] shadow-[0_0_10px_#00F0FF]"></div>
+              <div className="absolute left-[-10px] top-[90px] w-2 h-2 rounded-full bg-[#00F0FF] shadow-[0_0_10px_#00F0FF]"></div>
+              <div className="absolute left-[5px] top-[140px] w-2 h-2 rounded-full bg-[#00F0FF] shadow-[0_0_10px_#00F0FF]"></div>
+
+              <div className="absolute right-[5px] top-[40px] w-2 h-2 rounded-full bg-[#FF00AA] shadow-[0_0_10px_#FF00AA]"></div>
+              <div className="absolute right-[-10px] top-[90px] w-2 h-2 rounded-full bg-[#FF00AA] shadow-[0_0_10px_#FF00AA]"></div>
+              <div className="absolute right-[5px] top-[140px] w-2 h-2 rounded-full bg-[#FF00AA] shadow-[0_0_10px_#FF00AA]"></div>
+            </div>
+
+            {/* Bottom Status Pill */}
+            <div className="absolute bottom-[-50px] bg-[#0A0D14]/90 border border-[#1E293B] rounded-full px-4 py-2 shadow-xl flex items-center gap-2 z-40">
+              <div className="w-2 h-2 rounded-full bg-[#10B981] shadow-[0_0_8px_#10B981] animate-pulse"></div>
+              <span className="text-[11px] font-bold text-gray-300 tracking-widest">7/24 OTONOM ÇALIŞIYOR</span>
+            </div>
+          </div>
+
+          {/* Right Boxes Container */}
+          <div className="absolute right-[20px] top-[100px] flex flex-col gap-4 z-20">
             
-            {/* Output 1 */}
-            <div className="absolute right-[-10px] top-[140px] flex flex-col gap-2 w-[240px]">
-               <div className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-1">AI YANITLIYOR</div>
-               <div className="bg-[#101216] border border-[#23272F] rounded-xl p-3 shadow-2xl flex flex-col gap-3">
-                 <div className="flex items-start gap-2">
-                   <div className="w-6 h-6 rounded-full bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] flex items-center justify-center flex-shrink-0 mt-0.5"><span className="material-symbols-outlined text-[12px] text-white">photo_camera</span></div>
-                   <div className="text-[12px] leading-[1.4] text-gray-100 font-medium">
-                     Merhaba! Size nasıl yardımcı olabilirim?
+            {/* Box 1: İÇERİK ÜRETİYOR */}
+            <div className="w-[280px] bg-[#0A0D14]/90 backdrop-blur-xl border border-[#1E293B]/80 rounded-2xl p-4 shadow-2xl relative">
+              <div className="absolute left-[-20px] top-[40%] w-2 h-2 rounded-full bg-[#FF00AA] shadow-[0_0_10px_#FF00AA]"></div>
+              <div className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-3">İÇERİK ÜRETİYOR</div>
+              <div className="flex gap-3">
+                 <div className="w-16 h-16 rounded-xl bg-[url('https://images.unsplash.com/photo-1608231387042-66d1773070a5?q=80&w=150&auto=format&fit=crop')] bg-cover bg-center flex-shrink-0 border border-purple-500/30"></div>
+                 <div className="flex flex-col justify-between">
+                   <div className="text-[13px] leading-tight text-white font-medium">Yeni koleksiyon paylaşımı hazır! ✨</div>
+                   <div className="flex gap-1.5 mt-2">
+                     <div className="w-5 h-5 rounded-full bg-gradient-to-tr from-[#f09433] to-[#bc1888] flex items-center justify-center"><span className="material-symbols-outlined text-[10px] text-white">photo_camera</span></div>
+                     <div className="w-5 h-5 rounded-full bg-[#1877F2] flex items-center justify-center"><span className="material-symbols-outlined text-[10px] text-white">thumb_up</span></div>
+                     <div className="w-5 h-5 rounded-full bg-[#0A66C2] flex items-center justify-center"><span className="material-symbols-outlined text-[10px] text-white">work</span></div>
+                     <div className="w-5 h-5 rounded-full bg-[#EA4335] flex items-center justify-center"><span className="material-symbols-outlined text-[10px] text-white">g_translate</span></div>
                    </div>
                  </div>
-                 <div className="w-fit ml-8 bg-[#1D2128] border border-[#2B3039] px-3 py-1.5 rounded-full flex gap-1 items-center">
-                   <div className="w-1 h-1 rounded-full bg-gray-400 animate-pulse"></div>
-                   <div className="w-1 h-1 rounded-full bg-gray-400 animate-pulse delay-75"></div>
-                   <div className="w-1 h-1 rounded-full bg-gray-400 animate-pulse delay-150"></div>
-                 </div>
-               </div>
+              </div>
             </div>
 
-            {/* Output 2 */}
-            <div className="absolute right-[-10px] top-[290px] flex flex-col gap-2 w-[240px]">
-               <div className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-1">İÇERİK ÜRETİLİYOR</div>
-               <div className="bg-[#101216] border border-[#23272F] rounded-xl p-3 shadow-2xl flex items-center gap-3">
-                 <div className="w-12 h-12 rounded bg-gradient-to-br from-[#8A2BE2] to-[#FF0055] flex-shrink-0 flex items-center justify-center overflow-hidden relative">
-                   <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-50 mix-blend-overlay"></div>
-                   <span className="material-symbols-outlined text-[20px] text-white z-10">auto_awesome</span>
-                 </div>
-                 <div className="text-[12px] leading-tight text-white font-medium">Yeni gönderi hazır! ✨</div>
-               </div>
+            {/* Box 2: MÜŞTERİLERE YANIT VERİYOR */}
+            <div className="w-[280px] bg-[#0A0D14]/90 backdrop-blur-xl border border-[#1E293B]/80 rounded-2xl p-4 shadow-2xl relative">
+              <div className="absolute left-[-20px] top-[40%] w-2 h-2 rounded-full bg-[#9D4EDD] shadow-[0_0_10px_#9D4EDD]"></div>
+              <div className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-3">MÜŞTERİLERE YANIT VERİYOR</div>
+              <div className="bg-[#141A27] rounded-xl p-3 border border-[#232D42] flex items-start gap-3">
+                 <div className="w-7 h-7 rounded-full bg-[#25D366] flex items-center justify-center flex-shrink-0 mt-0.5"><span className="material-symbols-outlined text-[12px] text-white">chat</span></div>
+                 <div className="text-[13px] leading-[1.4] text-gray-200">Siparişiniz yola çıktı!<br/>Teşekkürler. 🧡</div>
+              </div>
             </div>
 
-            {/* Output 3 */}
-            <div className="absolute right-[-10px] top-[440px] flex flex-col gap-2 w-[240px]">
-               <div className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-1">MUHASEBEYE İŞLENİYOR</div>
-               <div className="bg-[#101216] border border-[#23272F] rounded-xl p-3 shadow-2xl flex items-start gap-3">
-                 <div className="w-8 h-8 rounded bg-[#1D2128] flex items-center justify-center flex-shrink-0 border border-[#2B3039]">
-                   <span className="material-symbols-outlined text-[16px] text-ai-cyan">receipt_long</span>
+            {/* Box 3: MUHASEBEYE İŞLENİYOR */}
+            <div className="w-[280px] bg-[#0A0D14]/90 backdrop-blur-xl border border-[#1E293B]/80 rounded-2xl p-4 shadow-2xl relative">
+              <div className="absolute left-[-20px] top-[40%] w-2 h-2 rounded-full bg-[#00F0FF] shadow-[0_0_10px_#00F0FF]"></div>
+              <div className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-3">MUHASEBEYE İŞLENİYOR</div>
+              <div className="flex items-start gap-4">
+                 <div className="w-10 h-10 rounded-xl bg-[#0F172A] flex items-center justify-center flex-shrink-0 border border-[#1E293B]">
+                   <span className="material-symbols-outlined text-[20px] text-blue-400">description</span>
                  </div>
                  <div className="flex flex-col flex-1">
-                   <div className="text-[12px] font-bold text-white mb-1">Fatura okundu</div>
-                   <div className="text-[11px] text-gray-400 mb-0.5">KDV: %20</div>
-                   <div className="text-[12px] font-bold text-white mt-1">Tutar: ₺2.450</div>
+                   <div className="text-[13px] font-bold text-white mb-1">Fatura okundu</div>
+                   <div className="text-[12px] text-gray-400 mb-0.5">KDV: %20</div>
+                   <div className="text-[13px] text-white mt-0.5">Tutar: <span className="font-bold">₺2.450</span></div>
                  </div>
-               </div>
+              </div>
             </div>
-            
+
+            {/* Box 4: MUHASEBECİNİZLE PAYLAŞIYOR */}
+            <div className="w-[280px] bg-[#0A0D14]/90 backdrop-blur-xl border border-[#1E293B]/80 rounded-2xl p-4 shadow-2xl relative">
+              <div className="absolute left-[-20px] top-[40%] w-2 h-2 rounded-full bg-blue-500 shadow-[0_0_10px_blue]"></div>
+              <div className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-3">MUHASEBECİNİZLE PAYLAŞIYOR</div>
+              <div className="flex items-center gap-3">
+                 <div className="w-10 h-10 rounded-full bg-[url('https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=100&auto=format&fit=crop')] bg-cover bg-center border-2 border-[#1E293B]"></div>
+                 <div className="flex flex-col">
+                   <div className="text-[13px] font-bold text-white mb-0.5">Yeni belge geldi</div>
+                   <div className="text-[12px] text-[#F5B400] font-medium">Onay bekliyor</div>
+                 </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </main>
