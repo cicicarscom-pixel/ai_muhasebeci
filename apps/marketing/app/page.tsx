@@ -172,7 +172,7 @@ export default function MarketingPage() {
                   <span className="text-[14px] font-medium text-gray-100">WhatsApp</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className="bg-[#2563EB] text-white text-[12px] px-3 py-0.5 rounded-full font-bold">15</span>
+                  <span className="bg-[#1E3A8A] text-white text-[12px] px-3 py-0.5 rounded-full font-bold">15</span>
                   <div className="w-1.5 h-1.5 rounded-full bg-blue-500 shadow-[0_0_10px_rgba(0,150,255,1)]"></div>
                 </div>
               </div>
@@ -183,7 +183,7 @@ export default function MarketingPage() {
                   <span className="text-[14px] font-medium text-gray-100">Facebook</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className="bg-[#2563EB] text-white text-[12px] px-3 py-0.5 rounded-full font-bold">12</span>
+                  <span className="bg-[#1E3A8A] text-white text-[12px] px-3 py-0.5 rounded-full font-bold">12</span>
                   <div className="w-1.5 h-1.5 rounded-full bg-blue-500 shadow-[0_0_10px_rgba(0,150,255,1)]"></div>
                 </div>
               </div>
@@ -194,7 +194,7 @@ export default function MarketingPage() {
                   <span className="text-[14px] font-medium text-gray-100">Google Yorumlar</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className="bg-[#2563EB] text-white text-[12px] px-3 py-0.5 rounded-full font-bold">8</span>
+                  <span className="bg-[#1E3A8A] text-white text-[12px] px-3 py-0.5 rounded-full font-bold">8</span>
                   <div className="w-1.5 h-1.5 rounded-full bg-blue-500 shadow-[0_0_10px_rgba(0,150,255,1)]"></div>
                 </div>
               </div>
@@ -205,7 +205,7 @@ export default function MarketingPage() {
                   <span className="text-[14px] font-medium text-gray-100">Messenger</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className="bg-[#2563EB] text-white text-[12px] px-3 py-0.5 rounded-full font-bold">7</span>
+                  <span className="bg-[#1E3A8A] text-white text-[12px] px-3 py-0.5 rounded-full font-bold">7</span>
                   <div className="w-1.5 h-1.5 rounded-full bg-blue-500 shadow-[0_0_10px_rgba(0,150,255,1)]"></div>
                 </div>
               </div>
@@ -216,7 +216,7 @@ export default function MarketingPage() {
                   <span className="text-[14px] font-medium text-gray-100">LinkedIn</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className="bg-[#2563EB] text-white text-[12px] px-3 py-0.5 rounded-full font-bold">4</span>
+                  <span className="bg-[#1E3A8A] text-white text-[12px] px-3 py-0.5 rounded-full font-bold">4</span>
                   <div className="w-1.5 h-1.5 rounded-full bg-blue-500 shadow-[0_0_10px_rgba(0,150,255,1)] relative"><div className="absolute inset-0 bg-blue-400 rounded-full animate-ping delay-300"></div></div>
                 </div>
               </div>
