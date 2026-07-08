@@ -109,124 +109,127 @@ export default function MarketingPage() {
         <div className="flex-1 relative h-[700px] w-full flex items-center justify-center z-10 hidden lg:flex mt-10">
           
           {/* Background glowing rings */}
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <div className="w-[450px] h-[450px] rounded-full border border-[#00F0FF]/10 absolute animate-[spin_20s_linear_infinite]"></div>
-            <div className="w-[300px] h-[300px] rounded-full border border-[#8A2BE2]/20 absolute animate-[spin_15s_linear_reverse_infinite]"></div>
-            <div className="w-[200px] h-[200px] bg-ai-cyan/20 blur-[80px] rounded-full absolute mix-blend-screen"></div>
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
+            <div className="w-[500px] h-[500px] rounded-full border-[1px] border-dashed border-[#00F0FF]/30 absolute animate-[spin_40s_linear_infinite]"></div>
+            <div className="w-[350px] h-[350px] rounded-full border-[2px] border-[#8A2BE2]/50 absolute animate-[spin_20s_linear_reverse_infinite]"></div>
+            <div className="w-[200px] h-[200px] bg-gradient-to-r from-[#00F0FF]/30 to-[#8A2BE2]/30 blur-[80px] rounded-full absolute mix-blend-screen"></div>
           </div>
 
           {/* Central AI Brain */}
-          <div className="absolute z-30 w-32 h-32 rounded-full bg-[#0B0C10] border-[3px] border-[#00F0FF] flex items-center justify-center shadow-[0_0_50px_rgba(0,240,255,0.6)] relative">
-            <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#00F0FF]/20 to-transparent"></div>
-            <span className="text-5xl font-black text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.8)] z-10">AI</span>
+          <div className="absolute z-30 w-32 h-32 rounded-full bg-[#07090E] border-[2px] border-[#00F0FF]/80 flex items-center justify-center shadow-[0_0_80px_rgba(0,240,255,0.7),inset_0_0_30px_rgba(138,43,226,0.5)] relative overflow-hidden">
+            <span className="text-6xl font-black text-white drop-shadow-[0_0_15px_rgba(255,255,255,1)] z-10">AI</span>
           </div>
 
           {/* Connectors & Nodes Container */}
-          <div className="absolute inset-0 w-full h-full pointer-events-none">
+          <div className="absolute inset-0 w-full h-full pointer-events-none z-10">
             
             {/* SVG Connecting lines */}
             <svg className="absolute inset-0 w-full h-full" style={{overflow: 'visible'}}>
                <defs>
-                 <linearGradient id="glow-line-cyan" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stopColor="rgba(0,240,255,0.2)" /><stop offset="100%" stopColor="rgba(0,240,255,0.8)" /></linearGradient>
-                 <linearGradient id="glow-line-purple" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stopColor="rgba(138,43,226,0.8)" /><stop offset="100%" stopColor="rgba(138,43,226,0.2)" /></linearGradient>
+                 <linearGradient id="neon-cyan" x1="0%" y1="0%" x2="100%" y2="0%">
+                   <stop offset="0%" stopColor="rgba(0,240,255,0.1)" />
+                   <stop offset="100%" stopColor="rgba(0,240,255,1)" />
+                 </linearGradient>
+                 <linearGradient id="neon-purple" x1="0%" y1="0%" x2="100%" y2="0%">
+                   <stop offset="0%" stopColor="rgba(138,43,226,1)" />
+                   <stop offset="100%" stopColor="rgba(138,43,226,0.1)" />
+                 </linearGradient>
+                 <filter id="glow-filter" x="-20%" y="-20%" width="140%" height="140%">
+                   <feGaussianBlur stdDeviation="3" result="blur" />
+                   <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                 </filter>
                </defs>
 
-               {/* Left side lines connecting to center (X=350, Y=350) from Left Nodes */}
-               <path d="M 150,150 C 250,150 250,350 320,350" fill="none" stroke="url(#glow-line-cyan)" strokeWidth="2" className="drop-shadow-[0_0_5px_rgba(0,240,255,0.5)]" />
-               <path d="M 150,230 C 250,230 250,350 320,350" fill="none" stroke="url(#glow-line-cyan)" strokeWidth="2" className="drop-shadow-[0_0_5px_rgba(0,240,255,0.5)]" />
-               <path d="M 150,310 C 250,310 250,350 320,350" fill="none" stroke="url(#glow-line-cyan)" strokeWidth="2" className="drop-shadow-[0_0_5px_rgba(0,240,255,0.5)]" />
-               <path d="M 150,390 C 250,390 250,350 320,350" fill="none" stroke="url(#glow-line-cyan)" strokeWidth="2" className="drop-shadow-[0_0_5px_rgba(0,240,255,0.5)]" />
-               <path d="M 150,470 C 250,470 250,350 320,350" fill="none" stroke="url(#glow-line-cyan)" strokeWidth="2" className="drop-shadow-[0_0_5px_rgba(0,240,255,0.5)]" />
+               {/* Left side lines connecting to center (Assumed center is at X=300, Y=350) */}
+               <path d="M 160,165 C 220,165 240,350 280,350" fill="none" stroke="url(#neon-cyan)" strokeWidth="2.5" filter="url(#glow-filter)" />
+               <path d="M 160,245 C 220,245 240,350 280,350" fill="none" stroke="url(#neon-cyan)" strokeWidth="2.5" filter="url(#glow-filter)" />
+               <path d="M 160,325 C 220,325 240,350 280,350" fill="none" stroke="url(#neon-cyan)" strokeWidth="2.5" filter="url(#glow-filter)" />
+               <path d="M 160,405 C 220,405 240,350 280,350" fill="none" stroke="url(#neon-cyan)" strokeWidth="2.5" filter="url(#glow-filter)" />
+               <path d="M 160,485 C 220,485 240,350 280,350" fill="none" stroke="url(#neon-cyan)" strokeWidth="2.5" filter="url(#glow-filter)" />
 
                {/* Right side lines connecting from center to Right Nodes */}
-               <path d="M 380,350 C 450,350 450,180 550,180" fill="none" stroke="url(#glow-line-purple)" strokeWidth="2" className="drop-shadow-[0_0_5px_rgba(138,43,226,0.5)]" />
-               <path d="M 380,350 C 450,350 450,350 550,350" fill="none" stroke="url(#glow-line-purple)" strokeWidth="2" className="drop-shadow-[0_0_5px_rgba(138,43,226,0.5)]" />
-               <path d="M 380,350 C 450,350 450,520 550,520" fill="none" stroke="url(#glow-line-purple)" strokeWidth="2" className="drop-shadow-[0_0_5px_rgba(138,43,226,0.5)]" />
+               <path d="M 320,350 C 360,350 380,180 430,180" fill="none" stroke="url(#neon-purple)" strokeWidth="2.5" filter="url(#glow-filter)" />
+               <path d="M 320,350 C 360,350 380,330 430,330" fill="none" stroke="url(#neon-purple)" strokeWidth="2.5" filter="url(#glow-filter)" />
+               <path d="M 320,350 C 360,350 380,480 430,480" fill="none" stroke="url(#neon-purple)" strokeWidth="2.5" filter="url(#glow-filter)" />
             </svg>
 
             {/* Left Nodes Title */}
-            <div className="absolute left-[30px] top-[100px] text-[10px] font-bold text-gray-400 tracking-widest uppercase">MÜŞTERİ KANALLARI</div>
+            <div className="absolute left-[30px] top-[110px] text-[10px] font-bold text-gray-500 tracking-widest uppercase">MÜŞTERİ KANALLARI</div>
 
             {/* Left Nodes (Inputs) */}
-            <div className="absolute left-[30px] top-[135px] flex items-center gap-3">
-              <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] flex items-center justify-center"><span className="material-symbols-outlined text-white text-[16px]">photo_camera</span></div>
-              <span className="text-[13px] font-medium text-gray-200 w-24">Instagram</span>
-              <span className="bg-[#FF0055] text-white text-[10px] px-2 py-0.5 rounded-full font-bold">23</span>
+            <div className="absolute left-[30px] top-[150px] flex items-center gap-3">
+              <div className="w-[30px] h-[30px] rounded-[8px] bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] flex items-center justify-center shadow-lg"><span className="material-symbols-outlined text-white text-[16px]">photo_camera</span></div>
+              <span className="text-[13px] font-bold text-gray-100 w-24">Instagram</span>
+              <span className="bg-[#E11D48] text-white text-[10px] px-2.5 py-0.5 rounded-full font-bold">23</span>
             </div>
             
-            <div className="absolute left-[30px] top-[215px] flex items-center gap-3">
-              <div className="w-8 h-8 rounded-full bg-[#25D366] flex items-center justify-center"><span className="material-symbols-outlined text-white text-[16px]">chat</span></div>
-              <span className="text-[13px] font-medium text-gray-200 w-24">WhatsApp</span>
-              <span className="bg-[#FF0055] text-white text-[10px] px-2 py-0.5 rounded-full font-bold">15</span>
+            <div className="absolute left-[30px] top-[230px] flex items-center gap-3">
+              <div className="w-[30px] h-[30px] rounded-[8px] bg-[#25D366] flex items-center justify-center shadow-lg"><span className="material-symbols-outlined text-white text-[16px]">chat</span></div>
+              <span className="text-[13px] font-bold text-gray-100 w-24">WhatsApp</span>
+              <span className="bg-[#E11D48] text-white text-[10px] px-2.5 py-0.5 rounded-full font-bold">15</span>
             </div>
             
-            <div className="absolute left-[30px] top-[295px] flex items-center gap-3">
-              <div className="w-8 h-8 rounded-full bg-[#1877F2] flex items-center justify-center"><span className="material-symbols-outlined text-white text-[16px]">thumb_up</span></div>
-              <span className="text-[13px] font-medium text-gray-200 w-24">Facebook</span>
-              <span className="bg-[#1877F2] text-white text-[10px] px-2 py-0.5 rounded-full font-bold">12</span>
+            <div className="absolute left-[30px] top-[310px] flex items-center gap-3">
+              <div className="w-[30px] h-[30px] rounded-[8px] bg-[#1877F2] flex items-center justify-center shadow-lg"><span className="material-symbols-outlined text-white text-[16px]">thumb_up</span></div>
+              <span className="text-[13px] font-bold text-gray-100 w-24">Facebook</span>
+              <span className="bg-[#1877F2] text-white text-[10px] px-2.5 py-0.5 rounded-full font-bold">12</span>
             </div>
             
-            <div className="absolute left-[30px] top-[375px] flex items-center gap-3">
-              <div className="w-8 h-8 rounded-full bg-[#F5B400] flex items-center justify-center"><span className="material-symbols-outlined text-white text-[16px]">star</span></div>
-              <span className="text-[13px] font-medium text-gray-200 w-24 truncate">Google Yorumlar</span>
-              <span className="bg-[#F5B400] text-white text-[10px] px-2.5 py-0.5 rounded-full font-bold">8</span>
+            <div className="absolute left-[30px] top-[390px] flex items-center gap-3">
+              <div className="w-[30px] h-[30px] rounded-[8px] bg-[#F5B400] flex items-center justify-center shadow-lg"><span className="material-symbols-outlined text-white text-[16px]">star</span></div>
+              <span className="text-[13px] font-bold text-gray-100 w-24 truncate">Google Yorumlar</span>
+              <span className="bg-[#F5B400] text-[#422006] text-[10px] px-3 py-0.5 rounded-full font-extrabold">8</span>
             </div>
             
-            <div className="absolute left-[30px] top-[455px] flex items-center gap-3">
-              <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-[#00B2FF] to-[#006AFF] flex items-center justify-center"><span className="material-symbols-outlined text-white text-[16px]">forum</span></div>
-              <span className="text-[13px] font-medium text-gray-200 w-24">Messenger</span>
-              <span className="bg-[#00B2FF] text-white text-[10px] px-2.5 py-0.5 rounded-full font-bold">7</span>
+            <div className="absolute left-[30px] top-[470px] flex items-center gap-3">
+              <div className="w-[30px] h-[30px] rounded-[8px] bg-gradient-to-tr from-[#00B2FF] to-[#006AFF] flex items-center justify-center shadow-lg"><span className="material-symbols-outlined text-white text-[16px]">forum</span></div>
+              <span className="text-[13px] font-bold text-gray-100 w-24">Messenger</span>
+              <span className="bg-[#00B2FF] text-white text-[10px] px-3 py-0.5 rounded-full font-bold">7</span>
             </div>
 
             {/* Right Nodes (Outputs) */}
             
             {/* Output 1 */}
-            <div className="absolute right-[0px] top-[110px] flex flex-col gap-2 w-[220px]">
-               <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">AI YANITLIYOR</div>
-               <div className="bg-[#161920]/90 backdrop-blur-md border border-gray-700/50 rounded-xl p-3 shadow-glass">
-                 <div className="flex items-center gap-2 mb-2">
-                   <div className="w-6 h-6 rounded-full bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] flex items-center justify-center"><span className="material-symbols-outlined text-[12px] text-white">photo_camera</span></div>
+            <div className="absolute right-[-10px] top-[140px] flex flex-col gap-2 w-[240px]">
+               <div className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-1">AI YANITLIYOR</div>
+               <div className="bg-[#101216] border border-[#23272F] rounded-xl p-3 shadow-2xl flex flex-col gap-3">
+                 <div className="flex items-start gap-2">
+                   <div className="w-6 h-6 rounded-full bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] flex items-center justify-center flex-shrink-0 mt-0.5"><span className="material-symbols-outlined text-[12px] text-white">photo_camera</span></div>
+                   <div className="text-[12px] leading-[1.4] text-gray-100 font-medium">
+                     Merhaba! Size nasıl yardımcı olabilirim?
+                   </div>
                  </div>
-                 <div className="bg-[#252A33] rounded-lg p-2.5 text-[11px] leading-[1.4] text-gray-200 border border-gray-700">
-                   Merhaba! Size nasıl yardımcı olabilirim?
-                 </div>
-                 <div className="flex gap-1 mt-2">
-                   <div className="w-2 h-2 rounded-full bg-gray-600 animate-pulse"></div>
-                   <div className="w-2 h-2 rounded-full bg-gray-600 animate-pulse delay-75"></div>
-                   <div className="w-2 h-2 rounded-full bg-gray-600 animate-pulse delay-150"></div>
+                 <div className="w-fit ml-8 bg-[#1D2128] border border-[#2B3039] px-3 py-1.5 rounded-full flex gap-1 items-center">
+                   <div className="w-1 h-1 rounded-full bg-gray-400 animate-pulse"></div>
+                   <div className="w-1 h-1 rounded-full bg-gray-400 animate-pulse delay-75"></div>
+                   <div className="w-1 h-1 rounded-full bg-gray-400 animate-pulse delay-150"></div>
                  </div>
                </div>
             </div>
 
             {/* Output 2 */}
-            <div className="absolute right-[0px] top-[280px] flex flex-col gap-2 w-[220px]">
-               <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">İÇERİK ÜRETİLİYOR</div>
-               <div className="bg-[#161920]/90 backdrop-blur-md border border-gray-700/50 rounded-xl p-3 shadow-glass flex items-center gap-3">
-                 <div className="w-12 h-12 rounded bg-gradient-to-br from-purple-900 to-pink-900 flex-shrink-0 flex items-center justify-center overflow-hidden relative border border-pink-500/30">
-                   <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-30"></div>
-                   <span className="text-[8px] font-black text-white z-10 rotate-[-15deg] drop-shadow-md leading-tight text-center">YENİ<br/>SEZON</span>
+            <div className="absolute right-[-10px] top-[290px] flex flex-col gap-2 w-[240px]">
+               <div className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-1">İÇERİK ÜRETİLİYOR</div>
+               <div className="bg-[#101216] border border-[#23272F] rounded-xl p-3 shadow-2xl flex items-center gap-3">
+                 <div className="w-12 h-12 rounded bg-gradient-to-br from-[#8A2BE2] to-[#FF0055] flex-shrink-0 flex items-center justify-center overflow-hidden relative">
+                   <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-50 mix-blend-overlay"></div>
+                   <span className="material-symbols-outlined text-[20px] text-white z-10">auto_awesome</span>
                  </div>
-                 <div className="flex flex-col gap-1">
-                   <div className="text-[11px] leading-tight text-gray-200 font-medium">Yeni gönderi hazır! ✨</div>
-                 </div>
+                 <div className="text-[12px] leading-tight text-white font-medium">Yeni gönderi hazır! ✨</div>
                </div>
             </div>
 
             {/* Output 3 */}
-            <div className="absolute right-[0px] top-[430px] flex flex-col gap-2 w-[220px]">
-               <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">MUHASEBEYE İŞLENİYOR</div>
-               <div className="bg-[#161920]/90 backdrop-blur-md border border-gray-700/50 rounded-xl p-3 shadow-glass flex flex-col gap-2">
-                 <div className="flex items-center gap-2 mb-1">
-                   <span className="material-symbols-outlined text-[16px] text-blue-400">description</span>
-                   <span className="text-[12px] font-bold text-gray-200">Fatura okundu</span>
+            <div className="absolute right-[-10px] top-[440px] flex flex-col gap-2 w-[240px]">
+               <div className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-1">MUHASEBEYE İŞLENİYOR</div>
+               <div className="bg-[#101216] border border-[#23272F] rounded-xl p-3 shadow-2xl flex items-start gap-3">
+                 <div className="w-8 h-8 rounded bg-[#1D2128] flex items-center justify-center flex-shrink-0 border border-[#2B3039]">
+                   <span className="material-symbols-outlined text-[16px] text-ai-cyan">receipt_long</span>
                  </div>
-                 <div className="flex justify-between items-center text-[11px]">
-                   <span className="text-gray-400">KDV:</span>
-                   <span className="text-gray-200">%20</span>
-                 </div>
-                 <div className="flex justify-between items-center text-[12px] border-t border-gray-700/50 pt-1.5 mt-0.5">
-                   <span className="text-gray-400">Tutar:</span>
-                   <span className="text-white font-bold tracking-wide">₺2.450</span>
+                 <div className="flex flex-col flex-1">
+                   <div className="text-[12px] font-bold text-white mb-1">Fatura okundu</div>
+                   <div className="text-[11px] text-gray-400 mb-0.5">KDV: %20</div>
+                   <div className="text-[12px] font-bold text-white mt-1">Tutar: ₺2.450</div>
                  </div>
                </div>
             </div>
