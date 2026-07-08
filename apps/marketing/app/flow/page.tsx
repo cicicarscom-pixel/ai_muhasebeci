@@ -290,7 +290,6 @@ export default function MarketingPage() {
           </div>
         </div>
       </main>
-</main>
 
       {/* --- Stats Row --- */}
       <section className="relative z-20 w-full max-w-7xl mx-auto px-6 mb-24">
