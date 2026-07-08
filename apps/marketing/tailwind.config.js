@@ -1,7 +1,7 @@
-import type { Config } from "tailwindcss";
-import { tailwindConfig } from "@workigom/design-system";
+const { tailwindConfig } = require("@workigom/design-system");
 
-const config: Config = {
+/** @type {import('tailwindcss').Config} */
+const config = {
   ...tailwindConfig,
   content: [
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
@@ -56,4 +56,4 @@ const config: Config = {
     }
   }
 };
-export default config;
+module.exports = config;
