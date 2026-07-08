@@ -2,8 +2,9 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Camera, MessageCircle, Globe, Star, MessageSquare, CheckCircle, Play, FileText, Bot, ArrowRight, LineChart, MessageSquarePlus, UploadCloud, FileCheck, DollarSign, BarChart3, LayoutDashboard, Clock, Grid } from 'lucide-react';
+import { Star, MessageSquare, CheckCircle, Play, FileText, Bot, ArrowRight, LineChart, MessageSquarePlus, UploadCloud, FileCheck, DollarSign, BarChart3, LayoutDashboard, Clock, Grid } from 'lucide-react';
 import { cn } from '../../utils/cn';
+import { InstagramIcon, WhatsAppIcon, FacebookIcon } from '../../components/icons/social';
 
 // Hero Node Animation Component
 const NodeAnimation = () => {
@@ -22,9 +23,9 @@ const NodeAnimation = () => {
       {/* Connected Nodes - Left (Inputs) */}
       <div className="absolute left-0 top-1/2 -translate-y-1/2 flex flex-col gap-6">
         {[
-          { icon: Camera, color: "text-pink-500", label: "Instagram", count: "23" },
-          { icon: MessageCircle, color: "text-green-500", label: "WhatsApp", count: "15" },
-          { icon: Globe, color: "text-blue-500", label: "Facebook", count: "12" },
+          { icon: InstagramIcon, color: "text-pink-500", label: "Instagram", count: "23" },
+          { icon: WhatsAppIcon, color: "text-green-500", label: "WhatsApp", count: "15" },
+          { icon: FacebookIcon, color: "text-blue-500", label: "Facebook", count: "12" },
         ].map((item, i) => (
           <motion.div 
             key={i}
