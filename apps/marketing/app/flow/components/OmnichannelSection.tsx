@@ -130,61 +130,64 @@ export default function OmnichannelSection() {
         <div className="absolute inset-0 bg-gradient-to-br from-[#8A2BE2]/30 to-[#00F0FF]/15 pointer-events-none z-0"></div>
         
         {/* Sidebar */}
-        <div className="w-[160px] border-r border-white/5 bg-[#0A0D14] flex flex-col p-3 relative z-10">
+        <div className="w-[145px] border-r border-white/5 bg-[#0A0D14] flex flex-col p-3 relative z-10">
           <div className="flex items-center gap-2 mb-4">
             <div className="w-5 h-5 rounded bg-[#00F0FF]/20 flex items-center justify-center border border-[#00F0FF]/50"><span className="text-[#00F0FF] text-[10px] font-black">W</span></div>
-            <span className="text-white font-bold text-[12px]">Workigom <span className="text-[#00F0FF]">Flow</span></span>
+            <span className="text-white font-bold text-[11px]">Workigom <span className="text-[#00F0FF]">Flow</span></span>
           </div>
           
           <div className="flex flex-col gap-0.5">
-            <div className="flex items-center gap-3 bg-white/10 px-3 py-2.5 rounded-xl cursor-pointer border border-white/5">
-              <span className="material-symbols-outlined text-[15px] text-blue-400">inbox</span>
-              <span className="text-white text-[11px] font-medium">Gelen Kutusu</span>
-              <span className="ml-auto bg-blue-500/20 text-blue-300 text-[9px] px-1.5 py-0.5 rounded-full font-bold">67</span>
+            <div className="flex items-center gap-2 bg-white/10 px-2.5 py-2 rounded-xl cursor-pointer border border-white/5">
+              <span className="material-symbols-outlined text-[14px] text-blue-400">inbox</span>
+              <span className="text-white text-[10px] font-medium">Gelen Kutusu</span>
+              <span className="ml-auto bg-blue-500/20 text-blue-300 text-[8px] px-1.5 py-0.5 rounded-full font-bold">67</span>
             </div>
-            <div className="flex items-center gap-3 hover:bg-white/5 px-3 py-2.5 rounded-xl cursor-pointer text-[#8E95B3] hover:text-white transition-colors">
-              <span className="material-symbols-outlined text-[15px]">chat</span>
-              <span className="text-[11px] font-medium">Tüm Mesajlar</span>
+            <div className="flex items-center gap-2 hover:bg-white/5 px-2.5 py-2 rounded-xl cursor-pointer text-[#8E95B3] hover:text-white transition-colors">
+              <span className="material-symbols-outlined text-[14px]">chat</span>
+              <span className="text-[10px] font-medium">Tüm Mesajlar</span>
             </div>
-            
-            <div className="flex items-center gap-3 hover:bg-white/5 px-3 py-2.5 rounded-xl cursor-pointer text-[#8E95B3] hover:text-white transition-colors mt-2">
-              <span className="material-symbols-outlined text-[15px]">photo_camera</span>
-              <span className="text-[11px] font-medium">Instagram</span>
+          </div>
+          
+          <div className="flex flex-col gap-0.5 mt-4">
+            <div className="flex items-center gap-2 hover:bg-white/5 px-2.5 py-2 rounded-xl cursor-pointer text-[#8E95B3] hover:text-white transition-colors">
+              <span className="material-symbols-outlined text-[14px]">photo_camera</span>
+              <span className="text-[10px] font-medium">Instagram</span>
             </div>
-            <div className="flex items-center gap-3 hover:bg-white/5 px-3 py-2.5 rounded-xl cursor-pointer text-[#8E95B3] hover:text-white transition-colors">
-              <span className="material-symbols-outlined text-[15px]">chat</span>
-              <span className="text-[11px] font-medium">WhatsApp</span>
+            <div className="flex items-center gap-2 hover:bg-white/5 px-2.5 py-2 rounded-xl cursor-pointer text-[#8E95B3] hover:text-white transition-colors">
+              <span className="material-symbols-outlined text-[14px]">chat</span>
+              <span className="text-[10px] font-medium">WhatsApp</span>
             </div>
-            <div className="flex items-center gap-3 hover:bg-white/5 px-3 py-2.5 rounded-xl cursor-pointer text-[#8E95B3] hover:text-white transition-colors">
-              <span className="material-symbols-outlined text-[15px]">thumb_up</span>
-              <span className="text-[11px] font-medium">Facebook</span>
+            <div className="flex items-center gap-2 hover:bg-white/5 px-2.5 py-2 rounded-xl cursor-pointer text-[#8E95B3] hover:text-white transition-colors">
+              <span className="material-symbols-outlined text-[14px]">thumb_up</span>
+              <span className="text-[10px] font-medium">Facebook</span>
             </div>
-            <div className="flex items-center gap-3 hover:bg-white/5 px-3 py-2.5 rounded-xl cursor-pointer text-[#8E95B3] hover:text-white transition-colors">
-              <span className="material-symbols-outlined text-[15px]">forum</span>
-              <span className="text-[11px] font-medium">Yorumlar</span>
+            <div className="flex items-center gap-2 hover:bg-white/5 px-2.5 py-2 rounded-xl cursor-pointer text-[#8E95B3] hover:text-white transition-colors">
+              <span className="material-symbols-outlined text-[14px]">forum</span>
+              <span className="text-[10px] font-medium">Yorumlar</span>
             </div>
-            
-            <div className="flex items-center gap-3 hover:bg-white/5 px-3 py-2.5 rounded-xl cursor-pointer text-[#8E95B3] hover:text-white transition-colors mt-2">
-              <span className="material-symbols-outlined text-[15px]">schedule</span>
-              <span className="text-[11px] font-medium">Bekleyenler</span>
+          </div>
+          
+          <div className="flex flex-col gap-0.5 mt-auto">
+            <div className="flex items-center gap-2 hover:bg-white/5 px-2.5 py-2 rounded-xl cursor-pointer text-[#8E95B3] hover:text-white transition-colors">
+              <span className="material-symbols-outlined text-[14px]">schedule</span>
+              <span className="text-[10px] font-medium">Bekleyenler</span>
             </div>
-            <div className="flex items-center gap-3 hover:bg-white/5 px-3 py-2.5 rounded-xl cursor-pointer text-[#8E95B3] hover:text-white transition-colors">
-              <span className="material-symbols-outlined text-[15px]">archive</span>
-              <span className="text-[11px] font-medium">Arşiv</span>
+            <div className="flex items-center gap-2 hover:bg-white/5 px-2.5 py-2 rounded-xl cursor-pointer text-[#8E95B3] hover:text-white transition-colors">
+              <span className="material-symbols-outlined text-[14px]">archive</span>
+              <span className="text-[10px] font-medium">Arşiv</span>
             </div>
-            <div className="flex items-center gap-3 hover:bg-white/5 px-3 py-2.5 rounded-xl cursor-pointer text-[#8E95B3] hover:text-white transition-colors">
-              <span className="material-symbols-outlined text-[15px]">edit_document</span>
-              <span className="text-[11px] font-medium">Taslaklar</span>
+            <div className="flex items-center gap-2 hover:bg-white/5 px-2.5 py-2 rounded-xl cursor-pointer text-[#8E95B3] hover:text-white transition-colors">
+              <span className="material-symbols-outlined text-[14px]">drafts</span>
+              <span className="text-[10px] font-medium">Taslaklar</span>
             </div>
-            <div className="flex items-center gap-3 hover:bg-white/5 px-3 py-2.5 rounded-xl cursor-pointer text-[#8E95B3] hover:text-white transition-colors mt-2">
-              <span className="material-symbols-outlined text-[15px]">settings</span>
-              <span className="text-[11px] font-medium">Ayarlar</span>
+            <div className="flex items-center gap-2 hover:bg-white/5 px-2.5 py-2 rounded-xl cursor-pointer text-[#8E95B3] hover:text-white transition-colors mt-2">
+              <span className="material-symbols-outlined text-[14px]">settings</span>
+              <span className="text-[10px] font-medium">Ayarlar</span>
             </div>
           </div>
         </div>
 
         {/* Message List */}
-        <div className="w-[220px] border-r border-white/5 flex flex-col bg-[#07090E]/80 relative z-10">
           <div className="p-4 border-b border-white/5 flex items-center justify-between">
             <span className="text-white font-bold text-[13px]">Tüm Mesajlar</span>
             <span className="material-symbols-outlined text-[#8E95B3] text-[15px]">filter_list</span>
