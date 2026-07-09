@@ -140,7 +140,7 @@ export default function WorkflowSection() {
           <React.Fragment key={step.id}>
             {/* Step Card */}
             <motion.div 
-              className="flex flex-col items-center z-10"
+              className="flex flex-col items-center z-10 w-[120px]"
               animate={activeStep === index ? { y: -10 } : { y: 0 }}
               transition={{ type: "spring", stiffness: 300, damping: 20 }}
             >
@@ -168,15 +168,14 @@ export default function WorkflowSection() {
 
             {/* Connecting Line (Hidden on mobile) */}
             {index < steps.length - 1 && (
-              <div className="hidden md:flex flex-1 h-[2px] mt-[-60px] relative items-center">
+              <div className="hidden md:flex flex-1 h-[2px] mt-[-60px] relative items-center justify-center min-w-[20px]">
                 <div 
-                  className="w-full h-[1px] border-t border-dashed"
-                  style={{ borderColor: `${steps[index + 1].color}40` }}
+                  className="w-full h-[2px] bg-white/10"
                 ></div>
                 
                 {/* Moving dot animation */}
                 <motion.div 
-                  className="absolute left-0 w-2 h-2 rounded-full shadow-[0_0_8px_currentColor]"
+                  className="absolute left-0 w-1.5 h-1.5 rounded-full shadow-[0_0_8px_currentColor]"
                   style={{ backgroundColor: steps[index + 1].color, color: steps[index + 1].color }}
                   animate={{ 
                     left: activeStep === index ? ["0%", "100%"] : "0%",

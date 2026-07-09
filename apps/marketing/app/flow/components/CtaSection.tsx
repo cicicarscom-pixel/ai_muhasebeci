@@ -19,10 +19,17 @@ export default function CtaSection() {
         {/* Border glow effect on hover */}
         <div className="absolute inset-0 border border-[#00F0FF]/0 rounded-[32px] group-hover:border-[#00F0FF]/30 transition-colors duration-700 shadow-[inset_0_0_0_rgba(0,240,255,0)] group-hover:shadow-[inset_0_0_20px_rgba(0,240,255,0.1)]"></div>
 
-        <div className="flex-1 z-10 flex flex-col items-start">
-           <h2 className="text-[36px] font-extrabold text-white mb-4 leading-tight tracking-tight">
-             İşletmenizin Geleceği<br/>Bugünden Başlasın
-           </h2>
+        <div className="flex-1 z-10 flex flex-col md:flex-row items-center md:items-start gap-8">
+           {/* Robot Image Placeholder */}
+           <div className="w-[120px] h-[120px] md:w-[150px] md:h-[150px] rounded-2xl overflow-hidden shadow-2xl relative shrink-0 bg-blue-500/10 border border-blue-500/20 flex items-center justify-center">
+             <span className="material-symbols-outlined text-[64px] text-[#00F0FF]">robot_2</span>
+             <div className="absolute inset-0 bg-gradient-to-tr from-[#8A2BE2]/40 to-transparent"></div>
+           </div>
+           
+           <div className="flex flex-col items-start">
+             <h2 className="text-[36px] font-extrabold text-white mb-4 leading-tight tracking-tight">
+               İşletmenizin Geleceği<br/>Bugünden Başlasın
+             </h2>
            <p className="text-[#8E95B3] text-[14px] mb-8 font-medium max-w-[350px]">
              AI Esnaf ile tanışın, işlerinizi kolaylaştırın ve büyümenize odaklanın.
            </p>
@@ -50,6 +57,14 @@ export default function CtaSection() {
                Demo Talep Et
              </motion.button>
            </div>
+        </div>
+
+        {/* 3D Robot Placeholder */}
+        <div className="hidden md:flex items-center justify-center w-[200px] h-[200px] bg-[#111424] rounded-full border border-white/5 shadow-inner">
+           <div className="w-[120px] h-[120px] bg-gradient-to-b from-[#00F0FF]/20 to-transparent rounded-full flex items-center justify-center animate-pulse">
+             <span className="text-[40px]">🤖</span>
+           </div>
+        </div>
         </div>
 
         <div className="w-[300px] flex flex-col gap-6 z-10 mt-10 md:mt-0">

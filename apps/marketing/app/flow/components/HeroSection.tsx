@@ -229,7 +229,7 @@ export default function HeroSection() {
           transition={{ duration: 0.8, delay: 0.5 }}
           className="absolute left-[30px] top-[120px] w-[210px] bg-[#0A0D14]/90 backdrop-blur-xl border border-white/5 rounded-2xl p-4 shadow-2xl z-20"
         >
-          <div className="text-[9px] font-bold text-[#B4B8D0] uppercase tracking-widest mb-4">TÜM KANALLAR TEK YERDE</div>
+          <div className="text-[9px] font-bold text-[#B4B8D0] uppercase tracking-widest mb-4">MÜŞTERİ KANALLARI</div>
           <div className="flex flex-col gap-3">
             <motion.div animate={activeSignal === 0 ? { scale: [1, 1.05, 1], x: [0, 5, 0] } : {}} className="flex items-center justify-between">
               <div className="flex items-center gap-2.5">
@@ -303,27 +303,27 @@ export default function HeroSection() {
           </AnimatePresence>
 
           {/* Glowing Cosmic Nebula Sphere */}
-          <div className="w-[180px] h-[180px] rounded-full relative flex items-center justify-center mt-6">
-            <motion.div animate={{ scale: pulse ? 1.1 : 1 }} className="absolute w-[280px] h-[280px] rounded-full" style={{background:'radial-gradient(circle at center, rgba(138,43,226,0.4) 0%, rgba(0,100,255,0.15) 40%, transparent 70%)',filter:'blur(30px)'}}></motion.div>
-            <motion.div animate={{ scale: pulse ? 1.05 : 1 }} className="absolute w-[220px] h-[220px] rounded-full" style={{background:'radial-gradient(circle at center, rgba(255,0,255,0.2) 0%, rgba(138,43,226,0.15) 50%, transparent 70%)',filter:'blur(20px)'}}></motion.div>
+            {/* Glowing 3D Sphere matching target (Blue/Cyan energy ball) */}
+            <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-[#00F0FF]/40 via-[#0080FF]/20 to-[#8A2BE2]/40 blur-[15px]"></div>
+            <div className="absolute w-[140px] h-[140px] rounded-full border-[2px] border-[#00F0FF]/60 shadow-[0_0_30px_#00F0FF,inset_0_0_30px_#00F0FF]"></div>
             
-            <div className="absolute w-full h-full rounded-full" style={{boxShadow:'0 0 40px rgba(138,43,226,0.6), 0 0 80px rgba(138,43,226,0.3), 0 0 120px rgba(0,100,255,0.2), inset 0 0 40px rgba(138,43,226,0.4), inset 0 0 80px rgba(0,50,255,0.2)',border:'2px solid rgba(138,43,226,0.5)'}}></div>
-            
-            <motion.div animate={{ rotate: 360 }} transition={{ duration: 20, repeat: Infinity, ease: "linear" }} className="absolute w-full h-full rounded-full border border-blue-400/40 shadow-[inset_0_0_30px_rgba(100,0,255,0.5)]"></motion.div>
-            <motion.div animate={{ rotate: -360 }} transition={{ duration: 15, repeat: Infinity, ease: "linear" }} className="absolute w-full h-full rounded-full border border-purple-400/25 scale-x-50"></motion.div>
-            <motion.div animate={{ rotate: 360 }} transition={{ duration: 25, repeat: Infinity, ease: "linear" }} className="absolute w-full h-full rounded-full border border-purple-400/25 scale-x-50 rotate-90"></motion.div>
-            
-            <div className="w-[120px] h-[120px] rounded-full z-10 relative overflow-hidden flex items-center justify-center" style={{background:'radial-gradient(circle at 35% 35%, rgba(180,100,255,0.9) 0%, rgba(100,0,200,0.8) 25%, rgba(50,0,150,0.9) 50%, rgba(20,0,80,1) 75%, rgba(5,7,10,1) 100%)',boxShadow:'0 0 30px rgba(138,43,226,0.8), 0 0 60px rgba(100,0,200,0.4), inset 0 0 20px rgba(0,100,255,0.3)'}}>
-              <motion.div animate={{ rotate: 360 }} transition={{ duration: 10, repeat: Infinity, ease: "linear" }} className="absolute w-full h-full" style={{background:'conic-gradient(from 45deg, transparent 0%, rgba(0,200,255,0.15) 10%, transparent 20%, rgba(255,0,255,0.1) 40%, transparent 50%, rgba(100,150,255,0.15) 65%, transparent 75%, rgba(200,100,255,0.1) 90%, transparent 100%)'}}></motion.div>
+            {/* Inner Grid/Wireframe */}
+            <div className="absolute w-[140px] h-[140px] rounded-full overflow-hidden opacity-40">
+               <div className="w-full h-full border border-[#00F0FF] rounded-full scale-x-50"></div>
+               <div className="w-full h-full border border-[#00F0FF] rounded-full scale-y-50 absolute top-0 left-0"></div>
+               <div className="w-full h-full border border-[#00F0FF] rounded-full scale-x-[0.25] absolute top-0 left-0"></div>
+               <div className="w-full h-full border border-[#00F0FF] rounded-full scale-y-[0.25] absolute top-0 left-0"></div>
+            </div>
+
+            <div className="w-[90px] h-[90px] rounded-full z-10 relative flex items-center justify-center bg-[#07090E] border border-[#00F0FF]/80 shadow-[0_0_20px_#00F0FF]">
               <motion.span 
-                animate={{ scale: pulse ? 1.2 : 1 }}
-                className="text-[42px] font-black text-white z-10" 
-                style={{textShadow:'0 0 20px rgba(255,255,255,0.8), 0 0 40px rgba(138,43,226,0.6), 0 0 60px rgba(0,100,255,0.4)'}}
+                animate={{ scale: pulse ? 1.1 : 1 }}
+                className="text-[36px] font-black text-white z-10" 
+                style={{textShadow:'0 0 15px rgba(255,255,255,1), 0 0 30px rgba(0,240,255,0.8)'}}
               >
                 AI
               </motion.span>
             </div>
-          </div>
 
           {/* Bottom Status Pill */}
           <div className="absolute bottom-[-30px] bg-[#0A0D14]/90 border border-white/5 rounded-full px-4 py-2 shadow-xl flex items-center gap-2 z-40 backdrop-blur-md">
@@ -333,80 +333,83 @@ export default function HeroSection() {
         </motion.div>
 
         {/* Right Boxes */}
-        <div className="absolute right-[30px] top-[90px] w-[220px] flex flex-col gap-4 z-20">
+        <div className="absolute right-[10px] top-[100px] w-[200px] flex flex-col gap-3 z-20">
           
-          {/* Card 1: İçerik Üretiyor */}
+          {/* Box 1: AI YANITLIYOR */}
           <motion.div 
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
-            className={`bg-[#0A0D14]/90 backdrop-blur-xl border ${activeSignal === 0 ? 'border-pink-500/50 shadow-[0_0_15px_rgba(236,72,153,0.2)]' : 'border-white/5'} rounded-2xl p-3 shadow-2xl transition-all duration-300`}
+            className={`bg-[#0A0D14]/90 backdrop-blur-xl border ${activeSignal === 0 ? 'border-pink-500/50 shadow-[0_0_15px_rgba(236,72,153,0.2)]' : 'border-white/5'} rounded-2xl p-2.5 shadow-2xl transition-all duration-300`}
           >
-            <div className="text-[9px] font-bold text-[#B4B8D0] uppercase tracking-widest mb-2">İÇERİK ÜRETİYOR</div>
+            <div className="text-[8px] font-bold text-[#B4B8D0] uppercase tracking-widest mb-1.5">AI YANITLIYOR</div>
             <div className="flex gap-2">
-              <div className="w-12 h-12 rounded-lg bg-gradient-to-tr from-purple-900 to-pink-900 flex items-center justify-center shrink-0 border border-pink-500/30 overflow-hidden relative">
-                <motion.span animate={activeSignal === 0 ? { rotate: [0, 10, -10, 0] } : {}} className="text-[20px]">👟</motion.span>
+              <div className="w-5 h-5 rounded-full bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] flex items-center justify-center shrink-0">
+                <span className="material-symbols-outlined text-white text-[10px]">photo_camera</span>
               </div>
-              <div className="flex flex-col justify-between py-0.5">
-                <span className="text-[10px] text-white leading-tight font-medium">Yeni koleksiyon paylaşımı hazır! ✨</span>
-                <div className="flex gap-1">
-                  <div className="w-3.5 h-3.5 rounded bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] flex items-center justify-center"><span className="material-symbols-outlined text-white text-[8px]">photo_camera</span></div>
-                  <div className="w-3.5 h-3.5 rounded bg-[#1877F2] flex items-center justify-center"><span className="material-symbols-outlined text-white text-[8px]">thumb_up</span></div>
-                  <div className="w-3.5 h-3.5 rounded bg-[#0A66C2] flex items-center justify-center"><span className="material-symbols-outlined text-white text-[8px]">work</span></div>
+              <div className="flex flex-col gap-1">
+                <span className="text-[9px] text-white leading-tight">Merhaba! Size nasıl yardımcı olabilirim?</span>
+                <div className="bg-white/10 rounded-full w-8 h-3 flex items-center justify-center gap-0.5">
+                  <div className="w-1 h-1 rounded-full bg-white"></div>
+                  <div className="w-1 h-1 rounded-full bg-white"></div>
+                  <div className="w-1 h-1 rounded-full bg-white"></div>
                 </div>
               </div>
             </div>
           </motion.div>
 
-          {/* Card 2: Müşterilere Yanıt Veriyor */}
+          {/* Box 2: İÇERİK ÜRETİYOR */}
           <motion.div 
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.7 }}
-            className={`bg-[#0A0D14]/90 backdrop-blur-xl border ${activeSignal === 1 || activeSignal === 2 ? 'border-cyan-500/50 shadow-[0_0_15px_rgba(0,240,255,0.2)]' : 'border-white/5'} rounded-2xl p-3 shadow-2xl transition-all duration-300`}
+            className={`bg-[#0A0D14]/90 backdrop-blur-xl border ${activeSignal === 1 ? 'border-cyan-500/50 shadow-[0_0_15px_rgba(0,240,255,0.2)]' : 'border-white/5'} rounded-2xl p-2.5 shadow-2xl transition-all duration-300`}
           >
-            <div className="text-[9px] font-bold text-[#B4B8D0] uppercase tracking-widest mb-2">MÜŞTERİLERE YANIT VERİYOR</div>
-            <div className="flex items-center gap-2 bg-[#161922] p-2 rounded-xl">
-              <div className="w-6 h-6 rounded-full bg-[#25D366] flex items-center justify-center shrink-0"><span className="material-symbols-outlined text-white text-[12px]">chat</span></div>
-              <span className="text-[10px] text-white leading-tight">Siparişiniz yola çıktı! Teşekkürler. 🧡</span>
+            <div className="text-[8px] font-bold text-[#B4B8D0] uppercase tracking-widest mb-1.5">İÇERİK ÜRETİYOR</div>
+            <div className="flex gap-2">
+              <div className="w-10 h-10 rounded overflow-hidden relative shrink-0">
+                <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&q=80&w=100&h=100" alt="Shoe" className="w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-purple-500/30 mix-blend-color"></div>
+              </div>
+              <div className="flex flex-col justify-between py-0.5">
+                <span className="text-[9px] text-white leading-tight">Yeni gönderi hazır! ✨</span>
+              </div>
             </div>
           </motion.div>
 
-          {/* Card 3: Muhasebeye İşleniyor */}
+          {/* Box 3: MUHASEBEYE İŞLENİYOR */}
           <motion.div 
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.8 }}
-            className={`bg-[#0A0D14]/90 backdrop-blur-xl border ${activeSignal === 3 ? 'border-blue-500/50 shadow-[0_0_15px_rgba(59,130,246,0.2)]' : 'border-white/5'} rounded-2xl p-3 shadow-2xl transition-all duration-300`}
+            className={`bg-[#0A0D14]/90 backdrop-blur-xl border ${activeSignal === 2 ? 'border-blue-500/50 shadow-[0_0_15px_rgba(59,130,246,0.2)]' : 'border-white/5'} rounded-2xl p-2.5 shadow-2xl transition-all duration-300`}
           >
-            <div className="text-[9px] font-bold text-[#B4B8D0] uppercase tracking-widest mb-2">MUHASEBEYE İŞLENİYOR</div>
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-blue-500/20 border border-blue-500/50 flex items-center justify-center shrink-0">
-                <span className="material-symbols-outlined text-blue-400 text-[18px]">receipt_long</span>
+            <div className="text-[8px] font-bold text-[#B4B8D0] uppercase tracking-widest mb-1.5">MUHASEBEYE İŞLENİYOR</div>
+            <div className="flex gap-2 items-center">
+              <div className="w-6 h-8 bg-blue-500/20 rounded flex items-center justify-center border border-blue-500/50 shrink-0">
+                <span className="material-symbols-outlined text-blue-400 text-[14px]">receipt_long</span>
               </div>
-              <div className="flex flex-col">
-                <span className="text-[11px] text-white font-bold mb-0.5">Fatura okundu</span>
-                <span className="text-[9px] text-gray-400">KDV: %20</span>
-                <span className="text-[9px] text-gray-400">Tutar: <span className="text-white font-bold">₺2.450</span></span>
+              <div className="flex flex-col leading-tight">
+                <span className="text-[9px] text-white font-bold mb-0.5">Fatura okundu</span>
+                <span className="text-[8px] text-gray-400">KDV: %20</span>
+                <span className="text-[8px] text-gray-400">Tutar: <span className="text-white font-bold">₺2.450</span></span>
               </div>
             </div>
           </motion.div>
 
-          {/* Card 4: Muhasebecinizle Paylaşılıyor */}
+          {/* Box 4: MUHASEBECİNİZ */}
           <motion.div 
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.9 }}
-            className={`bg-[#0A0D14]/90 backdrop-blur-xl border ${activeSignal === 4 ? 'border-yellow-500/50 shadow-[0_0_15px_rgba(245,180,0,0.2)]' : 'border-white/5'} rounded-2xl p-3 shadow-2xl transition-all duration-300`}
+            className={`bg-[#0A0D14]/90 backdrop-blur-xl border ${activeSignal === 3 ? 'border-yellow-500/50 shadow-[0_0_15px_rgba(245,180,0,0.2)]' : 'border-white/5'} rounded-2xl p-2.5 shadow-2xl transition-all duration-300 flex items-center justify-between`}
           >
-            <div className="text-[9px] font-bold text-[#B4B8D0] uppercase tracking-widest mb-2">MUHASEBECİNİZLE PAYLAŞIYOR</div>
-            <div className="flex items-center gap-2">
-              <img src="https://i.pravatar.cc/100?img=11" className="w-8 h-8 rounded-full border border-white/20" alt="Muhasebeci" />
-              <div className="flex flex-col">
-                <span className="text-[11px] text-white font-bold">Yeni belge geldi</span>
-                <span className="text-[9px] text-[#F5B400] font-medium">Onay bekliyor</span>
-              </div>
+            <div className="flex flex-col">
+              <div className="text-[8px] font-bold text-[#B4B8D0] uppercase tracking-widest mb-1">MUHASEBECİNİZ</div>
+              <span className="text-[9px] text-white font-bold">Yeni belge geldi</span>
+              <span className="text-[8px] text-[#F5B400] font-medium">Onay bekliyor</span>
             </div>
+            <img src="https://i.pravatar.cc/100?img=11" className="w-8 h-8 rounded-full border border-white/20 shrink-0" alt="Muhasebeci" />
           </motion.div>
 
         </div>
