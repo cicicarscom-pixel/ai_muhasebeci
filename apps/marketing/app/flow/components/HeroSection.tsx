@@ -325,10 +325,10 @@ export default function HeroSection() {
               {/* Rotating RGB Light Source (Full Rainbow) */}
               <motion.div 
                 animate={{ rotate: 360 }}
-                transition={{ duration: 8, ease: "linear", repeat: Infinity }}
+                transition={{ duration: 10, ease: "linear", repeat: Infinity }}
                 className="absolute inset-0 m-auto w-[300px] h-[300px] z-0"
                 style={{ 
-                  background: 'conic-gradient(from 0deg, #ff0000, #00ff00, #0000ff, #ff00ff, #00ffff, #ffff00, #ff0000)',
+                  background: 'conic-gradient(from 0deg, #ff0000, #0000ff, #ff00ff, #ff0000)',
                   borderRadius: '50%'
                 }}
               />
