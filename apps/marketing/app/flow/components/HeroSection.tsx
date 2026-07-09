@@ -21,7 +21,7 @@ export default function HeroSection() {
     <section className="relative z-20 w-full max-w-[1440px] mx-auto px-6 pt-32 pb-24 flex flex-col lg:flex-row items-center justify-between min-h-[90vh]">
       
       {/* Left Column (Text & CTA) */}
-      <div className="flex-1 max-w-[600px] z-20 mb-16 lg:mb-0">
+      <div className="flex-1 max-w-[500px] z-20 mb-16 lg:mb-0">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -315,25 +315,24 @@ export default function HeroSection() {
                <div className="w-full h-full border border-[#00F0FF] rounded-full scale-y-50 absolute top-0 left-0" style={{ borderRadius: '50%' }}></div>
                <div className="w-full h-full border border-[#00F0FF] rounded-full scale-x-[0.25] absolute top-0 left-0" style={{ borderRadius: '50%' }}></div>
                <div className="w-full h-full border border-[#00F0FF] rounded-full scale-y-[0.25] absolute top-0 left-0" style={{ borderRadius: '50%' }}></div>
-            </div>
-
-            {/* Comet/LED Strip Effect (Short Rainbow Strip Tracing a Solid Blue Line) */}
+            
+            {/* Dual Effect: Blue Aura Glow + Rotating Rainbow Border (BotYonetimiScreen.js Exact Match) */}
             <div 
-              className="relative z-10 w-[90px] h-[90px] flex items-center justify-center p-[2px] overflow-hidden shadow-[0_0_25px_#00a2ff] bg-[#00F0FF]" 
+              className="relative z-10 w-[90px] h-[90px] flex items-center justify-center p-[2px] overflow-hidden shadow-[0_0_25px_#00a2ff]" 
               style={{ borderRadius: '50%', transform: 'translateZ(0)' }}
             >
-              {/* Rotating Comet Tail (80% transparent, 20% rainbow) */}
+              {/* Rotating Continuous Full Rainbow Gradient */}
               <motion.div 
                 animate={{ rotate: 360 }}
                 transition={{ duration: 10, ease: "linear", repeat: Infinity }}
                 className="absolute inset-0 m-auto w-[300px] h-[300px] z-0"
                 style={{ 
-                  background: 'conic-gradient(from 0deg, transparent 0%, transparent 80%, rgba(255,0,0,0) 82%, #ff0000 85%, #ffff00 88%, #00ff00 91%, #00ffff 94%, #0000ff 97%, #ff00ff 100%)',
+                  background: 'conic-gradient(from 0deg, #ff0000, #00ff00, #0000ff, #ff00ff, #00ffff, #ffff00, #ff0000)',
                   borderRadius: '50%'
                 }}
               />
               
-              {/* 2. Opaque Inner Core (Masks the center, leaves 2px border) */}
+              {/* Opaque Inner Core (Masks the center, leaves 2px border) */}
               <div 
                 className="relative z-10 w-full h-full bg-[#07090E] flex items-center justify-center"
                 style={{ borderRadius: '50%' }}
