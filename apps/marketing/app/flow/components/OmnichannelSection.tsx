@@ -124,16 +124,16 @@ export default function OmnichannelSection() {
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true }}
         transition={{ delay: 0.2 }}
-        className="flex-[2.2] relative w-full h-[520px] bg-[#0A0D14]/90 backdrop-blur-2xl border border-[#00F0FF]/40 rounded-3xl shadow-[0_0_80px_rgba(0,240,255,0.3),inset_0_0_30px_rgba(138,43,226,0.2)] flex overflow-hidden group"
+        className="flex-[1.8] relative w-full h-[460px] bg-[#0A0D14]/90 backdrop-blur-2xl border border-[#00F0FF]/40 rounded-3xl shadow-[0_0_80px_rgba(0,240,255,0.3),inset_0_0_30px_rgba(138,43,226,0.2)] flex overflow-hidden group"
       >
         {/* Glow behind the mockup */}
         <div className="absolute inset-0 bg-gradient-to-br from-[#8A2BE2]/30 to-[#00F0FF]/15 pointer-events-none z-0"></div>
         
         {/* Sidebar */}
-        <div className="w-[180px] border-r border-white/5 bg-[#0A0D14] flex flex-col p-4 relative z-10">
-          <div className="flex items-center gap-2 mb-6">
-            <div className="w-6 h-6 rounded bg-[#00F0FF]/20 flex items-center justify-center border border-[#00F0FF]/50"><span className="text-[#00F0FF] text-[12px] font-black">AI</span></div>
-            <span className="text-white font-bold text-[13px]">AI Esnaf</span>
+        <div className="w-[160px] border-r border-white/5 bg-[#0A0D14] flex flex-col p-3 relative z-10">
+          <div className="flex items-center gap-2 mb-4">
+            <div className="w-5 h-5 rounded bg-[#00F0FF]/20 flex items-center justify-center border border-[#00F0FF]/50"><span className="text-[#00F0FF] text-[10px] font-black">AI</span></div>
+            <span className="text-white font-bold text-[12px]">AI Esnaf</span>
           </div>
           
           <div className="flex flex-col gap-0.5">
@@ -184,10 +184,10 @@ export default function OmnichannelSection() {
         </div>
 
         {/* Message List */}
-        <div className="w-[280px] border-r border-white/5 flex flex-col bg-[#07090E]/80 relative z-10">
-          <div className="p-5 border-b border-white/5 flex items-center justify-between">
-            <span className="text-white font-bold text-[14px]">Tüm Mesajlar</span>
-            <span className="material-symbols-outlined text-[#8E95B3] text-[16px]">filter_list</span>
+        <div className="w-[220px] border-r border-white/5 flex flex-col bg-[#07090E]/80 relative z-10">
+          <div className="p-4 border-b border-white/5 flex items-center justify-between">
+            <span className="text-white font-bold text-[13px]">Tüm Mesajlar</span>
+            <span className="material-symbols-outlined text-[#8E95B3] text-[15px]">filter_list</span>
           </div>
           
           <div className="flex-1 overflow-y-auto p-3 flex flex-col gap-2">
@@ -288,12 +288,12 @@ export default function OmnichannelSection() {
                     )}
                   </div>
                   
-                  <div className={`p-4 text-[13px] shadow-lg leading-relaxed ${msg.sender === "ai" ? "bg-[#1C1F3B] border border-[#2B2F4C] text-white rounded-[20px] rounded-tr-[4px]" : "bg-transparent border border-white/5 text-[#B4B8D0] rounded-[20px] rounded-tl-[4px]"}`}>
+                  <div className={`p-3 text-[11px] shadow-lg leading-relaxed ${msg.sender === "ai" ? "bg-[#1C1F3B] border border-[#2B2F4C] text-white rounded-[16px] rounded-tr-[4px]" : "bg-transparent border border-white/5 text-[#B4B8D0] rounded-[16px] rounded-tl-[4px]"}`}>
                     {msg.text}
                     {msg.sender === "ai" && (
-                      <div className="flex justify-between items-center mt-3 pt-3 border-t border-white/5">
-                        <span className="text-[10px] text-[#8E95B3] font-medium">AI Yanıtladı • 2dk</span>
-                        <div className="w-6 h-6 rounded-full bg-[#232B45] flex items-center justify-center border border-transparent hover:border-[#00F0FF]/50 cursor-pointer transition-colors"><span className="material-symbols-outlined text-[12px] text-white">edit</span></div>
+                      <div className="flex justify-between items-center mt-2 pt-2 border-t border-white/5">
+                        <span className="text-[9px] text-[#8E95B3] font-medium">AI Yanıtladı • 2dk</span>
+                        <div className="w-5 h-5 rounded-full bg-[#232B45] flex items-center justify-center border border-transparent hover:border-[#00F0FF]/50 cursor-pointer transition-colors"><span className="material-symbols-outlined text-[10px] text-white">edit</span></div>
                       </div>
                     )}
                   </div>
@@ -318,10 +318,10 @@ export default function OmnichannelSection() {
             
           </div>
           
-          <div className="p-4 border-t border-white/5 bg-transparent pb-6">
+          <div className="p-4 border-t border-white/5 bg-transparent pb-4">
             <div className="relative">
-              <input type="text" placeholder="Yanıt yaz..." disabled className="w-full bg-[#0A0D14] border border-white/5 rounded-full px-5 py-3 text-[13px] text-white outline-none cursor-not-allowed shadow-inner" />
-              <div className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-[#6B46C1] flex items-center justify-center shadow-lg"><span className="material-symbols-outlined text-white text-[14px]">send</span></div>
+              <input type="text" placeholder="Yanıt yaz..." disabled className="w-full bg-[#0A0D14] border border-white/5 rounded-full px-4 py-2.5 text-[11px] text-white outline-none cursor-not-allowed shadow-inner" />
+              <div className="absolute right-1.5 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-[#6B46C1] flex items-center justify-center shadow-lg"><span className="material-symbols-outlined text-white text-[12px]">send</span></div>
             </div>
           </div>
         </div>
