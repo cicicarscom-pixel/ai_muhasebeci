@@ -317,26 +317,32 @@ export default function HeroSection() {
                <div className="w-full h-full border border-[#00F0FF] rounded-full scale-y-[0.25] absolute top-0 left-0" style={{ borderRadius: '50%' }}></div>
             </div>
 
-            {/* Rainbow RGB Aura + Solid Cyan Border Architecture */}
-            <div className="relative z-10 w-[90px] h-[90px] flex items-center justify-center">
-              
-              {/* Rotating RGB Aura (Glow) */}
+            {/* Rainbow RGB Border Architecture */}
+            <div 
+              className="relative z-10 w-[90px] h-[90px] flex items-center justify-center shadow-[0_0_20px_rgba(0,162,255,0.6)] overflow-hidden" 
+              style={{ borderRadius: '20px', transform: 'translateZ(0)' }}
+            >
+              {/* Solid Cyan Fallback Border (Underneath) */}
+              <div className="absolute inset-0 bg-[#00F0FF] z-0"></div>
+
+              {/* Rotating RGB Light Source (The Border Light) */}
               <motion.div 
                 animate={{ rotate: 360 }}
-                transition={{ duration: 8, ease: "linear", repeat: Infinity }}
-                className="absolute m-auto w-[130px] h-[130px] rounded-full blur-[15px] opacity-80 z-0"
+                transition={{ duration: 6, ease: "linear", repeat: Infinity }}
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200px] h-[200px] z-0"
                 style={{ 
                   background: 'conic-gradient(from 0deg, #ff0000, #00ff00, #0000ff, #ff00ff, #00ffff, #ffff00, #ff0000)',
                 }}
               />
               
-              {/* Opaque Inner Core with Solid Cyan Border */}
+              {/* Opaque Inner Core (Masking the center, leaving a 2px rainbow/cyan border) */}
               <div 
-                className="relative z-10 w-[90px] h-[90px] bg-[#07090E] rounded-full flex items-center justify-center border-[2px] border-[#00F0FF] shadow-[0_0_20px_rgba(0,240,255,0.8),inset_0_0_20px_rgba(0,240,255,0.4)]" 
+                className="absolute inset-[2px] bg-[#07090E] z-10 flex items-center justify-center"
+                style={{ borderRadius: '18px' }}
               >
                 <motion.span 
                   animate={{ scale: pulse ? 1.1 : 1 }}
-                  className="text-[32px] font-black text-white z-10" 
+                  className="text-[32px] font-black text-white" 
                   style={{textShadow:'0 0 15px rgba(255,255,255,1), 0 0 30px rgba(0,240,255,0.8)'}}
                 >
                   AI
