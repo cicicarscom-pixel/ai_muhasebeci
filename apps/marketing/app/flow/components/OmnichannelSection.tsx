@@ -188,6 +188,7 @@ export default function OmnichannelSection() {
         </div>
 
         {/* Message List */}
+        <div className="w-[195px] border-r border-white/5 flex flex-col bg-[#07090E]/80 relative z-10">
           <div className="p-4 border-b border-white/5 flex items-center justify-between">
             <span className="text-white font-bold text-[13px]">Tüm Mesajlar</span>
             <span className="material-symbols-outlined text-[#8E95B3] text-[15px]">filter_list</span>
