@@ -190,51 +190,51 @@ export default function OmnichannelSection() {
             <span className="material-symbols-outlined text-[#8E95B3] text-[15px]">filter_list</span>
           </div>
           
-          <div className="flex-1 overflow-y-auto p-3 flex flex-col gap-2">
-            <div className="bg-[#161922] border border-white/5 rounded-2xl p-4 flex flex-col cursor-pointer relative shadow-lg">
-              <div className="flex items-center gap-2.5 mb-2">
-                <div className="w-6 h-6 rounded-full bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] flex items-center justify-center shadow-md"><span className="material-symbols-outlined text-white text-[12px]">photo_camera</span></div>
-                <span className="text-white text-[13px] font-semibold">Instagram DM</span>
-                <span className="text-[#00F0FF] text-[10px] ml-auto font-medium">2dk</span>
+          <div className="flex-1 overflow-y-auto p-2 flex flex-col gap-1.5">
+            <div className="bg-[#161922] border border-white/5 rounded-2xl p-3 flex flex-col cursor-pointer relative shadow-lg">
+              <div className="flex items-center gap-2 mb-1.5">
+                <div className="w-5 h-5 rounded-full bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] flex items-center justify-center shadow-md"><span className="material-symbols-outlined text-white text-[10px]">photo_camera</span></div>
+                <span className="text-white text-[11px] font-semibold">Instagram DM</span>
+                <span className="text-[#00F0FF] text-[9px] ml-auto font-medium">2dk</span>
               </div>
-              <p className="text-[#8E95B3] text-[12px] line-clamp-1 ml-8">Merhaba, fiyat bilgisi alabilir miyim?</p>
-              <div className="absolute top-4 right-4 w-2 h-2 rounded-full bg-[#00F0FF] shadow-[0_0_8px_#00F0FF]"></div>
+              <p className="text-[#8E95B3] text-[10px] line-clamp-1 ml-7">Merhaba, fiyat bilgisi alabilir miyim?</p>
+              <div className="absolute top-3 right-3 w-1.5 h-1.5 rounded-full bg-[#00F0FF] shadow-[0_0_8px_#00F0FF]"></div>
             </div>
             
-            <div className="hover:bg-white/5 rounded-2xl p-4 flex flex-col cursor-pointer transition-colors border border-transparent">
-              <div className="flex items-center gap-2.5 mb-2">
-                <div className="w-6 h-6 rounded-full bg-[#25D366] flex items-center justify-center shadow-md"><span className="material-symbols-outlined text-white text-[12px]">chat</span></div>
-                <span className="text-white text-[13px] font-medium">WhatsApp</span>
-                <span className="text-[#8E95B3] text-[10px] ml-auto">5dk</span>
+            <div className="hover:bg-white/5 rounded-2xl p-3 flex flex-col cursor-pointer transition-colors border border-transparent">
+              <div className="flex items-center gap-2 mb-1.5">
+                <div className="w-5 h-5 rounded-full bg-[#25D366] flex items-center justify-center shadow-md"><span className="material-symbols-outlined text-white text-[10px]">chat</span></div>
+                <span className="text-white text-[11px] font-medium">WhatsApp</span>
+                <span className="text-[#8E95B3] text-[9px] ml-auto">5dk</span>
               </div>
-              <p className="text-[#8E95B3] text-[12px] line-clamp-1 ml-8">Siparişim ne zaman kargoya verilir?</p>
+              <p className="text-[#8E95B3] text-[10px] line-clamp-1 ml-7">Siparişim ne zaman kargoya verilir?</p>
             </div>
             
-            <div className="hover:bg-white/5 rounded-2xl p-4 flex flex-col cursor-pointer transition-colors border border-transparent">
-              <div className="flex items-center gap-2.5 mb-2">
-                <div className="w-6 h-6 rounded-full bg-white flex items-center justify-center shadow-md"><span className="text-[12px] font-bold text-transparent bg-clip-text bg-gradient-to-tr from-[#EA4335] via-[#FBBC05] to-[#34A853]">G</span></div>
-                <span className="text-white text-[13px] font-medium">Google Yorum</span>
-                <span className="text-[#8E95B3] text-[10px] ml-auto">10dk</span>
+            <div className="hover:bg-white/5 rounded-2xl p-3 flex flex-col cursor-pointer transition-colors border border-transparent">
+              <div className="flex items-center gap-2 mb-1.5">
+                <div className="w-5 h-5 rounded-full bg-white flex items-center justify-center shadow-md"><span className="text-[10px] font-bold text-transparent bg-clip-text bg-gradient-to-tr from-[#EA4335] via-[#FBBC05] to-[#34A853]">G</span></div>
+                <span className="text-white text-[11px] font-medium">Google Yorum</span>
+                <span className="text-[#8E95B3] text-[9px] ml-auto">10dk</span>
               </div>
-              <p className="text-[#8E95B3] text-[12px] line-clamp-1 ml-8">Harika hizmet. Çok memnun kaldım.</p>
+              <p className="text-[#8E95B3] text-[10px] line-clamp-1 ml-7">Harika hizmet. Çok memnun kaldım.</p>
             </div>
 
-            <div className="hover:bg-white/5 rounded-2xl p-4 flex flex-col cursor-pointer transition-colors border border-transparent">
-              <div className="flex items-center gap-2.5 mb-2">
-                <div className="w-6 h-6 rounded-full bg-[#1877F2] flex items-center justify-center shadow-md"><span className="material-symbols-outlined text-white text-[12px]">thumb_up</span></div>
-                <span className="text-white text-[13px] font-medium">Facebook Mesaj</span>
-                <span className="text-[#8E95B3] text-[10px] ml-auto">15dk</span>
+            <div className="hover:bg-white/5 rounded-2xl p-3 flex flex-col cursor-pointer transition-colors border border-transparent">
+              <div className="flex items-center gap-2 mb-1.5">
+                <div className="w-5 h-5 rounded-full bg-[#1877F2] flex items-center justify-center shadow-md"><span className="material-symbols-outlined text-white text-[10px]">thumb_up</span></div>
+                <span className="text-white text-[11px] font-medium">Facebook Mesaj</span>
+                <span className="text-[#8E95B3] text-[9px] ml-auto">15dk</span>
               </div>
-              <p className="text-[#8E95B3] text-[12px] line-clamp-1 ml-8">Ürünleriniz garantili mi?</p>
+              <p className="text-[#8E95B3] text-[10px] line-clamp-1 ml-7">Ürünleriniz garantili mi?</p>
             </div>
 
-            <div className="hover:bg-white/5 rounded-2xl p-4 flex flex-col cursor-pointer transition-colors border border-transparent">
-              <div className="flex items-center gap-2.5 mb-2">
-                <div className="w-6 h-6 rounded-full bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] flex items-center justify-center shadow-md"><span className="material-symbols-outlined text-white text-[12px]">photo_camera</span></div>
-                <span className="text-white text-[13px] font-medium">Instagram Yorum</span>
-                <span className="text-[#8E95B3] text-[10px] ml-auto">20dk</span>
+            <div className="hover:bg-white/5 rounded-2xl p-3 flex flex-col cursor-pointer transition-colors border border-transparent">
+              <div className="flex items-center gap-2 mb-1.5">
+                <div className="w-5 h-5 rounded-full bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] flex items-center justify-center shadow-md"><span className="material-symbols-outlined text-white text-[10px]">photo_camera</span></div>
+                <span className="text-white text-[11px] font-medium">Instagram Yorum</span>
+                <span className="text-[#8E95B3] text-[9px] ml-auto">20dk</span>
               </div>
-              <p className="text-[#8E95B3] text-[12px] line-clamp-1 ml-8">Bu ürünü nasıl satın alabilirim?</p>
+              <p className="text-[#8E95B3] text-[10px] line-clamp-1 ml-7">Bu ürünü nasıl satın alabilirim?</p>
             </div>
           </div>
         </div>
@@ -254,15 +254,18 @@ export default function OmnichannelSection() {
           </div>
           
           {/* AI Reply Badge */}
-          <div className="absolute top-[80px] right-[-15px] z-30">
+          <div className="absolute top-[80px] right-[-10px] z-30">
             <motion.div 
               animate={{ y: [0, -5, 0] }}
               transition={{ duration: 3, repeat: Infinity }}
-              className="bg-gradient-to-r from-[#00F0FF] to-[#8A2BE2] p-[1.5px] rounded-full shadow-[0_0_30px_rgba(0,240,255,0.4)] relative"
+              className="bg-gradient-to-r from-[#00F0FF] to-[#8A2BE2] p-[1.5px] rounded-xl shadow-[0_0_20px_rgba(0,240,255,0.4)] relative"
             >
-              <div className="bg-[#0A0D14] px-4 py-2 rounded-full flex items-center gap-2">
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00F0FF] to-[#8A2BE2] font-black text-[11px] tracking-widest uppercase">AI OTOMATİK YANITLADI</span>
-                <span className="material-symbols-outlined text-[#F5B400] text-[16px] drop-shadow-[0_0_8px_#F5B400]">kid_star</span>
+              <div className="bg-[#0A0D14] px-3 py-1.5 rounded-xl flex items-center gap-2">
+                <div className="flex flex-col items-start leading-tight">
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00F0FF] to-[#8A2BE2] font-black text-[9px] tracking-widest uppercase">AI OTOMATİK</span>
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00F0FF] to-[#8A2BE2] font-black text-[9px] tracking-widest uppercase">YANITLADI</span>
+                </div>
+                <span className="material-symbols-outlined text-[#F5B400] text-[14px] drop-shadow-[0_0_8px_#F5B400]">kid_star</span>
               </div>
             </motion.div>
           </div>
