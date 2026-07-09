@@ -317,18 +317,18 @@ export default function HeroSection() {
                <div className="w-full h-full border border-[#00F0FF] rounded-full scale-y-[0.25] absolute top-0 left-0" style={{ borderRadius: '50%' }}></div>
             </div>
 
-            {/* Dual Effect: Blue Aura Glow + Rotating Red/Blue/Pink Border */}
+            {/* Comet/LED Strip Effect (Short Rainbow Strip Tracing a Solid Blue Line) */}
             <div 
-              className="relative z-10 w-[90px] h-[90px] flex items-center justify-center p-[2px] overflow-hidden shadow-[0_0_25px_#00a2ff]" 
+              className="relative z-10 w-[90px] h-[90px] flex items-center justify-center p-[2px] overflow-hidden shadow-[0_0_25px_#00a2ff] bg-[#00F0FF]" 
               style={{ borderRadius: '50%', transform: 'translateZ(0)' }}
             >
-              {/* 1. Dönen İnce Border (Rotating Conic Gradient) */}
+              {/* Rotating Comet Tail (80% transparent, 20% rainbow) */}
               <motion.div 
                 animate={{ rotate: 360 }}
                 transition={{ duration: 10, ease: "linear", repeat: Infinity }}
                 className="absolute inset-0 m-auto w-[300px] h-[300px] z-0"
                 style={{ 
-                  background: 'conic-gradient(from 0deg, #ff0000, #0000ff, #ff00ff, #ff0000)',
+                  background: 'conic-gradient(from 0deg, transparent 0%, transparent 80%, rgba(255,0,0,0) 82%, #ff0000 85%, #ffff00 88%, #00ff00 91%, #00ffff 94%, #0000ff 97%, #ff00ff 100%)',
                   borderRadius: '50%'
                 }}
               />
