@@ -102,12 +102,12 @@ export default function MarketingPage() {
         <div className="flex-[1.2] relative w-full h-[600px] hidden lg:flex items-center justify-center z-10">
           <div className="relative w-full max-w-[850px] aspect-[4/3] flex items-center justify-center scale-[0.85] xl:scale-100 origin-center">
           
-          {/* Background Ambient Glow */}
+          {/* Background Ambient Glow - Much stronger */}
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
-            <div className="w-[250px] h-[250px] bg-gradient-to-r from-blue-600/30 to-purple-600/30 blur-[80px] rounded-full mix-blend-screen"></div>
+            <div className="w-[450px] h-[450px] rounded-full mix-blend-screen" style={{background:'radial-gradient(circle at center, rgba(138,43,226,0.35) 0%, rgba(0,100,255,0.2) 40%, rgba(0,0,0,0) 70%)',filter:'blur(60px)'}}></div>
           </div>
 
-          {/* SVG Connecting lines */}
+          {/* SVG Connecting lines - Thicker, more curves, stronger glow */}
           <div className="absolute inset-0 w-full h-full pointer-events-none z-10 flex items-center justify-center">
             <svg className="w-full h-full absolute inset-0" viewBox="0 0 850 600" preserveAspectRatio="xMidYMid meet">
                <defs>
@@ -119,38 +119,58 @@ export default function MarketingPage() {
                    <stop offset="0%" stopColor="#8A2BE2" />
                    <stop offset="100%" stopColor="#00F0FF" />
                  </linearGradient>
-                 <filter id="glow-strong" x="-20%" y="-20%" width="140%" height="140%">
-                   <feGaussianBlur stdDeviation="2" result="blur" />
+                 <linearGradient id="neon-pink-magenta" x1="0%" y1="0%" x2="100%" y2="0%">
+                   <stop offset="0%" stopColor="#FF00FF" />
+                   <stop offset="100%" stopColor="#8A2BE2" />
+                 </linearGradient>
+                 <filter id="glow-strong" x="-30%" y="-30%" width="160%" height="160%">
+                   <feGaussianBlur stdDeviation="4" result="blur" />
+                   <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                 </filter>
+                 <filter id="glow-ultra" x="-40%" y="-40%" width="180%" height="180%">
+                   <feGaussianBlur stdDeviation="6" result="blur" />
                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
                  </filter>
                </defs>
 
-               {/* Left side lines */}
-               <path d="M 240,160 C 280,160 300,280 370,280" fill="none" stroke="url(#neon-blue-pink)" strokeWidth="1.5" filter="url(#glow-strong)" />
-               <path d="M 240,210 C 280,210 300,290 370,290" fill="none" stroke="url(#neon-blue-pink)" strokeWidth="1.5" filter="url(#glow-strong)" />
-               <path d="M 240,260 C 280,260 310,295 370,295" fill="none" stroke="url(#neon-blue-pink)" strokeWidth="1.5" filter="url(#glow-strong)" />
-               <path d="M 240,310 C 280,310 320,300 370,300" fill="none" stroke="url(#neon-blue-pink)" strokeWidth="1.5" filter="url(#glow-strong)" />
-               <path d="M 240,360 C 280,360 320,305 370,305" fill="none" stroke="url(#neon-blue-pink)" strokeWidth="1.5" filter="url(#glow-strong)" />
-               <path d="M 240,410 C 280,410 310,310 370,310" fill="none" stroke="url(#neon-blue-pink)" strokeWidth="1.5" filter="url(#glow-strong)" />
+               {/* Left side lines - thicker, more organic curves */}
+               <path d="M 240,155 C 290,155 310,260 370,275" fill="none" stroke="url(#neon-blue-pink)" strokeWidth="2.5" filter="url(#glow-strong)" opacity="0.9" />
+               <path d="M 238,158 C 285,170 325,250 372,272" fill="none" stroke="url(#neon-pink-magenta)" strokeWidth="1.5" filter="url(#glow-ultra)" opacity="0.4" />
+               <path d="M 240,205 C 295,205 315,280 370,285" fill="none" stroke="url(#neon-blue-pink)" strokeWidth="2.5" filter="url(#glow-strong)" opacity="0.9" />
+               <path d="M 237,208 C 280,220 330,270 373,283" fill="none" stroke="url(#neon-pink-magenta)" strokeWidth="1.5" filter="url(#glow-ultra)" opacity="0.4" />
+               <path d="M 240,255 C 290,255 320,290 370,292" fill="none" stroke="url(#neon-blue-pink)" strokeWidth="2.5" filter="url(#glow-strong)" opacity="0.9" />
+               <path d="M 238,258 C 285,265 335,285 373,290" fill="none" stroke="url(#neon-pink-magenta)" strokeWidth="1.5" filter="url(#glow-ultra)" opacity="0.35" />
+               <path d="M 240,305 C 290,305 325,298 370,298" fill="none" stroke="url(#neon-blue-pink)" strokeWidth="2.5" filter="url(#glow-strong)" opacity="0.9" />
+               <path d="M 237,308 C 280,310 340,300 373,296" fill="none" stroke="url(#neon-pink-magenta)" strokeWidth="1.5" filter="url(#glow-ultra)" opacity="0.35" />
+               <path d="M 240,355 C 290,355 325,308 370,305" fill="none" stroke="url(#neon-blue-pink)" strokeWidth="2.5" filter="url(#glow-strong)" opacity="0.9" />
+               <path d="M 238,360 C 285,350 340,310 373,303" fill="none" stroke="url(#neon-pink-magenta)" strokeWidth="1.5" filter="url(#glow-ultra)" opacity="0.35" />
+               <path d="M 240,405 C 290,405 320,315 370,312" fill="none" stroke="url(#neon-blue-pink)" strokeWidth="2.5" filter="url(#glow-strong)" opacity="0.9" />
+               <path d="M 237,410 C 280,400 335,318 373,310" fill="none" stroke="url(#neon-pink-magenta)" strokeWidth="1.5" filter="url(#glow-ultra)" opacity="0.35" />
                
-               {/* Right side lines */}
-               <path d="M 480,270 C 540,270 540,140 600,140" fill="none" stroke="url(#neon-pink-blue)" strokeWidth="1.5" filter="url(#glow-strong)" />
-               <path d="M 480,290 C 530,290 550,260 600,260" fill="none" stroke="url(#neon-pink-blue)" strokeWidth="1.5" filter="url(#glow-strong)" />
-               <path d="M 480,310 C 530,310 550,370 600,370" fill="none" stroke="url(#neon-pink-blue)" strokeWidth="1.5" filter="url(#glow-strong)" />
-               <path d="M 480,330 C 540,330 540,470 600,470" fill="none" stroke="url(#neon-pink-blue)" strokeWidth="1.5" filter="url(#glow-strong)" />
+               {/* Right side lines - thicker, more organic curves */}
+               <path d="M 480,268 C 530,268 545,140 600,138" fill="none" stroke="url(#neon-pink-blue)" strokeWidth="2.5" filter="url(#glow-strong)" opacity="0.9" />
+               <path d="M 482,265 C 535,260 550,145 602,140" fill="none" stroke="url(#neon-pink-magenta)" strokeWidth="1.5" filter="url(#glow-ultra)" opacity="0.4" />
+               <path d="M 480,288 C 525,288 545,258 600,258" fill="none" stroke="url(#neon-pink-blue)" strokeWidth="2.5" filter="url(#glow-strong)" opacity="0.9" />
+               <path d="M 482,285 C 530,282 550,262 602,260" fill="none" stroke="url(#neon-pink-magenta)" strokeWidth="1.5" filter="url(#glow-ultra)" opacity="0.4" />
+               <path d="M 480,308 C 525,308 548,368 600,368" fill="none" stroke="url(#neon-pink-blue)" strokeWidth="2.5" filter="url(#glow-strong)" opacity="0.9" />
+               <path d="M 482,305 C 530,310 553,365 602,370" fill="none" stroke="url(#neon-pink-magenta)" strokeWidth="1.5" filter="url(#glow-ultra)" opacity="0.35" />
+               <path d="M 480,328 C 535,328 545,468 600,468" fill="none" stroke="url(#neon-pink-blue)" strokeWidth="2.5" filter="url(#glow-strong)" opacity="0.9" />
+               <path d="M 482,325 C 540,335 548,465 602,470" fill="none" stroke="url(#neon-pink-magenta)" strokeWidth="1.5" filter="url(#glow-ultra)" opacity="0.35" />
                
-               {/* Small dots on lines */}
-               <circle cx="270" cy="190" r="2" fill="#00F0FF" filter="url(#glow-strong)" />
-               <circle cx="300" cy="245" r="2" fill="#00F0FF" filter="url(#glow-strong)" />
-               <circle cx="280" cy="330" r="2" fill="#00F0FF" filter="url(#glow-strong)" />
-               <circle cx="550" cy="200" r="2" fill="#8A2BE2" filter="url(#glow-strong)" />
-               <circle cx="520" cy="350" r="2" fill="#8A2BE2" filter="url(#glow-strong)" />
+               {/* Glowing dots on lines */}
+               <circle cx="270" cy="185" r="3" fill="#00F0FF" filter="url(#glow-ultra)" />
+               <circle cx="305" cy="248" r="3" fill="#00F0FF" filter="url(#glow-ultra)" />
+               <circle cx="285" cy="330" r="3" fill="#FF00FF" filter="url(#glow-ultra)" />
+               <circle cx="265" cy="380" r="3" fill="#8A2BE2" filter="url(#glow-ultra)" />
+               <circle cx="545" cy="195" r="3" fill="#8A2BE2" filter="url(#glow-ultra)" />
+               <circle cx="530" cy="300" r="3" fill="#FF00FF" filter="url(#glow-ultra)" />
+               <circle cx="555" cy="420" r="3" fill="#8A2BE2" filter="url(#glow-ultra)" />
             </svg>
           </div>
 
-          {/* Left Box: MÜŞTERİ KANALLARI */}
+          {/* Left Box: TÜM KANALLAR TEK YERDE */}
           <div className="absolute left-[30px] top-[120px] w-[210px] bg-[#0A0D14]/90 backdrop-blur-xl border border-white/5 rounded-2xl p-4 shadow-2xl z-20">
-            <div className="text-[9px] font-bold text-[#B4B8D0] uppercase tracking-widest mb-4">MÜŞTERİ KANALLARI</div>
+            <div className="text-[9px] font-bold text-[#B4B8D0] uppercase tracking-widest mb-4">TÜM KANALLAR TEK YERDE</div>
             <div className="flex flex-col gap-3">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2.5">
@@ -197,7 +217,7 @@ export default function MarketingPage() {
             </div>
           </div>
 
-          {/* Central AI Sphere */}
+          {/* Central AI Sphere - Cosmic Nebula */}
           <div className="absolute z-30 flex flex-col items-center justify-center left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 mt-3">
             
             {/* Top Chat Bubble */}
@@ -209,15 +229,28 @@ export default function MarketingPage() {
               </div>
             </div>
 
-            {/* Glowing 3D Wireframe Globe */}
-            <div className="w-[150px] h-[150px] rounded-full relative flex items-center justify-center mt-6">
-              <div className="absolute inset-0 bg-gradient-to-tr from-[#00F0FF]/40 via-[#8A2BE2]/40 to-[#00F0FF]/40 blur-[20px] rounded-full"></div>
-              <div className="absolute w-full h-full rounded-full border border-blue-400/50 shadow-[inset_0_0_20px_rgba(0,100,255,0.5)]"></div>
-              <div className="absolute w-full h-full rounded-full border border-blue-400/30 rotate-[45deg] scale-x-50"></div>
-              <div className="absolute w-full h-full rounded-full border border-blue-400/30 rotate-[-45deg] scale-x-50"></div>
-              <div className="absolute w-full h-full rounded-full border border-blue-400/30 rotate-[90deg] scale-y-50"></div>
-              <div className="w-[90px] h-[90px] bg-[#05070A] rounded-full shadow-[0_0_25px_rgba(138,43,226,0.6)] flex items-center justify-center z-10 border border-[#8A2BE2]/50 relative overflow-hidden">
-                <span className="text-[36px] font-black text-white drop-shadow-[0_0_10px_rgba(255,255,255,1)] z-10">AI</span>
+            {/* Glowing Cosmic Nebula Sphere */}
+            <div className="w-[180px] h-[180px] rounded-full relative flex items-center justify-center mt-6">
+              {/* Outer glow layers */}
+              <div className="absolute w-[280px] h-[280px] rounded-full" style={{background:'radial-gradient(circle at center, rgba(138,43,226,0.4) 0%, rgba(0,100,255,0.15) 40%, transparent 70%)',filter:'blur(30px)'}}></div>
+              <div className="absolute w-[220px] h-[220px] rounded-full" style={{background:'radial-gradient(circle at center, rgba(255,0,255,0.2) 0%, rgba(138,43,226,0.15) 50%, transparent 70%)',filter:'blur(20px)'}}></div>
+              
+              {/* Outer ring glow */}
+              <div className="absolute w-full h-full rounded-full" style={{boxShadow:'0 0 40px rgba(138,43,226,0.6), 0 0 80px rgba(138,43,226,0.3), 0 0 120px rgba(0,100,255,0.2), inset 0 0 40px rgba(138,43,226,0.4), inset 0 0 80px rgba(0,50,255,0.2)',border:'2px solid rgba(138,43,226,0.5)'}}></div>
+              
+              {/* Wireframe globe rings */}
+              <div className="absolute w-full h-full rounded-full border border-blue-400/40 shadow-[inset_0_0_30px_rgba(100,0,255,0.5)]"></div>
+              <div className="absolute w-full h-full rounded-full border border-purple-400/25 rotate-[45deg] scale-x-50"></div>
+              <div className="absolute w-full h-full rounded-full border border-purple-400/25 rotate-[-45deg] scale-x-50"></div>
+              <div className="absolute w-full h-full rounded-full border border-blue-400/25 rotate-[90deg] scale-y-50"></div>
+              <div className="absolute w-[140%] h-[140%] rounded-full border border-purple-500/10"></div>
+              
+              {/* Nebula core */}
+              <div className="w-[120px] h-[120px] rounded-full z-10 relative overflow-hidden flex items-center justify-center" style={{background:'radial-gradient(circle at 35% 35%, rgba(180,100,255,0.9) 0%, rgba(100,0,200,0.8) 25%, rgba(50,0,150,0.9) 50%, rgba(20,0,80,1) 75%, rgba(5,7,10,1) 100%)',boxShadow:'0 0 30px rgba(138,43,226,0.8), 0 0 60px rgba(100,0,200,0.4), inset 0 0 20px rgba(0,100,255,0.3)'}}>
+                {/* Light streaks inside */}
+                <div className="absolute w-full h-full" style={{background:'conic-gradient(from 45deg, transparent 0%, rgba(0,200,255,0.15) 10%, transparent 20%, rgba(255,0,255,0.1) 40%, transparent 50%, rgba(100,150,255,0.15) 65%, transparent 75%, rgba(200,100,255,0.1) 90%, transparent 100%)'}}></div>
+                <div className="absolute w-[60%] h-[60%] rounded-full" style={{background:'radial-gradient(circle at 40% 40%, rgba(200,150,255,0.6) 0%, transparent 60%)',filter:'blur(8px)'}}></div>
+                <span className="text-[42px] font-black text-white z-10" style={{textShadow:'0 0 20px rgba(255,255,255,0.8), 0 0 40px rgba(138,43,226,0.6), 0 0 60px rgba(0,100,255,0.4)'}}>AI</span>
               </div>
             </div>
 
