@@ -278,11 +278,11 @@ export default function HeroSection() {
 
         {/* Central AI Sphere - Cosmic Nebula */}
         <motion.div 
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
+          initial={{ scale: 0, x: "-50%", y: "-50%" }}
+          animate={{ scale: 1, x: "-50%", y: "-50%" }}
           transition={{ type: "spring", duration: 1.5, delay: 0.2 }}
           className="absolute z-30 flex flex-col items-center justify-center"
-          style={{ left: '425px', top: '295px', transform: 'translate(-50%, -50%)' }}
+          style={{ left: '425px', top: '295px' }}
         >
           
           {/* Top Chat Bubble */}
