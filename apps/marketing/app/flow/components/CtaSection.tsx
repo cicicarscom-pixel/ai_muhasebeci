@@ -33,11 +33,11 @@ export default function CtaSection() {
            <p className="text-[#8E95B3] text-[14px] mb-8 font-medium max-w-[350px]">
              <span className="text-white">Workigom</span> <span className="text-[#00F0FF]">Flow</span> ile tanışın, işlerinizi kolaylaştırın ve büyümenize odaklanın.
            </p>
-           <div className="flex items-center gap-4">
+           <div className="flex flex-col md:flex-row items-center gap-4 w-full md:w-auto">
              <motion.button 
                whileHover={{ scale: 1.05, boxShadow: "0 0 25px rgba(0,240,255,0.5)" }}
                whileTap={{ scale: 0.95 }}
-               className="bg-gradient-to-r from-[#00F0FF] to-[#0080FF] text-white font-bold px-8 py-3.5 rounded-full transition-all text-[14px] relative overflow-hidden"
+               className="w-full md:w-auto bg-gradient-to-r from-[#00F0FF] to-[#0080FF] text-white font-bold px-8 py-3.5 rounded-full transition-all text-[14px] relative overflow-hidden"
              >
                <span className="relative z-10">Ücretsiz Hesap Oluştur</span>
                <span className="material-symbols-outlined text-[16px] align-middle ml-1 relative z-10">arrow_forward</span>
@@ -52,7 +52,7 @@ export default function CtaSection() {
              <motion.button 
                whileHover={{ backgroundColor: "rgba(17, 20, 36, 1)", borderColor: "rgba(255,255,255,0.2)" }}
                whileTap={{ scale: 0.95 }}
-               className="bg-transparent border border-[#232B45] text-white font-semibold px-8 py-3.5 rounded-full transition-colors text-[14px]"
+               className="w-full md:w-auto bg-transparent border border-[#232B45] text-white font-semibold px-8 py-3.5 rounded-full transition-colors text-[14px]"
              >
                Demo Talep Et
              </motion.button>

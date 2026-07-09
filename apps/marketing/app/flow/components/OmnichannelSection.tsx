@@ -80,7 +80,7 @@ export default function OmnichannelSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.3 }}
-          className="flex gap-4 mb-8"
+          className="flex flex-wrap gap-3 md:gap-4 mb-8"
         >
           <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-[#f09433]/20 via-[#dc2743]/20 to-[#bc1888]/20 flex items-center justify-center border border-pink-500/30 shadow-[0_0_15px_rgba(236,72,153,0.3)]"><span className="material-symbols-outlined text-transparent bg-clip-text bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] text-[24px]">photo_camera</span></div>
           <div className="w-12 h-12 rounded-full bg-[#25D366]/20 flex items-center justify-center border border-[#25D366]/30 shadow-[0_0_15px_rgba(37,211,102,0.3)]"><span className="material-symbols-outlined text-[#25D366] text-[24px]">chat</span></div>
