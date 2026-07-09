@@ -1,4 +1,5 @@
 import React from "react";
+import Navbar from "./components/Navbar";
 import HeroSection from "./components/HeroSection";
 import OmnichannelSection from "./components/OmnichannelSection";
 import FeaturesSection from "./components/FeaturesSection";
@@ -21,7 +22,9 @@ export default function FlowLandingPage() {
       {/* Noise overlay for premium feel */}
       <div className="fixed inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] pointer-events-none z-0 mix-blend-overlay"></div>
 
-      <main className="relative z-10 flex flex-col items-center">
+      <Navbar />
+
+      <main className="relative z-10 flex flex-col items-center pt-16">
         <HeroSection />
         <OmnichannelSection />
         <FeaturesSection />
