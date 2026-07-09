@@ -328,7 +328,7 @@ export default function HeroSection() {
                 transition={{ duration: 10, ease: "linear", repeat: Infinity }}
                 className="absolute inset-0 m-auto w-[300px] h-[300px] z-0"
                 style={{ 
-                  background: 'conic-gradient(from 0deg, #ff0000, #00ff00, #0000ff, #ff00ff, #00ffff, #ffff00, #ff0000)',
+                  background: 'conic-gradient(from 0deg, #ff0000, #0000ff, #ff00ff, #00ffff, #ffff00, #ff0000)',
                   borderRadius: '50%'
                 }}
               />
