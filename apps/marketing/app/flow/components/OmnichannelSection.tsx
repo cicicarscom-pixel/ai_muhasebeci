@@ -130,7 +130,7 @@ export default function OmnichannelSection() {
         <div className="absolute inset-0 bg-gradient-to-br from-[#8A2BE2]/30 to-[#00F0FF]/15 pointer-events-none z-0"></div>
         
         {/* Sidebar */}
-        <div className="w-[145px] border-r border-white/5 bg-[#0A0D14] flex flex-col p-3 relative z-10">
+        <div className="hidden md:flex w-[145px] border-r border-white/5 bg-[#0A0D14] flex-col p-3 relative z-10">
           <div className="flex items-center gap-2 mb-4">
             <div className="w-5 h-5 rounded bg-[#00F0FF]/20 flex items-center justify-center border border-[#00F0FF]/50"><span className="text-[#00F0FF] text-[10px] font-black">W</span></div>
             <span className="text-white font-bold text-[11px]">Workigom <span className="text-[#00F0FF]">Flow</span></span>
@@ -188,7 +188,7 @@ export default function OmnichannelSection() {
         </div>
 
         {/* Message List */}
-        <div className="w-[195px] border-r border-white/5 flex flex-col bg-[#07090E]/80 relative z-10">
+        <div className="hidden md:flex w-[195px] border-r border-white/5 flex-col bg-[#07090E]/80 relative z-10">
           <div className="p-4 border-b border-white/5 flex items-center justify-between">
             <span className="text-white font-bold text-[13px]">Tüm Mesajlar</span>
             <span className="material-symbols-outlined text-[#8E95B3] text-[15px]">filter_list</span>

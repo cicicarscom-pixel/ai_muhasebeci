@@ -21,7 +21,7 @@ export default function HeroSection() {
     <section className="relative z-20 w-full max-w-[1440px] mx-auto px-6 pt-32 pb-24 flex flex-col lg:flex-row items-center justify-between min-h-[90vh]">
       
       {/* Left Column (Text & CTA) */}
-      <div className="flex-1 max-w-[450px] z-20 mb-16 lg:mb-0">
+      <div className="flex-1 w-full max-w-full lg:max-w-[450px] z-20 mb-16 lg:mb-0">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
