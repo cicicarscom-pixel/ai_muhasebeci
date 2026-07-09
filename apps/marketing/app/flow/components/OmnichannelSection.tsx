@@ -59,7 +59,7 @@ export default function OmnichannelSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.1 }}
-          className="text-[32px] md:text-[44px] font-extrabold mb-6 text-white tracking-tight leading-[1.1]"
+          className="text-[28px] md:text-[38px] font-extrabold mb-6 text-white tracking-tight leading-[1.1]"
         >
           Tüm Kanallar<br/>Tek Gelen Kutusunda
         </motion.h2>
@@ -69,7 +69,7 @@ export default function OmnichannelSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.2 }}
-          className="text-[#8E95B3] text-[16px] mb-8 max-w-[400px]"
+          className="text-[#8E95B3] text-[14px] mb-8 max-w-[350px] leading-relaxed"
         >
           Instagram, WhatsApp, Facebook ve daha fazlasından gelen tüm mesajlar tek ekranda. AI asistanınız 7/24 otomatik yanıtlar.
         </motion.p>
@@ -101,33 +101,33 @@ export default function OmnichannelSection() {
         >
           <div className="flex items-center gap-3">
             <div className="w-5 h-5 rounded-full bg-[#8A2BE2]/20 border border-[#8A2BE2]/50 flex items-center justify-center"><span className="material-symbols-outlined text-[#8A2BE2] text-[12px]">check</span></div>
-            <span className="text-white text-[14px]">Anlık mesaj senkronizasyonu</span>
+            <span className="text-white text-[12px]">Anlık mesaj senkronizasyonu</span>
           </div>
           <div className="flex items-center gap-3">
             <div className="w-5 h-5 rounded-full bg-[#8A2BE2]/20 border border-[#8A2BE2]/50 flex items-center justify-center"><span className="material-symbols-outlined text-[#8A2BE2] text-[12px]">check</span></div>
-            <span className="text-white text-[14px]">AI destekli otomatik yanıtlar</span>
+            <span className="text-white text-[12px]">AI destekli otomatik yanıtlar</span>
           </div>
           <div className="flex items-center gap-3">
             <div className="w-5 h-5 rounded-full bg-[#8A2BE2]/20 border border-[#8A2BE2]/50 flex items-center justify-center"><span className="material-symbols-outlined text-[#8A2BE2] text-[12px]">check</span></div>
-            <span className="text-white text-[14px]">Yorum ağacı görüntüleme</span>
+            <span className="text-white text-[12px]">Yorum ağacı görüntüleme</span>
           </div>
           <div className="flex items-center gap-3">
             <div className="w-5 h-5 rounded-full bg-[#8A2BE2]/20 border border-[#8A2BE2]/50 flex items-center justify-center"><span className="material-symbols-outlined text-[#8A2BE2] text-[12px]">check</span></div>
-            <span className="text-white text-[14px]">Öncelik ve etiket yönetimi</span>
+            <span className="text-white text-[12px]">Öncelik ve etiket yönetimi</span>
           </div>
         </motion.div>
       </div>
 
       {/* Right side Inbox UI */}
       <motion.div 
-        initial={{ opacity: 0, scale: 0.7 }}
-        whileInView={{ opacity: 1, scale: 0.8 }}
+        initial={{ opacity: 0, scale: 0.95 }}
+        whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true }}
         transition={{ delay: 0.2 }}
-        className="flex-[1.5] relative w-full h-[600px] bg-[#0A0D14]/90 backdrop-blur-2xl border border-[#00F0FF]/30 rounded-3xl shadow-[0_0_60px_rgba(0,240,255,0.25),inset_0_0_20px_rgba(138,43,226,0.1)] flex overflow-hidden group origin-right"
+        className="flex-[2.2] relative w-full h-[520px] bg-[#0A0D14]/90 backdrop-blur-2xl border border-[#00F0FF]/40 rounded-3xl shadow-[0_0_80px_rgba(0,240,255,0.3),inset_0_0_30px_rgba(138,43,226,0.2)] flex overflow-hidden group"
       >
         {/* Glow behind the mockup */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#8A2BE2]/20 to-[#00F0FF]/10 pointer-events-none z-0"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-[#8A2BE2]/30 to-[#00F0FF]/15 pointer-events-none z-0"></div>
         
         {/* Sidebar */}
         <div className="w-[180px] border-r border-white/5 bg-[#0A0D14] flex flex-col p-4 relative z-10">
