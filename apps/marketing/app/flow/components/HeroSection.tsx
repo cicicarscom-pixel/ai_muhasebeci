@@ -317,23 +317,23 @@ export default function HeroSection() {
                <div className="w-full h-full border border-[#00F0FF] rounded-full scale-y-[0.25] absolute top-0 left-0" style={{ borderRadius: '50%' }}></div>
             </div>
 
-            {/* LED Strip Rainbow Border Architecture */}
+            {/* Dual Effect: Blue Aura Glow + Rotating Red/Blue/Pink Border */}
             <div 
-              className="relative z-10 w-[90px] h-[90px] flex items-center justify-center p-[2px] overflow-hidden shadow-[0_0_25px_#00a2ff] bg-[#00F0FF]" 
+              className="relative z-10 w-[90px] h-[90px] flex items-center justify-center p-[2px] overflow-hidden shadow-[0_0_25px_#00a2ff]" 
               style={{ borderRadius: '50%', transform: 'translateZ(0)' }}
             >
-              {/* Rotating LED Strip (Partial Rainbow Gradient over Cyan base) */}
+              {/* 1. Dönen İnce Border (Rotating Conic Gradient) */}
               <motion.div 
                 animate={{ rotate: 360 }}
-                transition={{ duration: 6, ease: "linear", repeat: Infinity }}
+                transition={{ duration: 10, ease: "linear", repeat: Infinity }}
                 className="absolute inset-0 m-auto w-[300px] h-[300px] z-0"
                 style={{ 
-                  background: 'conic-gradient(from 0deg, transparent 0%, transparent 60%, rgba(255,0,0,0) 65%, #ff0000 75%, #ffff00 80%, #00ff00 85%, #00ffff 90%, #0000ff 95%, #ff00ff 100%)',
+                  background: 'conic-gradient(from 0deg, #ff0000, #0000ff, #ff00ff, #ff0000)',
                   borderRadius: '50%'
                 }}
               />
               
-              {/* Opaque Inner Core (Masks the center, leaves 2px border) */}
+              {/* 2. Opaque Inner Core (Masks the center, leaves 2px border) */}
               <div 
                 className="relative z-10 w-full h-full bg-[#07090E] flex items-center justify-center"
                 style={{ borderRadius: '50%' }}
