@@ -4,7 +4,6 @@ import React from 'react';
 export default function MarketingPage() {
   return (
     <div className="min-h-screen bg-[#07090E] text-white font-sans overflow-x-hidden selection:bg-ai-purple selection:text-white">
-      <div style={{backgroundColor:'red',color:'white',fontSize:'48px',fontWeight:'bold',textAlign:'center',padding:'20px',zIndex:9999,position:'relative'}}>DENEME</div>
       {/* --- Ambient Background Glows --- */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
         <div className="absolute top-[-200px] left-1/2 -translate-x-1/2 w-[1200px] h-[600px] bg-hero-glow blur-3xl opacity-60 mix-blend-screen"></div>
