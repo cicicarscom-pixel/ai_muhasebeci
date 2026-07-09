@@ -54,7 +54,7 @@ export default function LedgerPage() {
 <a className="text-[#cbc3d7] hover:text-[#e7e0ed] transition-colors text-base" href="#how-it-works">How it Works</a>
 </div>
 <div>
-<button className="ledger-primary-glow-btn text-white text-xs font-medium px-6 py-2 rounded-full scale-95 active:scale-90 transition-transform">
+<button onClick={() => window.location.href = '/ledger/login'} className="ledger-primary-glow-btn text-white text-xs font-medium px-6 py-2 rounded-full scale-95 active:scale-90 transition-transform">
                     Ledger'a Geç
                 </button>
 </div>
@@ -76,7 +76,7 @@ export default function LedgerPage() {
                     Mükelleflerinizden gelen tüm evrak ve verileri saniyeler içinde otomatik işleyen, kategorize eden ve onayınıza sunan akıllı çalışma alanınız.
                 </p>
 <div className="flex gap-4 ledger-fade-up" style={{ transitionDelay: '200ms' }}>
-<button className="ledger-primary-glow-btn text-white text-base font-semibold px-10 py-4 rounded-lg flex items-center gap-2">
+<button onClick={() => window.location.href = '/ledger/login'} className="ledger-primary-glow-btn text-white text-base font-semibold px-10 py-4 rounded-lg flex items-center gap-2">
                         Hemen Başlayın
                         <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 0" }}>arrow_forward</span>
 </button>
@@ -297,7 +297,7 @@ export default function LedgerPage() {
 <div className="absolute inset-0 bg-gradient-to-b from-[#d0bcff]/10 to-transparent opacity-50"></div>
 <h2 className="text-5xl font-bold leading-tight text-white mb-4 relative z-10 tracking-tight">Manuel veri girişini tarihe gömün. <br/><span className="text-[#d0bcff]-fixed-dim">Danışmanlığa odaklanın.</span></h2>
 <p className="text-[#cbc3d7] text-base mb-10 max-w-2xl mx-auto relative z-10">Zamanınızı veri girmeye değil, işinizi büyütmeye ayırın. Ledger ile muhasebe süreçlerinizi hemen otomatikleştirin.</p>
-<button className="ledger-primary-glow-btn ledger-animate-pulse-glow text-white text-2xl font-semibold leading-normal px-10 py-6 rounded-xl relative z-10 flex items-center justify-center gap-2 mx-auto">
+<button onClick={() => window.location.href = '/ledger/login'} className="ledger-primary-glow-btn ledger-animate-pulse-glow text-white text-2xl font-semibold leading-normal px-10 py-6 rounded-xl relative z-10 flex items-center justify-center gap-2 mx-auto">
                     Ledger Workspace'e Geçin
                     <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>rocket_launch</span>
 </button>
