@@ -120,14 +120,14 @@ export default function OmnichannelSection() {
 
       {/* Right side Inbox UI */}
       <motion.div 
-        initial={{ opacity: 0, scale: 0.95 }}
-        whileInView={{ opacity: 1, scale: 1 }}
+        initial={{ opacity: 0, scale: 0.7 }}
+        whileInView={{ opacity: 1, scale: 0.8 }}
         viewport={{ once: true }}
         transition={{ delay: 0.2 }}
-        className="flex-[1.5] relative w-full h-[550px] bg-[#0A0D14]/90 backdrop-blur-2xl border border-white/10 rounded-2xl shadow-[0_0_50px_rgba(0,100,255,0.1)] flex overflow-hidden group"
+        className="flex-[1.5] relative w-full h-[600px] bg-[#0A0D14]/90 backdrop-blur-2xl border border-[#00F0FF]/30 rounded-3xl shadow-[0_0_60px_rgba(0,240,255,0.25),inset_0_0_20px_rgba(138,43,226,0.1)] flex overflow-hidden group origin-right"
       >
         {/* Glow behind the mockup */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#8A2BE2]/10 to-[#00F0FF]/5 pointer-events-none z-0"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-[#8A2BE2]/20 to-[#00F0FF]/10 pointer-events-none z-0"></div>
         
         {/* Sidebar */}
         <div className="w-[180px] border-r border-white/5 bg-[#0A0D14] flex flex-col p-4 relative z-10">
