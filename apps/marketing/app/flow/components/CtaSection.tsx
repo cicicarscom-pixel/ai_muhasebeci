@@ -31,7 +31,7 @@ export default function CtaSection() {
                İşletmenizin Geleceği<br/>Bugünden Başlasın
              </h2>
            <p className="text-[#8E95B3] text-[14px] mb-8 font-medium max-w-[350px]">
-             AI Esnaf ile tanışın, işlerinizi kolaylaştırın ve büyümenize odaklanın.
+             <span className="text-white">Workigom</span> <span className="text-[#00F0FF]">Flow</span> ile tanışın, işlerinizi kolaylaştırın ve büyümenize odaklanın.
            </p>
            <div className="flex items-center gap-4">
              <motion.button 

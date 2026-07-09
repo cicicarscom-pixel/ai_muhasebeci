@@ -110,7 +110,7 @@ export default function HeroSection() {
               {[1,2,3,4,5].map(i => <span key={i} className="material-symbols-outlined text-[14px]" style={{fontVariationSettings: "'FILL' 1" }}>star</span>)}
               <span className="text-white font-bold ml-1">4.9/5</span>
             </div>
-            <div className="text-[11px] text-[#8E95B3]">1.000+ işletme AI Esnaf kullanıyor</div>
+            <div className="text-[11px] text-[#8E95B3]">1.000+ işletme <span className="text-white">Workigom</span> <span className="text-[#00F0FF]">Flow</span> kullanıyor</div>
           </div>
         </motion.div>
       </div>

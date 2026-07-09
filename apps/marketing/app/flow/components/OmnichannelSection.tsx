@@ -132,8 +132,8 @@ export default function OmnichannelSection() {
         {/* Sidebar */}
         <div className="w-[160px] border-r border-white/5 bg-[#0A0D14] flex flex-col p-3 relative z-10">
           <div className="flex items-center gap-2 mb-4">
-            <div className="w-5 h-5 rounded bg-[#00F0FF]/20 flex items-center justify-center border border-[#00F0FF]/50"><span className="text-[#00F0FF] text-[10px] font-black">AI</span></div>
-            <span className="text-white font-bold text-[12px]">AI Esnaf</span>
+            <div className="w-5 h-5 rounded bg-[#00F0FF]/20 flex items-center justify-center border border-[#00F0FF]/50"><span className="text-[#00F0FF] text-[10px] font-black">W</span></div>
+            <span className="text-white font-bold text-[12px]">Workigom <span className="text-[#00F0FF]">Flow</span></span>
           </div>
           
           <div className="flex flex-col gap-0.5">
