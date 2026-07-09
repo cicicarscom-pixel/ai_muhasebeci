@@ -21,7 +21,7 @@ export default function HeroSection() {
     <section className="relative z-20 w-full max-w-[1440px] mx-auto px-6 pt-32 pb-24 flex flex-col lg:flex-row items-center justify-between min-h-[90vh]">
       
       {/* Left Column (Text & CTA) */}
-      <div className="flex-1 max-w-[500px] z-20 mb-16 lg:mb-0">
+      <div className="flex-1 max-w-[450px] z-20 mb-16 lg:mb-0">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -116,8 +116,8 @@ export default function HeroSection() {
       </div>
 
       {/* Right Column (AI Core Graphic) */}
-      <div className="flex-[1.2] relative w-full h-[600px] hidden lg:flex items-center justify-center z-10 overflow-hidden">
-        <div className="relative w-[850px] h-[600px] min-w-[850px] flex items-center justify-center scale-[0.7] lg:scale-[0.8] xl:scale-100 origin-center">
+      <div className="flex-[1.3] relative w-full h-[600px] hidden lg:flex items-center justify-center lg:justify-start z-10 overflow-visible">
+        <div className="relative w-[850px] h-[600px] min-w-[850px] flex items-center justify-center scale-[0.7] lg:scale-[0.85] xl:scale-100 origin-center lg:origin-left lg:-translate-x-10 xl:-translate-x-4">
         
         {/* Background Ambient Glow */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
