@@ -32,10 +32,10 @@ export default function HeroSection() {
         </motion.div>
 
         <motion.h1 
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="text-[44px] md:text-[64px] lg:text-[72px] font-black text-white leading-[1.1] tracking-tight mb-6"
+          transition={{ duration: 0.7, delay: 0.2 }}
+          className="text-[40px] md:text-[54px] lg:text-[64px] font-extrabold text-white leading-[1.1] mb-6 tracking-tight"
         >
           İşletmenizi<br/>
           Yöneten Tek<br/>
@@ -44,10 +44,10 @@ export default function HeroSection() {
         </motion.h1>
 
         <motion.p 
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="text-[#8E95B3] text-[16px] md:text-[18px] mb-10 max-w-[500px] leading-relaxed"
+          transition={{ duration: 0.7, delay: 0.3 }}
+          className="text-[15px] md:text-[17px] text-[#8E95B3] mb-10 max-w-[450px] leading-relaxed"
         >
           Sosyal medyadan muhasebeye, müşteri iletişiminden içerik üretimine kadar tüm iş süreçlerinizi tek platformda otonom yapay zeka ile yönetin.
         </motion.p>
