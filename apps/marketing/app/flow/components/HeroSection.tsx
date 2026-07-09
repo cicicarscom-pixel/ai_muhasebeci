@@ -317,14 +317,26 @@ export default function HeroSection() {
                <div className="w-full h-full border border-[#00F0FF] rounded-full scale-y-[0.25] absolute top-0 left-0" style={{ borderRadius: '50%' }}></div>
             </div>
 
-            <div className="w-[90px] h-[90px] rounded-[50%] z-10 relative flex items-center justify-center bg-[#07090E] border border-[#00F0FF]/80 shadow-[0_0_20px_#00F0FF]" style={{ borderRadius: '50%' }}>
-              <motion.span 
-                animate={{ scale: pulse ? 1.1 : 1 }}
-                className="text-[36px] font-black text-white z-10" 
-                style={{textShadow:'0 0 15px rgba(255,255,255,1), 0 0 30px rgba(0,240,255,0.8)'}}
-              >
-                AI
-              </motion.span>
+            {/* Rainbow RGB Border Architecture */}
+            <div className="w-[90px] h-[90px] rounded-full z-10 relative flex items-center justify-center shadow-[0_0_25px_rgba(0,162,255,0.6)] overflow-hidden p-[3px]">
+              {/* Rotating RGB Light Source */}
+              <motion.div 
+                animate={{ rotate: 360 }}
+                transition={{ duration: 4, ease: "linear", repeat: Infinity }}
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[250px] h-[250px] z-0"
+                style={{ background: 'conic-gradient(from 0deg, #ff0000, #00ff00, #0000ff, #ff00ff, #00ffff, #ffff00, #ff0000)' }}
+              />
+              
+              {/* Opaque Inner Core */}
+              <div className="relative z-10 w-full h-full bg-[#07090E] rounded-full flex items-center justify-center">
+                <motion.span 
+                  animate={{ scale: pulse ? 1.1 : 1 }}
+                  className="text-[32px] font-black text-white z-10" 
+                  style={{textShadow:'0 0 15px rgba(255,255,255,1), 0 0 30px rgba(0,240,255,0.8)'}}
+                >
+                  AI
+                </motion.span>
+              </div>
             </div>
           </div>
 
