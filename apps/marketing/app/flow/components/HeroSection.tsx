@@ -291,7 +291,7 @@ export default function HeroSection() {
                 initial={{ opacity: 0, y: 10, scale: 0.8 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.8 }}
-                className="absolute top-[-95px] left-[-20px] bg-[#0A0D14]/90 border border-white/5 rounded-xl rounded-bl-sm p-3 w-[150px] shadow-2xl flex flex-col gap-1.5 z-40 backdrop-blur-md"
+                className="absolute top-[-140px] left-[-20px] bg-[#0A0D14]/90 border border-white/5 rounded-xl rounded-bl-sm p-3 w-[150px] shadow-2xl flex flex-col gap-1.5 z-40 backdrop-blur-md"
               >
                 <div className="text-[9px] text-[#B4B8D0] font-bold uppercase tracking-widest">AI ASİSTAN</div>
                 <div className="text-[11px] text-white leading-tight">Merhaba! Size nasıl yardımcı olabilirim?</div>
@@ -303,19 +303,20 @@ export default function HeroSection() {
           </AnimatePresence>
 
           {/* Glowing Cosmic Nebula Sphere */}
+          <div className="w-[180px] h-[180px] rounded-full relative flex items-center justify-center mt-6" style={{ borderRadius: '50%' }}>
             {/* Glowing 3D Sphere matching target (Blue/Cyan energy ball) */}
-            <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-[#00F0FF]/40 via-[#0080FF]/20 to-[#8A2BE2]/40 blur-[15px]"></div>
-            <div className="absolute w-[140px] h-[140px] rounded-full border-[2px] border-[#00F0FF]/60 shadow-[0_0_30px_#00F0FF,inset_0_0_30px_#00F0FF]"></div>
+            <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-[#00F0FF]/40 via-[#0080FF]/20 to-[#8A2BE2]/40 blur-[15px]" style={{ borderRadius: '50%' }}></div>
+            <div className="absolute w-[140px] h-[140px] rounded-full border-[2px] border-[#00F0FF]/60 shadow-[0_0_30px_#00F0FF,inset_0_0_30px_#00F0FF]" style={{ borderRadius: '50%' }}></div>
             
             {/* Inner Grid/Wireframe */}
-            <div className="absolute w-[140px] h-[140px] rounded-full overflow-hidden opacity-40">
-               <div className="w-full h-full border border-[#00F0FF] rounded-full scale-x-50"></div>
-               <div className="w-full h-full border border-[#00F0FF] rounded-full scale-y-50 absolute top-0 left-0"></div>
-               <div className="w-full h-full border border-[#00F0FF] rounded-full scale-x-[0.25] absolute top-0 left-0"></div>
-               <div className="w-full h-full border border-[#00F0FF] rounded-full scale-y-[0.25] absolute top-0 left-0"></div>
+            <div className="absolute w-[140px] h-[140px] rounded-full overflow-hidden opacity-40" style={{ borderRadius: '50%' }}>
+               <div className="w-full h-full border border-[#00F0FF] rounded-full scale-x-50" style={{ borderRadius: '50%' }}></div>
+               <div className="w-full h-full border border-[#00F0FF] rounded-full scale-y-50 absolute top-0 left-0" style={{ borderRadius: '50%' }}></div>
+               <div className="w-full h-full border border-[#00F0FF] rounded-full scale-x-[0.25] absolute top-0 left-0" style={{ borderRadius: '50%' }}></div>
+               <div className="w-full h-full border border-[#00F0FF] rounded-full scale-y-[0.25] absolute top-0 left-0" style={{ borderRadius: '50%' }}></div>
             </div>
 
-            <div className="w-[90px] h-[90px] rounded-full z-10 relative flex items-center justify-center bg-[#07090E] border border-[#00F0FF]/80 shadow-[0_0_20px_#00F0FF]">
+            <div className="w-[90px] h-[90px] rounded-[50%] z-10 relative flex items-center justify-center bg-[#07090E] border border-[#00F0FF]/80 shadow-[0_0_20px_#00F0FF]" style={{ borderRadius: '50%' }}>
               <motion.span 
                 animate={{ scale: pulse ? 1.1 : 1 }}
                 className="text-[36px] font-black text-white z-10" 
@@ -324,9 +325,10 @@ export default function HeroSection() {
                 AI
               </motion.span>
             </div>
+          </div>
 
           {/* Bottom Status Pill */}
-          <div className="absolute bottom-[-30px] bg-[#0A0D14]/90 border border-white/5 rounded-full px-4 py-2 shadow-xl flex items-center gap-2 z-40 backdrop-blur-md">
+          <div className="absolute bottom-[-60px] bg-[#0A0D14]/90 border border-white/5 rounded-full px-4 py-2 shadow-xl flex items-center gap-2 z-40 backdrop-blur-md">
             <motion.div animate={{ opacity: [1, 0.5, 1] }} transition={{ duration: 2, repeat: Infinity }} className="w-2 h-2 rounded-full bg-[#10B981] shadow-[0_0_8px_#10B981]"></motion.div>
             <span className="text-[9px] font-bold text-white tracking-widest">7/24 OTONOM ÇALIŞIYOR</span>
           </div>
