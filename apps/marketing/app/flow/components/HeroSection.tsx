@@ -317,22 +317,26 @@ export default function HeroSection() {
                <div className="w-full h-full border border-[#00F0FF] rounded-full scale-y-[0.25] absolute top-0 left-0" style={{ borderRadius: '50%' }}></div>
             </div>
 
-            {/* AI Core with Rotating Aura Effect */}
-            <div className="relative z-10 w-[120px] h-[120px] flex items-center justify-center">
-              
-              {/* Rotating Aura Gölgesi (Glow) */}
+            {/* Dual Effect: Blue Aura Glow + Rotating Rainbow Border (Matched with AI Esnaf) */}
+            <div 
+              className="relative z-10 w-[90px] h-[90px] flex items-center justify-center p-[2px] overflow-hidden shadow-[0_0_25px_#00a2ff]" 
+              style={{ borderRadius: '50%', transform: 'translateZ(0)' }}
+            >
+              {/* 1. Dönen İnce Gökkuşağı Border (Rotating Full Rainbow Gradient) */}
               <motion.div 
                 animate={{ rotate: 360 }}
-                transition={{ duration: 10, ease: "linear", repeat: Infinity }}
-                className="absolute inset-0 m-auto w-[110px] h-[110px] rounded-full blur-[12px] opacity-80 z-0"
+                transition={{ duration: 8, ease: "linear", repeat: Infinity }}
+                className="absolute inset-0 m-auto w-[300px] h-[300px] z-0"
                 style={{ 
-                  background: 'conic-gradient(from 0deg, #ff0000, #0000ff, #ff00ff, #ff0000)',
+                  background: 'conic-gradient(from 0deg, #ff0000, #00ff00, #0000ff, #ff00ff, #00ffff, #ffff00, #ff0000)',
+                  borderRadius: '50%'
                 }}
               />
               
-              {/* Opaque Inner Core with Neon Blue Border */}
+              {/* 2. Opaque Inner Core (Masks the center, leaves 2px border) */}
               <div 
-                className="relative z-10 w-[90px] h-[90px] bg-[#07090E] rounded-full flex items-center justify-center border-[1.5px] border-[#00a2ff] shadow-[0_0_15px_#00a2ff]"
+                className="relative z-10 w-full h-full bg-[#07090E] flex items-center justify-center"
+                style={{ borderRadius: '50%' }}
               >
                 <motion.span 
                   animate={{ scale: pulse ? 1.1 : 1 }}
