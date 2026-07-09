@@ -116,8 +116,8 @@ export default function HeroSection() {
       </div>
 
       {/* Right Column (AI Core Graphic) */}
-      <div className="flex-[1.2] relative w-full h-[600px] hidden lg:flex items-center justify-center z-10">
-        <div className="relative w-full max-w-[850px] aspect-[4/3] flex items-center justify-center scale-[0.85] xl:scale-100 origin-center">
+      <div className="flex-[1.2] relative w-full h-[600px] hidden lg:flex items-center justify-center z-10 overflow-hidden">
+        <div className="relative w-[850px] h-[600px] min-w-[850px] flex items-center justify-center scale-[0.7] lg:scale-[0.8] xl:scale-100 origin-center">
         
         {/* Background Ambient Glow */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
@@ -281,7 +281,8 @@ export default function HeroSection() {
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ type: "spring", duration: 1.5, delay: 0.2 }}
-          className="absolute z-30 flex flex-col items-center justify-center left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 mt-3"
+          className="absolute z-30 flex flex-col items-center justify-center"
+          style={{ left: '425px', top: '295px', transform: 'translate(-50%, -50%)' }}
         >
           
           {/* Top Chat Bubble */}
@@ -303,7 +304,7 @@ export default function HeroSection() {
           </AnimatePresence>
 
           {/* Glowing Cosmic Nebula Sphere */}
-          <div className="w-[180px] h-[180px] rounded-full relative flex items-center justify-center mt-6" style={{ borderRadius: '50%' }}>
+          <div className="w-[180px] h-[180px] rounded-full relative flex items-center justify-center" style={{ borderRadius: '50%' }}>
             {/* Glowing 3D Sphere matching target (Blue/Cyan energy ball) */}
             <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-[#00F0FF]/40 via-[#0080FF]/20 to-[#8A2BE2]/40 blur-[15px]" style={{ borderRadius: '50%' }}></div>
             <div className="absolute w-[140px] h-[140px] rounded-full border-[2px] border-[#00F0FF]/60 shadow-[0_0_30px_#00F0FF,inset_0_0_30px_#00F0FF]" style={{ borderRadius: '50%' }}></div>
