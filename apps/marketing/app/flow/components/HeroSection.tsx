@@ -315,6 +315,7 @@ export default function HeroSection() {
                <div className="w-full h-full border border-[#00F0FF] rounded-full scale-y-50 absolute top-0 left-0" style={{ borderRadius: '50%' }}></div>
                <div className="w-full h-full border border-[#00F0FF] rounded-full scale-x-[0.25] absolute top-0 left-0" style={{ borderRadius: '50%' }}></div>
                <div className="w-full h-full border border-[#00F0FF] rounded-full scale-y-[0.25] absolute top-0 left-0" style={{ borderRadius: '50%' }}></div>
+            </div>
             
             {/* Dual Effect: Blue Aura Glow + Rotating Rainbow Border (BotYonetimiScreen.js Exact Match) */}
             <div 
