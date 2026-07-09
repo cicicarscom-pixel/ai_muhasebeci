@@ -317,28 +317,26 @@ export default function HeroSection() {
                <div className="w-full h-full border border-[#00F0FF] rounded-full scale-y-[0.25] absolute top-0 left-0" style={{ borderRadius: '50%' }}></div>
             </div>
 
-            {/* Rainbow RGB Border Architecture (Fixed Blue + Rainbow LED Strip) */}
+            {/* Rainbow RGB Border Architecture (From README) */}
             <div 
-              className="relative z-10 w-[90px] h-[90px] flex items-center justify-center shadow-[0_0_20px_rgba(0,162,255,0.6)] overflow-hidden" 
-              style={{ borderRadius: '20px', transform: 'translateZ(0)' }}
+              className="relative z-10 w-[90px] h-[90px] flex items-center justify-center p-[2px] overflow-hidden shadow-[0_0_30px_#00a2ff]" 
+              style={{ borderRadius: '50%', transform: 'translateZ(0)' }}
             >
-              {/* Solid Cyan Fallback Border (Underneath) */}
-              <div className="absolute inset-0 bg-[#00F0FF] z-0"></div>
-
-              {/* Rotating RGB Light Source (LED Strip) */}
+              {/* Rotating RGB Light Source (Full Rainbow) */}
               <motion.div 
                 animate={{ rotate: 360 }}
                 transition={{ duration: 4, ease: "linear", repeat: Infinity }}
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200px] h-[200px] z-0"
+                className="absolute inset-0 m-auto w-[300px] h-[300px] z-0"
                 style={{ 
-                  background: 'conic-gradient(from 0deg, transparent 0%, transparent 60%, #ff0000 70%, #ffff00 75%, #00ff00 80%, #00ffff 85%, #0000ff 90%, #ff00ff 95%, #ff0000 100%)',
+                  background: 'conic-gradient(from 0deg, #ff0000, #00ff00, #0000ff, #ff00ff, #00ffff, #ffff00, #ff0000)',
+                  borderRadius: '50%'
                 }}
               />
               
-              {/* Opaque Inner Core (Masking the center, leaving a 2px blue/rainbow border) */}
+              {/* Opaque Inner Core (Masks the center, leaves 2px rainbow border) */}
               <div 
-                className="absolute inset-[2px] bg-[#07090E] z-10 flex items-center justify-center"
-                style={{ borderRadius: '18px' }}
+                className="relative z-10 w-full h-full bg-[#07090E] flex items-center justify-center"
+                style={{ borderRadius: '50%' }}
               >
                 <motion.span 
                   animate={{ scale: pulse ? 1.1 : 1 }}
