@@ -16,7 +16,7 @@ export default function Dashboard() {
       `}} />
       <div className="bg-[#0D1014] text-on-surface font-body-md min-h-screen flex overflow-hidden">
         {/* SideNavBar */}
-        <nav className="w-[240px] h-screen fixed left-0 top-0 bg-surface-container dark:bg-surface-container border-r border-outline-variant dark:border-outline-variant flex flex-col py-stack-md px-gutter z-50">
+        <nav className="w-[200px] h-screen fixed left-0 top-0 bg-surface-container dark:bg-surface-container border-r border-outline-variant dark:border-outline-variant flex flex-col py-stack-md px-gutter z-50">
           <div className="mb-stack-lg flex items-center gap-3 px-2">
             <span className="material-symbols-outlined text-primary-container text-3xl">psychology</span>
             <div>
@@ -104,7 +104,7 @@ export default function Dashboard() {
         </nav>
 
         {/* TopNavBar */}
-        <header className="fixed top-0 right-0 w-[calc(100%-240px)] h-16 bg-surface dark:bg-surface border-b border-outline-variant dark:border-outline-variant flex items-center justify-between px-gutter ml-[240px] z-40">
+        <header className="fixed top-0 right-0 w-[calc(100%-200px)] h-14 bg-surface dark:bg-surface border-b border-outline-variant dark:border-outline-variant flex items-center justify-between px-gutter ml-[200px] z-40">
           <div className="flex items-center gap-4 w-1/3">
             <div className="relative w-full max-w-md">
               <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">search</span>
@@ -126,11 +126,11 @@ export default function Dashboard() {
         </header>
 
         {/* Main Content Area */}
-        <main className="ml-[240px] mt-16 flex-1 flex flex-col h-[calc(100vh-64px)] w-[calc(100%-240px)] bg-[#0D1014] relative">
+        <main className="ml-[200px] mt-14 flex-1 flex flex-col h-[calc(100vh-56px)] w-[calc(100%-200px)] bg-[#0D1014] relative">
           <div className="flex-1 flex overflow-hidden p-unit gap-unit">
             
             {/* Column 1: Smart Inbox List */}
-            <div className="w-[300px] flex-shrink-0 flex flex-col bg-[#171B21] border-subtle rounded-xl overflow-hidden">
+            <div className="w-[260px] flex-shrink-0 flex flex-col bg-[#171B21] border-subtle rounded-xl overflow-hidden">
               <div className="px-4 py-3 border-b border-subtle flex justify-between items-center bg-[#1C2128]">
                 <h2 className="font-label-md text-label-md text-on-surface font-semibold tracking-wider uppercase">Inbox <span className="text-on-surface-variant ml-1 font-normal">(12)</span></h2>
                 <div className="flex gap-1">
@@ -222,7 +222,7 @@ export default function Dashboard() {
             </div>
 
             {/* Column 3: Extraction / Metadata */}
-            <div className="w-[320px] flex-shrink-0 flex flex-col bg-[#171B21] border-subtle rounded-xl overflow-hidden">
+            <div className="w-[280px] flex-shrink-0 flex flex-col bg-[#171B21] border-subtle rounded-xl overflow-hidden">
               <div className="px-4 py-3 border-b border-subtle bg-[#1C2128]">
                 <h2 className="font-label-md text-label-md text-on-surface font-semibold tracking-wider uppercase">Extracted Data</h2>
               </div>
@@ -270,7 +270,7 @@ export default function Dashboard() {
             </div>
 
             {/* Column 4: Decision Center / AI Panel */}
-            <div className="w-[320px] flex-shrink-0 flex flex-col gap-unit">
+            <div className="w-[280px] flex-shrink-0 flex flex-col gap-unit">
               <div className="flex-1 bg-[#171B21] border-subtle rounded-xl flex flex-col overflow-hidden relative">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-primary-container/5 rounded-full blur-3xl pointer-events-none"></div>
                 <div className="px-4 py-3 border-b border-subtle bg-[#1C2128] flex items-center gap-2">
@@ -325,7 +325,7 @@ export default function Dashboard() {
           </div>
 
           {/* Bottom Panel: Line Items */}
-          <div className="h-[200px] flex-shrink-0 bg-[#171B21] border-t border-subtle mx-unit mb-unit rounded-b-xl overflow-hidden flex flex-col">
+          <div className="h-[160px] flex-shrink-0 bg-[#171B21] border-t border-subtle mx-unit mb-unit rounded-b-xl overflow-hidden flex flex-col">
             <div className="px-4 py-2 border-b border-subtle bg-[#1C2128] flex justify-between items-center">
               <h2 className="font-label-md text-label-md text-on-surface font-semibold tracking-wider uppercase">Line Items</h2>
               <div className="flex items-center gap-4">
