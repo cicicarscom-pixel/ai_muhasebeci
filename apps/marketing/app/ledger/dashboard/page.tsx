@@ -2,395 +2,402 @@
 
 import React from "react";
 
-export default function Dashboard() {
+export default function LedgerDashboard() {
   return (
     <>
       <style dangerouslySetInnerHTML={{ __html: `
         .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 4px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.2); }
-        .border-subtle { border: 1px solid rgba(255, 255, 255, 0.08); }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(139, 92, 246, 0.2); border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(139, 92, 246, 0.4); }
+        .icon-fill { font-variation-settings: 'FILL' 1; }
         .ai-pulse { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
       `}} />
-      <div className="bg-[#0D1014] text-on-surface font-body-md min-h-screen flex overflow-hidden">
-        {/* SideNavBar */}
-        <nav className="w-[200px] h-screen fixed left-0 top-0 bg-surface-container dark:bg-surface-container border-r border-outline-variant dark:border-outline-variant flex flex-col py-stack-md px-gutter z-50">
-          <div className="mb-stack-lg flex items-center gap-3 px-2">
-            <span className="material-symbols-outlined text-primary-container text-3xl">psychology</span>
+      <div className="bg-[#0B0C10] text-gray-200 font-sans min-h-screen flex overflow-hidden">
+        
+        {/* Sol Menü (Sidebar Component) */}
+        <nav className="w-[220px] h-screen fixed left-0 top-0 bg-[#0B0C10]/80 backdrop-blur-md border-r border-white/5 flex flex-col py-4 px-3 z-50">
+          <div className="mb-8 flex items-center gap-3 px-2">
+            <span className="material-symbols-outlined text-[#8B5CF6] text-2xl">psychology</span>
             <div>
-              <h1 className="font-display-lg text-headline-md font-bold text-on-surface dark:text-on-surface m-0 leading-tight">Workigom v2</h1>
-              <p className="font-label-md text-label-md text-on-surface-variant m-0">AI Operating System</p>
+              <h1 className="text-sm font-bold text-white m-0 leading-tight tracking-wide">Workigom v2</h1>
+              <p className="text-[10px] text-gray-400 m-0">Yapay Zeka İşletim Sistemi</p>
             </div>
           </div>
+          
           <div className="flex-1 overflow-y-auto custom-scrollbar">
-            <ul className="space-y-1">
+            <ul className="space-y-1 text-xs">
               <li>
-                <a className="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container-high transition-colors font-body-md text-body-md" href="#">
-                  <span className="material-symbols-outlined text-xl">dashboard</span> Dashboard
+                <a className="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-white/5 transition-colors" href="#">
+                  <span className="material-symbols-outlined text-[18px]">dashboard</span> Panel
                 </a>
               </li>
               <li>
-                {/* Active State: Smart Inbox */}
-                <a className="flex items-center gap-3 px-3 py-2 rounded-lg bg-surface-container-high dark:bg-surface-container-high text-primary-container dark:text-primary-container font-semibold transition-colors opacity-80 duration-150 font-body-md text-body-md" href="#">
-                  <span className="material-symbols-outlined text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>inbox</span> Smart Inbox
+                {/* Aktif Durum */}
+                <a className="flex items-center gap-3 px-3 py-2 rounded-lg bg-[#8B5CF6]/10 text-[#D0BCFF] font-semibold border border-[#8B5CF6]/20 transition-colors" href="#">
+                  <span className="material-symbols-outlined text-[18px] icon-fill">inbox</span> Akıllı Gelen Kutusu
                 </a>
               </li>
               <li>
-                <a className="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container-high transition-colors font-body-md text-body-md" href="#">
-                  <span className="material-symbols-outlined text-xl">group</span> Clients
+                <a className="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-white/5 transition-colors" href="#">
+                  <span className="material-symbols-outlined text-[18px]">group</span> Mükellefler
                 </a>
               </li>
               <li>
-                <a className="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container-high transition-colors font-body-md text-body-md" href="#">
-                  <span className="material-symbols-outlined text-xl">psychology</span> AI Assistant
+                <a className="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-white/5 transition-colors" href="#">
+                  <span className="material-symbols-outlined text-[18px]">psychology</span> AI Asistan
                 </a>
               </li>
               <li>
-                <a className="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container-high transition-colors font-body-md text-body-md" href="#">
-                  <span className="material-symbols-outlined text-xl">description</span> Documents
+                <a className="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-white/5 transition-colors" href="#">
+                  <span className="material-symbols-outlined text-[18px]">description</span> Belgeler
                 </a>
               </li>
               <li>
-                <a className="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container-high transition-colors font-body-md text-body-md" href="#">
-                  <span className="material-symbols-outlined text-xl">fact_check</span> Approvals
+                <a className="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-white/5 transition-colors" href="#">
+                  <span className="material-symbols-outlined text-[18px]">fact_check</span> Onaylar
                 </a>
               </li>
               <li>
-                <a className="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container-high transition-colors font-body-md text-body-md" href="#">
-                  <span className="material-symbols-outlined text-xl">rule</span> Rules Engine
+                <a className="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-white/5 transition-colors" href="#">
+                  <span className="material-symbols-outlined text-[18px]">rule</span> Kural Motoru
                 </a>
               </li>
               <li>
-                <a className="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container-high transition-colors font-body-md text-body-md" href="#">
-                  <span className="material-symbols-outlined text-xl">settings_suggest</span> Automation
-                </a>
-              </li>
-              <li>
-                <a className="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container-high transition-colors font-body-md text-body-md" href="#">
-                  <span className="material-symbols-outlined text-xl">analytics</span> Reports
-                </a>
-              </li>
-              <li>
-                <a className="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container-high transition-colors font-body-md text-body-md" href="#">
-                  <span className="material-symbols-outlined text-xl">link</span> Connections
+                <a className="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-white/5 transition-colors" href="#">
+                  <span className="material-symbols-outlined text-[18px]">settings_suggest</span> Otomasyon
                 </a>
               </li>
             </ul>
           </div>
-          <div className="pt-stack-md border-t border-outline-variant dark:border-outline-variant mt-auto">
-            <ul className="space-y-1">
+          
+          <div className="pt-4 border-t border-white/5 mt-auto">
+            <ul className="space-y-1 text-xs mb-4">
               <li>
-                <a className="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container-high transition-colors font-body-md text-body-md" href="#">
-                  <span className="material-symbols-outlined text-xl">settings</span> Settings
+                <a className="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-white/5 transition-colors" href="#">
+                  <span className="material-symbols-outlined text-[18px]">settings</span> Ayarlar
                 </a>
               </li>
               <li>
-                <a className="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container-high transition-colors font-body-md text-body-md" href="#">
-                  <span className="material-symbols-outlined text-xl">help</span> Support
+                <a className="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-white/5 transition-colors" href="#">
+                  <span className="material-symbols-outlined text-[18px]">help</span> Destek
                 </a>
               </li>
             </ul>
-            <div className="mt-4 flex items-center gap-3 px-3">
-              <div className="w-8 h-8 rounded-full bg-surface-variant flex items-center justify-center overflow-hidden border-subtle">
-                <span className="material-symbols-outlined text-on-surface-variant text-sm">person</span>
+            <div className="flex items-center gap-3 px-3 p-2 rounded-lg bg-white/5 border border-white/5">
+              <div className="w-8 h-8 rounded-full bg-[#8B5CF6]/20 flex items-center justify-center border border-[#8B5CF6]/30">
+                <span className="material-symbols-outlined text-[#D0BCFF] text-sm icon-fill">person</span>
               </div>
               <div className="flex-1 min-w-0">
-                <p className="font-body-sm text-body-sm text-on-surface truncate">Accountant Profile</p>
+                <p className="text-xs text-white font-medium truncate">Mali Müşavir Profili</p>
               </div>
             </div>
           </div>
         </nav>
 
-        {/* TopNavBar */}
-        <header className="fixed top-0 right-0 w-[calc(100%-200px)] h-14 bg-surface dark:bg-surface border-b border-outline-variant dark:border-outline-variant flex items-center justify-between px-gutter ml-[200px] z-40">
-          <div className="flex items-center gap-4 w-1/3">
+        {/* Üst Bar (Header Component) */}
+        <header className="fixed top-0 right-0 w-[calc(100%-220px)] h-14 bg-[#0B0C10]/80 backdrop-blur-md border-b border-white/5 flex items-center justify-between px-6 ml-[220px] z-40">
+          <div className="flex items-center w-1/3">
             <div className="relative w-full max-w-md">
-              <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">search</span>
-              <input className="w-full bg-[#0D1014] border border-outline-variant text-on-surface text-body-sm font-body-sm rounded-lg pl-9 pr-3 py-1.5 focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-all" placeholder="Search documents, suppliers..." type="text" />
+              <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-[18px]">search</span>
+              <input 
+                className="w-full bg-[#13151A] border border-white/5 text-white text-xs rounded-lg pl-9 pr-3 py-2 focus:outline-none focus:border-[#8B5CF6] focus:ring-1 focus:ring-[#8B5CF6]/50 transition-all placeholder-gray-500" 
+                placeholder="Evrak, mükellef veya tedarikçi ara..." 
+                type="text" 
+              />
             </div>
           </div>
+          
           <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2 px-3 py-1.5 bg-[#171B21] border-subtle rounded-full cursor-pointer hover:bg-surface-container-low transition-colors">
-              <span className="material-symbols-outlined text-primary-container text-sm">memory</span>
-              <span className="font-label-md text-label-md text-primary-container font-medium">AI: 42 Docs Processed</span>
+            <div className="flex items-center gap-2 px-3 py-1.5 bg-[#8B5CF6]/10 border border-[#8B5CF6]/20 rounded-full shadow-[0_0_15px_rgba(139,92,246,0.15)]">
+              <span className="material-symbols-outlined text-[#D0BCFF] text-[16px] icon-fill">memory</span>
+              <span className="text-[11px] text-[#D0BCFF] font-medium tracking-wide">AI: 42 Evrak İşlendi</span>
             </div>
-            <button className="w-8 h-8 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-colors">
-              <span className="material-symbols-outlined text-xl">notifications</span>
+            <button className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-white hover:bg-white/5 transition-colors border border-transparent hover:border-white/5">
+              <span className="material-symbols-outlined text-[20px]">notifications</span>
             </button>
-            <button className="w-8 h-8 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-colors">
-              <span className="material-symbols-outlined text-xl">account_circle</span>
+            <button className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-white hover:bg-white/5 transition-colors border border-transparent hover:border-white/5">
+              <span className="material-symbols-outlined text-[20px]">account_circle</span>
             </button>
           </div>
         </header>
 
-        {/* Main Content Area */}
-        <main className="ml-[200px] mt-14 flex-1 flex flex-col h-[calc(100vh-56px)] w-[calc(100%-200px)] bg-[#0D1014] relative">
-          <div className="flex-1 flex overflow-hidden p-unit gap-unit">
+        {/* Ana Panel Düzeni (Main Content Layout) */}
+        <main className="ml-[220px] mt-14 flex-1 flex flex-col h-[calc(100vh-56px)] w-[calc(100%-220px)] relative p-2 gap-2">
+          
+          {/* Üst Kısım: Sütunlar */}
+          <div className="flex-1 flex overflow-hidden gap-2">
             
-            {/* Column 1: Smart Inbox List */}
-            <div className="w-[260px] flex-shrink-0 flex flex-col bg-[#171B21] border-subtle rounded-xl overflow-hidden">
-              <div className="px-4 py-3 border-b border-subtle flex justify-between items-center bg-[#1C2128]">
-                <h2 className="font-label-md text-label-md text-on-surface font-semibold tracking-wider uppercase">Inbox <span className="text-on-surface-variant ml-1 font-normal">(12)</span></h2>
+            {/* 1. GELEN EVRAK (Inbox Panel) */}
+            <div className="w-[260px] flex-shrink-0 flex flex-col bg-[#13151A] border border-white/5 rounded-xl overflow-hidden shadow-lg">
+              <div className="px-4 py-3 border-b border-white/5 flex justify-between items-center bg-[#171A21]">
+                <h2 className="text-[11px] text-white font-bold tracking-wider">GELEN EVRAK <span className="text-gray-500 font-normal ml-1">(12)</span></h2>
                 <div className="flex gap-1">
-                  <button className="w-6 h-6 flex items-center justify-center rounded hover:bg-surface-variant text-on-surface-variant"><span className="material-symbols-outlined text-sm">filter_list</span></button>
-                  <button className="w-6 h-6 flex items-center justify-center rounded hover:bg-surface-variant text-on-surface-variant"><span className="material-symbols-outlined text-sm">sort</span></button>
+                  <button className="w-6 h-6 flex items-center justify-center rounded hover:bg-white/10 text-gray-400"><span className="material-symbols-outlined text-[16px]">filter_list</span></button>
+                  <button className="w-6 h-6 flex items-center justify-center rounded hover:bg-white/10 text-gray-400"><span className="material-symbols-outlined text-[16px]">sort</span></button>
                 </div>
               </div>
+              
               <div className="flex-1 overflow-y-auto custom-scrollbar p-2 space-y-1">
+                {/* Aktif/Seçili Kart */}
+                <div className="p-3 rounded-lg bg-[#1D1B26] border border-[#8B5CF6]/30 cursor-pointer relative shadow-[0_0_15px_rgba(139,92,246,0.05)]">
+                  <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#8B5CF6] rounded-l-lg shadow-[0_0_10px_rgba(139,92,246,0.5)]"></div>
+                  <div className="flex justify-between items-start mb-1">
+                    <span className="text-[12px] font-semibold text-white">Shell Energy Ltd</span>
+                    <span className="text-[10px] text-gray-400 font-mono">Bugün, 09:41</span>
+                  </div>
+                  <div className="flex justify-between items-end">
+                    <div>
+                      <span className="text-[11px] text-gray-400 block mb-1">INV-2023-8991</span>
+                      <div className="flex items-center gap-1.5">
+                        <div className="w-1.5 h-1.5 rounded-full bg-[#10B981] ai-pulse shadow-[0_0_5px_rgba(16,185,129,0.8)]"></div>
+                        <span className="text-[9px] text-[#10B981] font-bold tracking-wider">HAZIR (%99)</span>
+                      </div>
+                    </div>
+                    <span className="text-[12px] font-mono font-bold text-white">£450.20</span>
+                  </div>
+                </div>
+
+                {/* İnceleme Kartı */}
+                <div className="p-3 rounded-lg hover:bg-white/5 border border-transparent hover:border-white/5 cursor-pointer transition-colors">
+                  <div className="flex justify-between items-start mb-1">
+                    <span className="text-[12px] font-medium text-gray-200">AWS EMEA SARL</span>
+                    <span className="text-[10px] text-gray-500 font-mono">Dün</span>
+                  </div>
+                  <div className="flex justify-between items-end">
+                    <div>
+                      <span className="text-[11px] text-gray-500 block mb-1">12489992</span>
+                      <div className="flex items-center gap-1.5">
+                        <div className="w-1.5 h-1.5 rounded-full bg-[#F59E0B] shadow-[0_0_5px_rgba(245,158,11,0.8)]"></div>
+                        <span className="text-[9px] text-[#F59E0B] font-bold tracking-wider">İNCELEME (%64)</span>
+                      </div>
+                    </div>
+                    <span className="text-[12px] font-mono font-medium text-gray-300">£1,240.00</span>
+                  </div>
+                </div>
+
+                {/* Hazır Kart */}
+                <div className="p-3 rounded-lg hover:bg-white/5 border border-transparent hover:border-white/5 cursor-pointer transition-colors">
+                  <div className="flex justify-between items-start mb-1">
+                    <span className="text-[12px] font-medium text-gray-200">Adobe Systems</span>
+                    <span className="text-[10px] text-gray-500 font-mono">12 Ekim</span>
+                  </div>
+                  <div className="flex justify-between items-end">
+                    <div>
+                      <span className="text-[11px] text-gray-500 block mb-1">ADB-441-A</span>
+                      <div className="flex items-center gap-1.5">
+                        <div className="w-1.5 h-1.5 rounded-full bg-[#10B981] shadow-[0_0_5px_rgba(16,185,129,0.5)]"></div>
+                        <span className="text-[9px] text-[#10B981] font-bold tracking-wider">HAZIR (%98)</span>
+                      </div>
+                    </div>
+                    <span className="text-[12px] font-mono font-medium text-gray-300">£54.99</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* 2. DOKÜMAN ÖNİZLEME (PDF Viewer) */}
+            <div className="flex-1 min-w-[300px] flex flex-col bg-[#13151A] border border-white/5 rounded-xl overflow-hidden shadow-lg">
+              <div className="px-3 py-2.5 border-b border-white/5 flex justify-between items-center bg-[#171A21]">
+                <div className="flex items-center gap-3">
+                  <button className="w-7 h-7 flex items-center justify-center rounded hover:bg-white/10 text-gray-400 transition-colors"><span className="material-symbols-outlined text-[16px]">view_sidebar</span></button>
+                  <div className="h-4 w-px bg-white/10"></div>
+                  <span className="text-[11px] font-mono text-gray-300">INV-2023-8991.pdf</span>
+                </div>
+                <div className="flex items-center bg-[#0B0C10] rounded-lg p-0.5 border border-white/5">
+                  <button className="w-7 h-7 flex items-center justify-center rounded hover:bg-white/10 text-gray-400 transition-colors"><span className="material-symbols-outlined text-[16px]">zoom_out</span></button>
+                  <span className="text-[10px] font-mono text-white px-2">%100</span>
+                  <button className="w-7 h-7 flex items-center justify-center rounded hover:bg-white/10 text-gray-400 transition-colors"><span className="material-symbols-outlined text-[16px]">zoom_in</span></button>
+                  <div className="w-px h-4 bg-white/10 mx-1"></div>
+                  <button className="w-7 h-7 flex items-center justify-center rounded hover:bg-white/10 text-gray-400 transition-colors"><span className="material-symbols-outlined text-[16px]">rotate_right</span></button>
+                </div>
+              </div>
+              
+              <div className="flex-1 flex overflow-hidden bg-[#090A0D] relative p-6 items-center justify-center">
+                {/* Fake Document Wrapper */}
+                <div className="w-full max-w-[360px] aspect-[1/1.4] bg-gray-200 rounded-sm shadow-2xl relative overflow-hidden border border-white/10">
+                  <div className="bg-cover bg-center w-full h-full opacity-90 mix-blend-multiply bg-[url('https://lh3.googleusercontent.com/aida-public/AB6AXuDkDQVfvyqRW-rDkXjmdVFTEHxeVi5IN48C3MFTjNGepYvzkUd56nJqI57ssgrvn_dXO2oBkkcLeGeiTw3vOKDD6FiJYWzRZ57ToX2RjpfPT6iYVI7fXXl9niCal96ghcjJ4iSrmeZAoyecu6fJ_AXd8g0uYN5xRFh7YNT_rzhlG2_P9EgGiLC0hpUTU2fCfBnf7vK-hGbI3iyCbyVJ84zs3a8TTBBujiSBoqt4agRZAbR4T6SyGxw9bX5t1OvSYRDhqgtPfcMMH18')]"></div>
+                  
+                  {/* Highlight bounding boxes (Yapay zeka tarama kutucukları) */}
+                  <div className="absolute top-[14%] right-[8%] w-[28%] h-[3.5%] border-[1.5px] border-[#10B981] bg-[#10B981]/10 rounded-sm shadow-[0_0_8px_rgba(16,185,129,0.4)]"></div>
+                  <div className="absolute top-[26%] left-[9%] w-[38%] h-[7%] border-[1.5px] border-[#00F0FF] bg-[#00F0FF]/10 rounded-sm shadow-[0_0_8px_rgba(0,240,255,0.4)]"></div>
+                  <div className="absolute bottom-[22%] right-[8%] w-[22%] h-[2.5%] border-[1.5px] border-[#F59E0B] bg-[#F59E0B]/10 rounded-sm shadow-[0_0_8px_rgba(245,158,11,0.4)]"></div>
+                </div>
+              </div>
+            </div>
+
+            {/* 3. AYRIŞTIRILAN VERİLER VE AI ANALİZİ (Sağ Sütun) */}
+            <div className="flex flex-shrink-0 gap-2 w-[540px]">
+              
+              {/* Sol Bölme (Ayrıştırılan Veriler) */}
+              <div className="flex-1 flex flex-col bg-[#13151A] border border-white/5 rounded-xl overflow-hidden shadow-lg">
+                <div className="px-4 py-3 border-b border-white/5 bg-[#171A21]">
+                  <h2 className="text-[11px] text-white font-bold tracking-wider">AYRIŞTIRILAN VERİLER</h2>
+                </div>
+                <div className="flex-1 overflow-y-auto custom-scrollbar p-4 space-y-4">
+                  <div>
+                    <label className="text-[10px] text-gray-400 mb-1.5 block font-medium">Tedarikçi Adı</label>
+                    <div className="relative group">
+                      <input className="w-full bg-[#0B0C10] border border-white/10 text-white text-[12px] rounded-lg px-3 py-2.5 focus:outline-none focus:border-[#8B5CF6] transition-colors" type="text" defaultValue="Shell Energy Ltd" />
+                      <span className="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-[#8B5CF6] text-[16px] opacity-0 group-hover:opacity-100 transition-opacity">auto_awesome</span>
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <label className="text-[10px] text-gray-400 mb-1.5 block font-medium">Fatura Numarası</label>
+                    <input className="w-full bg-[#0B0C10] border border-white/10 text-white text-[12px] rounded-lg px-3 py-2.5 focus:outline-none focus:border-[#8B5CF6] transition-colors" type="text" defaultValue="INV-2023-8991" />
+                  </div>
+                  
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="text-[10px] text-gray-400 mb-1.5 block font-medium">Düzenleme Tarihi</label>
+                      <input className="w-full bg-[#0B0C10] border border-white/10 text-white text-[12px] rounded-lg px-3 py-2.5 focus:outline-none focus:border-[#8B5CF6] transition-colors" type="text" defaultValue="24 Eki 2023" />
+                    </div>
+                    <div>
+                      <label className="text-[10px] text-gray-400 mb-1.5 block font-medium">Vade Tarihi</label>
+                      <input className="w-full bg-[#0B0C10] border border-white/10 text-white text-[12px] rounded-lg px-3 py-2.5 focus:outline-none focus:border-[#8B5CF6] transition-colors" type="text" defaultValue="24 Kas 2023" />
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <label className="text-[10px] text-gray-400 mb-1.5 block font-medium">Kategori</label>
+                    <div className="relative">
+                      <select className="w-full bg-[#0B0C10] border border-white/10 text-white text-[12px] rounded-lg pl-3 pr-8 py-2.5 appearance-none focus:outline-none focus:border-[#8B5CF6] transition-colors">
+                        <option>Kamu Hizmetleri - Enerji</option>
+                        <option>Ofis Giderleri</option>
+                        <option>Yazılım Abonelikleri</option>
+                      </select>
+                      <span className="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 text-[18px] pointer-events-none">expand_more</span>
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <div className="flex justify-between items-center mb-1.5">
+                      <label className="text-[10px] text-gray-400 font-medium">Vergi No / VKN</label>
+                      <span className="text-[9px] text-[#F59E0B] font-bold bg-[#F59E0B]/10 px-1.5 py-0.5 rounded border border-[#F59E0B]/20">Düşük Güven Oranı</span>
+                    </div>
+                    <input className="w-full bg-[#0B0C10] border border-[#F59E0B]/50 shadow-[0_0_10px_rgba(245,158,11,0.1)] text-white text-[12px] rounded-lg px-3 py-2.5 focus:outline-none focus:border-[#F59E0B] transition-colors" type="text" defaultValue="GB82381283" />
+                  </div>
+                </div>
+              </div>
+
+              {/* Sağ Bölme (AI Analizi) */}
+              <div className="flex-1 flex flex-col bg-[#13151A] border border-white/5 rounded-xl overflow-hidden shadow-lg relative">
+                {/* Subtle Lilac Glow */}
+                <div className="absolute top-0 right-0 w-32 h-32 bg-[#8B5CF6]/10 rounded-full blur-3xl pointer-events-none"></div>
                 
-                {/* Active Item */}
-                <div className="p-3 rounded-lg bg-[#1C2128] border border-primary-container/30 cursor-pointer relative">
-                  <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary-container rounded-l-lg"></div>
-                  <div className="flex justify-between items-start mb-1">
-                    <span className="font-body-sm text-body-sm font-medium text-on-surface">Shell Energy Ltd</span>
-                    <span className="font-mono-sm text-mono-sm text-on-surface-variant">Today, 09:41</span>
-                  </div>
-                  <div className="flex justify-between items-end">
-                    <div>
-                      <span className="font-body-sm text-body-sm text-on-surface-variant block">INV-2023-8991</span>
-                      <div className="flex items-center gap-1 mt-1">
-                        <div className="w-1.5 h-1.5 rounded-full bg-primary-container ai-pulse"></div>
-                        <span className="font-label-md text-[10px] text-primary-container uppercase">Ready (99%)</span>
-                      </div>
-                    </div>
-                    <span className="font-mono-sm text-mono-sm font-medium text-on-surface">£450.20</span>
-                  </div>
+                <div className="px-4 py-3 border-b border-white/5 bg-[#171A21] flex items-center gap-2">
+                  <span className="material-symbols-outlined text-[#8B5CF6] text-[16px] icon-fill">memory</span>
+                  <h2 className="text-[11px] text-[#D0BCFF] font-bold tracking-wider">AI ANALİZİ</h2>
                 </div>
-
-                {/* Inactive Items */}
-                <div className="p-3 rounded-lg hover:bg-[#1C2128] border border-transparent border-subtle cursor-pointer transition-colors">
-                  <div className="flex justify-between items-start mb-1">
-                    <span className="font-body-sm text-body-sm font-medium text-on-surface">AWS EMEA SARL</span>
-                    <span className="font-mono-sm text-mono-sm text-on-surface-variant">Yesterday</span>
-                  </div>
-                  <div className="flex justify-between items-end">
-                    <div>
-                      <span className="font-body-sm text-body-sm text-on-surface-variant block">12489992</span>
-                      <div className="flex items-center gap-1 mt-1">
-                        <div className="w-1.5 h-1.5 rounded-full bg-error"></div>
-                        <span className="font-label-md text-[10px] text-error uppercase">Review (64%)</span>
-                      </div>
-                    </div>
-                    <span className="font-mono-sm text-mono-sm font-medium text-on-surface">£1,240.00</span>
-                  </div>
-                </div>
-
-                <div className="p-3 rounded-lg hover:bg-[#1C2128] border border-transparent border-subtle cursor-pointer transition-colors">
-                  <div className="flex justify-between items-start mb-1">
-                    <span className="font-body-sm text-body-sm font-medium text-on-surface">Adobe Systems</span>
-                    <span className="font-mono-sm text-mono-sm text-on-surface-variant">Oct 12</span>
-                  </div>
-                  <div className="flex justify-between items-end">
-                    <div>
-                      <span className="font-body-sm text-body-sm text-on-surface-variant block">ADB-441-A</span>
-                      <div className="flex items-center gap-1 mt-1">
-                        <div className="w-1.5 h-1.5 rounded-full bg-primary-container"></div>
-                        <span className="font-label-md text-[10px] text-primary-container uppercase">Ready (98%)</span>
-                      </div>
-                    </div>
-                    <span className="font-mono-sm text-mono-sm font-medium text-on-surface">£54.99</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Column 2: Document Preview */}
-            <div className="flex-1 min-w-[300px] flex flex-col bg-[#171B21] border-subtle rounded-xl overflow-hidden">
-              <div className="px-3 py-2 border-b border-subtle flex justify-between items-center bg-[#1C2128]">
-                <div className="flex items-center gap-2">
-                  <button className="w-7 h-7 flex items-center justify-center rounded hover:bg-surface-variant text-on-surface-variant"><span className="material-symbols-outlined text-sm">view_sidebar</span></button>
-                  <span className="font-label-md text-label-md text-on-surface-variant border-l border-subtle pl-2">INV-2023-8991.pdf</span>
-                </div>
-                <div className="flex items-center gap-1 bg-[#0D1014] rounded-md p-0.5 border-subtle">
-                  <button className="w-7 h-7 flex items-center justify-center rounded hover:bg-surface-variant text-on-surface-variant"><span className="material-symbols-outlined text-sm">zoom_out</span></button>
-                  <span className="font-mono-sm text-mono-sm text-on-surface px-1">100%</span>
-                  <button className="w-7 h-7 flex items-center justify-center rounded hover:bg-surface-variant text-on-surface-variant"><span className="material-symbols-outlined text-sm">zoom_in</span></button>
-                  <div className="w-px h-4 bg-outline-variant mx-1"></div>
-                  <button className="w-7 h-7 flex items-center justify-center rounded hover:bg-surface-variant text-on-surface-variant"><span className="material-symbols-outlined text-sm">rotate_right</span></button>
-                </div>
-              </div>
-              <div className="flex-1 flex overflow-hidden bg-[#0D1014] relative p-4 items-center justify-center">
-                <div className="w-full max-w-md aspect-[1/1.4] bg-white rounded shadow-md relative overflow-hidden">
-                  <div className="bg-cover bg-center w-full h-full opacity-90 mix-blend-multiply" data-alt="..." style={{backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuDkDQVfvyqRW-rDkXjmdVFTEHxeVi5IN48C3MFTjNGepYvzkUd56nJqI57ssgrvn_dXO2oBkkcLeGeiTw3vOKDD6FiJYWzRZ57ToX2RjpfPT6iYVI7fXXl9niCal96ghcjJ4iSrmeZAoyecu6fJ_AXd8g0uYN5xRFh7YNT_rzhlG2_P9EgGiLC0hpUTU2fCfBnf7vK-hGbI3iyCbyVJ84zs3a8TTBBujiSBoqt4agRZAbR4T6SyGxw9bX5t1OvSYRDhqgtPfcMMH18')"}}></div>
-                  <div className="absolute top-[15%] right-[10%] w-[25%] h-[4%] border-2 border-primary-container bg-primary-container/10 rounded-sm"></div>
-                  <div className="absolute top-[25%] left-[10%] w-[35%] h-[8%] border-2 border-primary-container bg-primary-container/10 rounded-sm"></div>
-                  <div className="absolute bottom-[20%] right-[10%] w-[20%] h-[3%] border-2 border-error bg-error/10 rounded-sm"></div>
-                </div>
-              </div>
-            </div>
-
-            {/* Column 3: Extraction / Metadata */}
-            <div className="w-[280px] flex-shrink-0 flex flex-col bg-[#171B21] border-subtle rounded-xl overflow-hidden">
-              <div className="px-4 py-3 border-b border-subtle bg-[#1C2128]">
-                <h2 className="font-label-md text-label-md text-on-surface font-semibold tracking-wider uppercase">Extracted Data</h2>
-              </div>
-              <div className="flex-1 overflow-y-auto custom-scrollbar p-4 space-y-4">
-                <div>
-                  <label className="font-label-md text-label-md text-on-surface-variant mb-1.5 block">Supplier Name</label>
-                  <div className="relative group">
-                    <input className="w-full bg-[#0D1014] border border-outline-variant text-on-surface text-body-sm font-body-sm rounded-md px-3 py-2 focus:outline-none focus:border-primary-container transition-colors" type="text" defaultValue="Shell Energy Ltd" />
-                    <span className="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-primary-container text-xs opacity-0 group-hover:opacity-100 transition-opacity">auto_awesome</span>
-                  </div>
-                </div>
-                <div>
-                  <label className="font-label-md text-label-md text-on-surface-variant mb-1.5 block">Invoice Number</label>
-                  <input className="w-full bg-[#0D1014] border border-outline-variant text-on-surface text-body-sm font-body-sm rounded-md px-3 py-2 focus:outline-none focus:border-primary-container transition-colors" type="text" defaultValue="INV-2023-8991" />
-                </div>
-                <div className="grid grid-cols-2 gap-3">
-                  <div>
-                    <label className="font-label-md text-label-md text-on-surface-variant mb-1.5 block">Issue Date</label>
-                    <input className="w-full bg-[#0D1014] border border-outline-variant text-on-surface text-body-sm font-body-sm rounded-md px-3 py-2 focus:outline-none focus:border-primary-container transition-colors" type="text" defaultValue="24 Oct 2023" />
-                  </div>
-                  <div>
-                    <label className="font-label-md text-label-md text-on-surface-variant mb-1.5 block">Due Date</label>
-                    <input className="w-full bg-[#0D1014] border border-outline-variant text-on-surface text-body-sm font-body-sm rounded-md px-3 py-2 focus:outline-none focus:border-primary-container transition-colors" type="text" defaultValue="24 Nov 2023" />
-                  </div>
-                </div>
-                <div>
-                  <label className="font-label-md text-label-md text-on-surface-variant mb-1.5 block">Category</label>
-                  <div className="relative">
-                    <select className="w-full bg-[#0D1014] border border-outline-variant text-on-surface text-body-sm font-body-sm rounded-md pl-3 pr-8 py-2 appearance-none focus:outline-none focus:border-primary-container transition-colors">
-                      <option>Utilities - Fuel & Energy</option>
-                      <option>Office Supplies</option>
-                      <option>Software Subscriptions</option>
-                    </select>
-                    <span className="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm pointer-events-none">expand_more</span>
-                  </div>
-                </div>
-                <div>
-                  <div className="flex justify-between items-center mb-1.5">
-                    <label className="font-label-md text-label-md text-on-surface-variant">Tax / VAT ID</label>
-                    <span className="font-label-md text-[10px] text-orange-400">Low Confidence</span>
-                  </div>
-                  <input className="w-full bg-[#0D1014] border border-orange-500/50 shadow-[0_0_8px_rgba(249,115,22,0.15)] text-on-surface text-body-sm font-body-sm rounded-md px-3 py-2 focus:outline-none focus:border-orange-500 transition-colors" type="text" defaultValue="GB82381283" />
-                </div>
-              </div>
-            </div>
-
-            {/* Column 4: Decision Center / AI Panel */}
-            <div className="w-[280px] flex-shrink-0 flex flex-col gap-unit">
-              <div className="flex-1 bg-[#171B21] border-subtle rounded-xl flex flex-col overflow-hidden relative">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-primary-container/5 rounded-full blur-3xl pointer-events-none"></div>
-                <div className="px-4 py-3 border-b border-subtle bg-[#1C2128] flex items-center gap-2">
-                  <span className="material-symbols-outlined text-primary-container text-sm">memory</span>
-                  <h2 className="font-label-md text-label-md text-primary-container font-semibold tracking-wider uppercase">AI Analysis</h2>
-                </div>
-                <div className="p-4 space-y-4 flex-1 overflow-y-auto custom-scrollbar">
+                
+                <div className="p-4 space-y-5 flex-1 overflow-y-auto custom-scrollbar relative z-10">
                   <div className="flex items-start gap-3">
-                    <div className="w-5 h-5 mt-0.5 rounded-full bg-primary-container/20 flex items-center justify-center flex-shrink-0">
-                      <span className="material-symbols-outlined text-primary-container text-[12px]">check</span>
+                    <div className="w-6 h-6 mt-0.5 rounded-full bg-[#10B981]/10 flex items-center justify-center flex-shrink-0 border border-[#10B981]/20">
+                      <span className="material-symbols-outlined text-[#10B981] text-[14px] icon-fill">check_circle</span>
                     </div>
                     <div>
-                      <p className="font-body-sm text-body-sm text-on-surface font-medium">Supplier Recognized</p>
-                      <p className="font-mono-sm text-mono-sm text-on-surface-variant mt-0.5">Matched with Vendor ID: V-8891 (99.6%)</p>
+                      <p className="text-[12px] text-white font-semibold">Tedarikçi Tanımlandı</p>
+                      <p className="text-[10px] text-gray-400 font-mono mt-0.5">Eşleşen Cari ID: V-8891 (%99.6)</p>
                     </div>
                   </div>
+                  
                   <div className="flex items-start gap-3">
-                    <div className="w-5 h-5 mt-0.5 rounded-full bg-primary-container/20 flex items-center justify-center flex-shrink-0">
-                      <span className="material-symbols-outlined text-primary-container text-[12px]">label</span>
+                    <div className="w-6 h-6 mt-0.5 rounded-full bg-[#10B981]/10 flex items-center justify-center flex-shrink-0 border border-[#10B981]/20">
+                      <span className="material-symbols-outlined text-[#10B981] text-[14px] icon-fill">label</span>
                     </div>
                     <div>
-                      <p className="font-body-sm text-body-sm text-on-surface font-medium">Category Suggested</p>
-                      <p className="font-mono-sm text-mono-sm text-on-surface-variant mt-0.5">Utilities based on historical data.</p>
+                      <p className="text-[12px] text-white font-semibold">Kategori Önerildi</p>
+                      <p className="text-[10px] text-gray-400 font-mono mt-0.5">Geçmiş verilere dayalı Enerji ataması.</p>
                     </div>
                   </div>
+                  
                   <div className="flex items-start gap-3">
-                    <div className="w-5 h-5 mt-0.5 rounded-full bg-primary-container/20 flex items-center justify-center flex-shrink-0">
-                      <span className="material-symbols-outlined text-primary-container text-[12px]">account_balance</span>
+                    <div className="w-6 h-6 mt-0.5 rounded-full bg-[#10B981]/10 flex items-center justify-center flex-shrink-0 border border-[#10B981]/20">
+                      <span className="material-symbols-outlined text-[#10B981] text-[14px] icon-fill">account_balance</span>
                     </div>
                     <div>
-                      <p className="font-body-sm text-body-sm text-on-surface font-medium">Ledger Account: 760</p>
-                      <p className="font-mono-sm text-mono-sm text-on-surface-variant mt-0.5">Rule triggered: "Shell Energy Default"</p>
+                      <p className="text-[12px] text-white font-semibold">Hesap Kodu: 760</p>
+                      <p className="text-[10px] text-[#8B5CF6] font-mono mt-0.5">Kural tetiklendi: "Shell Varsayılan"</p>
                     </div>
                   </div>
                 </div>
-                <div className="p-4 bg-[#1C2128] border-t border-subtle grid grid-cols-2 gap-2">
-                  <button className="col-span-2 bg-primary-container text-on-primary font-body-sm font-semibold py-2.5 px-4 rounded-md hover:bg-primary-fixed-dim transition-colors flex justify-center items-center gap-2">
-                    <span className="material-symbols-outlined text-sm">done_all</span> Approve & Post
+                
+                {/* Aksiyon Butonları */}
+                <div className="p-4 bg-[#171A21] border-t border-white/5 flex flex-col gap-2 relative z-10">
+                  <button className="w-full bg-gradient-to-r from-[#10B981] to-[#059669] text-white text-[12px] font-bold py-3 px-4 rounded-lg hover:shadow-[0_0_20px_rgba(16,185,129,0.3)] transition-all flex justify-center items-center gap-2 group">
+                    <span className="material-symbols-outlined text-[18px] group-hover:scale-110 transition-transform icon-fill">done_all</span> Onayla ve İşle
                   </button>
-                  <button className="bg-[#0D1014] text-on-surface font-body-sm py-2 px-3 rounded-md border border-subtle hover:bg-surface-container-low transition-colors text-center">
-                    Edit Draft
-                  </button>
-                  <button className="bg-[#0D1014] text-error font-body-sm py-2 px-3 rounded-md border border-subtle hover:bg-error/10 transition-colors text-center">
-                    Reject
-                  </button>
-                  <button className="col-span-2 bg-transparent text-primary-container font-body-sm py-1.5 px-3 rounded-md border border-dashed border-primary-container/30 hover:bg-primary-container/5 transition-colors text-center flex justify-center items-center gap-1 mt-1">
-                    <span className="material-symbols-outlined text-xs">school</span> Teach AI
+                  <div className="flex gap-2">
+                    <button className="flex-1 bg-[#0B0C10] text-gray-300 text-[11px] font-medium py-2.5 px-3 rounded-lg border border-white/10 hover:bg-white/5 hover:text-white transition-colors text-center">
+                      Taslağı Düzenle
+                    </button>
+                    <button className="flex-1 bg-[#0B0C10] text-[#EF4444] text-[11px] font-medium py-2.5 px-3 rounded-lg border border-[#EF4444]/30 hover:bg-[#EF4444]/10 transition-colors text-center">
+                      Reddet
+                    </button>
+                  </div>
+                  <button className="w-full bg-transparent text-[#D0BCFF] text-[11px] font-medium py-2 px-3 rounded-lg border border-dashed border-[#8B5CF6]/40 hover:bg-[#8B5CF6]/10 transition-colors text-center flex justify-center items-center gap-1.5 mt-1">
+                    <span className="material-symbols-outlined text-[14px]">school</span> Yapay Zekayı Eğit
                   </button>
                 </div>
               </div>
             </div>
+            
           </div>
 
-          {/* Bottom Panel: Line Items */}
-          <div className="h-[160px] flex-shrink-0 bg-[#171B21] border-t border-subtle mx-unit mb-unit rounded-b-xl overflow-hidden flex flex-col">
-            <div className="px-4 py-2 border-b border-subtle bg-[#1C2128] flex justify-between items-center">
-              <h2 className="font-label-md text-label-md text-on-surface font-semibold tracking-wider uppercase">Line Items</h2>
-              <div className="flex items-center gap-4">
-                <span className="font-mono-sm text-mono-sm text-on-surface-variant">Net: £375.17</span>
-                <span className="font-mono-sm text-mono-sm text-on-surface-variant">Tax: £75.03</span>
-                <span className="font-mono-sm text-mono-sm font-semibold text-primary-container">Total: £450.20</span>
+          {/* Alt Tablo (Fatura Satırları / Line Items) */}
+          <div className="h-[180px] flex-shrink-0 bg-[#13151A] border border-white/5 rounded-xl overflow-hidden flex flex-col shadow-lg">
+            <div className="px-4 py-2.5 border-b border-white/5 bg-[#171A21] flex justify-between items-center">
+              <h2 className="text-[11px] text-white font-bold tracking-wider">FATURA SATIRLARI</h2>
+              <div className="flex items-center gap-5">
+                <span className="text-[11px] font-mono text-gray-400">Matrah: £375.17</span>
+                <span className="text-[11px] font-mono text-gray-400">KDV: £75.03</span>
+                <span className="text-[12px] font-mono font-bold text-[#D0BCFF]">Genel Toplam: £450.20</span>
               </div>
             </div>
+            
             <div className="flex-1 overflow-auto custom-scrollbar">
               <table className="w-full text-left border-collapse">
-                <thead className="bg-[#0D1014] sticky top-0 z-10">
+                <thead className="bg-[#0B0C10] sticky top-0 z-10 border-b border-white/5">
                   <tr>
-                    <th className="px-4 py-2 font-label-md text-[11px] text-on-surface-variant font-medium border-b border-subtle w-10">#</th>
-                    <th className="px-4 py-2 font-label-md text-[11px] text-on-surface-variant font-medium border-b border-subtle">Description</th>
-                    <th className="px-4 py-2 font-label-md text-[11px] text-on-surface-variant font-medium border-b border-subtle w-24">Account</th>
-                    <th className="px-4 py-2 font-label-md text-[11px] text-on-surface-variant font-medium border-b border-subtle text-right w-20">Qty</th>
-                    <th className="px-4 py-2 font-label-md text-[11px] text-on-surface-variant font-medium border-b border-subtle text-right w-24">Unit Price</th>
-                    <th className="px-4 py-2 font-label-md text-[11px] text-on-surface-variant font-medium border-b border-subtle w-24">Tax Code</th>
-                    <th className="px-4 py-2 font-label-md text-[11px] text-on-surface-variant font-medium border-b border-subtle text-right w-28">Total</th>
-                    <th className="px-4 py-2 font-label-md text-[11px] text-on-surface-variant font-medium border-b border-subtle w-10"></th>
+                    <th className="px-4 py-2.5 text-[10px] text-gray-500 font-semibold w-10">#</th>
+                    <th className="px-4 py-2.5 text-[10px] text-gray-500 font-semibold">Açıklama</th>
+                    <th className="px-4 py-2.5 text-[10px] text-gray-500 font-semibold w-24">Hesap Kodu</th>
+                    <th className="px-4 py-2.5 text-[10px] text-gray-500 font-semibold text-right w-20">Adet</th>
+                    <th className="px-4 py-2.5 text-[10px] text-gray-500 font-semibold text-right w-24">Birim Fiyat</th>
+                    <th className="px-4 py-2.5 text-[10px] text-gray-500 font-semibold w-28">KDV Oranı</th>
+                    <th className="px-4 py-2.5 text-[10px] text-gray-500 font-semibold text-right w-28">Toplam</th>
+                    <th className="px-4 py-2.5 w-12"></th>
                   </tr>
                 </thead>
-                <tbody className="font-body-sm text-body-sm text-on-surface">
-                  <tr className="hover:bg-[#1C2128] border-b border-subtle/50 group">
-                    <td className="px-4 py-2 text-on-surface-variant font-mono-sm">1</td>
-                    <td className="px-4 py-2"><input className="w-full bg-transparent border-none p-0 focus:ring-0 text-on-surface font-body-sm" type="text" defaultValue="Electricity Supply - Oct 23" /></td>
-                    <td className="px-4 py-2 font-mono-sm text-primary-container">760</td>
-                    <td className="px-4 py-2 text-right"><input className="w-full bg-transparent border-none p-0 focus:ring-0 text-right text-on-surface font-mono-sm" type="text" defaultValue="1.00" /></td>
-                    <td className="px-4 py-2 text-right font-mono-sm">£375.17</td>
-                    <td className="px-4 py-2">
-                      <span className="px-2 py-0.5 rounded bg-surface-container-high border-subtle text-xs font-mono-sm text-on-surface-variant">20% (S)</span>
+                <tbody className="text-[12px] text-gray-200">
+                  <tr className="hover:bg-white/5 border-b border-white/5 group transition-colors">
+                    <td className="px-4 py-2.5 text-gray-500 font-mono">1</td>
+                    <td className="px-4 py-2.5 text-white">Electricity Supply - Oct 23</td>
+                    <td className="px-4 py-2.5 font-mono text-[#00F0FF] font-medium">760</td>
+                    <td className="px-4 py-2.5 text-right font-mono">1.00</td>
+                    <td className="px-4 py-2.5 text-right font-mono">£375.17</td>
+                    <td className="px-4 py-2.5">
+                      <span className="px-2.5 py-1 rounded-md bg-white/5 border border-white/10 text-[10px] font-mono text-gray-300">20% (S)</span>
                     </td>
-                    <td className="px-4 py-2 text-right font-mono-sm font-medium">£450.20</td>
-                    <td className="px-4 py-2 text-center opacity-0 group-hover:opacity-100 transition-opacity">
-                      <button className="text-on-surface-variant hover:text-error"><span className="material-symbols-outlined text-sm">delete</span></button>
+                    <td className="px-4 py-2.5 text-right font-mono font-bold text-white">£450.20</td>
+                    <td className="px-4 py-2.5 text-center opacity-0 group-hover:opacity-100 transition-opacity">
+                      <button className="text-gray-500 hover:text-[#EF4444] transition-colors flex items-center justify-center w-full">
+                        <span className="material-symbols-outlined text-[16px]">delete</span>
+                      </button>
                     </td>
                   </tr>
-                  <tr className="hover:bg-[#1C2128]">
-                    <td className="px-4 py-2 text-on-surface-variant font-mono-sm">*</td>
-                    <td className="px-4 py-2 text-on-surface-variant italic text-xs">Add new line...</td>
-                    <td className="px-4 py-2"></td>
-                    <td className="px-4 py-2"></td>
-                    <td className="px-4 py-2"></td>
-                    <td className="px-4 py-2"></td>
-                    <td className="px-4 py-2"></td>
-                    <td className="px-4 py-2"></td>
+                  <tr className="hover:bg-white/5 transition-colors cursor-pointer group">
+                    <td className="px-4 py-2.5 text-gray-600 font-mono group-hover:text-gray-400">+</td>
+                    <td className="px-4 py-2.5 text-gray-500 italic text-[11px] group-hover:text-gray-400">Yeni satır ekle...</td>
+                    <td colSpan={6}></td>
                   </tr>
                 </tbody>
               </table>
             </div>
           </div>
           
-          {/* Floating AI Copilot */}
-          <div className="absolute bottom-6 right-6 flex flex-col items-end gap-2 z-50 group">
-            <div className="w-64 bg-[#1C2128] border border-primary-container/30 rounded-xl p-3 shadow-lg shadow-black/50 opacity-0 group-hover:opacity-100 transition-opacity translate-y-2 group-hover:translate-y-0 duration-200 pointer-events-none group-hover:pointer-events-auto">
-              <p className="font-body-sm text-body-sm text-on-surface mb-2">I noticed the VAT number confidence is low (64%). Should I create a validation rule for this supplier?</p>
-              <div className="flex gap-2">
-                <button className="flex-1 bg-primary-container/10 hover:bg-primary-container/20 text-primary-container border border-primary-container/30 rounded py-1 font-label-md text-xs transition-colors">Yes, create rule</button>
-                <button className="flex-1 bg-[#0D1014] hover:bg-surface-container-low text-on-surface-variant border border-subtle rounded py-1 font-label-md text-xs transition-colors">Dismiss</button>
-              </div>
-            </div>
-            <button className="w-12 h-12 rounded-full bg-primary-container text-on-primary flex items-center justify-center shadow-lg hover:scale-105 transition-transform">
-              <span className="material-symbols-outlined text-xl">temp_preferences_custom</span>
-            </button>
-          </div>
         </main>
       </div>
     </>
