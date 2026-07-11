@@ -230,13 +230,7 @@ export default function WorkflowPage() {
           </div>
         </div>
 
-        <footer className='h-12 flex-shrink-0 bg-brand-bg border-t border-brand-border flex items-center justify-between text-xs text-brand-text pt-4 z-20'>
-          <div className='flex items-center gap-2'>
-            <i className='ph ph-sparkle text-brand-accent3'></i>
-            <span className='text-brand-accent3 font-medium'>İpucu:</span>
-            <span>Kartları sürükleyip bırakarak durumlarını değiştirebilirsiniz.</span>
-          </div>
-        </footer>
+
       </div>
       </div>
     </>
