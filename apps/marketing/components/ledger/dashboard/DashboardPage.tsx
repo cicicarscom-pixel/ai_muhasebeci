@@ -92,102 +92,6 @@ export default function DashboardPage() {
         </div>
 
         {/* ROW 2 */}
-        {/* Workflow Summary (7 cols) */}
-        <div className="col-span-7 glass-panel p-5 flex flex-col">
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-sm font-semibold text-on-surface tracking-tight">İş Akışı</h2>
-            <a className="text-primary-container hover:underline transition-colors text-[10px] font-semibold" href="#">Detay</a>
-          </div>
-          <div className="flex-1 flex flex-col justify-center relative">
-            <div className="absolute top-1/2 left-8 right-8 h-[1px] bg-white/10 -translate-y-1/2 z-0"></div>
-            <div className="flex justify-between items-center relative z-10 px-4">
-              
-              <div className="flex items-center gap-3 bg-surface/80 backdrop-blur-md px-3 py-2 rounded-xl border border-white/5">
-                <div className="w-8 h-8 rounded-full bg-secondary-container/20 flex items-center justify-center">
-                  <span className="material-symbols-outlined text-secondary-container text-[14px]">inventory_2</span>
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-[9px] text-on-surface-variant uppercase font-bold">Yeni</span>
-                  <span className="text-sm font-bold text-on-surface">24</span>
-                </div>
-              </div>
-
-              <span className="material-symbols-outlined text-white/20 text-sm">arrow_forward</span>
-
-              <div className="flex items-center gap-3 bg-surface/80 backdrop-blur-md px-3 py-2 rounded-xl border border-white/5">
-                <div className="w-8 h-8 rounded-full bg-[#9D5CFF]/20 flex items-center justify-center">
-                  <span className="material-symbols-outlined text-[#9D5CFF] text-[14px]">bolt</span>
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-[9px] text-on-surface-variant uppercase font-bold">AI İşliyor</span>
-                  <span className="text-sm font-bold text-on-surface">47</span>
-                </div>
-              </div>
-
-              <span className="material-symbols-outlined text-white/20 text-sm">arrow_forward</span>
-
-              <div className="flex items-center gap-3 bg-surface/80 backdrop-blur-md px-3 py-2 rounded-xl border border-white/5">
-                <div className="w-8 h-8 rounded-full bg-error/20 flex items-center justify-center">
-                  <span className="material-symbols-outlined text-error text-[14px]">engineering</span>
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-[9px] text-on-surface-variant uppercase font-bold">Kontrol</span>
-                  <span className="text-sm font-bold text-on-surface">19</span>
-                </div>
-              </div>
-
-              <span className="material-symbols-outlined text-white/20 text-sm">arrow_forward</span>
-
-              <div className="flex items-center gap-3 bg-surface/80 backdrop-blur-md px-3 py-2 rounded-xl border border-white/5">
-                <div className="w-8 h-8 rounded-full bg-primary-container/20 flex items-center justify-center">
-                  <span className="material-symbols-outlined text-primary-container text-[14px] glow-text">check_circle</span>
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-[9px] text-on-surface-variant uppercase font-bold">Biten</span>
-                  <span className="text-sm font-bold text-on-surface">156</span>
-                </div>
-              </div>
-
-            </div>
-          </div>
-        </div>
-
-        {/* Recent Documents (5 cols) */}
-        <div className="col-span-5 glass-panel p-5">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-sm font-semibold text-on-surface tracking-tight">Son Gelenler</h2>
-            <a className="text-primary-container hover:underline transition-colors text-[10px] font-semibold" href="#">Tümü</a>
-          </div>
-          <div className="flex flex-col gap-1.5">
-            {[
-              { name: 'Shell Türkiye', type: 'Fatura', date: 'Bugün', status: 'HAZIR', color: 'primary-container', icon: 'local_gas_station' },
-              { name: 'Migros A.Ş.', type: 'Fiş', date: 'Bugün', status: 'KONTROL', color: 'tertiary-container', icon: 'store' },
-              { name: 'Opet Petrolcülük', type: 'Fatura', date: 'Dün', status: 'EKSİK BİLGİ', color: 'tertiary-fixed-dim', icon: 'local_shipping' },
-              { name: 'Turkcell', type: 'Fatura', date: 'Dün', status: 'HAZIR', color: 'primary-container', icon: 'cell_tower' },
-              { name: 'Yemeksepeti', type: 'Fiş', date: '2 GÜN ÖNCE', status: 'KONTROL', color: 'tertiary-container', icon: 'restaurant' },
-            ].map((doc, i) => (
-              <div key={i} className="flex items-center justify-between p-2 hover:bg-white/[0.03] rounded-lg transition-all border border-transparent hover:border-white/5 cursor-pointer">
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-md bg-surface-container border border-white/5 flex items-center justify-center shrink-0">
-                    <span className="material-symbols-outlined text-on-surface-variant text-[14px]">{doc.icon}</span>
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="text-[11px] text-on-surface font-semibold leading-tight">{doc.name}</span>
-                    <span className="text-[9px] text-on-surface-variant uppercase tracking-wider leading-tight">{doc.type} • {doc.date}</span>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <span className={`px-2 py-0.5 rounded border text-[9px] font-bold bg-${doc.color}/10 border-${doc.color}/20 text-${doc.color}`}>
-                    {doc.status}
-                  </span>
-                  <span className="material-symbols-outlined text-[16px] text-on-surface-variant/40 hover:text-on-surface transition-colors">more_vert</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* ROW 3 */}
         {/* Upcoming Deadlines (3 cols) */}
         <div className="col-span-3 glass-panel p-5">
           <div className="flex justify-between items-center mb-4">
@@ -268,6 +172,102 @@ export default function DashboardPage() {
                 <p className="text-[9px] text-on-surface-variant leading-tight mb-1.5">Geçmiş verilere dayanarak otomatik eşleşme bulundu.</p>
                 <button className="text-[9px] font-bold text-primary-container hover:underline glow-text">Otomatik Onayla →</button>
               </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Recent Documents (5 cols) */}
+        <div className="col-span-5 glass-panel p-5">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-sm font-semibold text-on-surface tracking-tight">Son Gelenler</h2>
+            <a className="text-primary-container hover:underline transition-colors text-[10px] font-semibold" href="#">Tümü</a>
+          </div>
+          <div className="flex flex-col gap-1.5">
+            {[
+              { name: 'Shell Türkiye', type: 'Fatura', date: 'Bugün', status: 'HAZIR', color: 'primary-container', icon: 'local_gas_station' },
+              { name: 'Migros A.Ş.', type: 'Fiş', date: 'Bugün', status: 'KONTROL', color: 'tertiary-container', icon: 'store' },
+              { name: 'Opet Petrolcülük', type: 'Fatura', date: 'Dün', status: 'EKSİK BİLGİ', color: 'tertiary-fixed-dim', icon: 'local_shipping' },
+              { name: 'Turkcell', type: 'Fatura', date: 'Dün', status: 'HAZIR', color: 'primary-container', icon: 'cell_tower' },
+              { name: 'Yemeksepeti', type: 'Fiş', date: '2 GÜN ÖNCE', status: 'KONTROL', color: 'tertiary-container', icon: 'restaurant' },
+            ].map((doc, i) => (
+              <div key={i} className="flex items-center justify-between p-2 hover:bg-white/[0.03] rounded-lg transition-all border border-transparent hover:border-white/5 cursor-pointer">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-md bg-surface-container border border-white/5 flex items-center justify-center shrink-0">
+                    <span className="material-symbols-outlined text-on-surface-variant text-[14px]">{doc.icon}</span>
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-[11px] text-on-surface font-semibold leading-tight">{doc.name}</span>
+                    <span className="text-[9px] text-on-surface-variant uppercase tracking-wider leading-tight">{doc.type} • {doc.date}</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className={`px-2 py-0.5 rounded border text-[9px] font-bold bg-${doc.color}/10 border-${doc.color}/20 text-${doc.color}`}>
+                    {doc.status}
+                  </span>
+                  <span className="material-symbols-outlined text-[16px] text-on-surface-variant/40 hover:text-on-surface transition-colors">more_vert</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* ROW 3 */}
+        {/* Workflow Summary (7 cols) */}
+        <div className="col-span-7 glass-panel p-5 flex flex-col">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-sm font-semibold text-on-surface tracking-tight">İş Akışı</h2>
+            <a className="text-primary-container hover:underline transition-colors text-[10px] font-semibold" href="#">Detay</a>
+          </div>
+          <div className="flex-1 flex flex-col justify-center relative">
+            <div className="absolute top-1/2 left-8 right-8 h-[1px] bg-white/10 -translate-y-1/2 z-0"></div>
+            <div className="flex justify-between items-center relative z-10 px-4">
+              
+              <div className="flex items-center gap-3 bg-surface/80 backdrop-blur-md px-3 py-2 rounded-xl border border-white/5">
+                <div className="w-8 h-8 rounded-full bg-secondary-container/20 flex items-center justify-center">
+                  <span className="material-symbols-outlined text-secondary-container text-[14px]">inventory_2</span>
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-[9px] text-on-surface-variant uppercase font-bold">Yeni</span>
+                  <span className="text-sm font-bold text-on-surface">24</span>
+                </div>
+              </div>
+
+              <span className="material-symbols-outlined text-white/20 text-sm">arrow_forward</span>
+
+              <div className="flex items-center gap-3 bg-surface/80 backdrop-blur-md px-3 py-2 rounded-xl border border-white/5">
+                <div className="w-8 h-8 rounded-full bg-[#9D5CFF]/20 flex items-center justify-center">
+                  <span className="material-symbols-outlined text-[#9D5CFF] text-[14px]">bolt</span>
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-[9px] text-on-surface-variant uppercase font-bold">AI İşliyor</span>
+                  <span className="text-sm font-bold text-on-surface">47</span>
+                </div>
+              </div>
+
+              <span className="material-symbols-outlined text-white/20 text-sm">arrow_forward</span>
+
+              <div className="flex items-center gap-3 bg-surface/80 backdrop-blur-md px-3 py-2 rounded-xl border border-white/5">
+                <div className="w-8 h-8 rounded-full bg-error/20 flex items-center justify-center">
+                  <span className="material-symbols-outlined text-error text-[14px]">engineering</span>
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-[9px] text-on-surface-variant uppercase font-bold">Kontrol</span>
+                  <span className="text-sm font-bold text-on-surface">19</span>
+                </div>
+              </div>
+
+              <span className="material-symbols-outlined text-white/20 text-sm">arrow_forward</span>
+
+              <div className="flex items-center gap-3 bg-surface/80 backdrop-blur-md px-3 py-2 rounded-xl border border-white/5">
+                <div className="w-8 h-8 rounded-full bg-primary-container/20 flex items-center justify-center">
+                  <span className="material-symbols-outlined text-primary-container text-[14px] glow-text">check_circle</span>
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-[9px] text-on-surface-variant uppercase font-bold">Biten</span>
+                  <span className="text-sm font-bold text-on-surface">156</span>
+                </div>
+              </div>
+
             </div>
           </div>
         </div>

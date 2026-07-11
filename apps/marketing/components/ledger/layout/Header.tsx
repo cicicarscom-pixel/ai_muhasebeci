@@ -8,20 +8,6 @@ export default function Header() {
         <span className="font-h1 text-lg font-semibold text-primary-container dark:text-primary-fixed-dim tracking-tight glow-text">Universe UI</span>
       </div>
       <div className="flex items-center gap-6">
-        {/* Search */}
-        <div className="relative hidden md:block">
-          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">search</span>
-          <input 
-            className="bg-surface-container-high/50 border border-white/10 rounded-full pl-9 pr-4 py-1.5 text-[11px] text-on-surface placeholder:text-on-surface-variant/50 focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container/50 w-56 transition-all" 
-            placeholder="Ara..." 
-            type="text"
-          />
-          <div className="absolute right-2 top-1/2 -translate-y-1/2 flex gap-1">
-            <span className="text-[9px] bg-surface-bright px-1.5 py-0.5 rounded text-on-surface-variant border border-white/10">⌘</span>
-            <span className="text-[9px] bg-surface-bright px-1.5 py-0.5 rounded text-on-surface-variant border border-white/10">K</span>
-          </div>
-        </div>
-        
         {/* Actions */}
         <button className="relative text-on-surface-variant hover:text-primary-container hover:bg-white/5 transition-all p-1.5 rounded-full active:scale-95">
           <span className="material-symbols-outlined text-[20px]">notifications</span>
