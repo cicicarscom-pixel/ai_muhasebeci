@@ -14,6 +14,20 @@ const config = {
       ...(tailwindConfig.theme && tailwindConfig.theme.extend ? tailwindConfig.theme.extend : {}),
       colors: {
         ...(tailwindConfig.theme && tailwindConfig.theme.extend && tailwindConfig.theme.extend.colors ? tailwindConfig.theme.extend.colors : {}),
+        brand: {
+          bg: '#13141B',
+          sidebar: '#1A1C24',
+          card: '#1C1F2A',
+          border: '#2C303E',
+          text: '#8B949E',
+          textDark: '#E5E7EB',
+          primary: '#8A5CFF',
+          accent1: '#8A5CFF',
+          accent2: '#418BFF',
+          accent3: '#FACC15',
+          accent4: '#10B981',
+          accent5: '#06B6D4'
+        },
         'ai-cyan': '#00F0FF',
         'ai-purple': '#8A2BE2',
         'ai-pink': '#FF00FF',
