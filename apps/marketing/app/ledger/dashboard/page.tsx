@@ -29,29 +29,14 @@ export default function LedgerDashboard() {
           <div className="flex-1 overflow-y-auto custom-scrollbar">
             <ul className="space-y-1 text-xs">
               <li>
-                <a className="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-white/5 transition-colors" href="#">
-                  <span className="material-symbols-outlined text-[18px]">dashboard</span> Panel
-                </a>
-              </li>
-              <li>
                 {/* Aktif Durum */}
                 <a className="flex items-center gap-3 px-3 py-2 rounded-lg bg-[#8B5CF6]/10 text-[#D0BCFF] font-semibold border border-[#8B5CF6]/20 transition-colors" href="#">
-                  <span className="material-symbols-outlined text-[18px] icon-fill">inbox</span> Akıllı Gelen Kutusu
+                  <span className="material-symbols-outlined text-[18px] icon-fill">dashboard</span> Panel
                 </a>
               </li>
               <li>
                 <a className="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-white/5 transition-colors" href="#">
-                  <span className="material-symbols-outlined text-[18px]">group</span> Mükellefler
-                </a>
-              </li>
-              <li>
-                <a className="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-white/5 transition-colors" href="#">
-                  <span className="material-symbols-outlined text-[18px]">psychology</span> AI Asistan
-                </a>
-              </li>
-              <li>
-                <a className="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-white/5 transition-colors" href="#">
-                  <span className="material-symbols-outlined text-[18px]">description</span> Belgeler
+                  <span className="material-symbols-outlined text-[18px]">account_tree</span> İş Akışları
                 </a>
               </li>
               <li>
@@ -61,12 +46,12 @@ export default function LedgerDashboard() {
               </li>
               <li>
                 <a className="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-white/5 transition-colors" href="#">
-                  <span className="material-symbols-outlined text-[18px]">rule</span> Kural Motoru
+                  <span className="material-symbols-outlined text-[18px]">group</span> Mükellefler
                 </a>
               </li>
               <li>
                 <a className="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-white/5 transition-colors" href="#">
-                  <span className="material-symbols-outlined text-[18px]">settings_suggest</span> Otomasyon
+                  <span className="material-symbols-outlined text-[18px]">analytics</span> Analitik
                 </a>
               </li>
             </ul>
@@ -77,11 +62,6 @@ export default function LedgerDashboard() {
               <li>
                 <a className="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-white/5 transition-colors" href="#">
                   <span className="material-symbols-outlined text-[18px]">settings</span> Ayarlar
-                </a>
-              </li>
-              <li>
-                <a className="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-white/5 transition-colors" href="#">
-                  <span className="material-symbols-outlined text-[18px]">help</span> Destek
                 </a>
               </li>
             </ul>
