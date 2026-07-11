@@ -1,10 +1,14 @@
+'use client';
 import React from 'react';
 import Script from 'next/script';
 import Sidebar from '@/components/ledger/layout/Sidebar';
 import Header from '@/components/ledger/layout/Header';
 import AiOperationsCenter from '@/components/ledger/layout/AiOperationsCenter';
+import { usePathname } from 'next/navigation';
 
 export default function LedgerLayout({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+  const isWorkflow = pathname?.includes('/workflow');
   return (
     <div className="font-body antialiased bg-background text-on-surface min-h-screen overflow-x-hidden relative">
       <Script src='https://unpkg.com/@phosphor-icons/web' strategy='lazyOnload' />
@@ -92,10 +96,10 @@ export default function LedgerLayout({ children }: { children: React.ReactNode }
       
       <Sidebar />
       <Header />
-      <AiOperationsCenter />
+      {!isWorkflow && <AiOperationsCenter />}
       
       {/* Main Content Area */}
-      <main className="ml-[56px] mr-[360px] pt-16 p-6 max-w-[1400px] mx-auto min-h-screen z-10 relative">
+      <main className={`ml-[56px] ${isWorkflow ? 'mr-0' : 'mr-[360px]'} pt-16 p-6 max-w-[1400px] mx-auto min-h-screen z-10 relative`}>
         {children}
       </main>
     </div>

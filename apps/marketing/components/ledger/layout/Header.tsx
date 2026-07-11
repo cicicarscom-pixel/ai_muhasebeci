@@ -1,9 +1,13 @@
 'use client';
 import React from 'react';
+import { usePathname } from 'next/navigation';
 
 export default function Header() {
+  const pathname = usePathname();
+  const isWorkflow = pathname?.includes('/workflow');
+  
   return (
-    <header className="fixed top-0 right-[360px] left-[56px] h-16 bg-surface/60 backdrop-blur-2xl border-b border-white/5 shadow-[0_4px_20px_rgba(0,0,0,0.3)] z-40 flex items-center justify-between px-6 pl-8">
+    <header className={`fixed top-0 ${isWorkflow ? 'right-0' : 'right-[360px]'} left-[56px] h-16 bg-surface/60 backdrop-blur-2xl border-b border-white/5 shadow-[0_4px_20px_rgba(0,0,0,0.3)] z-40 flex items-center justify-between px-6 pl-8`}>
       <div className="flex items-center gap-4">
         <span className="font-h1 text-lg font-semibold text-primary-container dark:text-primary-fixed-dim tracking-tight glow-text">Universe UI</span>
       </div>
