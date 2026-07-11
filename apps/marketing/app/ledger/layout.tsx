@@ -2,6 +2,7 @@ import React from 'react';
 import Script from 'next/script';
 import Sidebar from '@/components/ledger/layout/Sidebar';
 import Header from '@/components/ledger/layout/Header';
+import AiOperationsCenter from '@/components/ledger/layout/AiOperationsCenter';
 
 export default function LedgerLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -21,15 +22,16 @@ export default function LedgerLayout({ children }: { children: React.ReactNode }
             background: rgba(25, 33, 34, 0.6);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.03);
             border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
         }
 
         .glass-panel:hover {
-            border-color: rgba(0, 229, 253, 0.3);
-            box-shadow: 0 0 20px rgba(0, 229, 253, 0.1);
-            transform: translateY(-2px);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-color: rgba(0, 229, 253, 0.2);
+            box-shadow: 0 8px 30px rgba(0, 229, 253, 0.08);
+            transform: translateY(-1px) scale(1.005);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .glow-text {
@@ -43,7 +45,7 @@ export default function LedgerLayout({ children }: { children: React.ReactNode }
             width: 100vw;
             height: 100vh;
             pointer-events: none;
-            z-index: -1;
+            z-index: -2;
             background-image: 
                 radial-gradient(1px 1px at 15% 15%, rgba(255,255,255,0.4) 100%, transparent),
                 radial-gradient(1px 1px at 45% 35%, rgba(0,229,253,0.3) 100%, transparent),
@@ -53,30 +55,47 @@ export default function LedgerLayout({ children }: { children: React.ReactNode }
             animation: moveStars 180s linear infinite;
         }
 
+        .aurora-bg {
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            pointer-events: none;
+            z-index: -1;
+            background: 
+                radial-gradient(ellipse at 50% 50%, rgba(138, 43, 226, 0.05) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(0, 229, 253, 0.05) 0%, transparent 40%);
+            animation: rotateAurora 60s linear infinite;
+            mix-blend-mode: screen;
+        }
+
         @keyframes moveStars {
             0% { transform: translateY(0); }
             100% { transform: translateY(-300px); }
         }
         
+        @keyframes rotateAurora {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
         .thin-divider {
             height: 1px;
-            background-color: rgba(255, 255, 255, 0.05);
+            background-color: rgba(255, 255, 255, 0.03);
             width: 100%;
-        }
-
-        .neon-border-primary {
-            border-left: 3px solid #00e5ff;
-            box-shadow: -4px 0 10px rgba(0, 229, 253, 0.1);
         }
       `}} />
       
       <div className="star-field"></div>
+      <div className="aurora-bg"></div>
       
       <Sidebar />
       <Header />
+      <AiOperationsCenter />
       
       {/* Main Content Area */}
-      <main className="ml-[64px] pt-20 p-6 max-w-[1600px] mx-auto min-h-screen z-10 relative">
+      <main className="ml-[56px] mr-[360px] pt-16 p-6 max-w-[1400px] mx-auto min-h-screen z-10 relative">
         {children}
       </main>
     </div>

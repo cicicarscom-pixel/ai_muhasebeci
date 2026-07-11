@@ -11,12 +11,12 @@ export default function Sidebar() {
   };
 
   return (
-    <nav className="fixed left-0 top-0 h-full w-[64px] bg-surface/80 backdrop-blur-3xl border-r border-white/5 shadow-[20px_0_40px_rgba(0,0,0,0.4)] z-50 flex flex-col items-center py-6">
-      <div className="mb-10 w-full flex items-center justify-center px-4 relative group">
-        <span className="material-symbols-outlined text-primary-container text-3xl glow-text cursor-pointer">token</span>
+    <nav className="fixed left-0 top-0 h-full w-[56px] bg-surface/80 backdrop-blur-3xl border-r border-white/5 shadow-[20px_0_40px_rgba(0,0,0,0.4)] z-50 flex flex-col items-center py-5">
+      <div className="mb-8 w-full flex items-center justify-center relative group">
+        <span className="material-symbols-outlined text-primary-container text-2xl glow-text cursor-pointer hover:scale-110 transition-transform">token</span>
       </div>
       
-      <div className="flex-1 w-full flex flex-col gap-2 px-2">
+      <div className="flex-1 w-full flex flex-col gap-1.5 items-center">
         <SidebarItem icon="dashboard" label="Dashboard" href="/ledger/dashboard" active={isActive('/ledger/dashboard')} />
         <SidebarItem icon="description" label="Evrak Merkezi" href="#" />
         <SidebarItem icon="account_tree" label="İş Akışı" href="/ledger/workflow" active={isActive('/ledger/workflow')} />
@@ -25,7 +25,7 @@ export default function Sidebar() {
         <SidebarItem icon="settings" label="Ayarlar" href="/ledger/settings" active={isActive('/ledger/settings')} />
       </div>
 
-      <div className="mt-auto w-full flex flex-col gap-2 px-2 pb-4">
+      <div className="mt-auto w-full flex flex-col gap-1.5 items-center pb-2">
         <SidebarItem icon="help" label="Destek" href="#" />
         <SidebarItem icon="logout" label="Çıkış" href="#" />
       </div>
@@ -35,15 +35,14 @@ export default function Sidebar() {
 
 function SidebarItem({ icon, label, href, active }: { icon: string, label: string, href: string, active?: boolean }) {
   return (
-    <Link href={href} className={`relative flex items-center justify-center w-12 h-12 rounded-lg group/item transition-all ${active ? 'bg-primary-container/10 text-primary-container border-l-4 border-primary-container shadow-[inset_0_0_15px_rgba(0,229,253,0.15)]' : 'text-on-surface-variant hover:text-on-surface hover:bg-white/5'}`}>
-      <span className="material-symbols-outlined text-xl glow-text" style={active ? { fontVariationSettings: "'FILL' 1" } : {}}>{icon}</span>
+    <Link href={href} className={`relative flex items-center justify-center w-10 h-10 rounded-lg group/item transition-all duration-300 ease-[cubic-bezier(0.175,0.885,0.32,1.275)] ${active ? 'bg-primary-container/10 text-primary-container border-l-2 border-primary-container shadow-[inset_0_0_10px_rgba(0,229,253,0.1)]' : 'text-on-surface-variant hover:text-on-surface hover:bg-white/5 hover:scale-105'}`}>
+      <span className="material-symbols-outlined text-[20px] glow-text transition-all duration-300" style={active ? { fontVariationSettings: "'FILL' 1" } : {}}>{icon}</span>
       
       {/* Kanat (Wing Tooltip) */}
-      <div className="absolute left-[56px] top-1/2 -translate-y-1/2 opacity-0 pointer-events-none group-hover/item:opacity-100 transition-opacity duration-200 z-50 flex items-center">
-        {/* Triangle pointer */}
-        <div className="w-0 h-0 border-y-8 border-y-transparent border-r-8 border-r-[#00daf3]/20 backdrop-blur-md -mr-[1px]"></div>
-        {/* Label background */}
-        <div className="bg-[#00daf3]/20 backdrop-blur-md border border-[#00daf3]/30 text-[#00daf3] px-3 py-2 rounded-lg whitespace-nowrap shadow-[0_0_15px_rgba(0,229,253,0.2)] font-semibold text-sm">
+      <div className="absolute left-[48px] top-1/2 -translate-y-1/2 opacity-0 pointer-events-none group-hover/item:opacity-100 group-hover/item:translate-x-2 transition-all duration-300 ease-[cubic-bezier(0.175,0.885,0.32,1.275)] z-50 flex items-center">
+        {/* Label background with glass effect */}
+        <div className="bg-[#00daf3]/10 backdrop-blur-xl border border-[#00daf3]/20 text-[#00daf3] px-3 py-1.5 rounded-lg whitespace-nowrap shadow-[0_4px_20px_rgba(0,229,253,0.15)] font-semibold text-[11px] tracking-wide relative">
+          <div className="absolute -left-[5px] top-1/2 -translate-y-1/2 w-0 h-0 border-y-[6px] border-y-transparent border-r-[6px] border-r-[#00daf3]/20"></div>
           {label}
         </div>
       </div>
