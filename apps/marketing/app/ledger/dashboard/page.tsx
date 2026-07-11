@@ -56,7 +56,7 @@ export default function LedgerDashboard() {
               </li>
               <li>
                 <a className="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-white/5 transition-colors" href="#">
-                  <span className="material-symbols-outlined text-[18px]">fact_check</span> Onaylar
+                  <span className="material-symbols-outlined text-[18px]">fact_check</span> Belge Onay
                 </a>
               </li>
               <li>
