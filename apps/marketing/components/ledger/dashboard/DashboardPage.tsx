@@ -12,7 +12,7 @@ export default function DashboardPage() {
         {/* ROW 1: 5 KPI Cards */}
         <div className="col-span-12 grid grid-cols-5 gap-4">
           {/* Card 1: Hazır Evrak */}
-          <div className="flex flex-col justify-between bg-[#12151C] border border-white/5 rounded-2xl border-t-[3px] border-t-[#3B82F6] p-4 relative overflow-hidden group min-h-[100px] hover:border-white/10 transition-all hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(59,130,246,0.15)]">
+          <div className="flex flex-col justify-between bg-[#161B22] border border-white/5 rounded-2xl border-t-[3px] border-t-[#3B82F6] p-4 relative overflow-hidden group min-h-[100px] hover:border-white/10 transition-all hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(59,130,246,0.15)]">
             <div className="absolute top-0 left-0 w-full h-16 bg-gradient-to-b from-[#3B82F6]/10 to-transparent pointer-events-none"></div>
             <div className="absolute -right-4 -top-4 w-24 h-24 bg-[#3B82F6]/20 rounded-full blur-2xl group-hover:bg-[#3B82F6]/30 transition-all animate-pulse"></div>
             
@@ -30,7 +30,7 @@ export default function DashboardPage() {
           </div>
           
           {/* Card 2: Kontrol Bekleyen */}
-          <div className="flex flex-col justify-between bg-[#12151C] border border-white/5 rounded-2xl border-t-[3px] border-t-[#F59E0B] p-4 relative overflow-hidden group min-h-[100px] hover:border-white/10 transition-all hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(245,158,11,0.15)]">
+          <div className="flex flex-col justify-between bg-[#161B22] border border-white/5 rounded-2xl border-t-[3px] border-t-[#F59E0B] p-4 relative overflow-hidden group min-h-[100px] hover:border-white/10 transition-all hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(245,158,11,0.15)]">
             <div className="absolute top-0 left-0 w-full h-16 bg-gradient-to-b from-[#F59E0B]/10 to-transparent pointer-events-none"></div>
             <div className="absolute -right-4 -top-4 w-24 h-24 bg-[#F59E0B]/20 rounded-full blur-2xl group-hover:bg-[#F59E0B]/30 transition-all animate-pulse" style={{ animationDelay: '0.5s' }}></div>
             
@@ -48,7 +48,7 @@ export default function DashboardPage() {
           </div>
           
           {/* Card 3: Eksik Bilgi */}
-          <div className="flex flex-col justify-between bg-[#12151C] border border-white/5 rounded-2xl border-t-[3px] border-t-[#9D5CFF] p-4 relative overflow-hidden group min-h-[100px] hover:border-white/10 transition-all hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(157,92,255,0.15)]">
+          <div className="flex flex-col justify-between bg-[#161B22] border border-white/5 rounded-2xl border-t-[3px] border-t-[#9D5CFF] p-4 relative overflow-hidden group min-h-[100px] hover:border-white/10 transition-all hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(157,92,255,0.15)]">
             <div className="absolute top-0 left-0 w-full h-16 bg-gradient-to-b from-[#9D5CFF]/10 to-transparent pointer-events-none"></div>
             <div className="absolute -right-4 -top-4 w-24 h-24 bg-[#9D5CFF]/20 rounded-full blur-2xl group-hover:bg-[#9D5CFF]/30 transition-all animate-pulse" style={{ animationDelay: '1s' }}></div>
             
@@ -66,7 +66,7 @@ export default function DashboardPage() {
           </div>
           
           {/* Card 4: Tekrar İstenecek */}
-          <div className="flex flex-col justify-between bg-[#12151C] border border-white/5 rounded-2xl border-t-[3px] border-t-[#EF4444] p-4 relative overflow-hidden group min-h-[100px] hover:border-white/10 transition-all hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(239,68,68,0.15)]">
+          <div className="flex flex-col justify-between bg-[#161B22] border border-white/5 rounded-2xl border-t-[3px] border-t-[#EF4444] p-4 relative overflow-hidden group min-h-[100px] hover:border-white/10 transition-all hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(239,68,68,0.15)]">
             <div className="absolute top-0 left-0 w-full h-16 bg-gradient-to-b from-[#EF4444]/10 to-transparent pointer-events-none"></div>
             <div className="absolute -right-4 -top-4 w-24 h-24 bg-[#EF4444]/20 rounded-full blur-2xl group-hover:bg-[#EF4444]/30 transition-all animate-pulse" style={{ animationDelay: '0.2s' }}></div>
             
@@ -84,7 +84,7 @@ export default function DashboardPage() {
           </div>
           
           {/* Card 5: Bugün Onaylanan */}
-          <div className="flex flex-col justify-between bg-[#12151C] border border-white/5 rounded-2xl border-t-[3px] border-t-[#3FB950] p-4 relative overflow-hidden group min-h-[100px] hover:border-white/10 transition-all hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(63,185,80,0.15)]">
+          <div className="flex flex-col justify-between bg-[#161B22] border border-white/5 rounded-2xl border-t-[3px] border-t-[#3FB950] p-4 relative overflow-hidden group min-h-[100px] hover:border-white/10 transition-all hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(63,185,80,0.15)]">
             <div className="absolute top-0 left-0 w-full h-16 bg-gradient-to-b from-[#3FB950]/10 to-transparent pointer-events-none"></div>
             <div className="absolute -right-4 -top-4 w-24 h-24 bg-[#3FB950]/20 rounded-full blur-2xl group-hover:bg-[#3FB950]/30 transition-all animate-pulse" style={{ animationDelay: '0.7s' }}></div>
             
