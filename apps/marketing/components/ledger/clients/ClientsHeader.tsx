@@ -4,27 +4,13 @@ import { useState } from "react";
 import { Filter, Plus } from "lucide-react";
 import { AddClientDialog } from "./AddClientDialog";
 
-interface ClientsHeaderProps {
-  total: number;
-}
+interface ClientsHeaderProps {}
 
-export function ClientsHeader({ total }: ClientsHeaderProps) {
+export function ClientsHeader({}: ClientsHeaderProps) {
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
 
   return (
-    <div className="flex items-center justify-between">
-      <div>
-        <div className="flex items-center gap-3">
-          <h1 className="text-2xl font-bold text-white">Mükellefler</h1>
-          <span className="rounded-full bg-white/10 px-2.5 py-0.5 text-xs font-medium text-[#8B949E]">
-            {total}
-          </span>
-        </div>
-        <p className="mt-1 text-sm text-[#8B949E]">
-          Mükelleflerinizi, bağlantı davetlerini ve AI iletişim süreçlerini yönetin.
-        </p>
-      </div>
-
+    <div className="flex items-center justify-end">
       <div className="flex items-center gap-3">
         <button className="flex h-10 items-center gap-2 rounded-xl border border-white/10 bg-[#161B22] px-4 text-sm font-medium text-white transition hover:bg-white/5">
           <Filter className="h-4 w-4" />

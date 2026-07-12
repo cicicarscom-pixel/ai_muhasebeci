@@ -6,15 +6,36 @@ export default function Header() {
   const pathname = usePathname();
   const isWorkflow = pathname?.includes('/workflow');
   
+  let headerTitle = (
+    <h1 className="text-[16px] font-semibold text-on-surface flex items-center gap-2 tracking-tight leading-none mb-1">
+      Günaydın, Ahmet Bey <span className="text-[14px] animate-pulse">👋</span>
+    </h1>
+  );
+  let headerSubtitle = (
+    <p className="text-[10px] text-on-surface-variant leading-none">
+      AI Asistanınız size harika bir gün geçirmeniz için hazır.
+    </p>
+  );
+
+  const isClients = pathname?.includes('/clients');
+  if (isClients) {
+    headerTitle = (
+      <h1 className="text-[16px] font-semibold text-on-surface flex items-center gap-2 tracking-tight leading-none mb-1">
+        Mükellefler <span className="rounded-full bg-white/10 px-2 py-0.5 text-[10px] font-medium text-[#8B949E]">10</span>
+      </h1>
+    );
+    headerSubtitle = (
+      <p className="text-[10px] text-on-surface-variant leading-none">
+        Mükelleflerinizi, bağlantı davetlerini ve AI iletişim süreçlerini yönetin.
+      </p>
+    );
+  }
+
   return (
-    <header className={`fixed top-0 ${isWorkflow ? 'right-0' : 'right-[360px]'} left-[56px] h-16 bg-surface/60 backdrop-blur-2xl border-b border-white/5 shadow-[0_4px_20px_rgba(0,0,0,0.3)] z-40 flex items-center justify-between px-6 pl-8`}>
+    <header className={`fixed top-0 ${isWorkflow ? 'right-0' : 'right-[360px]'} left-[56px] h-16 bg-surface/60 backdrop-blur-2xl border-b border-white/5 shadow-[0_4px_20px_rgba(0,0,0,0.3)] z-40 flex items-center justify-between px-6 pl-8 transition-all duration-300`}>
       <div className="flex flex-col justify-center">
-        <h1 className="text-[16px] font-semibold text-on-surface flex items-center gap-2 tracking-tight leading-none mb-1">
-          Günaydın, Ahmet Bey <span className="text-[14px] animate-pulse">👋</span>
-        </h1>
-        <p className="text-[10px] text-on-surface-variant leading-none">
-          AI Asistanınız size harika bir gün geçirmeniz için hazır.
-        </p>
+        {headerTitle}
+        {headerSubtitle}
       </div>
       <div className="flex items-center gap-6">
         {/* Actions */}

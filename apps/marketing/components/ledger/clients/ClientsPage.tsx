@@ -33,9 +33,7 @@ export function ClientsPage() {
 
   return (
     <section className="flex h-full min-h-0 flex-col gap-4 overflow-hidden p-4">
-      <ClientsHeader
-        total={clients.length}
-      />
+      <ClientsHeader />
 
       <AdvisorInviteCard advisorCode="WG-73492" />
 
