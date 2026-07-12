@@ -115,7 +115,7 @@ export default function WorkflowPage() {
       <div className="flex-1 flex gap-4 overflow-x-auto pb-4 custom-scrollbar">
         
         {/* Col 1: Yeni Geldi */}
-        <div className="flex flex-col min-w-[300px] w-[300px] bg-[#12151C] border border-white/5 rounded-2xl border-t-[3px] border-t-[#9D5CFF] p-4 relative overflow-hidden">
+        <div className="flex flex-col min-w-[260px] w-[260px] bg-[#12151C] border border-white/5 rounded-2xl border-t-[3px] border-t-[#9D5CFF] p-4 relative overflow-hidden">
           <div className="absolute top-0 left-0 w-full h-16 bg-gradient-to-b from-[#9D5CFF]/10 to-transparent pointer-events-none"></div>
           
           <div className="flex items-center justify-between mb-1">
@@ -205,7 +205,7 @@ export default function WorkflowPage() {
         </div>
 
         {/* Col 2: AI İşliyor */}
-        <div className="flex flex-col min-w-[300px] w-[300px] bg-[#12151C] border border-white/5 rounded-2xl border-t-[3px] border-t-[#3B82F6] p-4 relative overflow-hidden">
+        <div className="flex flex-col min-w-[260px] w-[260px] bg-[#12151C] border border-white/5 rounded-2xl border-t-[3px] border-t-[#3B82F6] p-4 relative overflow-hidden">
           <div className="absolute top-0 left-0 w-full h-16 bg-gradient-to-b from-[#3B82F6]/10 to-transparent pointer-events-none"></div>
           
           <div className="flex items-center justify-between mb-1">
@@ -304,7 +304,7 @@ export default function WorkflowPage() {
         </div>
 
         {/* Col 3: Kontrol Bekliyor */}
-        <div className="flex flex-col min-w-[300px] w-[300px] bg-[#12151C] border border-white/5 rounded-2xl border-t-[3px] border-t-[#F59E0B] p-4 relative overflow-hidden">
+        <div className="flex flex-col min-w-[260px] w-[260px] bg-[#12151C] border border-white/5 rounded-2xl border-t-[3px] border-t-[#F59E0B] p-4 relative overflow-hidden">
           <div className="absolute top-0 left-0 w-full h-16 bg-gradient-to-b from-[#F59E0B]/10 to-transparent pointer-events-none"></div>
           
           <div className="flex items-center justify-between mb-1">
@@ -476,7 +476,7 @@ export default function WorkflowPage() {
         </div>
 
         {/* Col 4: Onaylandı */}
-        <div className="flex flex-col min-w-[300px] w-[300px] bg-[#12151C] border border-white/5 rounded-2xl border-t-[3px] border-t-[#3FB950] p-4 relative overflow-hidden">
+        <div className="flex flex-col min-w-[260px] w-[260px] bg-[#12151C] border border-white/5 rounded-2xl border-t-[3px] border-t-[#3FB950] p-4 relative overflow-hidden">
           <div className="absolute top-0 left-0 w-full h-16 bg-gradient-to-b from-[#3FB950]/10 to-transparent pointer-events-none"></div>
           
           <div className="flex items-center justify-between mb-1">
@@ -587,7 +587,7 @@ export default function WorkflowPage() {
         </div>
 
         {/* Col 5: Muhasebeleşti */}
-        <div className="flex flex-col min-w-[300px] w-[300px] bg-[#12151C] border border-white/5 rounded-2xl border-t-[3px] border-t-[#00daf3] p-4 relative overflow-hidden">
+        <div className="flex flex-col min-w-[260px] w-[260px] bg-[#12151C] border border-white/5 rounded-2xl border-t-[3px] border-t-[#00daf3] p-4 relative overflow-hidden">
           <div className="absolute top-0 left-0 w-full h-16 bg-gradient-to-b from-[#00daf3]/10 to-transparent pointer-events-none"></div>
           
           <div className="flex items-center justify-between mb-1">
