@@ -77,7 +77,7 @@ export function FloatingLedgerAI() {
 
   return (
     <motion.div
-      drag={!isOpen}
+      drag
       dragMomentum={false}
       dragConstraints={{
         left: -viewport.width + 100,
@@ -85,9 +85,10 @@ export function FloatingLedgerAI() {
         top: -viewport.height + 120,
         bottom: 0,
       }}
+      dragListener={true}
       onDragEnd={handleDragEnd}
       animate={{ x: position.x, y: position.y }}
-      className={`fixed bottom-5 right-5 z-[100] ${!isOpen ? "cursor-grab active:cursor-grabbing" : ""}`}
+      className="fixed bottom-5 right-5 z-[100] cursor-grab active:cursor-grabbing"
     >
       <AnimatePresence mode="wait">
         {!isOpen ? (
