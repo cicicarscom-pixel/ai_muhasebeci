@@ -51,16 +51,16 @@ export default function ApprovalPage() {
           
           <div className="flex-1 overflow-y-auto custom-scrollbar p-4 space-y-3">
             {/* Active Item */}
-            <div className="p-4 rounded-xl border border-[#00daf3]/50 bg-[#00daf3]/5 shadow-[0_0_15px_rgba(0,218,243,0.15)] cursor-pointer flex flex-col gap-3">
+            <div className="p-3 rounded-lg border border-[#00daf3]/50 bg-[#00daf3]/5 shadow-[0_0_15px_rgba(0,218,243,0.15)] cursor-pointer flex flex-col gap-2">
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded bg-white flex items-center justify-center p-1.5 shadow-sm">
+                <div className="w-6 h-6 rounded bg-white flex items-center justify-center p-1.5 shadow-sm">
                   <div className="w-full h-full rounded-full bg-yellow-400 border-2 border-red-500"></div>
                 </div>
-                <span className="text-[#dce4e5] font-semibold text-[15px]">Shell Türkiye A.Ş.</span>
+                <span className="text-[#dce4e5] font-semibold text-[13px]">Shell Türkiye A.Ş.</span>
               </div>
-              <div className="flex items-end justify-between pl-11">
+              <div className="flex items-end justify-between pl-9">
                 <div className="flex flex-col gap-1">
-                  <span className="text-[#dce4e5] font-mono text-[14px]">₺24.500,00</span>
+                  <span className="text-[#dce4e5] font-mono text-[12px]">₺24.500,00</span>
                   <div className="flex items-center text-[#bac9cc] text-[10px] gap-1">
                     <span className="material-symbols-outlined text-[12px]">schedule</span>
                     25.05.2025
@@ -71,14 +71,14 @@ export default function ApprovalPage() {
             </div>
 
             {/* Migros */}
-            <div className="p-4 rounded-xl border border-white/5 hover:bg-[#151d1e] cursor-pointer transition-colors flex flex-col gap-3">
+            <div className="p-3 rounded-lg border border-white/5 hover:bg-[#151d1e] cursor-pointer transition-colors flex flex-col gap-2">
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded bg-[#FF7900] flex items-center justify-center text-white font-bold text-[14px]">M</div>
-                <span className="text-[#dce4e5] font-semibold text-[15px]">Migros Ticaret A.Ş.</span>
+                <div className="w-6 h-6 rounded bg-[#FF7900] flex items-center justify-center text-white font-bold text-[12px]">M</div>
+                <span className="text-[#dce4e5] font-semibold text-[13px]">Migros Ticaret A.Ş.</span>
               </div>
-              <div className="flex items-end justify-between pl-11">
+              <div className="flex items-end justify-between pl-9">
                 <div className="flex flex-col gap-1">
-                  <span className="text-[#dce4e5] font-mono text-[14px]">₺7.890,00</span>
+                  <span className="text-[#dce4e5] font-mono text-[12px]">₺7.890,00</span>
                   <div className="flex items-center text-[#bac9cc] text-[10px] gap-1">
                     <span className="material-symbols-outlined text-[12px]">schedule</span>
                     25.05.2025
@@ -89,14 +89,14 @@ export default function ApprovalPage() {
             </div>
             
             {/* Opet */}
-            <div className="p-4 rounded-xl border border-white/5 hover:bg-[#151d1e] cursor-pointer transition-colors flex flex-col gap-3">
+            <div className="p-3 rounded-lg border border-white/5 hover:bg-[#151d1e] cursor-pointer transition-colors flex flex-col gap-2">
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded bg-blue-600 flex items-center justify-center text-white font-bold text-[14px]">O</div>
-                <span className="text-[#dce4e5] font-semibold text-[15px]">Opet Petrolcülük A.Ş.</span>
+                <div className="w-6 h-6 rounded bg-blue-600 flex items-center justify-center text-white font-bold text-[12px]">O</div>
+                <span className="text-[#dce4e5] font-semibold text-[13px]">Opet Petrolcülük A.Ş.</span>
               </div>
-              <div className="flex items-end justify-between pl-11">
+              <div className="flex items-end justify-between pl-9">
                 <div className="flex flex-col gap-1">
-                  <span className="text-[#dce4e5] font-mono text-[14px]">₺12.350,00</span>
+                  <span className="text-[#dce4e5] font-mono text-[12px]">₺12.350,00</span>
                   <div className="flex items-center text-[#bac9cc] text-[10px] gap-1">
                     <span className="material-symbols-outlined text-[12px]">schedule</span>
                     25.05.2025
@@ -107,14 +107,14 @@ export default function ApprovalPage() {
             </div>
 
             {/* Türk Telekom */}
-            <div className="p-4 rounded-xl border border-white/5 hover:bg-[#151d1e] cursor-pointer transition-colors flex flex-col gap-3">
+            <div className="p-3 rounded-lg border border-white/5 hover:bg-[#151d1e] cursor-pointer transition-colors flex flex-col gap-2">
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded bg-blue-500 flex items-center justify-center text-white font-bold text-[14px]">T</div>
-                <span className="text-[#dce4e5] font-semibold text-[15px]">Türk Telekom A.Ş.</span>
+                <div className="w-6 h-6 rounded bg-blue-500 flex items-center justify-center text-white font-bold text-[12px]">T</div>
+                <span className="text-[#dce4e5] font-semibold text-[13px]">Türk Telekom A.Ş.</span>
               </div>
-              <div className="flex items-end justify-between pl-11">
+              <div className="flex items-end justify-between pl-9">
                 <div className="flex flex-col gap-1">
-                  <span className="text-[#dce4e5] font-mono text-[14px]">₺3.250,00</span>
+                  <span className="text-[#dce4e5] font-mono text-[12px]">₺3.250,00</span>
                   <div className="flex items-center text-[#bac9cc] text-[10px] gap-1">
                     <span className="material-symbols-outlined text-[12px]">schedule</span>
                     24.05.2025
@@ -125,14 +125,14 @@ export default function ApprovalPage() {
             </div>
 
             {/* Amazon */}
-            <div className="p-4 rounded-xl border border-white/5 hover:bg-[#151d1e] cursor-pointer transition-colors flex flex-col gap-3">
+            <div className="p-3 rounded-lg border border-white/5 hover:bg-[#151d1e] cursor-pointer transition-colors flex flex-col gap-2">
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded bg-orange-500 flex items-center justify-center text-white font-bold text-[14px]">a</div>
-                <span className="text-[#dce4e5] font-semibold text-[15px]">Amazon Turkey Perakende</span>
+                <div className="w-6 h-6 rounded bg-orange-500 flex items-center justify-center text-white font-bold text-[12px]">a</div>
+                <span className="text-[#dce4e5] font-semibold text-[13px]">Amazon Turkey Perakende</span>
               </div>
-              <div className="flex items-end justify-between pl-11">
+              <div className="flex items-end justify-between pl-9">
                 <div className="flex flex-col gap-1">
-                  <span className="text-[#dce4e5] font-mono text-[14px]">₺9.780,00</span>
+                  <span className="text-[#dce4e5] font-mono text-[12px]">₺9.780,00</span>
                   <div className="flex items-center text-[#bac9cc] text-[10px] gap-1">
                     <span className="material-symbols-outlined text-[12px]">schedule</span>
                     24.05.2025
@@ -143,14 +143,14 @@ export default function ApprovalPage() {
             </div>
             
             {/* Garanti */}
-            <div className="p-4 rounded-xl border border-white/5 hover:bg-[#151d1e] cursor-pointer transition-colors flex flex-col gap-3">
+            <div className="p-3 rounded-lg border border-white/5 hover:bg-[#151d1e] cursor-pointer transition-colors flex flex-col gap-2">
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded bg-green-500 flex items-center justify-center text-white font-bold text-[14px]">G</div>
-                <span className="text-[#dce4e5] font-semibold text-[15px]">Garanti BBVA</span>
+                <div className="w-6 h-6 rounded bg-green-500 flex items-center justify-center text-white font-bold text-[12px]">G</div>
+                <span className="text-[#dce4e5] font-semibold text-[13px]">Garanti BBVA</span>
               </div>
-              <div className="flex items-end justify-between pl-11">
+              <div className="flex items-end justify-between pl-9">
                 <div className="flex flex-col gap-1">
-                  <span className="text-[#dce4e5] font-mono text-[14px]">₺4.560,00</span>
+                  <span className="text-[#dce4e5] font-mono text-[12px]">₺4.560,00</span>
                   <div className="flex items-center text-[#bac9cc] text-[10px] gap-1">
                     <span className="material-symbols-outlined text-[12px]">schedule</span>
                     24.05.2025
@@ -253,12 +253,9 @@ export default function ApprovalPage() {
             <div className="flex-1 overflow-y-auto custom-scrollbar p-6">
               <div className="max-w-xl mx-auto space-y-6">
                 {/* AI Confidence Banner */}
-                <div className="bg-[#00daf3]/5 border border-[#00daf3]/20 rounded-lg p-4 flex items-start gap-3">
-                  <span className="material-symbols-outlined text-[#00daf3] mt-0.5">check_circle</span>
-                  <div>
-                    <h4 className="text-[#dce4e5] font-semibold text-[14px] mb-1">Veriler başarıyla çıkarıldı</h4>
-                    <p className="text-[#bac9cc] text-[13px]">AI modeli bu belgedeki verileri %98 güven skoru ile okudu. Lütfen kırmızı ile işaretli alanları kontrol edin.</p>
-                  </div>
+                <div className="bg-[#00daf3]/5 border border-[#00daf3]/20 rounded-lg p-2.5 flex items-center gap-2">
+                  <span className="material-symbols-outlined text-[#00daf3] text-[18px]">check_circle</span>
+                  <span className="text-[#dce4e5] font-medium text-[13px]">Veriler başarıyla alındı</span>
                 </div>
 
                 <div className="grid grid-cols-2 gap-x-6 gap-y-5">
