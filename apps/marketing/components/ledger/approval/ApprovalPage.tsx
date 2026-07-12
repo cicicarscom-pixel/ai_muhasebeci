@@ -206,7 +206,7 @@ export default function ApprovalPage() {
               <div className="flex justify-between items-start mb-12">
                 <div className="w-24 h-24 bg-[#2e3638] rounded-full opacity-20"></div>
                 <div className="text-right">
-                  <div className="w-48 h-8 bg-[#2e3638] rounded opacity-20 mb-4"></div>
+                  <div className="w-48 h-6 bg-[#2e3638] rounded opacity-20 mb-4"></div>
                   <div className="w-32 h-4 bg-[#2e3638] rounded opacity-20 mb-2 ml-auto"></div>
                   <div className="w-40 h-4 bg-[#2e3638] rounded opacity-20 ml-auto"></div>
                 </div>
@@ -233,71 +233,71 @@ export default function ApprovalPage() {
           <section className="w-1/2 h-full bg-[#192122] flex flex-col border-l border-white/5">
             {/* Form Area */}
             <div className="flex-1 overflow-y-auto custom-scrollbar px-6 pt-4 pb-6">
-              <div className="max-w-xl mx-auto space-y-2">
-                <div className="grid grid-cols-2 gap-x-2 gap-y-2">
+              <div className="max-w-xl mx-auto space-y-0.5">
+                <div className="grid grid-cols-2 gap-x-2 gap-y-1">
                   {/* Fatura Tarihi */}
-                  <div className="col-span-2 sm:col-span-1 space-y-1">
+                  <div className="col-span-2 sm:col-span-1 space-y-0.5">
                     <label className="text-[10px] font-medium text-[#bac9cc] tracking-wider uppercase">Fatura Tarihi</label>
-                    <input className="w-full h-9 bg-[#080f11] border border-white/10 rounded-lg text-[13px] text-[#dce4e5] px-3 focus:outline-none focus:border-[#00daf3] focus:ring-1 focus:ring-[#00daf3]/50 transition-all [color-scheme:dark]" type="date" defaultValue="2025-05-25" />
+                    <input className="w-full h-7 bg-[#080f11] border border-white/10 rounded-lg text-[13px] text-[#dce4e5] px-3 focus:outline-none focus:border-[#00daf3] focus:ring-1 focus:ring-[#00daf3]/50 transition-all [color-scheme:dark]" type="date" defaultValue="2025-05-25" />
                   </div>
                   {/* Fatura Numarası */}
-                  <div className="col-span-2 sm:col-span-1 space-y-1">
+                  <div className="col-span-2 sm:col-span-1 space-y-0.5">
                     <label className="text-[10px] font-medium text-[#bac9cc] tracking-wider uppercase">Fatura Numarası</label>
-                    <input className="w-full h-9 bg-[#080f11] border border-white/10 rounded-lg text-[#dce4e5] px-3 focus:outline-none focus:border-[#00daf3] focus:ring-1 focus:ring-[#00daf3]/50 transition-all font-mono text-[13px]" type="text" defaultValue="SHE202500123" />
+                    <input className="w-full h-7 bg-[#080f11] border border-white/10 rounded-lg text-[#dce4e5] px-3 focus:outline-none focus:border-[#00daf3] focus:ring-1 focus:ring-[#00daf3]/50 transition-all font-mono text-[13px]" type="text" defaultValue="SHE202500123" />
                   </div>
                   {/* Fatura Türü */}
-                  <div className="col-span-2 sm:col-span-1 space-y-1">
+                  <div className="col-span-2 sm:col-span-1 space-y-0.5">
                     <label className="text-[10px] font-medium text-[#bac9cc] tracking-wider uppercase">Fatura Türü</label>
-                    <select className="w-full h-9 bg-[#080f11] border border-white/10 rounded-lg text-[13px] text-[#dce4e5] px-3 appearance-none focus:outline-none focus:border-[#00daf3] focus:ring-1 focus:ring-[#00daf3]/50 transition-all">
+                    <select className="w-full h-7 bg-[#080f11] border border-white/10 rounded-lg text-[13px] text-[#dce4e5] px-3 appearance-none focus:outline-none focus:border-[#00daf3] focus:ring-1 focus:ring-[#00daf3]/50 transition-all">
                       <option>Alış Faturası</option>
                       <option>Satış Faturası</option>
                     </select>
                   </div>
                   {/* VKN/TCKN */}
-                  <div className="col-span-2 sm:col-span-1 space-y-1">
+                  <div className="col-span-2 sm:col-span-1 space-y-0.5">
                     <label className="text-[10px] font-medium text-[#bac9cc] tracking-wider uppercase">VKN/TCKN</label>
-                    <input className="w-full h-9 bg-[#080f11] border border-white/10 rounded-lg text-[#dce4e5] px-3 focus:outline-none focus:border-[#00daf3] focus:ring-1 focus:ring-[#00daf3]/50 transition-all font-mono text-[13px]" type="text" defaultValue="1234567890" />
+                    <input className="w-full h-7 bg-[#080f11] border border-white/10 rounded-lg text-[#dce4e5] px-3 focus:outline-none focus:border-[#00daf3] focus:ring-1 focus:ring-[#00daf3]/50 transition-all font-mono text-[13px]" type="text" defaultValue="1234567890" />
                   </div>
                   {/* Açıklama */}
-                  <div className="col-span-2 space-y-1">
+                  <div className="col-span-2 space-y-0.5">
                     <label className="text-[10px] font-medium text-[#bac9cc] tracking-wider uppercase">Açıklama</label>
-                    <input className="w-full h-9 bg-[#080f11] border border-white/10 rounded-lg text-[13px] text-[#dce4e5] px-3 focus:outline-none focus:border-[#00daf3] focus:ring-1 focus:ring-[#00daf3]/50 transition-all" type="text" defaultValue="Akaryakıt Alımı" />
+                    <input className="w-full h-7 bg-[#080f11] border border-white/10 rounded-lg text-[13px] text-[#dce4e5] px-3 focus:outline-none focus:border-[#00daf3] focus:ring-1 focus:ring-[#00daf3]/50 transition-all" type="text" defaultValue="Akaryakıt Alımı" />
                   </div>
                   {/* Tevkifat Oranı */}
-                  <div className="col-span-2 sm:col-span-1 space-y-1">
+                  <div className="col-span-2 sm:col-span-1 space-y-0.5">
                     <label className="text-[10px] font-medium text-[#bac9cc] tracking-wider uppercase">Tevkifat Oranı</label>
-                    <select className="w-full h-9 bg-[#080f11] border border-white/10 rounded-lg text-[13px] text-[#dce4e5] px-3 appearance-none focus:outline-none focus:border-[#00daf3] focus:ring-1 focus:ring-[#00daf3]/50 transition-all">
+                    <select className="w-full h-7 bg-[#080f11] border border-white/10 rounded-lg text-[13px] text-[#dce4e5] px-3 appearance-none focus:outline-none focus:border-[#00daf3] focus:ring-1 focus:ring-[#00daf3]/50 transition-all">
                       <option>Yok</option>
                       <option>2/10</option>
                       <option>5/10</option>
                     </select>
                   </div>
                   {/* Özel Matrah */}
-                  <div className="col-span-2 sm:col-span-1 space-y-1">
+                  <div className="col-span-2 sm:col-span-1 space-y-0.5">
                     <label className="text-[10px] font-medium text-[#bac9cc] tracking-wider uppercase">Özel Matrah</label>
-                    <input className="w-full h-9 bg-[#080f11] border border-white/10 rounded-lg text-[#dce4e5] px-3 text-right focus:outline-none focus:border-[#00daf3] focus:ring-1 focus:ring-[#00daf3]/50 transition-all font-mono text-[13px]" type="text" defaultValue="0.00" />
+                    <input className="w-full h-7 bg-[#080f11] border border-white/10 rounded-lg text-[#dce4e5] px-3 text-right focus:outline-none focus:border-[#00daf3] focus:ring-1 focus:ring-[#00daf3]/50 transition-all font-mono text-[13px]" type="text" defaultValue="0.00" />
                   </div>
                   
                   {/* KDV Fields */}
-                  <div className="col-span-2 grid grid-cols-5 gap-1.5">
-                    <div className="space-y-1"><label className="text-[9px] text-[#bac9cc] uppercase">%1 KDV</label><input className="w-full h-8 bg-[#080f11] border border-white/10 rounded text-[12px] text-[#dce4e5] px-2 text-right" defaultValue="0.00" /></div>
-                    <div className="space-y-1"><label className="text-[9px] text-[#bac9cc] uppercase">%8 KDV</label><input className="w-full h-8 bg-[#080f11] border border-white/10 rounded text-[12px] text-[#dce4e5] px-2 text-right" defaultValue="0.00" /></div>
-                    <div className="space-y-1"><label className="text-[9px] text-[#bac9cc] uppercase">%10 KDV</label><input className="w-full h-8 bg-[#080f11] border border-white/10 rounded text-[12px] text-[#dce4e5] px-2 text-right" defaultValue="0.00" /></div>
-                    <div className="space-y-1"><label className="text-[9px] text-[#bac9cc] uppercase">%18 KDV</label><input className="w-full h-8 bg-[#080f11] border border-white/10 rounded text-[12px] text-[#dce4e5] px-2 text-right" defaultValue="0.00" /></div>
-                    <div className="space-y-1"><label className="text-[9px] text-[#bac9cc] uppercase">%20 KDV</label><input className="w-full h-8 bg-[#080f11] border border-white/10 rounded text-[12px] text-[#dce4e5] px-2 text-right" defaultValue="200.00" /></div>
+                  <div className="col-span-2 grid grid-cols-5 gap-1">
+                    <div className="space-y-0.5"><label className="text-[9px] text-[#bac9cc] uppercase">%1 KDV</label><input className="w-full h-6 bg-[#080f11] border border-white/10 rounded text-[12px] text-[#dce4e5] px-2 text-right" defaultValue="0.00" /></div>
+                    <div className="space-y-0.5"><label className="text-[9px] text-[#bac9cc] uppercase">%8 KDV</label><input className="w-full h-6 bg-[#080f11] border border-white/10 rounded text-[12px] text-[#dce4e5] px-2 text-right" defaultValue="0.00" /></div>
+                    <div className="space-y-0.5"><label className="text-[9px] text-[#bac9cc] uppercase">%10 KDV</label><input className="w-full h-6 bg-[#080f11] border border-white/10 rounded text-[12px] text-[#dce4e5] px-2 text-right" defaultValue="0.00" /></div>
+                    <div className="space-y-0.5"><label className="text-[9px] text-[#bac9cc] uppercase">%18 KDV</label><input className="w-full h-6 bg-[#080f11] border border-white/10 rounded text-[12px] text-[#dce4e5] px-2 text-right" defaultValue="0.00" /></div>
+                    <div className="space-y-0.5"><label className="text-[9px] text-[#bac9cc] uppercase">%20 KDV</label><input className="w-full h-6 bg-[#080f11] border border-white/10 rounded text-[12px] text-[#dce4e5] px-2 text-right" defaultValue="200.00" /></div>
                   </div>
                   
                   {/* Matrah Fields */}
-                  <div className="col-span-2 grid grid-cols-5 gap-1.5">
-                    <div className="space-y-1"><label className="text-[9px] text-[#bac9cc] uppercase">%1 Matrah</label><input className="w-full h-8 bg-[#080f11] border border-white/10 rounded text-[12px] text-[#dce4e5] px-2 text-right" defaultValue="0.00" /></div>
-                    <div className="space-y-1"><label className="text-[9px] text-[#bac9cc] uppercase">%8 Matrah</label><input className="w-full h-8 bg-[#080f11] border border-white/10 rounded text-[12px] text-[#dce4e5] px-2 text-right" defaultValue="0.00" /></div>
-                    <div className="space-y-1"><label className="text-[9px] text-[#bac9cc] uppercase">%10 Matrah</label><input className="w-full h-8 bg-[#080f11] border border-white/10 rounded text-[12px] text-[#dce4e5] px-2 text-right" defaultValue="0.00" /></div>
-                    <div className="space-y-1"><label className="text-[9px] text-[#bac9cc] uppercase">%18 Matrah</label><input className="w-full h-8 bg-[#080f11] border border-white/10 rounded text-[12px] text-[#dce4e5] px-2 text-right" defaultValue="0.00" /></div>
-                    <div className="space-y-1"><label className="text-[9px] text-[#bac9cc] uppercase">%20 Matrah</label><input className="w-full h-8 bg-[#080f11] border border-white/10 rounded text-[12px] text-[#dce4e5] px-2 text-right" defaultValue="1,000.00" /></div>
+                  <div className="col-span-2 grid grid-cols-5 gap-1">
+                    <div className="space-y-0.5"><label className="text-[9px] text-[#bac9cc] uppercase">%1 Matrah</label><input className="w-full h-6 bg-[#080f11] border border-white/10 rounded text-[12px] text-[#dce4e5] px-2 text-right" defaultValue="0.00" /></div>
+                    <div className="space-y-0.5"><label className="text-[9px] text-[#bac9cc] uppercase">%8 Matrah</label><input className="w-full h-6 bg-[#080f11] border border-white/10 rounded text-[12px] text-[#dce4e5] px-2 text-right" defaultValue="0.00" /></div>
+                    <div className="space-y-0.5"><label className="text-[9px] text-[#bac9cc] uppercase">%10 Matrah</label><input className="w-full h-6 bg-[#080f11] border border-white/10 rounded text-[12px] text-[#dce4e5] px-2 text-right" defaultValue="0.00" /></div>
+                    <div className="space-y-0.5"><label className="text-[9px] text-[#bac9cc] uppercase">%18 Matrah</label><input className="w-full h-6 bg-[#080f11] border border-white/10 rounded text-[12px] text-[#dce4e5] px-2 text-right" defaultValue="0.00" /></div>
+                    <div className="space-y-0.5"><label className="text-[9px] text-[#bac9cc] uppercase">%20 Matrah</label><input className="w-full h-6 bg-[#080f11] border border-white/10 rounded text-[12px] text-[#dce4e5] px-2 text-right" defaultValue="1,000.00" /></div>
                   </div>
                   
                   {/* Toplam */}
-                  <div className="col-span-2 space-y-1 mt-2 bg-[#242b2d] p-4 rounded-lg border border-white/10">
+                  <div className="col-span-2 space-y-0.5 mt-1 bg-[#242b2d] p-2 rounded-lg border border-white/10">
                     <label className="text-[10px] font-medium text-[#bac9cc] tracking-wider uppercase">Toplam</label>
                     <div className="text-[#dce4e5] text-xl font-semibold font-mono">₺1,200.00</div>
                   </div>
