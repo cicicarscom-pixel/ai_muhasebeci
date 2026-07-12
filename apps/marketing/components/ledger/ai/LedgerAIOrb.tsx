@@ -20,31 +20,28 @@ export function LedgerAIOrb({ onClick }: LedgerAIOrbProps) {
       className="group relative flex h-[52px] min-w-[138px] cursor-pointer items-center justify-center rounded-full bg-[#080B10]/95 px-6 outline-none backdrop-blur-xl shadow-2xl"
       aria-label="Ledger AI sohbetini aç"
     >
-      {/* Static Blue Border */}
+      {/* Masked Border Container */}
       <div 
-        className="absolute inset-0 rounded-full pointer-events-none"
+        className="absolute inset-0 rounded-full pointer-events-none overflow-hidden"
         style={{
           padding: '2px',
-          background: 'rgba(0, 218, 243, 0.4)', // Mavi taban
           WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
           WebkitMaskComposite: 'xor',
           maskComposite: 'exclude',
         }}
-      />
+      >
+        {/* Static Blue Base */}
+        <div className="absolute inset-[-50px] bg-[rgba(0,218,243,0.4)]" />
 
-      {/* Rotating RGB Segment Border */}
-      <div 
-        className="absolute inset-0 rounded-full pointer-events-none"
-        style={{
-          padding: '2px',
-          // Şeffaf başlayıp sadece belli bir dilimde RGB renklere dönen degrade
-          background: 'conic-gradient(from 0deg, transparent 0%, transparent 65%, #ff0000 75%, #ff00ff 85%, #0000ff 95%, rgba(0, 218, 243, 1) 100%)',
-          WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
-          WebkitMaskComposite: 'xor',
-          maskComposite: 'exclude',
-          animation: 'spin 3s linear infinite'
-        }}
-      />
+        {/* Spinning RGB Segment */}
+        <div 
+          className="absolute left-1/2 top-1/2 h-[200px] w-[200px] -translate-x-1/2 -translate-y-1/2"
+          style={{
+            background: 'conic-gradient(from 0deg, transparent 0%, transparent 65%, #ff0000 75%, #ff00ff 85%, #0000ff 95%, rgba(0, 218, 243, 1) 100%)',
+            animation: 'spin 3s linear infinite'
+          }}
+        />
+      </div>
 
       {/* Inner subtle blue glow */}
       <div className="absolute inset-[2px] rounded-full bg-gradient-to-b from-[#00DAF3]/30 to-transparent opacity-50 blur-md pointer-events-none" />
