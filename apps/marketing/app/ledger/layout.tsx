@@ -4,6 +4,7 @@ import Script from 'next/script';
 import Sidebar from '@/components/ledger/layout/Sidebar';
 import Header from '@/components/ledger/layout/Header';
 import AiOperationsCenter from '@/components/ledger/layout/AiOperationsCenter';
+import { FloatingLedgerAI } from '@/components/ledger/ai/FloatingLedgerAI';
 import { usePathname } from 'next/navigation';
 
 export default function LedgerLayout({ children }: { children: React.ReactNode }) {
@@ -113,6 +114,8 @@ export default function LedgerLayout({ children }: { children: React.ReactNode }
       <main className={`${mainMargins} ${isApproval ? 'h-screen p-0 max-w-full' : 'p-6 max-w-[1400px] min-h-screen'} mx-auto z-10 relative`}>
         {children}
       </main>
+      
+      <FloatingLedgerAI />
     </div>
   );
 }
