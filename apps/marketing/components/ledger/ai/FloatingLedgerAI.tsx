@@ -36,7 +36,14 @@ export function FloatingLedgerAI() {
 
     if (savedPosition) {
       try {
-        setPosition(JSON.parse(savedPosition) as Position);
+        const pos = JSON.parse(savedPosition) as Position;
+        // Check if the position is way off screen
+        if (pos.x < -window.innerWidth + 50 || pos.x > 50 || pos.y < -window.innerHeight + 50 || pos.y > 50) {
+          window.localStorage.removeItem(POSITION_KEY);
+          setPosition({ x: 0, y: 0 });
+        } else {
+          setPosition(pos);
+        }
       } catch {
         window.localStorage.removeItem(POSITION_KEY);
       }

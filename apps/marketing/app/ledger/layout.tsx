@@ -13,12 +13,12 @@ export default function LedgerLayout({ children }: { children: React.ReactNode }
   const isApproval = pathname?.includes('/approval');
   const isClients = pathname?.includes('/clients');
   
-  // Decide margins based on layout
-  let mainMargins = 'ml-[56px] mr-[360px] pt-16';
+  // Decide padding based on layout
+  let mainPadding = 'pl-[56px] pr-[360px] pt-16';
   if (isApproval) {
-    mainMargins = 'ml-[56px] mr-0 pt-0'; // Sidebar space + no top padding
+    mainPadding = 'pl-[56px] pr-0 pt-0'; // Sidebar space + no top padding
   } else if (isWorkflow || isClients) {
-    mainMargins = 'ml-[56px] mr-0 pt-16'; // No right sidebar for workflow and clients
+    mainPadding = 'pl-[56px] pr-0 pt-16'; // No right sidebar for workflow and clients
   }
 
   return (
@@ -111,9 +111,11 @@ export default function LedgerLayout({ children }: { children: React.ReactNode }
       {!isApproval && !isWorkflow && !isClients && <AiOperationsCenter />}
       
       {/* Main Content Area */}
-      <main className={`${mainMargins} ${isApproval ? 'h-screen p-0 max-w-full' : 'p-6 max-w-[1400px] min-h-screen'} mx-auto z-10 relative`}>
-        {children}
-      </main>
+      <div className={`${mainPadding} w-full min-h-screen z-10 relative`}>
+        <main className={`${isApproval ? 'h-screen p-0 max-w-full' : 'p-6 max-w-[1400px] min-h-screen'} mx-auto relative`}>
+          {children}
+        </main>
+      </div>
       
       <FloatingLedgerAI />
     </div>
