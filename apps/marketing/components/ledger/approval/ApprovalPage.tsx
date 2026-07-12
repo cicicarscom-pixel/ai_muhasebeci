@@ -252,12 +252,6 @@ export default function ApprovalPage() {
             {/* Form Area */}
             <div className="flex-1 overflow-y-auto custom-scrollbar p-6">
               <div className="max-w-xl mx-auto space-y-4">
-                {/* AI Confidence Banner */}
-                <div className="bg-[#00daf3]/5 border border-[#00daf3]/20 rounded-lg p-2.5 flex items-center gap-2">
-                  <span className="material-symbols-outlined text-[#00daf3] text-[18px]">check_circle</span>
-                  <span className="text-[#dce4e5] font-medium text-[13px]">Veriler başarıyla alındı</span>
-                </div>
-
                 <div className="grid grid-cols-2 gap-x-4 gap-y-3">
                   {/* Fatura Tarihi */}
                   <div className="col-span-2 sm:col-span-1 space-y-1">
