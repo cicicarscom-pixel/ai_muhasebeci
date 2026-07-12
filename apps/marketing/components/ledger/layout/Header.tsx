@@ -8,8 +8,13 @@ export default function Header() {
   
   return (
     <header className={`fixed top-0 ${isWorkflow ? 'right-0' : 'right-[360px]'} left-[56px] h-16 bg-surface/60 backdrop-blur-2xl border-b border-white/5 shadow-[0_4px_20px_rgba(0,0,0,0.3)] z-40 flex items-center justify-between px-6 pl-8`}>
-      <div className="flex items-center gap-4">
-        <span className="font-h1 text-lg font-semibold text-primary-container dark:text-primary-fixed-dim tracking-tight glow-text">Universe UI</span>
+      <div className="flex flex-col justify-center">
+        <h1 className="text-[16px] font-semibold text-on-surface flex items-center gap-2 tracking-tight leading-none mb-1">
+          Günaydın, Ahmet Bey <span className="text-[14px] animate-pulse">👋</span>
+        </h1>
+        <p className="text-[10px] text-on-surface-variant leading-none">
+          AI Asistanınız size harika bir gün geçirmeniz için hazır.
+        </p>
       </div>
       <div className="flex items-center gap-6">
         {/* Actions */}

@@ -4,11 +4,7 @@ import React from 'react';
 export default function DashboardPage() {
   return (
     <div className="flex flex-col gap-4">
-      {/* Welcome Section */}
-      <div className="mb-2">
-        <h1 className="text-xl font-semibold text-on-surface mb-0.5 flex items-center gap-2 tracking-tight">Günaydın, Ahmet Bey <span className="text-lg animate-pulse">👋</span></h1>
-        <p className="text-[11px] text-on-surface-variant">AI Asistanınız size harika bir gün geçirmeniz için hazır.</p>
-      </div>
+
       
       {/* Grid Container: 12 Columns */}
       <div className="grid grid-cols-12 gap-4">
