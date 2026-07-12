@@ -99,7 +99,7 @@ export default function DashboardPage() {
 
         {/* ROW 2 */}
         {/* Upcoming Deadlines (3 cols) */}
-        <div className="col-span-3 glass-panel p-5">
+        <div className="col-span-3 bg-[#12151C] border border-white/5 rounded-2xl p-5">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-sm font-semibold text-on-surface tracking-tight">Önemli Tarihler</h2>
           </div>
@@ -138,7 +138,7 @@ export default function DashboardPage() {
         </div>
 
         {/* AI Recommendations (4 cols) */}
-        <div className="col-span-4 glass-panel p-5">
+        <div className="col-span-4 bg-[#12151C] border border-white/5 rounded-2xl p-5">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-sm font-semibold text-on-surface flex items-center gap-2 tracking-tight">
               <span className="material-symbols-outlined text-[#9D5CFF] text-[16px]">auto_awesome</span>
@@ -183,7 +183,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Recent Documents (5 cols) */}
-        <div className="col-span-5 glass-panel p-5">
+        <div className="col-span-5 bg-[#12151C] border border-white/5 rounded-2xl p-5">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-sm font-semibold text-on-surface tracking-tight">Son Gelenler</h2>
             <a className="text-primary-container hover:underline transition-colors text-[10px] font-semibold" href="#">Tümü</a>
@@ -219,7 +219,7 @@ export default function DashboardPage() {
 
         {/* ROW 3 */}
         {/* Workflow Summary (7 cols) */}
-        <div className="col-span-7 glass-panel p-5 flex flex-col">
+        <div className="col-span-7 bg-[#12151C] border border-white/5 rounded-2xl p-5 flex flex-col">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-sm font-semibold text-on-surface tracking-tight">İş Akışı</h2>
             <a className="text-primary-container hover:underline transition-colors text-[10px] font-semibold" href="#">Detay</a>
@@ -279,7 +279,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Workload Chart (5 cols) */}
-        <div className="col-span-5 glass-panel p-5 flex flex-col min-h-[220px] max-h-[260px]">
+        <div className="col-span-5 bg-[#12151C] border border-white/5 rounded-2xl p-5 flex flex-col min-h-[220px] max-h-[260px]">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-sm font-semibold text-on-surface tracking-tight">İş Yükü Trendi</h2>
             <select className="bg-surface-container/80 border border-white/10 rounded px-1.5 py-0.5 text-[9px] font-bold text-on-surface-variant focus:outline-none focus:border-primary-container appearance-none cursor-pointer">
