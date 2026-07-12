@@ -18,6 +18,7 @@ export default function Sidebar() {
       
       <div className="flex-1 w-full flex flex-col gap-1.5 items-center">
         <SidebarItem icon="dashboard" label="Dashboard" href="/ledger/dashboard" active={isActive('/ledger/dashboard')} />
+        <SidebarItem icon="groups" label="Mükellefler" href="/ledger/clients" active={isActive('/ledger/clients')} />
         <SidebarItem icon="account_tree" label="İş Akışı" href="/ledger/workflow" active={isActive('/ledger/workflow')} />
         <SidebarItem icon="fact_check" label="Onay Merkezi" href="/ledger/approval/1" active={pathname?.startsWith('/ledger/approval')} />
         <SidebarItem icon="analytics" label="Analitik" href="/ledger/analytics" active={isActive('/ledger/analytics')} />
