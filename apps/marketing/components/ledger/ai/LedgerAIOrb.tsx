@@ -24,20 +24,17 @@ export function LedgerAIOrb({ onClick }: LedgerAIOrbProps) {
       <div 
         className="absolute inset-0 rounded-full pointer-events-none overflow-hidden"
         style={{
-          padding: '2px',
+          padding: '3px', // A bit thicker as in the screenshot
           WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
           WebkitMaskComposite: 'xor',
           maskComposite: 'exclude',
         }}
       >
-        {/* Static Blue Base */}
-        <div className="absolute inset-[-50px] bg-[rgba(0,218,243,0.4)]" />
-
-        {/* Spinning RGB Segment */}
+        {/* Spinning Gradient that covers the entire border */}
         <div 
-          className="absolute left-1/2 top-1/2 h-[200px] w-[200px] -translate-x-1/2 -translate-y-1/2"
+          className="absolute left-1/2 top-1/2 h-[300px] w-[300px] -translate-x-1/2 -translate-y-1/2"
           style={{
-            background: 'conic-gradient(from 0deg, transparent 0%, transparent 65%, #ff0000 75%, #ff00ff 85%, #0000ff 95%, rgba(0, 218, 243, 1) 100%)',
+            background: 'conic-gradient(from 0deg, #0099FF 0%, #0055FF 65%, #FF0055 75%, #9D00FF 85%, #0099FF 100%)',
             animation: 'spin 3s linear infinite'
           }}
         />
