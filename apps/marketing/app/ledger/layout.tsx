@@ -14,7 +14,7 @@ export default function LedgerLayout({ children }: { children: React.ReactNode }
   // Decide margins based on layout
   let mainMargins = 'ml-[56px] mr-[360px] pt-16';
   if (isApproval) {
-    mainMargins = 'ml-0 mr-0 pt-0'; // Full screen for approval
+    mainMargins = 'ml-[56px] mr-0 pt-0'; // Sidebar space + no top padding
   } else if (isWorkflow) {
     mainMargins = 'ml-[56px] mr-0 pt-16'; // No right sidebar for workflow
   }
@@ -104,7 +104,7 @@ export default function LedgerLayout({ children }: { children: React.ReactNode }
       <div className="star-field"></div>
       <div className="aurora-bg"></div>
       
-      {!isApproval && <Sidebar />}
+      <Sidebar />
       {!isApproval && <Header />}
       {!isApproval && !isWorkflow && <AiOperationsCenter />}
       
