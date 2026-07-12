@@ -2,7 +2,6 @@
 
 import { useMemo, useState } from "react";
 import { clients } from "@/data/mock/clients";
-import { ClientsHeader } from "./ClientsHeader";
 import { AdvisorInviteCard } from "./AdvisorInviteCard";
 import { ClientList } from "./ClientList";
 import { ClientDetail } from "./ClientDetail";
@@ -25,7 +24,6 @@ export function ClientsPage() {
       ].some((value) =>
         value.toLocaleLowerCase("tr").includes(normalized),
       ),
-    );
   }, [query]);
 
   const selectedClient =
@@ -33,8 +31,6 @@ export function ClientsPage() {
 
   return (
     <section className="flex h-full min-h-0 flex-col gap-4 overflow-hidden p-4">
-      <ClientsHeader />
-
       <AdvisorInviteCard advisorCode="WG-73492" />
 
       <div className="grid min-h-0 flex-1 grid-cols-[minmax(19rem,34%)_minmax(0,1fr)] gap-4">
