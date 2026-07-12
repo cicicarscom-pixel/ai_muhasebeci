@@ -22,7 +22,7 @@ export function LedgerAIOrb({ onClick }: LedgerAIOrbProps) {
     >
       {/* Masked Border Container */}
       <div 
-        className="absolute inset-0 rounded-full pointer-events-none overflow-hidden"
+        className="absolute inset-0 rounded-full pointer-events-none overflow-hidden bg-[#0099FF]"
         style={{
           padding: '3px', // A bit thicker as in the screenshot
           WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
@@ -30,12 +30,12 @@ export function LedgerAIOrb({ onClick }: LedgerAIOrbProps) {
           maskComposite: 'exclude',
         }}
       >
-        {/* Spinning Gradient that covers the entire border */}
+        {/* Spinning RGB Aura Glow segment */}
         <div 
           className="absolute left-1/2 top-1/2 h-[300px] w-[300px] -translate-x-1/2 -translate-y-1/2"
           style={{
-            background: 'conic-gradient(from 0deg, #0099FF 0%, #0055FF 65%, #FF0055 75%, #9D00FF 85%, #0099FF 100%)',
-            animation: 'spin 3s linear infinite'
+            background: 'conic-gradient(from 0deg, transparent 0%, transparent 75%, #00f3ff 85%, #9D00FF 92%, #FF0055 100%, transparent 100%)',
+            animation: 'spin 2s linear infinite'
           }}
         />
       </div>
