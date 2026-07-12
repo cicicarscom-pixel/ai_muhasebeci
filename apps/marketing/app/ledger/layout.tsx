@@ -9,6 +9,16 @@ import { usePathname } from 'next/navigation';
 export default function LedgerLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const isWorkflow = pathname?.includes('/workflow');
+  const isApproval = pathname?.includes('/approval');
+  
+  // Decide margins based on layout
+  let mainMargins = 'ml-[56px] mr-[360px] pt-16';
+  if (isApproval) {
+    mainMargins = 'ml-0 mr-0 pt-0'; // Full screen for approval
+  } else if (isWorkflow) {
+    mainMargins = 'ml-[56px] mr-0 pt-16'; // No right sidebar for workflow
+  }
+
   return (
     <div className="font-body antialiased bg-background text-on-surface min-h-screen overflow-x-hidden relative">
       <Script src='https://unpkg.com/@phosphor-icons/web' strategy='lazyOnload' />
@@ -94,12 +104,12 @@ export default function LedgerLayout({ children }: { children: React.ReactNode }
       <div className="star-field"></div>
       <div className="aurora-bg"></div>
       
-      <Sidebar />
-      <Header />
-      {!isWorkflow && <AiOperationsCenter />}
+      {!isApproval && <Sidebar />}
+      {!isApproval && <Header />}
+      {!isApproval && !isWorkflow && <AiOperationsCenter />}
       
       {/* Main Content Area */}
-      <main className={`ml-[56px] ${isWorkflow ? 'mr-0' : 'mr-[360px]'} pt-16 p-6 max-w-[1400px] mx-auto min-h-screen z-10 relative`}>
+      <main className={`${mainMargins} ${isApproval ? 'h-screen p-0 max-w-full' : 'p-6 max-w-[1400px] min-h-screen'} mx-auto z-10 relative`}>
         {children}
       </main>
     </div>
