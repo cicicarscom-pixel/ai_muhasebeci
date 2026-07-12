@@ -233,8 +233,8 @@ export default function ApprovalPage() {
           <section className="w-1/2 h-full bg-[#192122] flex flex-col border-l border-white/5">
             {/* Form Area */}
             <div className="flex-1 overflow-y-auto custom-scrollbar px-6 pt-4 pb-6">
-              <div className="max-w-xl mx-auto space-y-4">
-                <div className="grid grid-cols-2 gap-x-4 gap-y-3">
+              <div className="max-w-xl mx-auto space-y-2">
+                <div className="grid grid-cols-2 gap-x-2 gap-y-2">
                   {/* Fatura Tarihi */}
                   <div className="col-span-2 sm:col-span-1 space-y-1">
                     <label className="text-[10px] font-medium text-[#bac9cc] tracking-wider uppercase">Fatura Tarihi</label>
@@ -279,7 +279,7 @@ export default function ApprovalPage() {
                   </div>
                   
                   {/* KDV Fields */}
-                  <div className="col-span-2 grid grid-cols-5 gap-3">
+                  <div className="col-span-2 grid grid-cols-5 gap-1.5">
                     <div className="space-y-1"><label className="text-[9px] text-[#bac9cc] uppercase">%1 KDV</label><input className="w-full h-8 bg-[#080f11] border border-white/10 rounded text-[12px] text-[#dce4e5] px-2 text-right" defaultValue="0.00" /></div>
                     <div className="space-y-1"><label className="text-[9px] text-[#bac9cc] uppercase">%8 KDV</label><input className="w-full h-8 bg-[#080f11] border border-white/10 rounded text-[12px] text-[#dce4e5] px-2 text-right" defaultValue="0.00" /></div>
                     <div className="space-y-1"><label className="text-[9px] text-[#bac9cc] uppercase">%10 KDV</label><input className="w-full h-8 bg-[#080f11] border border-white/10 rounded text-[12px] text-[#dce4e5] px-2 text-right" defaultValue="0.00" /></div>
@@ -288,7 +288,7 @@ export default function ApprovalPage() {
                   </div>
                   
                   {/* Matrah Fields */}
-                  <div className="col-span-2 grid grid-cols-5 gap-3">
+                  <div className="col-span-2 grid grid-cols-5 gap-1.5">
                     <div className="space-y-1"><label className="text-[9px] text-[#bac9cc] uppercase">%1 Matrah</label><input className="w-full h-8 bg-[#080f11] border border-white/10 rounded text-[12px] text-[#dce4e5] px-2 text-right" defaultValue="0.00" /></div>
                     <div className="space-y-1"><label className="text-[9px] text-[#bac9cc] uppercase">%8 Matrah</label><input className="w-full h-8 bg-[#080f11] border border-white/10 rounded text-[12px] text-[#dce4e5] px-2 text-right" defaultValue="0.00" /></div>
                     <div className="space-y-1"><label className="text-[9px] text-[#bac9cc] uppercase">%10 Matrah</label><input className="w-full h-8 bg-[#080f11] border border-white/10 rounded text-[12px] text-[#dce4e5] px-2 text-right" defaultValue="0.00" /></div>
