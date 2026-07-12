@@ -20,12 +20,17 @@ export function LedgerAIOrb({ onClick }: LedgerAIOrbProps) {
       className="group relative flex h-[52px] min-w-[138px] cursor-pointer items-center justify-center rounded-full bg-[#080B10]/95 px-6 outline-none backdrop-blur-xl"
       aria-label="Ledger AI sohbetini aç"
     >
-      {/* Glow Effects behind the capsule */}
-      <div className="absolute -left-3 top-1/2 h-[38px] w-[58px] -translate-y-1/2 bg-[#9D5CFF] opacity-45 blur-[22px] transition-all duration-700 ease-in-out group-hover:h-[46px] group-hover:w-[68px] group-hover:opacity-60 group-hover:blur-[26px]" />
-      <div className="absolute -right-3 top-1/2 h-[38px] w-[58px] -translate-y-1/2 bg-[#00DAF3] opacity-40 blur-[22px] transition-all duration-700 ease-in-out group-hover:h-[46px] group-hover:w-[68px] group-hover:opacity-55 group-hover:blur-[26px]" />
+      {/* Rotating RGB Aura */}
+      <div 
+        className="absolute inset-[-15px] -z-10 rounded-full blur-[24px] opacity-70 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
+        style={{
+          background: 'conic-gradient(from 0deg, #ff0000, #ff8000, #ffff00, #00ff00, #00ffff, #0000ff, #8000ff, #ff00ff, #ff0000)',
+          animation: 'spin 4s linear infinite'
+        }}
+      />
       
-      {/* Inner breathing glow */}
-      <div className="absolute inset-0 rounded-full bg-gradient-to-r from-[#9D5CFF]/10 to-[#00DAF3]/10 opacity-0 blur-md transition-opacity duration-1000 group-hover:opacity-100 animate-pulse" />
+      {/* Inner background to block aura from showing through center */}
+      <div className="absolute inset-0 -z-0 rounded-full bg-[#080B10]/95 backdrop-blur-xl" />
 
       {/* Border with gradient to match image (mor to cyan) */}
       <div 
