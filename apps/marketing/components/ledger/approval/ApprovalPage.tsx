@@ -330,10 +330,10 @@ export default function ApprovalPage() {
             </div>
 
             {/* Footer */}
-            <div className="p-6 border-t border-white/5 bg-[#192122] flex justify-end mt-auto">
-              <button className="px-8 py-3 rounded-lg bg-[#00daf3] text-[#004f58] text-sm hover:bg-[#00daf3]/90 transition-all shadow-[0_0_20px_rgba(0,218,243,0.3)] flex items-center gap-3 font-bold">
+            <div className="px-6 py-3 border-t border-white/5 bg-[#192122] flex justify-end mt-auto">
+              <button className="px-5 py-2 rounded-lg bg-[#00daf3] text-[#004f58] text-[13px] hover:bg-[#00daf3]/90 transition-all shadow-[0_0_15px_rgba(0,218,243,0.2)] flex items-center gap-2 font-bold">
                 Onayla ve Sonraki
-                <span className="material-symbols-outlined text-[20px]">arrow_forward</span>
+                <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
               </button>
             </div>
           </section>
