@@ -21,6 +21,18 @@ export default function LedgerLayout({ children }: { children: React.ReactNode }
     mainPadding = 'pl-[56px] pr-0 pt-16'; // No right sidebar for workflow and clients
   }
 
+  const isLandingPage = pathname === '/ledger';
+
+  // If it's the landing page, don't render app layout components
+  if (isLandingPage) {
+    return (
+      <div className="font-body antialiased bg-background text-on-surface min-h-screen overflow-x-hidden relative">
+        <Script src='https://unpkg.com/@phosphor-icons/web' strategy='lazyOnload' />
+        {children}
+      </div>
+    );
+  }
+
   return (
     <div className="font-body antialiased bg-background text-on-surface min-h-screen overflow-x-hidden relative">
       <Script src='https://unpkg.com/@phosphor-icons/web' strategy='lazyOnload' />
