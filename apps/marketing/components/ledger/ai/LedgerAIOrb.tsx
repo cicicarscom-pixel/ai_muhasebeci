@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Bot } from "lucide-react";
 
 interface LedgerAIOrbProps {
   onClick: () => void;
@@ -15,17 +14,17 @@ export function LedgerAIOrb({ onClick }: LedgerAIOrbProps) {
       initial={{ opacity: 0, scale: 0.88 }}
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.88 }}
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
+      whileHover={{ scale: 1.04 }}
+      whileTap={{ scale: 0.98 }}
       onClick={onClick}
-      className="group relative flex h-[64px] w-[64px] cursor-pointer items-center justify-center rounded-full bg-[#0E1117] outline-none shadow-2xl"
+      className="group relative flex h-[52px] min-w-[138px] cursor-pointer items-center justify-center rounded-full bg-[#080B10]/95 px-6 outline-none backdrop-blur-xl shadow-2xl"
       aria-label="Ledger AI sohbetini aç"
     >
       {/* Static Blue Border */}
       <div 
         className="absolute inset-0 rounded-full pointer-events-none"
         style={{
-          padding: '3px',
+          padding: '2px',
           background: 'rgba(0, 218, 243, 0.4)', // Mavi taban
           WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
           WebkitMaskComposite: 'xor',
@@ -37,7 +36,7 @@ export function LedgerAIOrb({ onClick }: LedgerAIOrbProps) {
       <div 
         className="absolute inset-0 rounded-full pointer-events-none"
         style={{
-          padding: '3px',
+          padding: '2px',
           // Şeffaf başlayıp sadece belli bir dilimde RGB renklere dönen degrade
           background: 'conic-gradient(from 0deg, transparent 0%, transparent 65%, #ff0000 75%, #ff00ff 85%, #0000ff 95%, rgba(0, 218, 243, 1) 100%)',
           WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
@@ -47,11 +46,12 @@ export function LedgerAIOrb({ onClick }: LedgerAIOrbProps) {
         }}
       />
 
-      {/* Inner subtle blue glow (like in the screenshot) */}
-      <div className="absolute inset-[2px] rounded-full bg-gradient-to-b from-[#00DAF3]/30 to-transparent opacity-80 blur-md pointer-events-none" />
+      {/* Inner subtle blue glow */}
+      <div className="absolute inset-[2px] rounded-full bg-gradient-to-b from-[#00DAF3]/30 to-transparent opacity-50 blur-md pointer-events-none" />
 
-      {/* Icon */}
-      <Bot className="relative z-10 h-7 w-7 text-white drop-shadow-[0_0_12px_rgba(255,255,255,0.8)] transition-transform duration-300 group-hover:scale-110" />
+      <span className="relative z-10 text-[15px] font-bold tracking-wide text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+        Ledger Ai
+      </span>
     </motion.button>
   );
 }
