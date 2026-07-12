@@ -231,26 +231,8 @@ export default function ApprovalPage() {
 
           {/* Right Column: Operation Panel */}
           <section className="w-1/2 h-full bg-[#192122] flex flex-col border-l border-white/5">
-            {/* Tabs */}
-            <div className="flex border-b border-white/5 px-6 pt-4 space-x-6">
-              <button className="pb-3 text-[#00daf3] font-bold text-xs border-b-2 border-[#00daf3] relative">
-                Detaylar
-              </button>
-              <button className="pb-3 text-[#bac9cc] font-medium text-xs hover:text-[#dce4e5] transition-colors">
-                Fatura Kalemleri
-                <span className="ml-2 inline-flex items-center justify-center bg-[#333a3c] text-[#dce4e5] text-[10px] rounded-full w-5 h-5">5</span>
-              </button>
-              <button className="pb-3 text-[#aec6ff] font-medium text-xs hover:text-[#aec6ff]/80 transition-colors flex items-center gap-1">
-                <span className="material-symbols-outlined text-[16px]">auto_awesome</span>
-                AI Kuralları
-              </button>
-              <button className="pb-3 text-[#bac9cc] font-medium text-xs hover:text-[#dce4e5] transition-colors">
-                Geçmiş
-              </button>
-            </div>
-
             {/* Form Area */}
-            <div className="flex-1 overflow-y-auto custom-scrollbar p-6">
+            <div className="flex-1 overflow-y-auto custom-scrollbar px-6 pt-4 pb-6">
               <div className="max-w-xl mx-auto space-y-4">
                 <div className="grid grid-cols-2 gap-x-4 gap-y-3">
                   {/* Fatura Tarihi */}
