@@ -24,6 +24,7 @@ export function ClientsPage() {
       ].some((value) =>
         value.toLocaleLowerCase("tr").includes(normalized),
       ),
+    );
   }, [query]);
 
   const selectedClient =
