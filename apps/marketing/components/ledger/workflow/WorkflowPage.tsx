@@ -3,7 +3,7 @@ import React from 'react';
 
 export default function WorkflowPage() {
   return (
-    <div className="flex h-[calc(100vh-64px)] w-full overflow-hidden text-on-surface -m-6 w-[calc(100%+48px)]">
+    <div className="flex h-[calc(100vh-64px)] w-full overflow-hidden text-on-surface -m-6">
       {/* Left Main Content */}
       <div className="flex-1 flex flex-col min-w-0 p-6">
         
@@ -71,13 +71,13 @@ export default function WorkflowPage() {
                 type="text"
               />
             </div>
-            <select className="bg-surface-container/50 border border-white/10 rounded-lg px-3 py-1.5 text-[11px] font-medium text-on-surface-variant focus:outline-none appearance-none cursor-pointer pr-8 bg-no-repeat bg-[url('data:image/svg+xml;utf8,<svg fill=\"%238B949E\" height=\"24\" viewBox=\"0 0 24 24\" width=\"24\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M7 10l5 5 5-5z\"/></svg>')] bg-[position:right_4px_center] bg-[length:16px]">
+            <select className="bg-surface-container/50 border border-white/10 rounded-lg px-3 py-1.5 text-[11px] font-medium text-on-surface-variant focus:outline-none appearance-none cursor-pointer pr-8 bg-no-repeat bg-[url('data:image/svg+xml;utf8,%3Csvg%20fill%3D%22%238B949E%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20width%3D%2224%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M7%2010l5%205%205-5z%22%2F%3E%3C%2Fsvg%3E')] bg-[position:right_4px_center] bg-[length:16px]">
               <option>Tüm Mükellefler</option>
             </select>
-            <select className="bg-surface-container/50 border border-white/10 rounded-lg px-3 py-1.5 text-[11px] font-medium text-on-surface-variant focus:outline-none appearance-none cursor-pointer pr-8 bg-no-repeat bg-[url('data:image/svg+xml;utf8,<svg fill=\"%238B949E\" height=\"24\" viewBox=\"0 0 24 24\" width=\"24\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M7 10l5 5 5-5z\"/></svg>')] bg-[position:right_4px_center] bg-[length:16px]">
+            <select className="bg-surface-container/50 border border-white/10 rounded-lg px-3 py-1.5 text-[11px] font-medium text-on-surface-variant focus:outline-none appearance-none cursor-pointer pr-8 bg-no-repeat bg-[url('data:image/svg+xml;utf8,%3Csvg%20fill%3D%22%238B949E%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20width%3D%2224%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M7%2010l5%205%205-5z%22%2F%3E%3C%2Fsvg%3E')] bg-[position:right_4px_center] bg-[length:16px]">
               <option>Tüm Kaynaklar</option>
             </select>
-            <select className="bg-surface-container/50 border border-white/10 rounded-lg px-3 py-1.5 text-[11px] font-medium text-on-surface-variant focus:outline-none appearance-none cursor-pointer pr-8 bg-no-repeat bg-[url('data:image/svg+xml;utf8,<svg fill=\"%238B949E\" height=\"24\" viewBox=\"0 0 24 24\" width=\"24\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M7 10l5 5 5-5z\"/></svg>')] bg-[position:right_4px_center] bg-[length:16px]">
+            <select className="bg-surface-container/50 border border-white/10 rounded-lg px-3 py-1.5 text-[11px] font-medium text-on-surface-variant focus:outline-none appearance-none cursor-pointer pr-8 bg-no-repeat bg-[url('data:image/svg+xml;utf8,%3Csvg%20fill%3D%22%238B949E%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20width%3D%2224%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M7%2010l5%205%205-5z%22%2F%3E%3C%2Fsvg%3E')] bg-[position:right_4px_center] bg-[length:16px]">
               <option>Tüm Türler</option>
             </select>
           </div>
