@@ -10,13 +10,14 @@ export default function LedgerLayout({ children }: { children: React.ReactNode }
   const pathname = usePathname();
   const isWorkflow = pathname?.includes('/workflow');
   const isApproval = pathname?.includes('/approval');
+  const isClients = pathname?.includes('/clients');
   
   // Decide margins based on layout
   let mainMargins = 'ml-[56px] mr-[360px] pt-16';
   if (isApproval) {
     mainMargins = 'ml-[56px] mr-0 pt-0'; // Sidebar space + no top padding
-  } else if (isWorkflow) {
-    mainMargins = 'ml-[56px] mr-0 pt-16'; // No right sidebar for workflow
+  } else if (isWorkflow || isClients) {
+    mainMargins = 'ml-[56px] mr-0 pt-16'; // No right sidebar for workflow and clients
   }
 
   return (
@@ -106,7 +107,7 @@ export default function LedgerLayout({ children }: { children: React.ReactNode }
       
       <Sidebar />
       {!isApproval && <Header />}
-      {!isApproval && !isWorkflow && <AiOperationsCenter />}
+      {!isApproval && !isWorkflow && !isClients && <AiOperationsCenter />}
       
       {/* Main Content Area */}
       <main className={`${mainMargins} ${isApproval ? 'h-screen p-0 max-w-full' : 'p-6 max-w-[1400px] min-h-screen'} mx-auto z-10 relative`}>
