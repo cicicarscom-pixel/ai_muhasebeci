@@ -1,16 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { Search, Filter, Plus } from "lucide-react";
+import { Filter, Plus } from "lucide-react";
 import { AddClientDialog } from "./AddClientDialog";
 
 interface ClientsHeaderProps {
   total: number;
-  query: string;
-  onQueryChange: (val: string) => void;
 }
 
-export function ClientsHeader({ total, query, onQueryChange }: ClientsHeaderProps) {
+export function ClientsHeader({ total }: ClientsHeaderProps) {
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
 
   return (
@@ -28,17 +26,6 @@ export function ClientsHeader({ total, query, onQueryChange }: ClientsHeaderProp
       </div>
 
       <div className="flex items-center gap-3">
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#8B949E]" />
-          <input
-            type="text"
-            value={query}
-            onChange={(e) => onQueryChange(e.target.value)}
-            placeholder="Mükellef ara (⌘K)"
-            className="h-10 w-64 rounded-xl border border-white/10 bg-[#161B22] pl-9 pr-4 text-sm text-white placeholder:text-[#8B949E] focus:border-cyan-400/30 focus:outline-none"
-          />
-        </div>
-
         <button className="flex h-10 items-center gap-2 rounded-xl border border-white/10 bg-[#161B22] px-4 text-sm font-medium text-white transition hover:bg-white/5">
           <Filter className="h-4 w-4" />
           Filtrele

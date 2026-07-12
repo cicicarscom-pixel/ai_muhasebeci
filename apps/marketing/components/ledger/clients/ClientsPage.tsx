@@ -35,8 +35,6 @@ export function ClientsPage() {
     <section className="flex h-full min-h-0 flex-col gap-4 overflow-hidden p-4">
       <ClientsHeader
         total={clients.length}
-        query={query}
-        onQueryChange={setQuery}
       />
 
       <AdvisorInviteCard advisorCode="WG-73492" />
@@ -46,6 +44,8 @@ export function ClientsPage() {
           clients={filteredClients}
           selectedClientId={selectedClient?.id}
           onSelect={setSelectedClientId}
+          query={query}
+          onQueryChange={setQuery}
         />
 
         {selectedClient ? (
