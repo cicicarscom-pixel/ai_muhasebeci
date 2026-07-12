@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { X, Check, Loader2, Send } from "lucide-react";
+import { X, Check, Loader2, Send, Clock } from "lucide-react";
 
 interface AddClientDialogProps {
   onClose: () => void;
