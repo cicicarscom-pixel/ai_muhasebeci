@@ -1,83 +1,89 @@
 "use client";
 
 import { Client } from "@/data/mock/clients";
-import { aiMessages } from "@/data/mock/aiMessages";
-import { Bot, User, ShieldAlert, CheckCircle2, Send, Clock } from "lucide-react";
-import { useMemo } from "react";
+import { CheckCircle2, FileText, Send, Phone, MessageSquare, AlertCircle } from "lucide-react";
 
 interface ClientCommunicationProps {
   client: Client;
 }
 
 export function ClientCommunication({ client }: ClientCommunicationProps) {
-  const messages = useMemo(() => {
-    return aiMessages.filter((msg) => msg.clientId === client.id);
-  }, [client.id]);
+  // Mock timeline events
+  const events = [
+    {
+      id: 1,
+      type: "ai_message",
+      title: "Ledger AI Hatırlatma Gönderdi",
+      description: "Mayıs ayı KDV evrakları için WhatsApp üzerinden otomatik hatırlatma yapıldı.",
+      date: "Bugün, 10:30",
+      status: "success",
+      icon: MessageSquare,
+      color: "text-[#00DAF3]",
+      bg: "bg-[#00DAF3]/10",
+    },
+    {
+      id: 2,
+      type: "client_action",
+      title: "Mükellef Evrak Yükledi",
+      description: "Sisteme 12 adet fatura yüklendi. OCR taraması devam ediyor.",
+      date: "Dün, 15:45",
+      status: "pending",
+      icon: FileText,
+      color: "text-[#9D5CFF]",
+      bg: "bg-[#9D5CFF]/10",
+    },
+    {
+      id: 3,
+      type: "advisor_note",
+      title: "Sekreter / Müşavir Notu",
+      description: "Mükellef arandı, eksik evrakları yarın getireceğini iletti.",
+      date: "25 Mayıs, 11:20",
+      status: "info",
+      icon: Phone,
+      color: "text-[#E3B341]",
+      bg: "bg-[#E3B341]/10",
+    },
+    {
+      id: 4,
+      type: "system",
+      title: "Geçici Vergi Beyannamesi Onaylandı",
+      description: "1. Dönem geçici vergi beyannamesi GİB üzerinden onaylandı.",
+      date: "14 Mayıs, 16:00",
+      status: "success",
+      icon: CheckCircle2,
+      color: "text-[#3FB950]",
+      bg: "bg-[#3FB950]/10",
+    }
+  ];
 
   return (
     <div className="flex h-full flex-col animate-in fade-in slide-in-from-bottom-2 duration-300">
-      <div className="flex-1 space-y-6">
-        {messages.length > 0 ? (
-          messages.map((msg) => (
-            <div key={msg.id} className="flex gap-4">
-              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/[0.04] border border-white/10">
-                {msg.sender === "Ledger AI" ? (
-                  <Bot className="h-4 w-4 text-[#00DAF3]" />
-                ) : msg.sender === "Client" ? (
-                  <User className="h-4 w-4 text-white" />
-                ) : (
-                  <ShieldAlert className="h-4 w-4 text-[#8B949E]" />
-                )}
-              </div>
-              
-              <div className="flex flex-col">
-                <div className="flex items-center gap-2">
-                  <span className="text-xs font-medium text-white">{msg.sender}</span>
-                  <span className="text-[11px] text-[#8B949E]">• {msg.timestamp}</span>
-                </div>
-                
-                <div className={`mt-1.5 rounded-2xl p-3 text-sm ${
-                  msg.sender === "Ledger AI" 
-                    ? "bg-[#00DAF3]/10 text-[#D7DEE7] border border-[#00DAF3]/20 rounded-tl-sm"
-                    : msg.sender === "Client"
-                    ? "bg-white/[0.04] text-white border border-white/5 rounded-tr-sm"
-                    : "bg-transparent p-0 text-[#8B949E] italic"
-                }`}>
-                  {msg.content}
-                </div>
-                
-                {msg.result && (
-                  <div className="mt-2 flex items-center gap-1.5">
-                    <CheckCircle2 className="h-3.5 w-3.5 text-[#3FB950]" />
-                    <span className="text-[11px] font-medium text-[#3FB950]">
-                      İletişim sonucu: {msg.result}
-                    </span>
-                  </div>
-                )}
-              </div>
-            </div>
-          ))
-        ) : (
-          <div className="flex h-32 flex-col items-center justify-center text-center text-[#8B949E]">
-            <Bot className="mb-2 h-8 w-8 opacity-50" />
-            <p className="text-sm">Ledger AI ile iletişim geçmişi bulunmuyor.</p>
-          </div>
-        )}
+      <div className="mb-6 flex items-center justify-between">
+        <h3 className="text-sm font-semibold text-white">İş Akışı / Sekreter Timeline</h3>
+        <button className="flex items-center gap-2 rounded-lg bg-white/5 px-3 py-1.5 text-xs font-medium text-white transition hover:bg-white/10 border border-white/5">
+          + Yeni Aksiyon
+        </button>
       </div>
 
-      <div className="mt-8 flex flex-wrap gap-2 border-t border-white/5 pt-6">
-        <button className="flex items-center gap-2 rounded-lg bg-white/5 px-4 py-2.5 text-[13px] font-medium text-white transition hover:bg-white/10">
-          <Send className="h-4 w-4" />
-          Mesaj Gönder
-        </button>
-        <button className="flex items-center gap-2 rounded-lg border border-white/10 px-4 py-2.5 text-[13px] font-medium text-white transition hover:bg-white/5">
-          <User className="h-4 w-4" />
-          Görüşmeyi Devral
-        </button>
-        <button className="flex items-center gap-2 rounded-lg border border-white/10 px-4 py-2.5 text-[13px] font-medium text-white transition hover:bg-white/5">
-          <Clock className="h-4 w-4" />
-          Takip Tarihi Oluştur
-        </button>
+      <div className="relative flex-1 pl-2 space-y-6 before:absolute before:left-[21px] before:top-2 before:bottom-2 before:w-px before:bg-white/10">
+        {events.map((event) => {
+          const Icon = event.icon;
+          return (
+            <div key={event.id} className="relative flex gap-4 items-start">
+              <div className={`relative z-10 flex h-7 w-7 shrink-0 items-center justify-center rounded-full ${event.bg} border border-white/5 shadow-lg`}>
+                <Icon className={`h-3.5 w-3.5 ${event.color}`} />
+              </div>
+              
+              <div className="flex flex-col gap-1 rounded-xl border border-white/5 bg-white/[0.02] hover:bg-white/[0.04] transition-colors p-4 flex-1">
+                <div className="flex justify-between items-start mb-1">
+                  <h4 className="text-[13px] font-semibold text-white">{event.title}</h4>
+                  <span className="text-[11px] text-[#8B949E]">{event.date}</span>
+                </div>
+                <p className="text-[12px] text-[#8B949E] leading-relaxed">{event.description}</p>
+              </div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

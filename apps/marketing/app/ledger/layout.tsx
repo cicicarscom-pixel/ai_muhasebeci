@@ -3,7 +3,6 @@ import React from 'react';
 import Script from 'next/script';
 import Sidebar from '@/components/ledger/layout/Sidebar';
 import Header from '@/components/ledger/layout/Header';
-import AiOperationsCenter from '@/components/ledger/layout/AiOperationsCenter';
 import { FloatingLedgerAI } from '@/components/ledger/ai/FloatingLedgerAI';
 import { usePathname } from 'next/navigation';
 
@@ -14,7 +13,7 @@ export default function LedgerLayout({ children }: { children: React.ReactNode }
   const isClients = pathname?.includes('/clients');
   
   // Decide padding based on layout
-  let mainPadding = 'pl-[56px] pr-[360px] pt-16';
+  let mainPadding = 'pl-[56px] pr-0 pt-16';
   if (isApproval) {
     mainPadding = 'pl-[56px] pr-0 pt-0'; // Sidebar space + no top padding
   } else if (isWorkflow || isClients) {
@@ -47,23 +46,23 @@ export default function LedgerLayout({ children }: { children: React.ReactNode }
         }
 
         .glass-panel {
-            background: rgba(25, 33, 34, 0.6);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.03);
+            background: rgba(25, 33, 34, 0.8);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
             border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
 
         .glass-panel:hover {
-            border-color: rgba(0, 229, 253, 0.2);
-            box-shadow: 0 8px 30px rgba(0, 229, 253, 0.08);
-            transform: translateY(-1px) scale(1.005);
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-color: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+            transform: translateY(-1px);
+            transition: all 0.3s ease;
         }
 
         .glow-text {
-            text-shadow: 0 0 10px rgba(0, 229, 253, 0.5);
+            text-shadow: 0 0 4px rgba(0, 229, 253, 0.2);
         }
 
         .star-field {
@@ -120,7 +119,6 @@ export default function LedgerLayout({ children }: { children: React.ReactNode }
       
       <Sidebar />
       {!isApproval && <Header />}
-      {!isApproval && !isWorkflow && !isClients && <AiOperationsCenter />}
       
       {/* Main Content Area */}
       <div className={`${mainPadding} w-full min-h-screen z-10 relative`}>

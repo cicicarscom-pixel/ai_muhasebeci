@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 export default function ApprovalPage() {
   return (
-    <div className="bg-[#12151C] text-[#dce4e5] font-body-md h-screen overflow-hidden flex flex-col antialiased selection:bg-primary/30 selection:text-primary">
+    <div className="bg-[#0d1516] text-[#dce4e5] font-body-md h-full w-full flex flex-col antialiased selection:bg-primary/30 selection:text-primary">
       {/* Top Navigation Bar */}
       <header className="flex justify-between items-center w-full px-6 z-50 bg-[#12151C]/80 backdrop-blur-md top-0 sticky h-16 border-b border-white/5">
         <div className="flex items-center gap-4">
@@ -201,116 +201,135 @@ export default function ApprovalPage() {
             </div>
 
             {/* PDF Container Mockup */}
-            <div className="w-full max-w-[600px] aspect-[1/1.414] bg-[#dce4e5] rounded-sm shadow-2xl relative overflow-hidden transition-transform duration-300 ease-out flex flex-col p-8 group-hover:shadow-[0_0_40px_rgba(0,0,0,0.5)] border border-white/10">
+            <div className="w-full max-w-[600px] aspect-[1/1.414] bg-white rounded-md shadow-2xl relative overflow-hidden transition-transform duration-300 ease-out flex flex-col p-8 group-hover:shadow-[0_0_40px_rgba(0,0,0,0.5)] border border-white/10">
+              
+              {/* OCR Highlights (Simulated) */}
+              <div className="absolute top-[8%] left-[70%] w-[20%] h-[4%] bg-[#00daf3]/20 border border-[#00daf3]/60 rounded-sm animate-pulse z-10"></div>
+              <div className="absolute top-[12%] left-[70%] w-[15%] h-[3%] bg-[#00daf3]/20 border border-[#00daf3]/60 rounded-sm animate-pulse z-10" style={{ animationDelay: '0.5s' }}></div>
+              <div className="absolute top-[80%] left-[65%] w-[25%] h-[6%] bg-[#00daf3]/20 border border-[#00daf3]/60 rounded-sm animate-pulse z-10" style={{ animationDelay: '1s' }}></div>
+
               {/* Skeleton PDF Content */}
               <div className="flex justify-between items-start mb-12">
-                <div className="w-24 h-24 bg-[#2e3638] rounded-full opacity-20"></div>
+                <div className="w-24 h-24 bg-gray-200 rounded-full opacity-50"></div>
                 <div className="text-right">
-                  <div className="w-48 h-6 bg-[#2e3638] rounded opacity-20 mb-4"></div>
-                  <div className="w-32 h-4 bg-[#2e3638] rounded opacity-20 mb-2 ml-auto"></div>
-                  <div className="w-40 h-4 bg-[#2e3638] rounded opacity-20 ml-auto"></div>
+                  <div className="w-48 h-6 bg-gray-200 rounded opacity-50 mb-4"></div>
+                  <div className="w-32 h-4 bg-gray-200 rounded opacity-50 mb-2 ml-auto"></div>
+                  <div className="w-40 h-4 bg-gray-200 rounded opacity-50 ml-auto"></div>
                 </div>
               </div>
               <div className="space-y-4 mb-12">
-                <div className="w-full h-4 bg-[#2e3638] rounded opacity-20"></div>
-                <div className="w-3/4 h-4 bg-[#2e3638] rounded opacity-20"></div>
-                <div className="w-5/6 h-4 bg-[#2e3638] rounded opacity-20"></div>
+                <div className="w-full h-4 bg-gray-200 rounded opacity-50"></div>
+                <div className="w-3/4 h-4 bg-gray-200 rounded opacity-50"></div>
+                <div className="w-5/6 h-4 bg-gray-200 rounded opacity-50"></div>
               </div>
-              <div className="mt-auto border-t border-[#2e3638]/30 pt-6">
+              <div className="mt-auto border-t border-gray-300 pt-6">
                 <div className="flex justify-between mb-4">
-                  <div className="w-32 h-4 bg-[#2e3638] rounded opacity-20"></div>
-                  <div className="w-24 h-4 bg-[#2e3638] rounded opacity-20"></div>
+                  <div className="w-32 h-4 bg-gray-200 rounded opacity-50"></div>
+                  <div className="w-24 h-4 bg-gray-200 rounded opacity-50"></div>
                 </div>
                 <div className="flex justify-between">
-                  <div className="w-40 h-6 bg-[#2e3638] rounded opacity-30"></div>
-                  <div className="w-32 h-6 bg-[#2e3638] rounded opacity-30"></div>
+                  <div className="w-40 h-6 bg-gray-200 rounded opacity-60"></div>
+                  <div className="w-32 h-6 bg-gray-200 rounded opacity-60"></div>
                 </div>
               </div>
             </div>
           </section>
 
           {/* Right Column: Operation Panel */}
-          <section className="w-1/2 h-full bg-[#161B22] flex flex-col border-l border-white/5">
+          <section className="w-1/2 h-full bg-[#12151C] flex flex-col border-l border-white/5 relative">
             {/* Form Area */}
-            <div className="flex-1 overflow-y-auto custom-scrollbar px-6 pt-4 pb-6">
-              <div className="max-w-xl mx-auto space-y-0.5">
-                <div className="grid grid-cols-2 gap-x-2 gap-y-1">
-                  {/* Fatura Tarihi */}
-                  <div className="col-span-2 sm:col-span-1 space-y-0.5">
-                    <label className="text-[10px] font-medium text-[#bac9cc] tracking-wider uppercase">Fatura Tarihi</label>
-                    <input className="w-full h-7 bg-[#12151C] border border-white/10 rounded-lg text-[13px] text-[#dce4e5] px-3 focus:outline-none focus:border-[#00daf3] focus:ring-1 focus:ring-[#00daf3]/50 transition-all [color-scheme:dark]" type="date" defaultValue="2025-05-25" />
-                  </div>
-                  {/* Fatura Numarası */}
-                  <div className="col-span-2 sm:col-span-1 space-y-0.5">
-                    <label className="text-[10px] font-medium text-[#bac9cc] tracking-wider uppercase">Fatura Numarası</label>
-                    <input className="w-full h-7 bg-[#12151C] border border-white/10 rounded-lg text-[#dce4e5] px-3 focus:outline-none focus:border-[#00daf3] focus:ring-1 focus:ring-[#00daf3]/50 transition-all font-mono text-[13px]" type="text" defaultValue="SHE202500123" />
-                  </div>
-                  {/* Fatura Türü */}
-                  <div className="col-span-2 sm:col-span-1 space-y-0.5">
-                    <label className="text-[10px] font-medium text-[#bac9cc] tracking-wider uppercase">Fatura Türü</label>
-                    <select className="w-full h-7 bg-[#12151C] border border-white/10 rounded-lg text-[13px] text-[#dce4e5] px-3 appearance-none focus:outline-none focus:border-[#00daf3] focus:ring-1 focus:ring-[#00daf3]/50 transition-all">
-                      <option>Alış Faturası</option>
-                      <option>Satış Faturası</option>
-                    </select>
-                  </div>
-                  {/* VKN/TCKN */}
-                  <div className="col-span-2 sm:col-span-1 space-y-0.5">
-                    <label className="text-[10px] font-medium text-[#bac9cc] tracking-wider uppercase">VKN/TCKN</label>
-                    <input className="w-full h-7 bg-[#12151C] border border-white/10 rounded-lg text-[#dce4e5] px-3 focus:outline-none focus:border-[#00daf3] focus:ring-1 focus:ring-[#00daf3]/50 transition-all font-mono text-[13px]" type="text" defaultValue="1234567890" />
-                  </div>
-                  {/* Açıklama */}
-                  <div className="col-span-2 space-y-0.5">
-                    <label className="text-[10px] font-medium text-[#bac9cc] tracking-wider uppercase">Açıklama</label>
-                    <input className="w-full h-7 bg-[#12151C] border border-white/10 rounded-lg text-[13px] text-[#dce4e5] px-3 focus:outline-none focus:border-[#00daf3] focus:ring-1 focus:ring-[#00daf3]/50 transition-all" type="text" defaultValue="Akaryakıt Alımı" />
-                  </div>
-                  {/* Tevkifat Oranı */}
-                  <div className="col-span-2 sm:col-span-1 space-y-0.5">
-                    <label className="text-[10px] font-medium text-[#bac9cc] tracking-wider uppercase">Tevkifat Oranı</label>
-                    <select className="w-full h-7 bg-[#12151C] border border-white/10 rounded-lg text-[13px] text-[#dce4e5] px-3 appearance-none focus:outline-none focus:border-[#00daf3] focus:ring-1 focus:ring-[#00daf3]/50 transition-all">
-                      <option>Yok</option>
-                      <option>2/10</option>
-                      <option>5/10</option>
-                    </select>
-                  </div>
-                  {/* Özel Matrah */}
-                  <div className="col-span-2 sm:col-span-1 space-y-0.5">
-                    <label className="text-[10px] font-medium text-[#bac9cc] tracking-wider uppercase">Özel Matrah</label>
-                    <input className="w-full h-7 bg-[#12151C] border border-white/10 rounded-lg text-[#dce4e5] px-3 text-right focus:outline-none focus:border-[#00daf3] focus:ring-1 focus:ring-[#00daf3]/50 transition-all font-mono text-[13px]" type="text" defaultValue="0.00" />
-                  </div>
-                  
-                  {/* KDV Fields */}
-                  <div className="col-span-2 grid grid-cols-5 gap-1">
-                    <div className="space-y-0.5"><label className="text-[9px] text-[#bac9cc] uppercase">%1 KDV</label><input className="w-full h-6 bg-[#12151C] border border-white/10 rounded text-[12px] text-[#dce4e5] px-2 text-right" defaultValue="0.00" /></div>
-                    <div className="space-y-0.5"><label className="text-[9px] text-[#bac9cc] uppercase">%8 KDV</label><input className="w-full h-6 bg-[#12151C] border border-white/10 rounded text-[12px] text-[#dce4e5] px-2 text-right" defaultValue="0.00" /></div>
-                    <div className="space-y-0.5"><label className="text-[9px] text-[#bac9cc] uppercase">%10 KDV</label><input className="w-full h-6 bg-[#12151C] border border-white/10 rounded text-[12px] text-[#dce4e5] px-2 text-right" defaultValue="0.00" /></div>
-                    <div className="space-y-0.5"><label className="text-[9px] text-[#bac9cc] uppercase">%18 KDV</label><input className="w-full h-6 bg-[#12151C] border border-white/10 rounded text-[12px] text-[#dce4e5] px-2 text-right" defaultValue="0.00" /></div>
-                    <div className="space-y-0.5"><label className="text-[9px] text-[#bac9cc] uppercase">%20 KDV</label><input className="w-full h-6 bg-[#12151C] border border-white/10 rounded text-[12px] text-[#dce4e5] px-2 text-right" defaultValue="200.00" /></div>
-                  </div>
-                  
-                  {/* Matrah Fields */}
-                  <div className="col-span-2 grid grid-cols-5 gap-1">
-                    <div className="space-y-0.5"><label className="text-[9px] text-[#bac9cc] uppercase">%1 Matrah</label><input className="w-full h-6 bg-[#12151C] border border-white/10 rounded text-[12px] text-[#dce4e5] px-2 text-right" defaultValue="0.00" /></div>
-                    <div className="space-y-0.5"><label className="text-[9px] text-[#bac9cc] uppercase">%8 Matrah</label><input className="w-full h-6 bg-[#12151C] border border-white/10 rounded text-[12px] text-[#dce4e5] px-2 text-right" defaultValue="0.00" /></div>
-                    <div className="space-y-0.5"><label className="text-[9px] text-[#bac9cc] uppercase">%10 Matrah</label><input className="w-full h-6 bg-[#12151C] border border-white/10 rounded text-[12px] text-[#dce4e5] px-2 text-right" defaultValue="0.00" /></div>
-                    <div className="space-y-0.5"><label className="text-[9px] text-[#bac9cc] uppercase">%18 Matrah</label><input className="w-full h-6 bg-[#12151C] border border-white/10 rounded text-[12px] text-[#dce4e5] px-2 text-right" defaultValue="0.00" /></div>
-                    <div className="space-y-0.5"><label className="text-[9px] text-[#bac9cc] uppercase">%20 Matrah</label><input className="w-full h-6 bg-[#12151C] border border-white/10 rounded text-[12px] text-[#dce4e5] px-2 text-right" defaultValue="1,000.00" /></div>
-                  </div>
-                  
-                  {/* Toplam */}
-                  <div className="col-span-2 space-y-0.5 mt-1 bg-white/5 p-2 rounded-lg border border-white/10">
-                    <label className="text-[10px] font-medium text-[#bac9cc] tracking-wider uppercase">Toplam</label>
-                    <div className="text-[#dce4e5] text-xl font-semibold font-mono">₺1,200.00</div>
+            <div className="flex-1 overflow-y-auto custom-scrollbar px-8 pt-6 pb-32">
+              <div className="max-w-xl mx-auto space-y-6">
+                
+                {/* Belge Section */}
+                <div className="space-y-3">
+                  <h3 className="text-xs font-bold text-white uppercase tracking-widest border-b border-white/5 pb-2">Belge</h3>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="col-span-2 sm:col-span-1 space-y-1">
+                      <label className="text-[10px] font-medium text-[#bac9cc] tracking-wider uppercase">Fatura Tarihi</label>
+                      <input className="w-full h-9 bg-white/[0.04] backdrop-blur border border-white/[0.08] rounded-lg text-[13px] text-white px-3 focus:outline-none focus:border-[#00daf3] focus:bg-white/[0.06] transition-all [color-scheme:dark]" type="date" defaultValue="2025-05-25" />
+                    </div>
+                    <div className="col-span-2 sm:col-span-1 space-y-1">
+                      <label className="text-[10px] font-medium text-[#bac9cc] tracking-wider uppercase">Fatura Numarası</label>
+                      <input className="w-full h-9 bg-white/[0.04] backdrop-blur border border-white/[0.08] rounded-lg text-white px-3 focus:outline-none focus:border-[#00daf3] focus:bg-white/[0.06] transition-all font-mono text-[13px]" type="text" defaultValue="SHE202500123" />
+                    </div>
+                    <div className="col-span-2 sm:col-span-1 space-y-1">
+                      <label className="text-[10px] font-medium text-[#bac9cc] tracking-wider uppercase">Fatura Türü</label>
+                      <select className="w-full h-9 bg-white/[0.04] backdrop-blur border border-white/[0.08] rounded-lg text-[13px] text-white px-3 appearance-none focus:outline-none focus:border-[#00daf3] focus:bg-white/[0.06] transition-all">
+                        <option>Alış Faturası</option>
+                        <option>Satış Faturası</option>
+                      </select>
+                    </div>
+                    <div className="col-span-2 sm:col-span-1 space-y-1">
+                      <label className="text-[10px] font-medium text-[#bac9cc] tracking-wider uppercase">VKN/TCKN</label>
+                      <input className="w-full h-9 bg-white/[0.04] backdrop-blur border border-white/[0.08] rounded-lg text-white px-3 focus:outline-none focus:border-[#00daf3] focus:bg-white/[0.06] transition-all font-mono text-[13px]" type="text" defaultValue="1234567890" />
+                    </div>
+                    <div className="col-span-2 space-y-1">
+                      <label className="text-[10px] font-medium text-[#bac9cc] tracking-wider uppercase">Açıklama</label>
+                      <input className="w-full h-9 bg-white/[0.04] backdrop-blur border border-white/[0.08] rounded-lg text-[13px] text-white px-3 focus:outline-none focus:border-[#00daf3] focus:bg-white/[0.06] transition-all" type="text" defaultValue="Akaryakıt Alımı" />
+                    </div>
                   </div>
                 </div>
+
+                {/* Vergiler Section */}
+                <div className="space-y-3">
+                  <h3 className="text-xs font-bold text-white uppercase tracking-widest border-b border-white/5 pb-2">Vergiler</h3>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="col-span-2 sm:col-span-1 space-y-1">
+                      <label className="text-[10px] font-medium text-[#bac9cc] tracking-wider uppercase">Tevkifat Oranı</label>
+                      <select className="w-full h-9 bg-white/[0.04] backdrop-blur border border-white/[0.08] rounded-lg text-[13px] text-white px-3 appearance-none focus:outline-none focus:border-[#00daf3] focus:bg-white/[0.06] transition-all">
+                        <option>Yok</option>
+                        <option>2/10</option>
+                        <option>5/10</option>
+                      </select>
+                    </div>
+                    <div className="col-span-2 sm:col-span-1 space-y-1">
+                      <label className="text-[10px] font-medium text-[#bac9cc] tracking-wider uppercase">Özel Matrah</label>
+                      <input className="w-full h-9 bg-white/[0.04] backdrop-blur border border-white/[0.08] rounded-lg text-white px-3 text-right focus:outline-none focus:border-[#00daf3] focus:bg-white/[0.06] transition-all font-mono text-[13px]" type="text" defaultValue="0.00" />
+                    </div>
+                  </div>
+
+                  <div className="bg-white/[0.02] border border-white/5 rounded-xl p-3">
+                    {/* KDV Fields */}
+                    <div className="grid grid-cols-5 gap-2 mb-2">
+                      <div className="space-y-1"><label className="text-[9px] text-[#bac9cc] uppercase">%1 KDV</label><input className="w-full h-7 bg-white/[0.04] border border-white/5 rounded text-[12px] text-white px-2 text-right" defaultValue="0.00" /></div>
+                      <div className="space-y-1"><label className="text-[9px] text-[#bac9cc] uppercase">%8 KDV</label><input className="w-full h-7 bg-white/[0.04] border border-white/5 rounded text-[12px] text-white px-2 text-right" defaultValue="0.00" /></div>
+                      <div className="space-y-1"><label className="text-[9px] text-[#bac9cc] uppercase">%10 KDV</label><input className="w-full h-7 bg-white/[0.04] border border-white/5 rounded text-[12px] text-white px-2 text-right" defaultValue="0.00" /></div>
+                      <div className="space-y-1"><label className="text-[9px] text-[#bac9cc] uppercase">%18 KDV</label><input className="w-full h-7 bg-white/[0.04] border border-white/5 rounded text-[12px] text-white px-2 text-right" defaultValue="0.00" /></div>
+                      <div className="space-y-1"><label className="text-[9px] text-[#bac9cc] uppercase">%20 KDV</label><input className="w-full h-7 bg-white/[0.04] border border-white/5 rounded text-[12px] text-[#00daf3] px-2 text-right border-[#00daf3]/30" defaultValue="200.00" /></div>
+                    </div>
+                    {/* Matrah Fields */}
+                    <div className="grid grid-cols-5 gap-2">
+                      <div className="space-y-1"><label className="text-[9px] text-[#bac9cc] uppercase">%1 Matrah</label><input className="w-full h-7 bg-white/[0.04] border border-white/5 rounded text-[12px] text-white px-2 text-right" defaultValue="0.00" /></div>
+                      <div className="space-y-1"><label className="text-[9px] text-[#bac9cc] uppercase">%8 Matrah</label><input className="w-full h-7 bg-white/[0.04] border border-white/5 rounded text-[12px] text-white px-2 text-right" defaultValue="0.00" /></div>
+                      <div className="space-y-1"><label className="text-[9px] text-[#bac9cc] uppercase">%10 Matrah</label><input className="w-full h-7 bg-white/[0.04] border border-white/5 rounded text-[12px] text-white px-2 text-right" defaultValue="0.00" /></div>
+                      <div className="space-y-1"><label className="text-[9px] text-[#bac9cc] uppercase">%18 Matrah</label><input className="w-full h-7 bg-white/[0.04] border border-white/5 rounded text-[12px] text-white px-2 text-right" defaultValue="0.00" /></div>
+                      <div className="space-y-1"><label className="text-[9px] text-[#bac9cc] uppercase">%20 Matrah</label><input className="w-full h-7 bg-white/[0.04] border border-white/5 rounded text-[12px] text-[#00daf3] px-2 text-right border-[#00daf3]/30" defaultValue="1,000.00" /></div>
+                    </div>
+                  </div>
+                </div>
+
               </div>
             </div>
 
-            {/* Footer */}
-            <div className="px-6 py-3 border-t border-white/5 bg-[#161B22] flex justify-end mt-auto">
-              <button className="px-5 py-2 rounded-lg bg-[#00daf3] text-[#004f58] text-[13px] hover:bg-[#00daf3]/90 transition-all shadow-[0_0_15px_rgba(0,218,243,0.2)] flex items-center gap-2 font-bold">
-                Onayla ve Sonraki
-                <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
-              </button>
+            {/* Glass Dock */}
+            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-[90%] max-w-xl bg-[#1e2329]/80 backdrop-blur-xl border border-white/10 rounded-2xl p-4 flex items-center justify-between shadow-[0_10px_40px_rgba(0,0,0,0.5)] z-20">
+              <div className="flex flex-col">
+                <span className="text-[10px] font-medium text-[#bac9cc] tracking-wider uppercase">Genel Toplam</span>
+                <span className="text-white text-2xl font-bold font-mono">₺1,200.00</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <button className="px-5 py-2.5 rounded-xl border border-white/10 text-white text-sm font-medium hover:bg-white/5 transition-all">
+                  Taslak
+                </button>
+                <button className="px-5 py-2.5 rounded-xl bg-white/[0.04] border border-[#ffb4ab]/30 text-[#ffb4ab] text-sm font-medium hover:bg-[#ffb4ab]/10 transition-all">
+                  Reddet
+                </button>
+                <button className="px-6 py-2.5 rounded-xl bg-[#00daf3] text-[#004f58] text-sm hover:bg-[#00daf3]/90 transition-all shadow-[0_0_15px_rgba(0,218,243,0.2)] flex items-center gap-2 font-bold">
+                  Onayla
+                  <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
+                </button>
+              </div>
             </div>
           </section>
         </div>

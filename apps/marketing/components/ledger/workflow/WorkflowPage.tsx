@@ -115,8 +115,8 @@ export default function WorkflowPage() {
       <div className="flex-1 flex gap-4 overflow-x-auto pb-4 custom-scrollbar">
         
         {/* Col 1: Yeni Geldi */}
-        <div className="flex flex-col min-w-[260px] w-[260px] bg-[#12151C] border border-white/5 rounded-2xl border-t-[3px] border-t-[#9D5CFF] p-4 relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-16 bg-gradient-to-b from-[#9D5CFF]/10 to-transparent pointer-events-none"></div>
+        <div className="flex flex-col min-w-[260px] w-[260px] bg-[#12151C] border border-white/5 rounded-2xl border-t-[3px] border-t-[#9D5CFF] p-4 relative">
+          <div className="absolute top-0 left-0 w-full h-16 bg-gradient-to-b from-[#9D5CFF]/10 to-transparent pointer-events-none rounded-t-2xl"></div>
           
           <div className="flex items-center justify-between mb-1">
             <div className="flex items-center gap-2">
@@ -130,7 +130,7 @@ export default function WorkflowPage() {
           <div className="flex flex-col gap-3 overflow-y-auto custom-scrollbar flex-1 pr-1">
             
             {/* Card 1 */}
-            <div className="bg-[#161B22] border border-white/5 rounded-xl p-3.5 hover:border-white/10 transition-colors cursor-pointer">
+            <div className="bg-[#161B22] border border-white/5 rounded-xl p-3.5 hover:border-white/10 transition-colors cursor-pointer relative group">
               <div className="flex justify-between items-center mb-3">
                 <span className="text-[11px] text-[#58A6FF] font-medium">ABC Yazılım Ltd.</span>
                 <span className="material-symbols-outlined text-[#8B949E] text-[14px]">description</span>
@@ -149,6 +149,18 @@ export default function WorkflowPage() {
               </div>
               <div className="flex items-center gap-1.5 text-[11px] text-[#8B949E]">
                 <span className="material-symbols-outlined text-[14px]">mail</span> E-Posta
+              </div>
+              
+              {/* PDF Preview Tooltip */}
+              <div className="absolute left-[calc(100%+10px)] top-0 w-[180px] aspect-[1/1.414] bg-white rounded shadow-2xl border border-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-50 p-3 flex flex-col transform translate-x-2 group-hover:translate-x-0">
+                <div className="w-8 h-8 rounded-full bg-gray-200 mb-4"></div>
+                <div className="w-full h-1.5 bg-gray-200 rounded-full mb-2"></div>
+                <div className="w-3/4 h-1.5 bg-gray-200 rounded-full mb-2"></div>
+                <div className="w-5/6 h-1.5 bg-gray-200 rounded-full mb-2"></div>
+                <div className="mt-auto border-t border-gray-200 pt-2 flex justify-between">
+                  <div className="w-10 h-1.5 bg-gray-200 rounded-full"></div>
+                  <div className="w-16 h-2 bg-gray-300 rounded-full"></div>
+                </div>
               </div>
             </div>
 
@@ -205,8 +217,8 @@ export default function WorkflowPage() {
         </div>
 
         {/* Col 2: AI İşliyor */}
-        <div className="flex flex-col min-w-[260px] w-[260px] bg-[#12151C] border border-white/5 rounded-2xl border-t-[3px] border-t-[#3B82F6] p-4 relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-16 bg-gradient-to-b from-[#3B82F6]/10 to-transparent pointer-events-none"></div>
+        <div className="flex flex-col min-w-[260px] w-[260px] bg-[#12151C] border border-white/5 rounded-2xl border-t-[3px] border-t-[#3B82F6] p-4 relative">
+          <div className="absolute top-0 left-0 w-full h-16 bg-gradient-to-b from-[#3B82F6]/10 to-transparent pointer-events-none rounded-t-2xl"></div>
           
           <div className="flex items-center justify-between mb-1">
             <div className="flex items-center gap-2">
@@ -304,8 +316,8 @@ export default function WorkflowPage() {
         </div>
 
         {/* Col 3: Kontrol Bekliyor */}
-        <div className="flex flex-col min-w-[260px] w-[260px] bg-[#12151C] border border-white/5 rounded-2xl border-t-[3px] border-t-[#F59E0B] p-4 relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-16 bg-gradient-to-b from-[#F59E0B]/10 to-transparent pointer-events-none"></div>
+        <div className="flex flex-col min-w-[260px] w-[260px] bg-[#12151C] border border-white/5 rounded-2xl border-t-[3px] border-t-[#F59E0B] p-4 relative">
+          <div className="absolute top-0 left-0 w-full h-16 bg-gradient-to-b from-[#F59E0B]/10 to-transparent pointer-events-none rounded-t-2xl"></div>
           
           <div className="flex items-center justify-between mb-1">
             <div className="flex items-center gap-2">
@@ -476,8 +488,8 @@ export default function WorkflowPage() {
         </div>
 
         {/* Col 4: Onaylandı */}
-        <div className="flex flex-col min-w-[260px] w-[260px] bg-[#12151C] border border-white/5 rounded-2xl border-t-[3px] border-t-[#3FB950] p-4 relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-16 bg-gradient-to-b from-[#3FB950]/10 to-transparent pointer-events-none"></div>
+        <div className="flex flex-col min-w-[260px] w-[260px] bg-[#12151C] border border-white/5 rounded-2xl border-t-[3px] border-t-[#3FB950] p-4 relative">
+          <div className="absolute top-0 left-0 w-full h-16 bg-gradient-to-b from-[#3FB950]/10 to-transparent pointer-events-none rounded-t-2xl"></div>
           
           <div className="flex items-center justify-between mb-1">
             <div className="flex items-center gap-2">

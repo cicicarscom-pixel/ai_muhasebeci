@@ -17,7 +17,7 @@ export function ClientDetail({ client }: ClientDetailProps) {
 
   const tabs: { id: TabType; label: string }[] = [
     { id: "genel", label: "Genel Bilgiler" },
-    { id: "ai", label: "AI İletişim" },
+    { id: "ai", label: "İş Akışı" },
     { id: "baglanti", label: "Bağlantı" },
     { id: "notlar", label: "Notlar" },
     { id: "gecmis", label: "Geçmiş" },
