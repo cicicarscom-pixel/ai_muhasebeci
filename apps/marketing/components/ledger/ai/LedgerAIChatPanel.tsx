@@ -45,7 +45,7 @@ export function LedgerAIChatPanel({ contextLabel, onClose }: LedgerAIChatPanelPr
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, y: 18, scale: 0.92 }}
       transition={{ type: "spring", stiffness: 350, damping: 25 }}
-      className="flex h-[36rem] w-[25rem] flex-col overflow-hidden rounded-[18px] border border-white/10 bg-[#12151C]/95 shadow-[0_24px_80px_rgba(0,0,0,0.55)] backdrop-blur-2xl"
+      className="flex h-[30.5rem] w-[21.25rem] flex-col overflow-hidden rounded-[18px] border border-white/10 bg-[#12151C]/95 shadow-[0_24px_80px_rgba(0,0,0,0.55)] backdrop-blur-2xl"
     >
       <header className="flex items-center justify-between border-b border-white/5 px-4 py-3">
         <div className="flex items-center gap-3">
