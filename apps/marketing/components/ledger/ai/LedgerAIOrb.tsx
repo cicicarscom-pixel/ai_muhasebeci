@@ -21,13 +21,15 @@ export function LedgerAIOrb({ onClick }: LedgerAIOrbProps) {
       aria-label="Ledger AI sohbetini aç"
     >
       {/* Spinning RGB Aura Glow segment behind the button */}
-      <div className="absolute inset-0 rounded-full pointer-events-none flex items-center justify-center" style={{ zIndex: -1 }}>
+      <div 
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none" 
+        style={{ zIndex: -1 }}
+      >
         <div 
-          className="h-[180px] w-[180px] shrink-0 opacity-80 blur-[10px]"
+          className="h-[180px] w-[180px] opacity-80 blur-[12px] rounded-full"
           style={{
             background: 'conic-gradient(from 0deg, transparent 0%, transparent 60%, #00f3ff 70%, #9D00FF 85%, #FF0055 100%)',
-            animation: 'spin 3s linear infinite',
-            borderRadius: '50%'
+            animation: 'spin 3s linear infinite'
           }}
         />
       </div>
