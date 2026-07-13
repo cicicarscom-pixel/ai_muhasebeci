@@ -40,6 +40,7 @@ export default function LedgerLayout({ children }: { children: React.ReactNode }
             background-color: #0d1516;
             color: #dce4e5;
             overflow-x: hidden;
+            zoom: 0.75;
             background-image: 
                 radial-gradient(circle at 2px 2px, rgba(0, 229, 253, 0.05) 1px, transparent 0);
             background-size: 40px 40px;
