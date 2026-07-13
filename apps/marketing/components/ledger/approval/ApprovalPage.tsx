@@ -22,10 +22,6 @@ export default function ApprovalPage() {
             %98 AI Güven
           </span>
         </div>
-        <div className="flex items-center gap-3">
-          <button className="px-4 py-2 rounded-lg border border-[#ffb4ab]/50 text-[#ffb4ab] text-xs font-medium hover:bg-[#ffb4ab]/10 transition-colors bg-[#ffb4ab]/5">Reddet</button>
-          <button className="px-4 py-2 rounded-lg text-[#bac9cc] text-xs font-medium hover:bg-[#333a3c]/10 transition-colors">Taslak</button>
-        </div>
       </header>
 
       {/* Main Content */}
@@ -289,22 +285,24 @@ export default function ApprovalPage() {
                     </div>
                   </div>
 
-                  <div className="bg-white/[0.02] border border-white/5 rounded-xl p-3">
-                    {/* KDV Fields */}
-                    <div className="grid grid-cols-5 gap-2 mb-2">
-                      <div className="space-y-1"><label className="text-[9px] text-[#bac9cc] uppercase">%1 KDV</label><input className="w-full h-7 bg-white/[0.04] border border-white/5 rounded text-[12px] text-white px-2 text-right" defaultValue="0.00" /></div>
-                      <div className="space-y-1"><label className="text-[9px] text-[#bac9cc] uppercase">%8 KDV</label><input className="w-full h-7 bg-white/[0.04] border border-white/5 rounded text-[12px] text-white px-2 text-right" defaultValue="0.00" /></div>
-                      <div className="space-y-1"><label className="text-[9px] text-[#bac9cc] uppercase">%10 KDV</label><input className="w-full h-7 bg-white/[0.04] border border-white/5 rounded text-[12px] text-white px-2 text-right" defaultValue="0.00" /></div>
-                      <div className="space-y-1"><label className="text-[9px] text-[#bac9cc] uppercase">%18 KDV</label><input className="w-full h-7 bg-white/[0.04] border border-white/5 rounded text-[12px] text-white px-2 text-right" defaultValue="0.00" /></div>
-                      <div className="space-y-1"><label className="text-[9px] text-[#bac9cc] uppercase">%20 KDV</label><input className="w-full h-7 bg-white/[0.04] border border-white/5 rounded text-[12px] text-[#00daf3] px-2 text-right border-[#00daf3]/30" defaultValue="200.00" /></div>
-                    </div>
-                    {/* Matrah Fields */}
-                    <div className="grid grid-cols-5 gap-2">
-                      <div className="space-y-1"><label className="text-[9px] text-[#bac9cc] uppercase">%1 Matrah</label><input className="w-full h-7 bg-white/[0.04] border border-white/5 rounded text-[12px] text-white px-2 text-right" defaultValue="0.00" /></div>
-                      <div className="space-y-1"><label className="text-[9px] text-[#bac9cc] uppercase">%8 Matrah</label><input className="w-full h-7 bg-white/[0.04] border border-white/5 rounded text-[12px] text-white px-2 text-right" defaultValue="0.00" /></div>
-                      <div className="space-y-1"><label className="text-[9px] text-[#bac9cc] uppercase">%10 Matrah</label><input className="w-full h-7 bg-white/[0.04] border border-white/5 rounded text-[12px] text-white px-2 text-right" defaultValue="0.00" /></div>
-                      <div className="space-y-1"><label className="text-[9px] text-[#bac9cc] uppercase">%18 Matrah</label><input className="w-full h-7 bg-white/[0.04] border border-white/5 rounded text-[12px] text-white px-2 text-right" defaultValue="0.00" /></div>
-                      <div className="space-y-1"><label className="text-[9px] text-[#bac9cc] uppercase">%20 Matrah</label><input className="w-full h-7 bg-white/[0.04] border border-white/5 rounded text-[12px] text-[#00daf3] px-2 text-right border-[#00daf3]/30" defaultValue="1,000.00" /></div>
+                  <div className="bg-white/[0.02] border border-white/5 rounded-xl p-3 overflow-x-auto custom-scrollbar">
+                    <div className="min-w-[420px]">
+                      {/* KDV Fields */}
+                      <div className="grid grid-cols-5 gap-2 mb-2">
+                        <div className="space-y-1"><label className="text-[9px] text-[#bac9cc] uppercase">%1 KDV</label><input className="w-full h-7 bg-white/[0.04] border border-white/5 rounded text-[12px] text-white px-2 text-right" defaultValue="0.00" /></div>
+                        <div className="space-y-1"><label className="text-[9px] text-[#bac9cc] uppercase">%8 KDV</label><input className="w-full h-7 bg-white/[0.04] border border-white/5 rounded text-[12px] text-white px-2 text-right" defaultValue="0.00" /></div>
+                        <div className="space-y-1"><label className="text-[9px] text-[#bac9cc] uppercase">%10 KDV</label><input className="w-full h-7 bg-white/[0.04] border border-white/5 rounded text-[12px] text-white px-2 text-right" defaultValue="0.00" /></div>
+                        <div className="space-y-1"><label className="text-[9px] text-[#bac9cc] uppercase">%18 KDV</label><input className="w-full h-7 bg-white/[0.04] border border-white/5 rounded text-[12px] text-white px-2 text-right" defaultValue="0.00" /></div>
+                        <div className="space-y-1"><label className="text-[9px] text-[#bac9cc] uppercase">%20 KDV</label><input className="w-full h-7 bg-white/[0.04] border border-white/5 rounded text-[12px] text-[#00daf3] px-2 text-right border-[#00daf3]/30" defaultValue="200.00" /></div>
+                      </div>
+                      {/* Matrah Fields */}
+                      <div className="grid grid-cols-5 gap-2">
+                        <div className="space-y-1"><label className="text-[9px] text-[#bac9cc] uppercase">%1 Matrah</label><input className="w-full h-7 bg-white/[0.04] border border-white/5 rounded text-[12px] text-white px-2 text-right" defaultValue="0.00" /></div>
+                        <div className="space-y-1"><label className="text-[9px] text-[#bac9cc] uppercase">%8 Matrah</label><input className="w-full h-7 bg-white/[0.04] border border-white/5 rounded text-[12px] text-white px-2 text-right" defaultValue="0.00" /></div>
+                        <div className="space-y-1"><label className="text-[9px] text-[#bac9cc] uppercase">%10 Matrah</label><input className="w-full h-7 bg-white/[0.04] border border-white/5 rounded text-[12px] text-white px-2 text-right" defaultValue="0.00" /></div>
+                        <div className="space-y-1"><label className="text-[9px] text-[#bac9cc] uppercase">%18 Matrah</label><input className="w-full h-7 bg-white/[0.04] border border-white/5 rounded text-[12px] text-white px-2 text-right" defaultValue="0.00" /></div>
+                        <div className="space-y-1"><label className="text-[9px] text-[#bac9cc] uppercase">%20 Matrah</label><input className="w-full h-7 bg-white/[0.04] border border-white/5 rounded text-[12px] text-[#00daf3] px-2 text-right border-[#00daf3]/30" defaultValue="1,000.00" /></div>
+                      </div>
                     </div>
                   </div>
                 </div>
