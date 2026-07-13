@@ -22,9 +22,9 @@ export function LedgerAIOrb({ onClick }: LedgerAIOrbProps) {
     >
       {/* Spinning RGB Aura Glow (Traces the pill shape perfectly) */}
       <div 
-        className="absolute -inset-[2px] rounded-full pointer-events-none"
+        className="absolute -inset-[2px] rounded-full pointer-events-none flex items-center justify-center"
         style={{
-          padding: '6px', // Track thickness
+          padding: '4px', // Track thickness
           WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
           WebkitMaskComposite: 'xor',
           maskComposite: 'exclude',
@@ -33,10 +33,11 @@ export function LedgerAIOrb({ onClick }: LedgerAIOrbProps) {
         }}
       >
         <div 
-          className="absolute left-1/2 top-1/2 h-[300px] w-[300px] -translate-x-1/2 -translate-y-1/2 opacity-90"
+          className="h-[300px] w-[300px] opacity-100 shrink-0"
           style={{
-            background: 'conic-gradient(from 0deg, transparent 0%, transparent 60%, #00f3ff 70%, #9D00FF 85%, #FF0055 100%)',
-            animation: 'spin 3s linear infinite'
+            background: 'conic-gradient(from 0deg, transparent 0%, transparent 75%, #00f3ff 80%, #9D00FF 90%, #FF0055 100%)',
+            animation: 'spin 3s linear infinite',
+            borderRadius: '50%'
           }}
         />
       </div>
