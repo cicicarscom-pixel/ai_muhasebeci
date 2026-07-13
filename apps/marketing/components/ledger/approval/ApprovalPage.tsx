@@ -239,7 +239,6 @@ export default function ApprovalPage() {
                 
                 {/* Belge Section */}
                 <div className="space-y-3">
-                  <h3 className="text-xs font-bold text-white uppercase tracking-widest border-b border-white/5 pb-2">Belge</h3>
                   <div className="grid grid-cols-2 gap-3">
                     <div className="col-span-2 sm:col-span-1 space-y-1">
                       <label className="text-[10px] font-medium text-[#bac9cc] tracking-wider uppercase">Fatura Tarihi</label>
@@ -269,7 +268,6 @@ export default function ApprovalPage() {
 
                 {/* Vergiler Section */}
                 <div className="space-y-3">
-                  <h3 className="text-xs font-bold text-white uppercase tracking-widest border-b border-white/5 pb-2">Vergiler</h3>
                   <div className="grid grid-cols-2 gap-3">
                     <div className="col-span-2 sm:col-span-1 space-y-1">
                       <label className="text-[10px] font-medium text-[#bac9cc] tracking-wider uppercase">Tevkifat Oranı</label>
