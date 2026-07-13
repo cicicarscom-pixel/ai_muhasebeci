@@ -36,7 +36,7 @@ export function LedgerAIOrb({ onClick }: LedgerAIOrbProps) {
           className="h-[300px] w-[300px] opacity-100 shrink-0"
           style={{
             background: 'conic-gradient(from 0deg, transparent 0%, transparent 75%, #00f3ff 80%, #9D00FF 90%, #FF0055 100%)',
-            animation: 'spin 4s linear infinite',
+            animation: 'spin 3.6s linear infinite',
             borderRadius: '50%'
           }}
         />
