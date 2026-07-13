@@ -22,10 +22,16 @@ export default function LedgerLayout({ children }: { children: React.ReactNode }
 
   const isLandingPage = pathname === '/ledger';
 
+  // Dynamic Scaling
+  const zoomLevel = isApproval ? 0.75 : 0.90;
+  const minHeightClass = isApproval ? 'min-h-[133.33vh]' : 'min-h-[111.11vh]';
+  const heightClass = isApproval ? 'h-[133.33vh]' : 'h-[111.11vh]';
+  const vhValue = isApproval ? '133.33vh' : '111.11vh';
+
   // If it's the landing page, don't render app layout components
   if (isLandingPage) {
     return (
-      <div className="font-body antialiased bg-background text-on-surface min-h-[133.33vh] overflow-x-hidden relative">
+      <div className={`font-body antialiased bg-background text-on-surface ${minHeightClass} overflow-x-hidden relative`}>
         <Script src='https://unpkg.com/@phosphor-icons/web' strategy='lazyOnload' />
         {children}
       </div>
@@ -33,14 +39,14 @@ export default function LedgerLayout({ children }: { children: React.ReactNode }
   }
 
   return (
-    <div className="font-body antialiased bg-background text-on-surface min-h-[133.33vh] overflow-x-hidden relative">
+    <div className={`font-body antialiased bg-background text-on-surface ${minHeightClass} overflow-x-hidden relative`}>
       <Script src='https://unpkg.com/@phosphor-icons/web' strategy='lazyOnload' />
       <style dangerouslySetInnerHTML={{ __html: `
         body {
             background-color: #0d1516;
             color: #dce4e5;
             overflow-x: hidden;
-            zoom: 0.75;
+            zoom: ${zoomLevel};
             background-image: 
                 radial-gradient(circle at 2px 2px, rgba(0, 229, 253, 0.05) 1px, transparent 0);
             background-size: 40px 40px;
@@ -71,7 +77,7 @@ export default function LedgerLayout({ children }: { children: React.ReactNode }
             top: 0;
             left: 0;
             width: 100vw;
-            height: 133.33vh;
+            height: ${vhValue};
             pointer-events: none;
             z-index: -2;
             background-image: 
@@ -122,8 +128,8 @@ export default function LedgerLayout({ children }: { children: React.ReactNode }
       {!isApproval && <Header />}
       
       {/* Main Content Area */}
-      <div className={`${mainPadding} w-full min-h-[133.33vh] z-10 relative`}>
-        <main className={`${isApproval ? 'h-[133.33vh] p-0 max-w-full' : 'p-6 max-w-[1400px] min-h-[133.33vh]'} mx-auto relative`}>
+      <div className={`${mainPadding} w-full ${minHeightClass} z-10 relative`}>
+        <main className={`${isApproval ? `${heightClass} p-0 max-w-full` : `p-6 max-w-[1400px] ${minHeightClass}`} mx-auto relative`}>
           {children}
         </main>
       </div>
