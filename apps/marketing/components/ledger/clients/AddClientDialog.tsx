@@ -30,11 +30,11 @@ export function AddClientDialog({ onClose }: AddClientDialogProps) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="w-[500px] overflow-hidden rounded-2xl border border-white/10 bg-[#12151C] shadow-[0_24px_80px_rgba(0,0,0,0.45)]">
+      <div className="w-[425px] overflow-hidden rounded-2xl border border-white/10 bg-[#12151C] shadow-[0_24px_80px_rgba(0,0,0,0.45)]">
         
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-white/5 px-6 py-4">
-          <h2 className="text-lg font-semibold text-white">Yeni Mükellef Ekle</h2>
+        <div className="flex items-center justify-between border-b border-white/5 px-5 py-3">
+          <h2 className="text-base font-semibold text-white">Yeni Mükellef Ekle</h2>
           <button 
             onClick={onClose}
             className="rounded-lg p-1.5 text-[#8B949E] transition hover:bg-white/5 hover:text-white"
@@ -44,33 +44,33 @@ export function AddClientDialog({ onClose }: AddClientDialogProps) {
         </div>
 
         {/* Content */}
-        <div className="p-6">
+        <div className="p-5">
           {step === "form" ? (
-            <div className="space-y-4">
+            <div className="space-y-3.5">
               <div>
-                <label className="mb-1.5 block text-xs font-medium text-[#8B949E]">Firma Unvanı</label>
-                <input type="text" className="h-10 w-full rounded-xl border border-white/10 bg-[#161B22] px-3 text-sm text-white focus:border-cyan-400/30 focus:outline-none" placeholder="Örn: ABC Yazılım A.Ş." />
+                <label className="mb-1.5 block text-[11px] font-medium text-[#8B949E]">Firma Unvanı</label>
+                <input type="text" className="h-9 w-full rounded-xl border border-white/10 bg-[#161B22] px-3 text-sm text-white focus:border-cyan-400/30 focus:outline-none" placeholder="Örn: ABC Yazılım A.Ş." />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="mb-1.5 block text-xs font-medium text-[#8B949E]">VKN / TCKN</label>
-                  <input type="text" className="h-10 w-full rounded-xl border border-white/10 bg-[#161B22] px-3 text-sm text-white focus:border-cyan-400/30 focus:outline-none" />
+                  <label className="mb-1.5 block text-[11px] font-medium text-[#8B949E]">VKN / TCKN</label>
+                  <input type="text" className="h-9 w-full rounded-xl border border-white/10 bg-[#161B22] px-3 text-sm text-white focus:border-cyan-400/30 focus:outline-none" />
                 </div>
                 <div>
-                  <label className="mb-1.5 block text-xs font-medium text-[#8B949E]">Vergi Dairesi</label>
-                  <input type="text" className="h-10 w-full rounded-xl border border-white/10 bg-[#161B22] px-3 text-sm text-white focus:border-cyan-400/30 focus:outline-none" />
+                  <label className="mb-1.5 block text-[11px] font-medium text-[#8B949E]">Vergi Dairesi</label>
+                  <input type="text" className="h-9 w-full rounded-xl border border-white/10 bg-[#161B22] px-3 text-sm text-white focus:border-cyan-400/30 focus:outline-none" />
                 </div>
               </div>
               <div>
-                <label className="mb-1.5 block text-xs font-medium text-[#8B949E]">Yetkili Adı Soyadı</label>
-                <input type="text" className="h-10 w-full rounded-xl border border-white/10 bg-[#161B22] px-3 text-sm text-white focus:border-cyan-400/30 focus:outline-none" />
+                <label className="mb-1.5 block text-[11px] font-medium text-[#8B949E]">Yetkili Adı Soyadı</label>
+                <input type="text" className="h-9 w-full rounded-xl border border-white/10 bg-[#161B22] px-3 text-sm text-white focus:border-cyan-400/30 focus:outline-none" />
               </div>
               <div>
-                <label className="mb-1.5 block text-xs font-medium text-[#8B949E]">Cep Telefonu (WhatsApp için gerekli)</label>
-                <input type="tel" className="h-10 w-full rounded-xl border border-white/10 bg-[#161B22] px-3 text-sm text-white focus:border-cyan-400/30 focus:outline-none" placeholder="+90 5XX XXX XX XX" />
+                <label className="mb-1.5 block text-[11px] font-medium text-[#8B949E]">Cep Telefonu (WhatsApp için gerekli)</label>
+                <input type="tel" className="h-9 w-full rounded-xl border border-white/10 bg-[#161B22] px-3 text-sm text-white focus:border-cyan-400/30 focus:outline-none" placeholder="+90 5XX XXX XX XX" />
               </div>
 
-              <div className="mt-6 flex justify-end gap-3 pt-2">
+              <div className="mt-5 flex justify-end gap-3 pt-2">
                 <button 
                   onClick={onClose}
                   className="rounded-xl px-4 py-2 text-sm font-medium text-[#8B949E] transition hover:text-white"
