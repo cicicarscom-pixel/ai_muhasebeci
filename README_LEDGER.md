@@ -13,18 +13,31 @@ Bu sayfa, mevcut hiçbir yapıyı bozmadan tamamen izole bir "Master-Detail" (An
 ## 2. Global Floating Ledger AI
 Bu özellik, `/ledger/*` rotalarının tamamında (Onay Merkezi hariç) sağ alt köşede yüzen, sürüklenebilir (draggable) ve tıklanabilir bir kapsül olarak konumlandırılmıştır.
 
-### Kapsül (Orb) Tasarımı ve CSS Yapılandırması
-Kapsülün (kapalı halinin) dikkat çekici, siber-uzaylı ve premium bir görünüme sahip olması için aşağıdaki yapılandırmalar kullanılmıştır:
+### Kapsül (Orb) Tasarımı ve Glow Effect Yapılandırması (Aura Glow)
+Kapsülün "Premium SaaS" hissiyatını vermesi ve etrafında dönen ışık hüzmesinin hata vermeden (kaymadan) mükemmel şekilde kapsülü takip etmesi için aşağıdaki **"Double-Div & Mask-Blur"** tekniği uygulanmıştır. Bu yöntem, kapsülün genişliğinden (hap şeklinden) veya CSS animasyon çakışmalarından etkilenmeyen kusursuz bir tekniktir. İleride tekrar denenmesine gerek kalmaması için tüm detaylar aşağıdadır:
 
-- **Boyut & Arka Plan:** `138px` genişlik, `52px` yükseklik, siyah/koyu arka plan (`#080B10/95`) ve yoğun cam efekti (`backdrop-blur-xl`).
-- **Gradient Neon Border:** Kapsülün çevresinde CSS `mask` ve `linear-gradient` kullanılarak oluşturulan özel bir border. Üst/sol kısımdan mora (`#9D5CFF`), sağ/alt kısımdan turkuaza (`#00DAF3`) geçiş yapar.
-  ```css
-  background: linear-gradient(135deg, rgba(157,92,255,0.7) 0%, rgba(0,218,243,0.7) 100%)
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)
-  -webkit-mask-composite: xor
-  ```
-- **Dış Işık Parıltıları (Glow Effects):** Kapsülün arkasında iki adet mutlak konumlandırılmış (absolute) bulanık (blur) div bulunur. Biri solda mor (`#9D5CFF`), diğeri sağda turkuazdır (`#00DAF3`). Fare ile üzerine gelindiğinde (hover) bu ışıklar daha da genişler ve parlar.
-- **İç Nefes Alma Efekti (Breathing Pulse):** Kapsülün en arka planında, hover durumunda görünür olan ve `animate-pulse` sınıfıyla "nefes alıp veren" bir mor-turkuaz gradient parlaması mevcuttur.
+1. **Sabit Gök Mavisi Sınır Çizgisi (Base Border):**
+   - Kapsülün etrafında formunu koruyan sabit, neon görünümlü parlak bir hat bulunur:
+   - `border-[2.5px] border-[#00a2ff] shadow-[0_0_20px_rgba(0,162,255,0.4)]` ile sabit mavi çerçeve çizilir.
+
+2. **Glow Effect - Merkezleme ve Kaymayı Önleme (Double-Div Wrapper):**
+   - Işığın kapsülden fırlamasını (displacement) engellemek için `transform: translate` komutları kullanılmamıştır. (Tailwind'in `spin` animasyonu transform'u ezdiği için merkez kaymalarına yol açar).
+   - Çözüm olarak **flexbox** kullanılmıştır: Dış kapsayıcı `absolute -inset-[2px] flex items-center justify-center` ile sınırları belirlerken, dönen eleman (300x300px) bunun tam ortasına yerleşir ve sadece kendi etrafında döner.
+
+3. **Glow Effect - Dolaşan İnce Işık Parçası ve Hız:**
+   - Işığın kaba bir yarıçap yerine küçük bir "ışık parçası" gibi süzülmesi için `conic-gradient` renk dilimi oldukça daraltılmıştır (%75 şeffaf, %25 renkli alan):
+     `background: conic-gradient(from 0deg, transparent 0%, transparent 75%, #00f3ff 80%, #9D00FF 90%, #FF0055 100%)`
+   - Dönüş hızı premium bir his vermesi adına `animation: spin 4.5s linear infinite` olarak yavaşlatılmıştır.
+
+4. **Glow Effect - Hap Şeklini Kusursuz Takip Etmesi (Mask + Blur Kombinasyonu):**
+   - Işık daire, buton ise hap şeklinde olduğundan; dönen ışığın alt/üst kısımlarda butondan fırlamasını engellemek için **Mask-Before-Blur** tekniği uygulanmıştır:
+     ```css
+     padding: 4px; /* Işığın akacağı rayın kalınlığı */
+     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+     -webkit-mask-composite: xor;
+     filter: blur(6px); /* Maskeleme yapıldıktan SONRA uygulanan bulanıklık */
+     ```
+   - **Sonuç:** Dev dönen daire, CSS maskesi ile sadece butonun kenar izindeki `4px`'lik yola (raya) hapsedilir. Ardından bu raya uygulanan `blur` efekti sayesinde, ışık maskelenmiş yoldan dışarıya sızarak gerçek bir **"Aura Glow"** oluşturur. Buton ne kadar genişlerse genişlesin, ışık her zaman dış kenarı yalayarak döner.
 
 ### Açık Panel (Chat Box)
 Kapsüle tıklandığında, Framer Motion kullanılarak yay (spring) animasyonuyla sağ alt köşeden yukarı doğru açılan bir cam sohbet paneli belirir. Bulunduğu sayfanın bağlamını (`usePathname` üzerinden) alarak kullanıcıya "Şu anda [Sayfa Adı] ekranındayız" şeklinde karşılama yapar.
