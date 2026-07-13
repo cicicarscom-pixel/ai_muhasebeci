@@ -20,25 +20,21 @@ export function LedgerAIOrb({ onClick }: LedgerAIOrbProps) {
       className="group relative flex h-[52px] min-w-[138px] cursor-pointer items-center justify-center rounded-full bg-[#080B10]/95 px-6 outline-none backdrop-blur-xl shadow-2xl"
       aria-label="Ledger AI sohbetini aç"
     >
-      {/* Masked Border Container */}
-      <div 
-        className="absolute inset-0 rounded-full pointer-events-none overflow-hidden bg-[#0099FF]"
-        style={{
-          padding: '3px', // A bit thicker as in the screenshot
-          WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
-          WebkitMaskComposite: 'xor',
-          maskComposite: 'exclude',
-        }}
-      >
-        {/* Spinning RGB Aura Glow segment */}
+      {/* Spinning RGB Aura Glow segment behind the button */}
+      <div className="absolute inset-0 rounded-full pointer-events-none" style={{ zIndex: -1 }}>
         <div 
-          className="absolute left-1/2 top-1/2 h-[300px] w-[300px] -translate-x-1/2 -translate-y-1/2"
+          className="absolute left-1/2 top-1/2 h-[150px] w-[150px] -translate-x-1/2 -translate-y-1/2 opacity-70 blur-[12px]"
           style={{
-            background: 'conic-gradient(from 0deg, transparent 0%, transparent 75%, #00f3ff 85%, #9D00FF 92%, #FF0055 100%, transparent 100%)',
-            animation: 'spin 2s linear infinite'
+            background: 'conic-gradient(from 0deg, transparent 0%, transparent 60%, #00f3ff 70%, #9D00FF 85%, #FF0055 100%)',
+            animation: 'spin 3s linear infinite'
           }}
         />
       </div>
+
+      {/* Static Cyan Line & Glow */}
+      <div 
+        className="absolute inset-0 rounded-full pointer-events-none border-[1.5px] border-[#00a2ff] shadow-[0_0_20px_rgba(0,162,255,0.4)]"
+      />
 
       {/* Inner subtle blue glow */}
       <div className="absolute inset-[2px] rounded-full bg-gradient-to-b from-[#00DAF3]/30 to-transparent opacity-50 blur-md pointer-events-none" />
