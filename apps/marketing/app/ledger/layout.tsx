@@ -25,7 +25,7 @@ export default function LedgerLayout({ children }: { children: React.ReactNode }
   // If it's the landing page, don't render app layout components
   if (isLandingPage) {
     return (
-      <div className="font-body antialiased bg-background text-on-surface min-h-screen overflow-x-hidden relative">
+      <div className="font-body antialiased bg-background text-on-surface min-h-[133.33vh] overflow-x-hidden relative">
         <Script src='https://unpkg.com/@phosphor-icons/web' strategy='lazyOnload' />
         {children}
       </div>
@@ -33,7 +33,7 @@ export default function LedgerLayout({ children }: { children: React.ReactNode }
   }
 
   return (
-    <div className="font-body antialiased bg-background text-on-surface min-h-screen overflow-x-hidden relative">
+    <div className="font-body antialiased bg-background text-on-surface min-h-[133.33vh] overflow-x-hidden relative">
       <Script src='https://unpkg.com/@phosphor-icons/web' strategy='lazyOnload' />
       <style dangerouslySetInnerHTML={{ __html: `
         body {
@@ -71,7 +71,7 @@ export default function LedgerLayout({ children }: { children: React.ReactNode }
             top: 0;
             left: 0;
             width: 100vw;
-            height: 100vh;
+            height: 133.33vh;
             pointer-events: none;
             z-index: -2;
             background-image: 
@@ -122,8 +122,8 @@ export default function LedgerLayout({ children }: { children: React.ReactNode }
       {!isApproval && <Header />}
       
       {/* Main Content Area */}
-      <div className={`${mainPadding} w-full min-h-screen z-10 relative`}>
-        <main className={`${isApproval ? 'h-screen p-0 max-w-full' : 'p-6 max-w-[1400px] min-h-screen'} mx-auto relative`}>
+      <div className={`${mainPadding} w-full min-h-[133.33vh] z-10 relative`}>
+        <main className={`${isApproval ? 'h-[133.33vh] p-0 max-w-full' : 'p-6 max-w-[1400px] min-h-[133.33vh]'} mx-auto relative`}>
           {children}
         </main>
       </div>
