@@ -36,7 +36,7 @@ export function LedgerAIOrb({ onClick }: LedgerAIOrbProps) {
           className="h-[300px] w-[300px] opacity-100 shrink-0"
           style={{
             background: 'conic-gradient(from 0deg, transparent 0%, transparent 75%, #00f3ff 80%, #9D00FF 90%, #FF0055 100%)',
-            animation: 'spin 3s linear infinite',
+            animation: 'spin 4s linear infinite',
             borderRadius: '50%'
           }}
         />
@@ -44,7 +44,7 @@ export function LedgerAIOrb({ onClick }: LedgerAIOrbProps) {
 
       {/* Static Cyan Line & Glow */}
       <div 
-        className="absolute inset-0 rounded-full pointer-events-none border-[1.5px] border-[#00a2ff] shadow-[0_0_20px_rgba(0,162,255,0.4)]"
+        className="absolute inset-0 rounded-full pointer-events-none border-[2.5px] border-[#00a2ff] shadow-[0_0_20px_rgba(0,162,255,0.4)]"
       />
 
       {/* Inner subtle blue glow */}
