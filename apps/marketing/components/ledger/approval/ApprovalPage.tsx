@@ -322,9 +322,6 @@ export default function ApprovalPage() {
                 <button className="px-5 py-2.5 rounded-xl border border-white/10 text-white text-sm font-medium hover:bg-white/5 transition-all">
                   Taslak
                 </button>
-                <button className="px-5 py-2.5 rounded-xl bg-white/[0.04] border border-[#ffb4ab]/30 text-[#ffb4ab] text-sm font-medium hover:bg-[#ffb4ab]/10 transition-all">
-                  Reddet
-                </button>
                 <button className="px-6 py-2.5 rounded-xl bg-[#00daf3] text-[#004f58] text-sm hover:bg-[#00daf3]/90 transition-all shadow-[0_0_15px_rgba(0,218,243,0.2)] flex items-center gap-2 font-bold">
                   Onayla
                   <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
