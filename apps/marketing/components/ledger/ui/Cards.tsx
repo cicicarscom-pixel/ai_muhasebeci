@@ -26,10 +26,11 @@ export function GlassCard({ children, className = '', ...props }: CardProps) {
   );
 }
 
-interface MetricCardProps extends CardProps {
+interface MetricCardProps extends Omit<CardProps, 'children'> {
   title: string;
   value: string | number;
   icon?: React.ReactNode;
+  children?: React.ReactNode;
   trend?: {
     value: string;
     direction: 'up' | 'down';
