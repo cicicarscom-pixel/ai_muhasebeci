@@ -191,26 +191,26 @@ export default function ApprovalPage() {
                     <div className="grid grid-cols-2 gap-8">
                       <div className="space-y-4">
                         <label className="text-[10px] font-medium text-text-muted tracking-wider uppercase">Fatura Tarihi</label>
-                        <input className="w-full h-9 bg-white/5 backdrop-blur border border-border rounded-lg text-[13px] text-text px-3 focus:outline-none focus:border-primary focus:bg-white/[0.06] transition-all [color-scheme:dark]" type="date" defaultValue="2025-05-25" />
+                        <input className="w-full h-9 bg-white border border-border rounded-lg text-[13px] text-[#0E1117] px-3 focus:outline-none focus:border-primary transition-all" type="date" defaultValue="2025-05-25" />
                       </div>
                       <div className="space-y-4">
                         <label className="text-[10px] font-medium text-text-muted tracking-wider uppercase">Fatura Numarası</label>
-                        <input className="w-full h-9 bg-white/5 backdrop-blur border border-border rounded-lg text-text px-3 focus:outline-none focus:border-primary focus:bg-white/[0.06] transition-all font-mono text-[13px]" type="text" defaultValue="SHE202500123" />
+                        <input className="w-full h-9 bg-white border border-border rounded-lg text-[#0E1117] px-3 focus:outline-none focus:border-primary transition-all font-mono text-[13px]" type="text" defaultValue="SHE202500123" />
                       </div>
                       <div className="space-y-4">
                         <label className="text-[10px] font-medium text-text-muted tracking-wider uppercase">Fatura Türü</label>
-                        <select className="w-full h-9 bg-white/5 backdrop-blur border border-border rounded-lg text-[13px] text-text px-3 appearance-none focus:outline-none focus:border-primary focus:bg-white/[0.06] transition-all">
+                        <select className="w-full h-9 bg-white border border-border rounded-lg text-[13px] text-[#0E1117] px-3 appearance-none focus:outline-none focus:border-primary transition-all">
                           <option>Alış Faturası</option>
                           <option>Satış Faturası</option>
                         </select>
                       </div>
                       <div className="space-y-4">
                         <label className="text-[10px] font-medium text-text-muted tracking-wider uppercase">VKN/TCKN</label>
-                        <input className="w-full h-9 bg-white/5 backdrop-blur border border-border rounded-lg text-text px-3 focus:outline-none focus:border-primary focus:bg-white/[0.06] transition-all font-mono text-[13px]" type="text" defaultValue="1234567890" />
+                        <input className="w-full h-9 bg-white border border-border rounded-lg text-[#0E1117] px-3 focus:outline-none focus:border-primary transition-all font-mono text-[13px]" type="text" defaultValue="1234567890" />
                       </div>
                       <div className="col-span-2 space-y-4">
                         <label className="text-[10px] font-medium text-text-muted tracking-wider uppercase">Açıklama</label>
-                        <input className="w-full h-9 bg-white/5 backdrop-blur border border-border rounded-lg text-[13px] text-text px-3 focus:outline-none focus:border-primary focus:bg-white/[0.06] transition-all" type="text" defaultValue="Akaryakıt Alımı" />
+                        <input className="w-full h-9 bg-white border border-border rounded-lg text-[13px] text-[#0E1117] px-3 focus:outline-none focus:border-primary transition-all" type="text" defaultValue="Akaryakıt Alımı" />
                       </div>
                     </div>
                   </div>
@@ -220,7 +220,7 @@ export default function ApprovalPage() {
                     <div className="grid grid-cols-2 gap-8">
                       <div className="space-y-4">
                         <label className="text-[10px] font-medium text-text-muted tracking-wider uppercase">Tevkifat Oranı</label>
-                        <select className="w-full h-9 bg-white/5 backdrop-blur border border-border rounded-lg text-[13px] text-text px-3 appearance-none focus:outline-none focus:border-primary focus:bg-white/[0.06] transition-all">
+                        <select className="w-full h-9 bg-white border border-border rounded-lg text-[13px] text-[#0E1117] px-3 appearance-none focus:outline-none focus:border-primary transition-all">
                           <option>Yok</option>
                           <option>2/10</option>
                           <option>5/10</option>
@@ -228,7 +228,7 @@ export default function ApprovalPage() {
                       </div>
                       <div className="space-y-4">
                         <label className="text-[10px] font-medium text-text-muted tracking-wider uppercase">Özel Matrah</label>
-                        <input className="w-full h-9 bg-white/5 backdrop-blur border border-border rounded-lg text-text px-3 text-right focus:outline-none focus:border-primary focus:bg-white/[0.06] transition-all font-mono text-[13px]" type="text" defaultValue="0.00" />
+                        <input className="w-full h-9 bg-white border border-border rounded-lg text-[#0E1117] px-3 text-right focus:outline-none focus:border-primary transition-all font-mono text-[13px]" type="text" defaultValue="0.00" />
                       </div>
                     </div>
 
@@ -236,19 +236,19 @@ export default function ApprovalPage() {
                       <div className="min-w-[420px]">
                         {/* KDV Fields */}
                         <div className="grid grid-cols-5 gap-8 mb-12">
-                          <div className="space-y-4"><label className="text-label font-bold text-text-muted uppercase px-2 whitespace-nowrap">%1 KDV</label><input className="w-full h-[32px] bg-transparent border-b border-white/10 hover:border-border focus:border-primary outline-none text-body font-mono font-bold text-text px-2 text-right transition-colors rounded-none" defaultValue="0.00" /></div>
-                          <div className="space-y-4"><label className="text-label font-bold text-text-muted uppercase px-2 whitespace-nowrap">%8 KDV</label><input className="w-full h-[32px] bg-transparent border-b border-white/10 hover:border-border focus:border-primary outline-none text-body font-mono font-bold text-text px-2 text-right transition-colors rounded-none" defaultValue="0.00" /></div>
-                          <div className="space-y-4"><label className="text-label font-bold text-text-muted uppercase px-2 whitespace-nowrap">%10 KDV</label><input className="w-full h-[32px] bg-transparent border-b border-white/10 hover:border-border focus:border-primary outline-none text-body font-mono font-bold text-text px-2 text-right transition-colors rounded-none" defaultValue="0.00" /></div>
-                          <div className="space-y-4"><label className="text-label font-bold text-text-muted uppercase px-2 whitespace-nowrap">%18 KDV</label><input className="w-full h-[32px] bg-transparent border-b border-white/10 hover:border-border focus:border-primary outline-none text-body font-mono font-bold text-text px-2 text-right transition-colors rounded-none" defaultValue="0.00" /></div>
-                          <div className="space-y-4"><label className="text-label font-bold text-primary uppercase px-2 whitespace-nowrap">%20 KDV</label><input className="w-full h-[32px] bg-transparent border-b border-white/10 hover:border-border focus:border-primary outline-none text-body font-mono font-bold text-text px-2 text-right transition-colors rounded-none" defaultValue="200.00" /></div>
+                          <div className="space-y-4"><label className="text-label font-bold text-text-muted uppercase px-2 whitespace-nowrap">%1 KDV</label><input className="w-full h-[32px] bg-white border border-border focus:border-primary outline-none text-body font-mono font-bold text-[#0E1117] px-2 text-right transition-colors rounded-md" defaultValue="0.00" /></div>
+                          <div className="space-y-4"><label className="text-label font-bold text-text-muted uppercase px-2 whitespace-nowrap">%8 KDV</label><input className="w-full h-[32px] bg-white border border-border focus:border-primary outline-none text-body font-mono font-bold text-[#0E1117] px-2 text-right transition-colors rounded-md" defaultValue="0.00" /></div>
+                          <div className="space-y-4"><label className="text-label font-bold text-text-muted uppercase px-2 whitespace-nowrap">%10 KDV</label><input className="w-full h-[32px] bg-white border border-border focus:border-primary outline-none text-body font-mono font-bold text-[#0E1117] px-2 text-right transition-colors rounded-md" defaultValue="0.00" /></div>
+                          <div className="space-y-4"><label className="text-label font-bold text-text-muted uppercase px-2 whitespace-nowrap">%18 KDV</label><input className="w-full h-[32px] bg-white border border-border focus:border-primary outline-none text-body font-mono font-bold text-[#0E1117] px-2 text-right transition-colors rounded-md" defaultValue="0.00" /></div>
+                          <div className="space-y-4"><label className="text-label font-bold text-primary uppercase px-2 whitespace-nowrap">%20 KDV</label><input className="w-full h-[32px] bg-white border border-border focus:border-primary outline-none text-body font-mono font-bold text-[#0E1117] px-2 text-right transition-colors rounded-md" defaultValue="200.00" /></div>
                         </div>
                         {/* Matrah Fields */}
                         <div className="grid grid-cols-5 gap-8">
-                          <div className="space-y-4"><label className="text-label font-bold text-text-muted uppercase px-2 whitespace-nowrap">%1 Matrah</label><input className="w-full h-[32px] bg-transparent border-b border-white/10 hover:border-border focus:border-primary outline-none text-body font-mono font-bold text-text px-2 text-right transition-colors rounded-none" defaultValue="0.00" /></div>
-                          <div className="space-y-4"><label className="text-label font-bold text-text-muted uppercase px-2 whitespace-nowrap">%8 Matrah</label><input className="w-full h-[32px] bg-transparent border-b border-white/10 hover:border-border focus:border-primary outline-none text-body font-mono font-bold text-text px-2 text-right transition-colors rounded-none" defaultValue="0.00" /></div>
-                          <div className="space-y-4"><label className="text-label font-bold text-text-muted uppercase px-2 whitespace-nowrap">%10 Matrah</label><input className="w-full h-[32px] bg-transparent border-b border-white/10 hover:border-border focus:border-primary outline-none text-body font-mono font-bold text-text px-2 text-right transition-colors rounded-none" defaultValue="0.00" /></div>
-                          <div className="space-y-4"><label className="text-label font-bold text-text-muted uppercase px-2 whitespace-nowrap">%18 Matrah</label><input className="w-full h-[32px] bg-transparent border-b border-white/10 hover:border-border focus:border-primary outline-none text-body font-mono font-bold text-text px-2 text-right transition-colors rounded-none" defaultValue="0.00" /></div>
-                          <div className="space-y-4"><label className="text-label font-bold text-primary uppercase px-2 whitespace-nowrap">%20 Matrah</label><input className="w-full h-[32px] bg-transparent border-b border-white/10 hover:border-border focus:border-primary outline-none text-body font-mono font-bold text-text px-2 text-right transition-colors rounded-none" defaultValue="1,000.00" /></div>
+                          <div className="space-y-4"><label className="text-label font-bold text-text-muted uppercase px-2 whitespace-nowrap">%1 Matrah</label><input className="w-full h-[32px] bg-white border border-border focus:border-primary outline-none text-body font-mono font-bold text-[#0E1117] px-2 text-right transition-colors rounded-md" defaultValue="0.00" /></div>
+                          <div className="space-y-4"><label className="text-label font-bold text-text-muted uppercase px-2 whitespace-nowrap">%8 Matrah</label><input className="w-full h-[32px] bg-white border border-border focus:border-primary outline-none text-body font-mono font-bold text-[#0E1117] px-2 text-right transition-colors rounded-md" defaultValue="0.00" /></div>
+                          <div className="space-y-4"><label className="text-label font-bold text-text-muted uppercase px-2 whitespace-nowrap">%10 Matrah</label><input className="w-full h-[32px] bg-white border border-border focus:border-primary outline-none text-body font-mono font-bold text-[#0E1117] px-2 text-right transition-colors rounded-md" defaultValue="0.00" /></div>
+                          <div className="space-y-4"><label className="text-label font-bold text-text-muted uppercase px-2 whitespace-nowrap">%18 Matrah</label><input className="w-full h-[32px] bg-white border border-border focus:border-primary outline-none text-body font-mono font-bold text-[#0E1117] px-2 text-right transition-colors rounded-md" defaultValue="0.00" /></div>
+                          <div className="space-y-4"><label className="text-label font-bold text-primary uppercase px-2 whitespace-nowrap">%20 Matrah</label><input className="w-full h-[32px] bg-white border border-border focus:border-primary outline-none text-body font-mono font-bold text-[#0E1117] px-2 text-right transition-colors rounded-md" defaultValue="1,000.00" /></div>
                         </div>
                       </div>
                     </div>
