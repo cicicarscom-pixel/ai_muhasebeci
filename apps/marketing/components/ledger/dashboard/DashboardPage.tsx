@@ -12,16 +12,16 @@ export default function DashboardPage() {
         {/* ROW 1: 5 KPI Cards */}
         <div className="col-span-12 grid grid-cols-5 gap-4">
           {/* Card 1: Hazır Evrak */}
-          <div className="flex flex-col justify-between bg-white/[0.02] backdrop-blur-xl border border-white/5 rounded-2xl p-4 relative overflow-hidden group min-h-[100px] hover:bg-white/[0.04] transition-all">
-            <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#3B82F6]/30 to-transparent"></div>
+          <div className="flex flex-col justify-between bg-white/[0.02] backdrop-blur-xl border border-white/5 rounded-2xl p-4 relative overflow-hidden group min-h-[100px] hover:bg-[#00C8FF]/[0.02] hover:border-[#00C8FF]/30 transition-all">
+            <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 group-hover:via-[#00C8FF]/50 to-transparent transition-all"></div>
             
             <div className="flex items-center gap-2 mb-2 relative z-10">
-              <span className="material-symbols-outlined text-[#3B82F6] text-[18px]">description</span>
-              <span className="text-[10px] font-medium text-[#bac9cc] uppercase tracking-widest">HAZIR EVRAK</span>
+              <span className="material-symbols-outlined text-[#bac9cc] group-hover:text-[#00C8FF] transition-colors text-[18px]">description</span>
+              <span className="text-[10px] font-medium text-[#bac9cc] uppercase tracking-widest group-hover:text-white transition-colors">HAZIR EVRAK</span>
             </div>
             <div className="flex items-baseline justify-between relative z-10">
               <span className="text-3xl font-semibold text-white tracking-tight">131</span>
-              <div className="flex items-center gap-1 text-[#3B82F6] text-[11px] font-medium px-2 py-0.5 rounded-full bg-[#3B82F6]/5 border border-[#3B82F6]/10">
+              <div className="flex items-center gap-1 text-[#00C8FF] text-[11px] font-medium px-2 py-0.5 rounded-full bg-[#00C8FF]/10 border border-[#00C8FF]/20">
                 <span className="material-symbols-outlined text-[14px]">trending_up</span>
                 <span>22 bugün</span>
               </div>
@@ -29,16 +29,16 @@ export default function DashboardPage() {
           </div>
           
           {/* Card 2: Kontrol Bekleyen */}
-          <div className="flex flex-col justify-between bg-white/[0.02] backdrop-blur-xl border border-white/5 rounded-2xl p-4 relative overflow-hidden group min-h-[100px] hover:bg-white/[0.04] transition-all">
-            <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#F59E0B]/30 to-transparent"></div>
+          <div className="flex flex-col justify-between bg-white/[0.02] backdrop-blur-xl border border-white/5 rounded-2xl p-4 relative overflow-hidden group min-h-[100px] hover:bg-[#00C8FF]/[0.02] hover:border-[#00C8FF]/30 transition-all">
+            <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 group-hover:via-[#00C8FF]/50 to-transparent transition-all"></div>
             
             <div className="flex items-center gap-2 mb-2 relative z-10">
-              <span className="material-symbols-outlined text-[#F59E0B] text-[18px]">error</span>
-              <span className="text-[10px] font-medium text-[#bac9cc] uppercase tracking-widest">KONTROL BEKLEYEN</span>
+              <span className="material-symbols-outlined text-[#bac9cc] group-hover:text-[#00C8FF] transition-colors text-[18px]">error</span>
+              <span className="text-[10px] font-medium text-[#bac9cc] uppercase tracking-widest group-hover:text-white transition-colors">KONTROL BEKLEYEN</span>
             </div>
             <div className="flex items-baseline justify-between relative z-10">
               <span className="text-3xl font-semibold text-white tracking-tight">12</span>
-              <div className="flex items-center gap-1 text-[#F59E0B] text-[11px] font-medium px-2 py-0.5 rounded-full bg-[#F59E0B]/5 border border-[#F59E0B]/10">
+              <div className="flex items-center gap-1 text-[#F59E0B] text-[11px] font-medium px-2 py-0.5 rounded-full bg-[#F59E0B]/10 border border-[#F59E0B]/20">
                 <span className="material-symbols-outlined text-[14px]">trending_up</span>
                 <span>4 bugün</span>
               </div>
@@ -46,16 +46,16 @@ export default function DashboardPage() {
           </div>
           
           {/* Card 3: Eksik Bilgi */}
-          <div className="flex flex-col justify-between bg-white/[0.02] backdrop-blur-xl border border-white/5 rounded-2xl p-4 relative overflow-hidden group min-h-[100px] hover:bg-white/[0.04] transition-all">
-            <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#9D5CFF]/30 to-transparent"></div>
+          <div className="flex flex-col justify-between bg-white/[0.02] backdrop-blur-xl border border-white/5 rounded-2xl p-4 relative overflow-hidden group min-h-[100px] hover:bg-[#00C8FF]/[0.02] hover:border-[#00C8FF]/30 transition-all">
+            <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 group-hover:via-[#00C8FF]/50 to-transparent transition-all"></div>
             
             <div className="flex items-center gap-2 mb-2 relative z-10">
-              <span className="material-symbols-outlined text-[#9D5CFF] text-[18px]">help</span>
-              <span className="text-[10px] font-medium text-[#bac9cc] uppercase tracking-widest">EKSİK BİLGİ</span>
+              <span className="material-symbols-outlined text-[#bac9cc] group-hover:text-[#00C8FF] transition-colors text-[18px]">help</span>
+              <span className="text-[10px] font-medium text-[#bac9cc] uppercase tracking-widest group-hover:text-white transition-colors">EKSİK BİLGİ</span>
             </div>
             <div className="flex items-baseline justify-between relative z-10">
               <span className="text-3xl font-semibold text-white tracking-tight">4</span>
-              <div className="flex items-center gap-1 text-[#9D5CFF] text-[11px] font-medium px-2 py-0.5 rounded-full bg-[#9D5CFF]/5 border border-[#9D5CFF]/10">
+              <div className="flex items-center gap-1 text-[#22C55E] text-[11px] font-medium px-2 py-0.5 rounded-full bg-[#22C55E]/10 border border-[#22C55E]/20">
                 <span className="material-symbols-outlined text-[14px]">trending_down</span>
                 <span>1 bugün</span>
               </div>
@@ -63,16 +63,16 @@ export default function DashboardPage() {
           </div>
           
           {/* Card 4: Tekrar İstenecek */}
-          <div className="flex flex-col justify-between bg-white/[0.02] backdrop-blur-xl border border-white/5 rounded-2xl p-4 relative overflow-hidden group min-h-[100px] hover:bg-white/[0.04] transition-all">
-            <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#EF4444]/30 to-transparent"></div>
+          <div className="flex flex-col justify-between bg-white/[0.02] backdrop-blur-xl border border-white/5 rounded-2xl p-4 relative overflow-hidden group min-h-[100px] hover:bg-[#00C8FF]/[0.02] hover:border-[#00C8FF]/30 transition-all">
+            <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 group-hover:via-[#00C8FF]/50 to-transparent transition-all"></div>
             
             <div className="flex items-center gap-2 mb-2 relative z-10">
-              <span className="material-symbols-outlined text-[#EF4444] text-[18px]">cancel</span>
-              <span className="text-[10px] font-medium text-[#bac9cc] uppercase tracking-widest">TEKRAR İSTENECEK</span>
+              <span className="material-symbols-outlined text-[#bac9cc] group-hover:text-[#00C8FF] transition-colors text-[18px]">cancel</span>
+              <span className="text-[10px] font-medium text-[#bac9cc] uppercase tracking-widest group-hover:text-white transition-colors">TEKRAR İSTENECEK</span>
             </div>
             <div className="flex items-baseline justify-between relative z-10">
               <span className="text-3xl font-semibold text-white tracking-tight">2</span>
-              <div className="flex items-center gap-1 text-[#EF4444] text-[11px] font-medium px-2 py-0.5 rounded-full bg-[#EF4444]/5 border border-[#EF4444]/10">
+              <div className="flex items-center gap-1 text-[#EF4444] text-[11px] font-medium px-2 py-0.5 rounded-full bg-[#EF4444]/10 border border-[#EF4444]/20">
                 <span className="material-symbols-outlined text-[14px]">trending_up</span>
                 <span>2 bugün</span>
               </div>
@@ -80,16 +80,16 @@ export default function DashboardPage() {
           </div>
           
           {/* Card 5: Bugün Onaylanan */}
-          <div className="flex flex-col justify-between bg-white/[0.02] backdrop-blur-xl border border-white/5 rounded-2xl p-4 relative overflow-hidden group min-h-[100px] hover:bg-white/[0.04] transition-all">
-            <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#3FB950]/30 to-transparent"></div>
+          <div className="flex flex-col justify-between bg-white/[0.02] backdrop-blur-xl border border-white/5 rounded-2xl p-4 relative overflow-hidden group min-h-[100px] hover:bg-[#00C8FF]/[0.02] hover:border-[#00C8FF]/30 transition-all">
+            <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 group-hover:via-[#00C8FF]/50 to-transparent transition-all"></div>
             
             <div className="flex items-center gap-2 mb-2 relative z-10">
-              <span className="material-symbols-outlined text-[#3FB950] text-[18px]">check_circle</span>
-              <span className="text-[10px] font-medium text-[#bac9cc] uppercase tracking-widest">BUGÜN ONAYLANAN</span>
+              <span className="material-symbols-outlined text-[#bac9cc] group-hover:text-[#00C8FF] transition-colors text-[18px]">check_circle</span>
+              <span className="text-[10px] font-medium text-[#bac9cc] uppercase tracking-widest group-hover:text-white transition-colors">BUGÜN ONAYLANAN</span>
             </div>
             <div className="flex items-baseline justify-between relative z-10">
               <span className="text-3xl font-semibold text-white tracking-tight">47</span>
-              <div className="flex items-center gap-1 text-[#3FB950] text-[11px] font-medium px-2 py-0.5 rounded-full bg-[#3FB950]/5 border border-[#3FB950]/10">
+              <div className="flex items-center gap-1 text-[#22C55E] text-[11px] font-medium px-2 py-0.5 rounded-full bg-[#22C55E]/10 border border-[#22C55E]/20">
                 <span className="material-symbols-outlined text-[14px]">trending_up</span>
                 <span>15 bugün</span>
               </div>

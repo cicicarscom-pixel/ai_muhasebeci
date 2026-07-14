@@ -115,15 +115,14 @@ export default function WorkflowPage() {
       <div className="flex-1 flex gap-4 overflow-x-auto pb-4 custom-scrollbar">
         
         {/* Col 1: Yeni Geldi */}
-        <div className="flex flex-col min-w-[260px] w-[260px] bg-[#12151C] border border-white/5 rounded-2xl border-t-[3px] border-t-[#9D5CFF] p-4 relative">
-          <div className="absolute top-0 left-0 w-full h-16 bg-gradient-to-b from-[#9D5CFF]/10 to-transparent pointer-events-none rounded-t-2xl"></div>
+        <div className="flex flex-col min-w-[260px] w-[260px] bg-[#12151C] border border-white/5 rounded-2xl border-l-[3px] border-l-[#7B61FF] p-4 relative">
           
           <div className="flex items-center justify-between mb-1">
             <div className="flex items-center gap-2">
-              <span className="material-symbols-outlined text-[#9D5CFF] text-[18px]">download</span>
+              <span className="material-symbols-outlined text-[#8B949E] text-[18px]">download</span>
               <h2 className="text-[14px] font-semibold text-white">Yeni Geldi</h2>
             </div>
-            <span className="bg-[#9D5CFF]/10 text-[#9D5CFF] text-[12px] font-bold px-2 py-0.5 rounded-full">18</span>
+            <span className="text-white text-[12px] font-bold px-2 py-0.5 rounded-full bg-white/5">18</span>
           </div>
           <p className="text-[11px] text-[#8B949E] mb-4">AI okumayı bekliyor</p>
           
@@ -217,15 +216,14 @@ export default function WorkflowPage() {
         </div>
 
         {/* Col 2: AI İşliyor */}
-        <div className="flex flex-col min-w-[260px] w-[260px] bg-[#12151C] border border-white/5 rounded-2xl border-t-[3px] border-t-[#3B82F6] p-4 relative">
-          <div className="absolute top-0 left-0 w-full h-16 bg-gradient-to-b from-[#3B82F6]/10 to-transparent pointer-events-none rounded-t-2xl"></div>
+        <div className="flex flex-col min-w-[260px] w-[260px] bg-[#12151C] border border-white/5 rounded-2xl border-l-[3px] border-l-[#00C8FF] p-4 relative">
           
           <div className="flex items-center justify-between mb-1">
             <div className="flex items-center gap-2">
-              <span className="material-symbols-outlined text-[#3B82F6] text-[18px]">neurology</span>
+              <span className="material-symbols-outlined text-[#8B949E] text-[18px]">neurology</span>
               <h2 className="text-[14px] font-semibold text-white">AI İşliyor</h2>
             </div>
-            <span className="bg-[#3B82F6]/10 text-[#3B82F6] text-[12px] font-bold px-2 py-0.5 rounded-full">6</span>
+            <span className="text-white text-[12px] font-bold px-2 py-0.5 rounded-full bg-white/5">6</span>
           </div>
           <p className="text-[11px] text-[#8B949E] mb-4">Okuma ve analiz yapılıyor</p>
           
@@ -316,12 +314,11 @@ export default function WorkflowPage() {
         </div>
 
         {/* Col 3: Kontrol Bekliyor */}
-        <div className="flex flex-col min-w-[260px] w-[260px] bg-[#12151C] border border-white/5 rounded-2xl border-t-[3px] border-t-[#F59E0B] p-4 relative">
-          <div className="absolute top-0 left-0 w-full h-16 bg-gradient-to-b from-[#F59E0B]/10 to-transparent pointer-events-none rounded-t-2xl"></div>
+        <div className="flex flex-col min-w-[260px] w-[260px] bg-[#12151C] border border-white/5 rounded-2xl border-l-[3px] border-l-[#F59E0B] p-4 relative">
           
           <div className="flex items-center justify-between mb-1">
             <div className="flex items-center gap-2">
-              <span className="material-symbols-outlined text-[#F59E0B] text-[18px]">error</span>
+              <span className="material-symbols-outlined text-[#8B949E] text-[18px]">error</span>
               <h2 className="text-[14px] font-semibold text-white">Kontrol Bekliyor</h2>
             </div>
           </div>
@@ -488,15 +485,14 @@ export default function WorkflowPage() {
         </div>
 
         {/* Col 4: Onaylandı */}
-        <div className="flex flex-col min-w-[260px] w-[260px] bg-[#12151C] border border-white/5 rounded-2xl border-t-[3px] border-t-[#3FB950] p-4 relative">
-          <div className="absolute top-0 left-0 w-full h-16 bg-gradient-to-b from-[#3FB950]/10 to-transparent pointer-events-none rounded-t-2xl"></div>
+        <div className="flex flex-col min-w-[260px] w-[260px] bg-[#12151C] border border-white/5 rounded-2xl border-l-[3px] border-l-[#22C55E] p-4 relative">
           
           <div className="flex items-center justify-between mb-1">
             <div className="flex items-center gap-2">
-              <span className="material-symbols-outlined text-[#3FB950] text-[18px] bg-clip-text">check_circle</span>
+              <span className="material-symbols-outlined text-[#8B949E] text-[18px]">check_circle</span>
               <h2 className="text-[14px] font-semibold text-white">Onaylandı</h2>
             </div>
-            <span className="bg-[#3FB950]/10 text-[#3FB950] text-[12px] font-bold px-2 py-0.5 rounded-full">31</span>
+            <span className="text-white text-[12px] font-bold px-2 py-0.5 rounded-full bg-white/5">31</span>
           </div>
           <p className="text-[11px] text-[#8B949E] mb-4">Toplu gönderime hazır</p>
           
