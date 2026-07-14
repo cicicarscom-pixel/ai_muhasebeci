@@ -234,6 +234,7 @@ export default function ApprovalPage() {
           {/* Right Column: Operation Panel */}
           <section className="w-1/2 h-full bg-[#12151C] flex flex-col border-l border-white/5 relative">
             {/* Form Area */}
+<<<<<<< Updated upstream
             <div className="flex-1 overflow-y-auto custom-scrollbar px-8 pt-6 pb-32">
               <div className="max-w-xl mx-auto space-y-6">
                 
@@ -264,6 +265,73 @@ export default function ApprovalPage() {
                       <input className="w-full h-9 bg-white/[0.04] backdrop-blur border border-white/[0.08] rounded-lg text-[13px] text-white px-3 focus:outline-none focus:border-[#00daf3] focus:bg-white/[0.06] transition-all" type="text" defaultValue="Akaryakıt Alımı" />
                     </div>
                   </div>
+=======
+            <div className="flex-1 overflow-y-auto custom-scrollbar px-6 pt-4 pb-6">
+              <div className="max-w-xl mx-auto space-y-0.5">
+                <div className="grid grid-cols-2 gap-x-2 gap-y-1">
+                  {/* Fatura Tarihi */}
+                  <div className="col-span-2 sm:col-span-1 space-y-0.5">
+                    <label className="text-[10px] font-medium text-[#bac9cc] tracking-wider uppercase">Fatura Tarihi</label>
+                    <input className="w-full h-7 bg-[#12151C] border border-white/10 rounded-lg text-[13px] text-[#dce4e5] px-3 focus:outline-none focus:border-[#00daf3] focus:ring-1 focus:ring-[#00daf3]/50 transition-all [color-scheme:dark]" type="date" defaultValue="2025-05-25" />
+                  </div>
+                  {/* Fatura Numarası */}
+                  <div className="col-span-2 sm:col-span-1 space-y-0.5">
+                    <label className="text-[10px] font-medium text-[#bac9cc] tracking-wider uppercase">Fatura Numarası</label>
+                    <input className="w-full h-7 bg-[#12151C] border border-white/10 rounded-lg text-[#dce4e5] px-3 focus:outline-none focus:border-[#00daf3] focus:ring-1 focus:ring-[#00daf3]/50 transition-all font-mono text-[13px]" type="text" defaultValue="SHE202500123" />
+                  </div>
+                  {/* Fatura Türü */}
+                  <div className="col-span-2 sm:col-span-1 space-y-0.5">
+                    <label className="text-[10px] font-medium text-[#bac9cc] tracking-wider uppercase">Fatura Türü</label>
+                    <select className="w-full h-7 bg-[#12151C] border border-white/10 rounded-lg text-[13px] text-[#dce4e5] px-3 appearance-none focus:outline-none focus:border-[#00daf3] focus:ring-1 focus:ring-[#00daf3]/50 transition-all">
+                      <option>Alış Faturası</option>
+                      <option>Satış Faturası</option>
+                    </select>
+                  </div>
+                  {/* VKN/TCKN */}
+                  <div className="col-span-2 sm:col-span-1 space-y-0.5">
+                    <label className="text-[10px] font-medium text-[#bac9cc] tracking-wider uppercase">VKN/TCKN</label>
+                    <input className="w-full h-7 bg-[#12151C] border border-white/10 rounded-lg text-[#dce4e5] px-3 focus:outline-none focus:border-[#00daf3] focus:ring-1 focus:ring-[#00daf3]/50 transition-all font-mono text-[13px]" type="text" defaultValue="1234567890" />
+                  </div>
+                  {/* Açıklama */}
+                  <div className="col-span-2 space-y-0.5">
+                    <label className="text-[10px] font-medium text-[#bac9cc] tracking-wider uppercase">Açıklama</label>
+                    <input className="w-full h-7 bg-[#12151C] border border-white/10 rounded-lg text-[13px] text-[#dce4e5] px-3 focus:outline-none focus:border-[#00daf3] focus:ring-1 focus:ring-[#00daf3]/50 transition-all" type="text" defaultValue="Akaryakıt Alımı" />
+                  </div>
+                  {/* Tevkifat Oranı */}
+                  <div className="col-span-2 sm:col-span-1 space-y-0.5">
+                    <label className="text-[10px] font-medium text-[#bac9cc] tracking-wider uppercase">Tevkifat Oranı</label>
+                    <select className="w-full h-7 bg-[#12151C] border border-white/10 rounded-lg text-[13px] text-[#dce4e5] px-3 appearance-none focus:outline-none focus:border-[#00daf3] focus:ring-1 focus:ring-[#00daf3]/50 transition-all">
+                      <option>Yok</option>
+                      <option>2/10</option>
+                      <option>5/10</option>
+                    </select>
+                  </div>
+                  {/* Özel Matrah */}
+                  <div className="col-span-2 sm:col-span-1 space-y-0.5">
+                    <label className="text-[10px] font-medium text-[#bac9cc] tracking-wider uppercase">Özel Matrah</label>
+                    <input className="w-full h-7 bg-[#12151C] border border-white/10 rounded-lg text-[#dce4e5] px-3 text-right focus:outline-none focus:border-[#00daf3] focus:ring-1 focus:ring-[#00daf3]/50 transition-all font-mono text-[13px]" type="text" defaultValue="0.00" />
+                  </div>
+                  
+                  {/* KDV Fields */}
+                  <div className="col-span-2 grid grid-cols-5 gap-1">
+                    <div className="space-y-0.5"><label className="text-[9px] text-[#bac9cc] uppercase">%1 KDV</label><input className="w-full h-6 bg-[#12151C] border border-white/10 rounded text-[12px] text-[#dce4e5] px-2 text-right" defaultValue="0.00" /></div>
+                    <div className="space-y-0.5"><label className="text-[9px] text-[#bac9cc] uppercase">%8 KDV</label><input className="w-full h-6 bg-[#12151C] border border-white/10 rounded text-[12px] text-[#dce4e5] px-2 text-right" defaultValue="0.00" /></div>
+                    <div className="space-y-0.5"><label className="text-[9px] text-[#bac9cc] uppercase">%10 KDV</label><input className="w-full h-6 bg-[#12151C] border border-white/10 rounded text-[12px] text-[#dce4e5] px-2 text-right" defaultValue="0.00" /></div>
+                    <div className="space-y-0.5"><label className="text-[9px] text-[#bac9cc] uppercase">%18 KDV</label><input className="w-full h-6 bg-[#12151C] border border-white/10 rounded text-[12px] text-[#dce4e5] px-2 text-right" defaultValue="0.00" /></div>
+                    <div className="space-y-0.5"><label className="text-[9px] text-[#bac9cc] uppercase">%20 KDV</label><input className="w-full h-6 bg-[#12151C] border border-white/10 rounded text-[12px] text-[#dce4e5] px-2 text-right" defaultValue="200.00" /></div>
+                  </div>
+                  
+                  {/* Matrah Fields */}
+                  <div className="col-span-2 grid grid-cols-5 gap-1">
+                    <div className="space-y-0.5"><label className="text-[9px] text-[#bac9cc] uppercase">%1 Matrah</label><input className="w-full h-6 bg-[#12151C] border border-white/10 rounded text-[12px] text-[#dce4e5] px-2 text-right" defaultValue="0.00" /></div>
+                    <div className="space-y-0.5"><label className="text-[9px] text-[#bac9cc] uppercase">%8 Matrah</label><input className="w-full h-6 bg-[#12151C] border border-white/10 rounded text-[12px] text-[#dce4e5] px-2 text-right" defaultValue="0.00" /></div>
+                    <div className="space-y-0.5"><label className="text-[9px] text-[#bac9cc] uppercase">%10 Matrah</label><input className="w-full h-6 bg-[#12151C] border border-white/10 rounded text-[12px] text-[#dce4e5] px-2 text-right" defaultValue="0.00" /></div>
+                    <div className="space-y-0.5"><label className="text-[9px] text-[#bac9cc] uppercase">%18 Matrah</label><input className="w-full h-6 bg-[#12151C] border border-white/10 rounded text-[12px] text-[#dce4e5] px-2 text-right" defaultValue="0.00" /></div>
+                    <div className="space-y-0.5"><label className="text-[9px] text-[#bac9cc] uppercase">%20 Matrah</label><input className="w-full h-6 bg-[#12151C] border border-white/10 rounded text-[12px] text-[#dce4e5] px-2 text-right" defaultValue="1,000.00" /></div>
+                  </div>
+                  
+                  {/* Toplam was moved to footer */}
+>>>>>>> Stashed changes
                 </div>
 
                 {/* Vergiler Section */}
@@ -308,6 +376,7 @@ export default function ApprovalPage() {
               </div>
             </div>
 
+<<<<<<< Updated upstream
             {/* Glass Dock */}
             <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-[90%] max-w-xl bg-[#1e2329]/80 backdrop-blur-xl border border-white/10 rounded-2xl p-4 flex items-center justify-between shadow-[0_10px_40px_rgba(0,0,0,0.5)] z-20">
               <div className="flex flex-col">
@@ -321,6 +390,21 @@ export default function ApprovalPage() {
                 <button className="px-6 py-2.5 rounded-xl bg-[#00daf3] text-[#004f58] text-sm hover:bg-[#00daf3]/90 transition-all shadow-[0_0_15px_rgba(0,218,243,0.2)] flex items-center gap-2 font-bold">
                   Onayla
                   <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
+=======
+            {/* Sticky Footer */}
+            <div className="px-6 py-4 border-t border-white/5 bg-[#12151C] flex items-center justify-between mt-auto z-10 shadow-[0_-10px_30px_rgba(0,0,0,0.2)]">
+              <div className="flex flex-col">
+                <span className="text-[10px] font-medium text-[#bac9cc] tracking-wider uppercase mb-1">Genel Toplam</span>
+                <span className="text-[#dce4e5] text-2xl font-semibold font-mono">₺1,200.00</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <button className="px-5 py-2.5 rounded-xl border border-white/10 text-[#bac9cc] text-sm font-medium hover:bg-white/5 hover:text-white transition-all">
+                  Taslak
+                </button>
+                <button className="px-6 py-2.5 rounded-xl bg-[#00daf3] text-[#004f58] text-sm hover:bg-[#00daf3]/90 transition-all shadow-[0_0_20px_rgba(0,218,243,0.3)] flex items-center gap-2 font-bold group">
+                  Onayla
+                  <span className="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+>>>>>>> Stashed changes
                 </button>
               </div>
             </div>
