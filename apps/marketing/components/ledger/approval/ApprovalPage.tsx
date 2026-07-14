@@ -184,11 +184,11 @@ export default function ApprovalPage() {
             <div className="flex-1 flex flex-col justify-center min-h-max py-24">
               {/* Form Area */}
               <div className="px-32 pb-24">
-                <div className="max-w-xl mx-auto space-y-24">
+                <div className="max-w-xl mx-auto space-y-16">
                   
                   {/* Belge Section */}
-                  <div className="space-y-12">
-                    <div className="grid grid-cols-2 gap-12">
+                  <div className="space-y-8">
+                    <div className="grid grid-cols-2 gap-8">
                       <div className="space-y-4">
                         <label className="text-[10px] font-medium text-text-muted tracking-wider uppercase">Fatura Tarihi</label>
                         <input className="w-full h-9 bg-white/5 backdrop-blur border border-border rounded-lg text-[13px] text-text px-3 focus:outline-none focus:border-primary focus:bg-white/[0.06] transition-all [color-scheme:dark]" type="date" defaultValue="2025-05-25" />
@@ -216,8 +216,8 @@ export default function ApprovalPage() {
                   </div>
 
                   {/* Vergiler Section */}
-                  <div className="space-y-12">
-                    <div className="grid grid-cols-2 gap-12">
+                  <div className="space-y-8">
+                    <div className="grid grid-cols-2 gap-8">
                       <div className="space-y-4">
                         <label className="text-[10px] font-medium text-text-muted tracking-wider uppercase">Tevkifat Oranı</label>
                         <select className="w-full h-9 bg-white/5 backdrop-blur border border-border rounded-lg text-[13px] text-text px-3 appearance-none focus:outline-none focus:border-primary focus:bg-white/[0.06] transition-all">
