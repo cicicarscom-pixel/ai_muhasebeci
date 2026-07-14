@@ -1,626 +1,277 @@
 'use client';
 import React from 'react';
+import { PageTitle, SectionHeader } from '../ui/Typography';
+import { AppCard, MetricCard } from '../ui/Cards';
+import { SecondaryButton, GhostButton } from '../ui/Buttons';
+import { FilterBar } from '../ui/Forms';
 
 export default function WorkflowPage() {
   return (
-    <div className="flex flex-col h-full w-full bg-[#0E1117] text-white p-6 overflow-hidden">
+    <div className="flex flex-col h-full w-full bg-surface text-text p-24 overflow-hidden gap-24">
       
-      {/* Top Bar: Stats & Filters Button */}
-      <div className="flex items-start justify-between mb-6">
-        <div className="flex gap-4">
-          {/* Stat Card 1 */}
-          <div className="bg-[#161B22] border border-white/5 rounded-xl p-4 flex items-center gap-4 min-w-[200px]">
-            <div className="w-10 h-10 rounded-lg bg-[#1F2937] flex items-center justify-center">
-              <span className="material-symbols-outlined text-[#00daf3]">description</span>
-            </div>
-            <div className="flex flex-col">
-              <span className="text-[11px] text-[#8B949E] font-medium mb-1">Toplam Evrak</span>
-              <div className="flex items-end gap-3">
-                <span className="text-xl font-bold leading-none">203</span>
-                <span className="text-[11px] font-bold text-[#3FB950] flex items-center">
-                  <span className="material-symbols-outlined text-[14px]">call_made</span> %12
-                </span>
-              </div>
-            </div>
+      {/* Page Rhythm: Title -> Subtitle */}
+      <div>
+        <div className="flex justify-between items-start">
+          <div>
+            <PageTitle>İş Akışı</PageTitle>
+            <p className="text-body text-text-muted mt-8">Tüm evrak işlemlerinizi ve onay süreçlerini buradan yönetin.</p>
           </div>
-          
-          {/* Stat Card 2 */}
-          <div className="bg-[#161B22] border border-white/5 rounded-xl p-4 flex items-center gap-4 min-w-[240px]">
-            <div className="w-10 h-10 rounded-lg bg-[#4D3A1E] flex items-center justify-center">
-              <span className="material-symbols-outlined text-[#E3B341]">payments</span>
-            </div>
-            <div className="flex flex-col">
-              <span className="text-[11px] text-[#8B949E] font-medium mb-1">Toplam Tutar</span>
-              <div className="flex items-end gap-3">
-                <span className="text-xl font-bold leading-none">₺2.458.750,00</span>
-                <span className="text-[11px] font-bold text-[#3FB950] flex items-center">
-                  <span className="material-symbols-outlined text-[14px]">call_made</span> %8
-                </span>
-              </div>
-            </div>
-          </div>
-          
-          {/* Stat Card 3 */}
-          <div className="bg-[#161B22] border border-white/5 rounded-xl p-4 flex items-center gap-4 min-w-[200px]">
-            <div className="w-10 h-10 rounded-lg bg-[#1B2A2A] flex items-center justify-center">
-              <span className="material-symbols-outlined text-[#3FB950]">check_circle</span>
-            </div>
-            <div className="flex flex-col">
-              <span className="text-[11px] text-[#8B949E] font-medium mb-1">Bugün İşlenen</span>
-              <div className="flex items-end gap-3">
-                <span className="text-xl font-bold leading-none">47</span>
-                <span className="text-[11px] font-bold text-[#3FB950] flex items-center">
-                  <span className="material-symbols-outlined text-[14px]">call_made</span> %25
-                </span>
-              </div>
-            </div>
-          </div>
-          
-          {/* Stat Card 4 */}
-          <div className="bg-[#161B22] border border-white/5 rounded-xl p-4 flex items-center gap-4 min-w-[220px]">
-            <div className="w-10 h-10 rounded-lg bg-[#3A1D1D] flex items-center justify-center">
-              <span className="material-symbols-outlined text-[#F85149]">schedule</span>
-            </div>
-            <div className="flex flex-col">
-              <span className="text-[11px] text-[#8B949E] font-medium mb-1">Ortalama İşlem Süresi</span>
-              <div className="flex items-end gap-3">
-                <span className="text-xl font-bold leading-none">2sa 14dk</span>
-                <span className="text-[11px] font-bold text-[#F85149] flex items-center">
-                  <span className="material-symbols-outlined text-[14px]">call_received</span> %5
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        {/* Filters Button */}
-        <button className="flex items-center gap-2 bg-[#161B22] border border-white/10 rounded-lg px-4 py-2.5 text-[12px] font-medium text-[#8B949E] hover:text-white transition-colors">
-          <span className="material-symbols-outlined text-[16px]">filter_alt</span>
-          Filtreler
-          <span className="text-[14px] ml-1">+</span>
-        </button>
-      </div>
-
-      {/* Filters Bar */}
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex gap-3">
-          <select className="bg-[#161B22] border border-white/5 rounded-lg px-3 py-2 text-[12px] text-[#8B949E] focus:outline-none appearance-none cursor-pointer pr-8 bg-no-repeat bg-[url('data:image/svg+xml;utf8,%3Csvg%20fill%3D%22%238B949E%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20width%3D%2224%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M7%2010l5%205%205-5z%22%2F%3E%3C%2Fsvg%3E')] bg-[position:right_8px_center] bg-[length:16px]">
-            <option>Tüm Mükellefler</option>
-          </select>
-          <select className="bg-[#161B22] border border-white/5 rounded-lg px-3 py-2 text-[12px] text-[#8B949E] focus:outline-none appearance-none cursor-pointer pr-8 bg-no-repeat bg-[url('data:image/svg+xml;utf8,%3Csvg%20fill%3D%22%238B949E%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20width%3D%2224%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M7%2010l5%205%205-5z%22%2F%3E%3C%2Fsvg%3E')] bg-[position:right_8px_center] bg-[length:16px]">
-            <option>Tüm Kaynaklar</option>
-          </select>
-          <select className="bg-[#161B22] border border-white/5 rounded-lg px-3 py-2 text-[12px] text-[#8B949E] focus:outline-none appearance-none cursor-pointer pr-8 bg-no-repeat bg-[url('data:image/svg+xml;utf8,%3Csvg%20fill%3D%22%238B949E%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20width%3D%2224%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M7%2010l5%205%205-5z%22%2F%3E%3C%2Fsvg%3E')] bg-[position:right_8px_center] bg-[length:16px]">
-            <option>Tüm Türler</option>
-          </select>
-          <select className="bg-[#161B22] border border-white/5 rounded-lg px-3 py-2 text-[12px] text-[#8B949E] focus:outline-none appearance-none cursor-pointer pr-8 bg-no-repeat bg-[url('data:image/svg+xml;utf8,%3Csvg%20fill%3D%22%238B949E%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20width%3D%2224%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M7%2010l5%205%205-5z%22%2F%3E%3C%2Fsvg%3E')] bg-[position:right_8px_center] bg-[length:16px]">
-            <option>Tüm Sorumlular</option>
-          </select>
-        </div>
-        <div className="flex gap-3 items-center">
-          <button className="flex items-center gap-1 bg-[#161B22] border border-white/5 rounded-lg px-3 py-2 text-[12px] text-[#8B949E] hover:text-white transition-colors">
-            <span className="material-symbols-outlined text-[16px]">swap_vert</span> Tarih (Yeni → Eski) <span className="material-symbols-outlined text-[16px]">expand_more</span>
-          </button>
-          <div className="flex bg-[#161B22] border border-white/5 rounded-lg p-1 gap-1">
-            <button className="p-1 rounded bg-[#2D333B] text-white"><span className="material-symbols-outlined text-[16px]">grid_view</span></button>
-            <button className="p-1 rounded text-[#8B949E] hover:text-white"><span className="material-symbols-outlined text-[16px]">view_column</span></button>
-          </div>
-          <button className="p-2 rounded-lg border border-white/5 bg-[#161B22] text-[#8B949E] hover:text-white">
-            <span className="material-symbols-outlined text-[16px]">featured_play_list</span>
-          </button>
+          <SecondaryButton className="flex items-center gap-8 py-8 px-16">
+            <span className="material-symbols-outlined text-[18px]">filter_alt</span>
+            Filtreler
+          </SecondaryButton>
         </div>
       </div>
 
-      {/* Kanban Board */}
-      <div className="flex-1 flex gap-4 overflow-x-auto pb-4 custom-scrollbar">
+      {/* KPI Row */}
+      <div className="grid grid-cols-4 gap-16">
+        <MetricCard 
+          title="Toplam Evrak"
+          value="203"
+          icon={<span className="material-symbols-outlined text-[18px]">description</span>}
+          trend={{ direction: 'up', value: '%12', label: 'bugün' }}
+        />
+        <MetricCard 
+          title="Toplam Tutar"
+          value="₺2.458.750,00"
+          icon={<span className="material-symbols-outlined text-[18px]">payments</span>}
+          trend={{ direction: 'up', value: '%8', label: 'bugün' }}
+        />
+        <MetricCard 
+          title="Bugün İşlenen"
+          value="47"
+          icon={<span className="material-symbols-outlined text-[18px]">check_circle</span>}
+          trend={{ direction: 'up', value: '%25', label: 'bugün' }}
+        />
+        <MetricCard 
+          title="Ortalama Süre"
+          value="2sa 14dk"
+          icon={<span className="material-symbols-outlined text-[18px]">schedule</span>}
+          trend={{ direction: 'down', value: '%5', label: 'bugün' }}
+        />
+      </div>
+
+      {/* 32px spacing is managed by flex gap-32 below */}
+      <div className="flex-1 flex gap-16 overflow-x-auto pb-16 custom-scrollbar pt-8">
         
         {/* Col 1: Yeni Geldi */}
-        <div className="flex flex-col min-w-[260px] w-[260px] bg-[#12151C] border border-white/5 rounded-2xl border-l-[3px] border-l-[#7B61FF] p-4 relative">
-          
-          <div className="flex items-center justify-between mb-1">
-            <div className="flex items-center gap-2">
-              <span className="material-symbols-outlined text-[#8B949E] text-[18px]">download</span>
-              <h2 className="text-[14px] font-semibold text-white">Yeni Geldi</h2>
+        <div className="flex flex-col min-w-[280px] w-[280px] bg-card/30 border border-border rounded-card border-l-[3px] border-l-[#7B61FF] p-16">
+          <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center gap-8">
+              <span className="material-symbols-outlined text-text-muted text-[18px]">download</span>
+              <SectionHeader className="text-[14px]">Yeni Geldi</SectionHeader>
             </div>
-            <span className="text-white text-[12px] font-bold px-2 py-0.5 rounded-full bg-white/5">18</span>
+            <span className="text-text text-muted font-bold px-8 py-4 rounded-badge bg-surface border border-border">18</span>
           </div>
-          <p className="text-[11px] text-[#8B949E] mb-4">AI okumayı bekliyor</p>
+          <p className="text-muted text-text-muted mb-16">AI okumayı bekliyor</p>
           
-          <div className="flex flex-col gap-3 overflow-y-auto custom-scrollbar flex-1 pr-1">
+          <div className="flex flex-col gap-16 overflow-y-auto custom-scrollbar flex-1 pr-4">
             
-            {/* Card 1 */}
-            <div className="bg-[#161B22] border border-white/5 rounded-xl p-3.5 hover:border-white/10 transition-colors cursor-pointer relative group">
-              <div className="flex justify-between items-center mb-3">
-                <span className="text-[11px] text-[#58A6FF] font-medium">ABC Yazılım Ltd.</span>
-                <span className="material-symbols-outlined text-[#8B949E] text-[14px]">description</span>
+            <AppCard className="p-16 cursor-pointer">
+              <div className="flex justify-between items-center mb-16">
+                <span className="text-muted text-[#58A6FF] font-semibold">ABC Yazılım Ltd.</span>
+                <span className="material-symbols-outlined text-text-muted text-[16px]">description</span>
               </div>
-              <div className="flex items-center gap-2 mb-1.5">
-                <span className="material-symbols-outlined text-[#8B949E] text-[16px]">domain</span>
-                <span className="text-[13px] font-medium text-white">Türk Telekom</span>
+              <div className="flex items-center gap-8 mb-8">
+                <span className="material-symbols-outlined text-text-muted text-[18px]">domain</span>
+                <span className="text-body font-semibold text-text">Türk Telekom</span>
               </div>
-              <div className="flex items-center gap-2 mb-1.5">
-                <span className="material-symbols-outlined text-[#8B949E] text-[14px]">calendar_today</span>
-                <span className="text-[12px] text-[#8B949E]">26.05.2025</span>
+              <div className="flex items-center gap-8 mb-8">
+                <span className="material-symbols-outlined text-text-muted text-[16px]">calendar_today</span>
+                <span className="text-label text-text-muted">26.05.2025</span>
               </div>
-              <div className="flex items-center gap-2 mb-3">
-                <span className="material-symbols-outlined text-[#8B949E] text-[16px]">payments</span>
-                <span className="text-[14px] font-bold text-white">₺12.350,00</span>
+              <div className="flex items-center gap-8 mb-16">
+                <span className="material-symbols-outlined text-text-muted text-[18px]">payments</span>
+                <span className="text-card-title font-bold text-text">₺12.350,00</span>
               </div>
-              <div className="flex items-center gap-1.5 text-[11px] text-[#8B949E]">
+              <div className="flex items-center gap-4 text-muted text-text-muted">
                 <span className="material-symbols-outlined text-[14px]">mail</span> E-Posta
               </div>
-              
-              {/* PDF Preview Tooltip */}
-              <div className="absolute left-[calc(100%+10px)] top-0 w-[180px] aspect-[1/1.414] bg-white rounded shadow-2xl border border-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-50 p-3 flex flex-col transform translate-x-2 group-hover:translate-x-0">
-                <div className="w-8 h-8 rounded-full bg-gray-200 mb-4"></div>
-                <div className="w-full h-1.5 bg-gray-200 rounded-full mb-2"></div>
-                <div className="w-3/4 h-1.5 bg-gray-200 rounded-full mb-2"></div>
-                <div className="w-5/6 h-1.5 bg-gray-200 rounded-full mb-2"></div>
-                <div className="mt-auto border-t border-gray-200 pt-2 flex justify-between">
-                  <div className="w-10 h-1.5 bg-gray-200 rounded-full"></div>
-                  <div className="w-16 h-2 bg-gray-300 rounded-full"></div>
-                </div>
-              </div>
-            </div>
+            </AppCard>
 
-            {/* Card 2 */}
-            <div className="bg-[#161B22] border border-white/5 rounded-xl p-3.5 hover:border-white/10 transition-colors cursor-pointer">
-              <div className="flex justify-between items-center mb-3">
-                <span className="text-[11px] text-[#9D5CFF] font-medium">XYZ Gıda San. Ltd.</span>
-                <span className="material-symbols-outlined text-[#8B949E] text-[14px]">description</span>
+            <AppCard className="p-16 cursor-pointer">
+              <div className="flex justify-between items-center mb-16">
+                <span className="text-muted text-[#9D5CFF] font-semibold">XYZ Gıda San. Ltd.</span>
+                <span className="material-symbols-outlined text-text-muted text-[16px]">description</span>
               </div>
-              <div className="flex items-center gap-2 mb-1.5">
-                <span className="material-symbols-outlined text-[#8B949E] text-[16px]">local_gas_station</span>
-                <span className="text-[13px] font-medium text-white">Shell Türkiye</span>
+              <div className="flex items-center gap-8 mb-8">
+                <span className="material-symbols-outlined text-text-muted text-[18px]">local_gas_station</span>
+                <span className="text-body font-semibold text-text">Shell Türkiye</span>
               </div>
-              <div className="flex items-center gap-2 mb-1.5">
-                <span className="material-symbols-outlined text-[#8B949E] text-[14px]">calendar_today</span>
-                <span className="text-[12px] text-[#8B949E]">26.05.2025</span>
+              <div className="flex items-center gap-8 mb-8">
+                <span className="material-symbols-outlined text-text-muted text-[16px]">calendar_today</span>
+                <span className="text-label text-text-muted">26.05.2025</span>
               </div>
-              <div className="flex items-center gap-2 mb-3">
-                <span className="material-symbols-outlined text-[#8B949E] text-[16px]">payments</span>
-                <span className="text-[14px] font-bold text-white">₺18.250,00</span>
+              <div className="flex items-center gap-8 mb-16">
+                <span className="material-symbols-outlined text-text-muted text-[18px]">payments</span>
+                <span className="text-card-title font-bold text-text">₺18.250,00</span>
               </div>
-              <div className="flex items-center gap-1.5 text-[11px] text-[#3FB950]">
+              <div className="flex items-center gap-4 text-muted text-success">
                 <span className="material-symbols-outlined text-[14px]">chat</span> WhatsApp
               </div>
-            </div>
+            </AppCard>
 
-            {/* Card 3 */}
-            <div className="bg-[#161B22] border border-white/5 rounded-xl p-3.5 hover:border-white/10 transition-colors cursor-pointer">
-              <div className="flex justify-between items-center mb-3">
-                <span className="text-[11px] text-[#9D5CFF] font-medium">Global Danışmanlık A.Ş.</span>
-                <span className="material-symbols-outlined text-[#8B949E] text-[14px]">description</span>
-              </div>
-              <div className="flex items-center gap-2 mb-1.5">
-                <span className="material-symbols-outlined text-[#8B949E] text-[16px]">shopping_cart</span>
-                <span className="text-[13px] font-medium text-white">Amazon Turkey</span>
-              </div>
-              <div className="flex items-center gap-2 mb-1.5">
-                <span className="material-symbols-outlined text-[#8B949E] text-[14px]">calendar_today</span>
-                <span className="text-[12px] text-[#8B949E]">26.05.2025</span>
-              </div>
-              <div className="flex items-center gap-2 mb-3">
-                <span className="material-symbols-outlined text-[#8B949E] text-[16px]">payments</span>
-                <span className="text-[14px] font-bold text-white">₺9.780,00</span>
-              </div>
-              <div className="flex items-center gap-1.5 text-[11px] text-[#8B949E]">
-                <span className="material-symbols-outlined text-[14px]">public</span> Portal
-              </div>
-            </div>
-
-            <button className="w-full mt-1 py-3 border border-white/5 rounded-xl text-[12px] text-[#8B949E] hover:bg-[#161B22] transition-colors flex items-center justify-center gap-2">
-              <span className="material-symbols-outlined text-[16px]">add</span> Dosya ekle veya sürükle
-            </button>
+            <GhostButton className="w-full mt-4 flex items-center justify-center gap-8 border border-border bg-surface">
+              <span className="material-symbols-outlined text-[18px]">add</span> Dosya ekle
+            </GhostButton>
           </div>
         </div>
 
         {/* Col 2: AI İşliyor */}
-        <div className="flex flex-col min-w-[260px] w-[260px] bg-[#12151C] border border-white/5 rounded-2xl border-l-[3px] border-l-[#00C8FF] p-4 relative">
-          
-          <div className="flex items-center justify-between mb-1">
-            <div className="flex items-center gap-2">
-              <span className="material-symbols-outlined text-[#8B949E] text-[18px]">neurology</span>
-              <h2 className="text-[14px] font-semibold text-white">AI İşliyor</h2>
+        <div className="flex flex-col min-w-[280px] w-[280px] bg-card/30 border border-border rounded-card border-l-[3px] border-l-primary p-16">
+          <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center gap-8">
+              <span className="material-symbols-outlined text-text-muted text-[18px]">neurology</span>
+              <SectionHeader className="text-[14px]">AI İşliyor</SectionHeader>
             </div>
-            <span className="text-white text-[12px] font-bold px-2 py-0.5 rounded-full bg-white/5">6</span>
+            <span className="text-text text-muted font-bold px-8 py-4 rounded-badge bg-surface border border-border">6</span>
           </div>
-          <p className="text-[11px] text-[#8B949E] mb-4">Okuma ve analiz yapılıyor</p>
+          <p className="text-muted text-text-muted mb-16">Okuma ve analiz yapılıyor</p>
           
-          <div className="flex flex-col gap-3 overflow-y-auto custom-scrollbar flex-1 pr-1">
-            
-            {/* Card 1 */}
-            <div className="bg-[#161B22] border border-white/5 rounded-xl p-3.5 hover:border-white/10 transition-colors cursor-pointer">
-              <div className="flex justify-between items-center mb-3">
-                <span className="text-[11px] text-[#58A6FF] font-medium">ABC Yazılım Ltd.</span>
-                <span className="material-symbols-outlined text-[#3B82F6] text-[14px]">find_replace</span>
+          <div className="flex flex-col gap-16 overflow-y-auto custom-scrollbar flex-1 pr-4">
+            <AppCard className="p-16 cursor-pointer">
+              <div className="flex justify-between items-center mb-16">
+                <span className="text-muted text-[#58A6FF] font-semibold">ABC Yazılım Ltd.</span>
+                <span className="material-symbols-outlined text-primary text-[16px]">find_replace</span>
               </div>
-              <div className="flex items-center gap-2 mb-1.5">
-                <span className="material-symbols-outlined text-[#8B949E] text-[16px]">phone_iphone</span>
-                <span className="text-[13px] font-medium text-white">Turkcell</span>
+              <div className="flex items-center gap-8 mb-8">
+                <span className="material-symbols-outlined text-text-muted text-[18px]">phone_iphone</span>
+                <span className="text-body font-semibold text-text">Turkcell</span>
               </div>
-              <div className="flex items-center gap-2 mb-1.5">
-                <span className="material-symbols-outlined text-[#8B949E] text-[14px]">calendar_today</span>
-                <span className="text-[12px] text-[#8B949E]">26.05.2025</span>
+              <div className="flex items-center gap-8 mb-8">
+                <span className="material-symbols-outlined text-text-muted text-[16px]">calendar_today</span>
+                <span className="text-label text-text-muted">26.05.2025</span>
               </div>
-              <div className="flex items-center gap-2 mb-3">
-                <span className="material-symbols-outlined text-[#8B949E] text-[16px]">payments</span>
-                <span className="text-[14px] font-bold text-white">₺7.890,00</span>
+              <div className="flex items-center gap-8 mb-16">
+                <span className="material-symbols-outlined text-text-muted text-[18px]">payments</span>
+                <span className="text-card-title font-bold text-text">₺7.890,00</span>
               </div>
               <div className="flex justify-between items-center">
-                <div className="flex items-center gap-1.5 text-[11px] text-[#8B949E]">
+                <div className="flex items-center gap-4 text-muted text-text-muted">
                   <span className="material-symbols-outlined text-[14px]">cloud_sync</span> Flow Sync
                 </div>
-                <span className="material-symbols-outlined text-[#3B82F6] text-[16px] animate-spin">progress_activity</span>
+                <span className="material-symbols-outlined text-primary text-[18px] animate-spin">progress_activity</span>
               </div>
-            </div>
-
-            {/* Card 2 */}
-            <div className="bg-[#161B22] border border-white/5 rounded-xl p-3.5 hover:border-white/10 transition-colors cursor-pointer">
-              <div className="flex justify-between items-center mb-3">
-                <span className="text-[11px] text-[#9D5CFF] font-medium">DEF İnşaat Ltd.</span>
-                <span className="material-symbols-outlined text-[#3B82F6] text-[14px]">find_replace</span>
-              </div>
-              <div className="flex items-center gap-2 mb-1.5">
-                <span className="material-symbols-outlined text-[#8B949E] text-[16px]">local_gas_station</span>
-                <span className="text-[13px] font-medium text-white">Opet Akaryakıt</span>
-              </div>
-              <div className="flex items-center gap-2 mb-1.5">
-                <span className="material-symbols-outlined text-[#8B949E] text-[14px]">calendar_today</span>
-                <span className="text-[12px] text-[#8B949E]">26.05.2025</span>
-              </div>
-              <div className="flex items-center gap-2 mb-3">
-                <span className="material-symbols-outlined text-[#8B949E] text-[16px]">payments</span>
-                <span className="text-[14px] font-bold text-white">₺15.600,00</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <div className="flex items-center gap-1.5 text-[11px] text-[#8B949E]">
-                  <span className="material-symbols-outlined text-[14px]">document_scanner</span> Mobil Tarama
-                </div>
-                <span className="material-symbols-outlined text-[#3B82F6] text-[16px] animate-spin">progress_activity</span>
-              </div>
-            </div>
-
-            {/* Card 3 */}
-            <div className="bg-[#161B22] border border-white/5 rounded-xl p-3.5 hover:border-white/10 transition-colors cursor-pointer">
-              <div className="flex justify-between items-center mb-3">
-                <span className="text-[11px] text-[#58A6FF] font-medium">XYZ Gıda San. Ltd.</span>
-                <span className="material-symbols-outlined text-[#3B82F6] text-[14px]">find_replace</span>
-              </div>
-              <div className="flex items-center gap-2 mb-1.5">
-                <span className="material-symbols-outlined text-[#8B949E] text-[16px]">storefront</span>
-                <span className="text-[13px] font-medium text-white">Migros Ticaret A.Ş.</span>
-              </div>
-              <div className="flex items-center gap-2 mb-1.5">
-                <span className="material-symbols-outlined text-[#8B949E] text-[14px]">calendar_today</span>
-                <span className="text-[12px] text-[#8B949E]">26.05.2025</span>
-              </div>
-              <div className="flex items-center gap-2 mb-3">
-                <span className="material-symbols-outlined text-[#8B949E] text-[16px]">payments</span>
-                <span className="text-[14px] font-bold text-white">₺32.450,00</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <div className="flex items-center gap-1.5 text-[11px] text-[#3FB950]">
-                  <span className="material-symbols-outlined text-[14px]">chat</span> WhatsApp
-                </div>
-                <span className="material-symbols-outlined text-[#3B82F6] text-[16px] animate-spin">progress_activity</span>
-              </div>
-            </div>
-
-            <button className="w-full mt-1 py-3 border border-white/5 rounded-xl text-[12px] text-[#8B949E] hover:bg-[#161B22] transition-colors flex items-center justify-center gap-2">
-              <span className="material-symbols-outlined text-[16px]">add</span>
-            </button>
+            </AppCard>
+            
+            <GhostButton className="w-full mt-4 flex items-center justify-center gap-8 border border-border bg-surface">
+              <span className="material-symbols-outlined text-[18px]">add</span>
+            </GhostButton>
           </div>
         </div>
 
         {/* Col 3: Kontrol Bekliyor */}
-        <div className="flex flex-col min-w-[260px] w-[260px] bg-[#12151C] border border-white/5 rounded-2xl border-l-[3px] border-l-[#F59E0B] p-4 relative">
-          
-          <div className="flex items-center justify-between mb-1">
-            <div className="flex items-center gap-2">
-              <span className="material-symbols-outlined text-[#8B949E] text-[18px]">error</span>
-              <h2 className="text-[14px] font-semibold text-white">Kontrol Bekliyor</h2>
+        <div className="flex flex-col min-w-[280px] w-[280px] bg-card/30 border border-border rounded-card border-l-[3px] border-l-warning p-16">
+          <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center gap-8">
+              <span className="material-symbols-outlined text-text-muted text-[18px]">error</span>
+              <SectionHeader className="text-[14px]">Kontrol Bekliyor</SectionHeader>
             </div>
+            <span className="text-text text-muted font-bold px-8 py-4 rounded-badge bg-surface border border-border">19</span>
           </div>
-          <p className="text-[11px] text-[#8B949E] mb-4">Müşavir kontrolü gerekli</p>
+          <p className="text-muted text-text-muted mb-16">Müşavir kontrolü gerekli</p>
           
-          <div className="flex flex-col gap-3 overflow-y-auto custom-scrollbar flex-1 pr-1">
+          <div className="flex flex-col gap-16 overflow-y-auto custom-scrollbar flex-1 pr-4">
+            <AppCard className="p-16 cursor-pointer">
+              <div className="flex justify-between items-center mb-16">
+                <span className="text-muted text-[#58A6FF] font-semibold">ABC Yazılım Ltd.</span>
+                <div className="flex items-center gap-8">
+                  <div className="bg-warning/10 text-warning text-muted font-bold px-8 py-4 rounded-badge flex items-center gap-4 border border-warning/20">
+                    <span className="material-symbols-outlined text-[14px]">hourglass_empty</span> 3 gün
+                  </div>
+                </div>
+              </div>
+              <div className="flex items-center gap-8 mb-8">
+                <span className="material-symbols-outlined text-text-muted text-[18px]">skull</span>
+                <span className="text-body font-semibold text-text">Shell Türkiye</span>
+              </div>
+              <div className="flex items-center gap-8 mb-8">
+                <span className="material-symbols-outlined text-text-muted text-[16px]">calendar_today</span>
+                <span className="text-label text-text-muted">26.05.2025</span>
+              </div>
+              <div className="flex items-center gap-8 mb-8">
+                <span className="material-symbols-outlined text-text-muted text-[18px]">payments</span>
+                <span className="text-card-title font-bold text-text">₺18.250,00</span>
+              </div>
+              <div className="flex items-center gap-8 mb-16">
+                <span className="text-label font-bold text-success">760</span>
+                <span className="text-muted text-text-muted">Akaryakıt Gideri</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <div className="flex items-center gap-4 text-muted text-success">
+                  <span className="material-symbols-outlined text-[14px]">chat</span> WhatsApp
+                </div>
+                <div className="flex items-center gap-8">
+                  <span className="bg-surface text-primary border border-primary/20 text-[10px] px-8 py-4 rounded-badge font-bold uppercase">AI</span>
+                </div>
+              </div>
+            </AppCard>
             
-            {/* Card 1 */}
-            <div className="bg-[#161B22] border border-white/5 rounded-xl p-3.5 hover:border-white/10 transition-colors cursor-pointer">
-              <div className="flex justify-between items-center mb-3">
-                <span className="text-[11px] text-[#58A6FF] font-medium">ABC Yazılım Ltd.</span>
-                <div className="flex items-center gap-2">
-                  <div className="bg-[#4D3A1E] text-[#E3B341] text-[10px] px-1.5 py-0.5 rounded flex items-center gap-1">
-                    <span className="material-symbols-outlined text-[12px]">hourglass_empty</span> 3 gün
-                  </div>
-                  <span className="material-symbols-outlined text-[#8B949E] text-[14px]">description</span>
-                </div>
-              </div>
-              <div className="flex items-center gap-2 mb-1.5">
-                <span className="material-symbols-outlined text-[#8B949E] text-[16px]">skull</span>
-                <span className="text-[13px] font-medium text-white">Shell Türkiye</span>
-              </div>
-              <div className="flex items-center gap-2 mb-1.5">
-                <span className="material-symbols-outlined text-[#8B949E] text-[14px]">calendar_today</span>
-                <span className="text-[12px] text-[#8B949E]">26.05.2025</span>
-              </div>
-              <div className="flex items-center gap-2 mb-1.5">
-                <span className="material-symbols-outlined text-[#8B949E] text-[16px]">payments</span>
-                <span className="text-[14px] font-bold text-white">₺18.250,00</span>
-              </div>
-              <div className="flex items-center gap-1.5 mb-3">
-                <span className="text-[12px] font-medium text-[#3FB950]">760</span>
-                <span className="text-[11px] text-[#8B949E]">Akaryakıt Gideri</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <div className="flex items-center gap-1.5 text-[11px] text-[#3FB950]">
-                  <span className="material-symbols-outlined text-[14px]">chat</span> WhatsApp
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="bg-[#2D333B] text-[#9D5CFF] text-[9px] px-1.5 py-0.5 rounded font-bold">✧ AI</span>
-                  <img src="https://i.pravatar.cc/150?u=a" className="w-5 h-5 rounded-full border border-white/10" alt="Avatar" />
-                </div>
-              </div>
-            </div>
-
-            {/* Card 2 */}
-            <div className="bg-[#161B22] border border-white/5 rounded-xl p-3.5 hover:border-white/10 transition-colors cursor-pointer">
-              <div className="flex justify-between items-center mb-3">
-                <span className="text-[11px] text-[#9D5CFF] font-medium">XYZ Gıda San. Ltd.</span>
-                <div className="flex items-center gap-2">
-                  <div className="bg-[#4D3A1E] text-[#E3B341] text-[10px] px-1.5 py-0.5 rounded flex items-center gap-1">
-                    <span className="material-symbols-outlined text-[12px]">hourglass_empty</span> 2 gün
-                  </div>
-                  <span className="material-symbols-outlined text-[#8B949E] text-[14px]">description</span>
-                </div>
-              </div>
-              <div className="flex items-center gap-2 mb-1.5">
-                <span className="material-symbols-outlined text-[#8B949E] text-[16px]">storefront</span>
-                <span className="text-[13px] font-medium text-white">Migros Ticaret A.Ş.</span>
-              </div>
-              <div className="flex items-center gap-2 mb-1.5">
-                <span className="material-symbols-outlined text-[#8B949E] text-[14px]">calendar_today</span>
-                <span className="text-[12px] text-[#8B949E]">26.05.2025</span>
-              </div>
-              <div className="flex items-center gap-2 mb-1.5">
-                <span className="material-symbols-outlined text-[#8B949E] text-[16px]">payments</span>
-                <span className="text-[14px] font-bold text-white">₺32.450,00</span>
-              </div>
-              <div className="flex items-center gap-1.5 mb-3">
-                <span className="text-[12px] font-medium text-[#3FB950]">770</span>
-                <span className="text-[11px] text-[#8B949E]">Market Alışverişi</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <div className="flex items-center gap-1.5 text-[11px] text-[#3FB950]">
-                  <span className="material-symbols-outlined text-[14px]">chat</span> WhatsApp
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="bg-[#2D333B] text-[#9D5CFF] text-[9px] px-1.5 py-0.5 rounded font-bold">✧ AI</span>
-                  <img src="https://i.pravatar.cc/150?u=c" className="w-5 h-5 rounded-full border border-white/10" alt="Avatar" />
-                </div>
-              </div>
-            </div>
-
-            {/* Card 3 */}
-            <div className="bg-[#161B22] border border-white/5 rounded-xl p-3.5 hover:border-white/10 transition-colors cursor-pointer">
-              <div className="flex justify-between items-center mb-3">
-                <span className="text-[11px] text-[#58A6FF] font-medium">DEF İnşaat Ltd.</span>
-                <div className="flex items-center gap-2">
-                  <div className="bg-[#4D3A1E] text-[#E3B341] text-[10px] px-1.5 py-0.5 rounded flex items-center gap-1">
-                    <span className="material-symbols-outlined text-[12px]">hourglass_empty</span> 1 gün
-                  </div>
-                  <span className="material-symbols-outlined text-[#8B949E] text-[14px]">description</span>
-                </div>
-              </div>
-              <div className="flex items-center gap-2 mb-1.5">
-                <span className="material-symbols-outlined text-[#8B949E] text-[16px]">account_balance</span>
-                <span className="text-[13px] font-medium text-white">Ziraat Bankası</span>
-              </div>
-              <div className="flex items-center gap-2 mb-1.5">
-                <span className="material-symbols-outlined text-[#8B949E] text-[14px]">calendar_today</span>
-                <span className="text-[12px] text-[#8B949E]">26.05.2025</span>
-              </div>
-              <div className="flex items-center gap-2 mb-1.5">
-                <span className="material-symbols-outlined text-[#8B949E] text-[16px]">payments</span>
-                <span className="text-[14px] font-bold text-white">₺12.500,00</span>
-              </div>
-              <div className="flex items-center gap-1.5 mb-3">
-                <span className="text-[12px] font-medium text-[#3FB950]">102</span>
-                <span className="text-[11px] text-[#8B949E]">Banka Gideri</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <div className="flex items-center gap-1.5 text-[11px] text-[#8B949E]">
-                  <span className="material-symbols-outlined text-[14px]">mail</span> E-Posta
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="bg-[#2D333B] text-[#9D5CFF] text-[9px] px-1.5 py-0.5 rounded font-bold">✧ AI</span>
-                  <img src="https://i.pravatar.cc/150?u=b" className="w-5 h-5 rounded-full border border-white/10" alt="Avatar" />
-                </div>
-              </div>
-            </div>
-
-            {/* Card 4 */}
-            <div className="bg-[#161B22] border border-white/5 rounded-xl p-3.5 hover:border-white/10 transition-colors cursor-pointer">
-              <div className="flex justify-between items-center mb-3">
-                <span className="text-[11px] text-[#58A6FF] font-medium">Global Danışmanlık A.Ş.</span>
-                <div className="flex items-center gap-2">
-                  <div className="bg-[#1B2A2A] text-[#3FB950] text-[10px] px-1.5 py-0.5 rounded flex items-center gap-1">
-                    <span className="material-symbols-outlined text-[12px]">hourglass_empty</span> 4 saat
-                  </div>
-                  <span className="material-symbols-outlined text-[#8B949E] text-[14px]">description</span>
-                </div>
-              </div>
-              <div className="flex items-center gap-2 mb-1.5">
-                <span className="material-symbols-outlined text-[#8B949E] text-[16px]">router</span>
-                <span className="text-[13px] font-medium text-white">Türk Telekom</span>
-              </div>
-              <div className="flex items-center gap-2 mb-1.5">
-                <span className="material-symbols-outlined text-[#8B949E] text-[14px]">calendar_today</span>
-                <span className="text-[12px] text-[#8B949E]">26.05.2025</span>
-              </div>
-              <div className="flex items-center gap-2 mb-1.5">
-                <span className="material-symbols-outlined text-[#8B949E] text-[16px]">payments</span>
-                <span className="text-[14px] font-bold text-white">₺12.350,00</span>
-              </div>
-              <div className="flex items-center gap-1.5 mb-3">
-                <span className="text-[12px] font-medium text-[#3FB950]">770</span>
-                <span className="text-[11px] text-[#8B949E]">Haberleşme Gideri</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <div className="flex items-center gap-1.5 text-[11px] text-[#8B949E]">
-                  <span className="material-symbols-outlined text-[14px]">cloud_sync</span> Flow Sync
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="bg-[#2D333B] text-[#9D5CFF] text-[9px] px-1.5 py-0.5 rounded font-bold">✧ AI</span>
-                  <img src="https://i.pravatar.cc/150?u=d" className="w-5 h-5 rounded-full border border-white/10" alt="Avatar" />
-                </div>
-              </div>
-            </div>
-
-            <button className="w-full mt-1 py-3 border border-white/5 rounded-xl text-[12px] text-[#8B949E] hover:bg-[#161B22] transition-colors flex items-center justify-center gap-2">
-              <span className="material-symbols-outlined text-[16px]">add</span>
-            </button>
+            <GhostButton className="w-full mt-4 flex items-center justify-center gap-8 border border-border bg-surface">
+              <span className="material-symbols-outlined text-[18px]">add</span>
+            </GhostButton>
           </div>
         </div>
 
         {/* Col 4: Onaylandı */}
-        <div className="flex flex-col min-w-[260px] w-[260px] bg-[#12151C] border border-white/5 rounded-2xl border-l-[3px] border-l-[#22C55E] p-4 relative">
-          
-          <div className="flex items-center justify-between mb-1">
-            <div className="flex items-center gap-2">
-              <span className="material-symbols-outlined text-[#8B949E] text-[18px]">check_circle</span>
-              <h2 className="text-[14px] font-semibold text-white">Onaylandı</h2>
+        <div className="flex flex-col min-w-[280px] w-[280px] bg-card/30 border border-border rounded-card border-l-[3px] border-l-success p-16">
+          <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center gap-8">
+              <span className="material-symbols-outlined text-text-muted text-[18px]">check_circle</span>
+              <SectionHeader className="text-[14px]">Onaylandı</SectionHeader>
             </div>
-            <span className="text-white text-[12px] font-bold px-2 py-0.5 rounded-full bg-white/5">31</span>
+            <span className="text-text text-muted font-bold px-8 py-4 rounded-badge bg-surface border border-border">31</span>
           </div>
-          <p className="text-[11px] text-[#8B949E] mb-4">Toplu gönderime hazır</p>
+          <p className="text-muted text-text-muted mb-16">Toplu gönderime hazır</p>
           
-          <div className="flex flex-col gap-3 overflow-y-auto custom-scrollbar flex-1 pr-1">
-            
-            {/* Card 1 */}
-            <div className="bg-[#161B22] border border-white/5 rounded-xl p-3.5 hover:border-white/10 transition-colors cursor-pointer">
-              <div className="flex justify-between items-center mb-3">
-                <span className="text-[11px] text-[#9D5CFF] font-medium">ABC Yazılım Ltd.</span>
-                <span className="material-symbols-outlined text-[#3FB950] text-[18px]">check_circle</span>
+          <div className="flex flex-col gap-16 overflow-y-auto custom-scrollbar flex-1 pr-4">
+            <AppCard className="p-16 cursor-pointer">
+              <div className="flex justify-between items-center mb-16">
+                <span className="text-muted text-[#9D5CFF] font-semibold">ABC Yazılım Ltd.</span>
+                <span className="material-symbols-outlined text-success text-[18px]">check_circle</span>
               </div>
-              <div className="flex items-center gap-2 mb-1.5">
-                <span className="material-symbols-outlined text-[#8B949E] text-[16px]">local_fire_department</span>
-                <span className="text-[13px] font-medium text-white">İGDAŞ</span>
+              <div className="flex items-center gap-8 mb-8">
+                <span className="material-symbols-outlined text-text-muted text-[18px]">local_fire_department</span>
+                <span className="text-body font-semibold text-text">İGDAŞ</span>
               </div>
-              <div className="flex items-center gap-2 mb-1.5">
-                <span className="material-symbols-outlined text-[#8B949E] text-[14px]">calendar_today</span>
-                <span className="text-[12px] text-[#8B949E]">25.05.2025</span>
+              <div className="flex items-center gap-8 mb-8">
+                <span className="material-symbols-outlined text-text-muted text-[16px]">calendar_today</span>
+                <span className="text-label text-text-muted">25.05.2025</span>
               </div>
-              <div className="flex items-center gap-2 mb-1.5">
-                <span className="material-symbols-outlined text-[#8B949E] text-[16px]">payments</span>
-                <span className="text-[14px] font-bold text-white">₺6.250,00</span>
+              <div className="flex items-center gap-8 mb-8">
+                <span className="material-symbols-outlined text-text-muted text-[18px]">payments</span>
+                <span className="text-card-title font-bold text-text">₺6.250,00</span>
               </div>
-              <div className="flex items-center gap-1.5 mb-3">
-                <span className="text-[12px] font-medium text-[#3FB950]">770</span>
-                <span className="text-[11px] text-[#8B949E]">Doğalgaz Gideri</span>
+              <div className="flex items-center gap-8 mb-16">
+                <span className="text-label font-bold text-success">770</span>
+                <span className="text-muted text-text-muted">Doğalgaz Gideri</span>
               </div>
               <div className="flex justify-between items-center">
-                <div className="flex items-center gap-1.5 text-[11px] text-[#8B949E]">
+                <div className="flex items-center gap-4 text-muted text-text-muted">
                   <span className="material-symbols-outlined text-[14px]">mail</span> E-Posta
                 </div>
-                <span className="bg-[#2D333B] text-[#9D5CFF] text-[9px] px-1.5 py-0.5 rounded font-bold">✧ AI</span>
+                <span className="bg-surface text-primary border border-primary/20 text-[10px] px-8 py-4 rounded-badge font-bold uppercase">AI</span>
               </div>
-            </div>
-
-            {/* Card 2 */}
-            <div className="bg-[#161B22] border border-white/5 rounded-xl p-3.5 hover:border-white/10 transition-colors cursor-pointer">
-              <div className="flex justify-between items-center mb-3">
-                <span className="text-[11px] text-[#58A6FF] font-medium">XYZ Gıda San. Ltd.</span>
-                <span className="material-symbols-outlined text-[#3FB950] text-[18px]">check_circle</span>
-              </div>
-              <div className="flex items-center gap-2 mb-1.5">
-                <span className="material-symbols-outlined text-[#8B949E] text-[16px]">restaurant</span>
-                <span className="text-[13px] font-medium text-white">Yemeksepeti A.Ş.</span>
-              </div>
-              <div className="flex items-center gap-2 mb-1.5">
-                <span className="material-symbols-outlined text-[#8B949E] text-[14px]">calendar_today</span>
-                <span className="text-[12px] text-[#8B949E]">26.05.2025</span>
-              </div>
-              <div className="flex items-center gap-2 mb-1.5">
-                <span className="material-symbols-outlined text-[#8B949E] text-[16px]">payments</span>
-                <span className="text-[14px] font-bold text-white">₺3.250,00</span>
-              </div>
-              <div className="flex items-center gap-1.5 mb-3">
-                <span className="text-[12px] font-medium text-[#3FB950]">770</span>
-                <span className="text-[11px] text-[#8B949E]">Yemek Gideri</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <div className="flex items-center gap-1.5 text-[11px] text-[#3FB950]">
-                  <span className="material-symbols-outlined text-[14px]">chat</span> WhatsApp
-                </div>
-                <span className="bg-[#2D333B] text-[#9D5CFF] text-[9px] px-1.5 py-0.5 rounded font-bold">✧ AI</span>
-              </div>
-            </div>
-
-            {/* Card 3 */}
-            <div className="bg-[#161B22] border border-white/5 rounded-xl p-3.5 hover:border-white/10 transition-colors cursor-pointer">
-              <div className="flex justify-between items-center mb-3">
-                <span className="text-[11px] text-[#58A6FF] font-medium">DEF İnşaat Ltd.</span>
-                <span className="material-symbols-outlined text-[#3FB950] text-[18px]">check_circle</span>
-              </div>
-              <div className="flex items-center gap-2 mb-1.5">
-                <span className="material-symbols-outlined text-[#8B949E] text-[16px]">electric_bolt</span>
-                <span className="text-[13px] font-medium text-white">Enerjisa Enerji A.Ş.</span>
-              </div>
-              <div className="flex items-center gap-2 mb-1.5">
-                <span className="material-symbols-outlined text-[#8B949E] text-[14px]">calendar_today</span>
-                <span className="text-[12px] text-[#8B949E]">25.05.2025</span>
-              </div>
-              <div className="flex items-center gap-2 mb-1.5">
-                <span className="material-symbols-outlined text-[#8B949E] text-[16px]">payments</span>
-                <span className="text-[14px] font-bold text-white">₺8.750,00</span>
-              </div>
-              <div className="flex items-center gap-1.5 mb-3">
-                <span className="text-[12px] font-medium text-[#3FB950]">770</span>
-                <span className="text-[11px] text-[#8B949E]">Elektrik Gideri</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <div className="flex items-center gap-1.5 text-[11px] text-[#8B949E]">
-                  <span className="material-symbols-outlined text-[14px]">public</span> Portal
-                </div>
-                <span className="bg-[#2D333B] text-[#9D5CFF] text-[9px] px-1.5 py-0.5 rounded font-bold">✧ AI</span>
-              </div>
-            </div>
-
-            <button className="w-full mt-1 py-3 border border-white/5 rounded-xl text-[12px] text-[#8B949E] hover:bg-[#161B22] transition-colors flex items-center justify-center gap-2">
-              <span className="material-symbols-outlined text-[16px]">add</span>
-            </button>
+            </AppCard>
+            
+            <GhostButton className="w-full mt-4 flex items-center justify-center gap-8 border border-border bg-surface">
+              <span className="material-symbols-outlined text-[18px]">add</span>
+            </GhostButton>
           </div>
         </div>
 
-
-        
       </div>
 
       {/* Footer: Shortcuts */}
-      <div className="h-12 mt-4 shrink-0 bg-[#161B22] border border-white/5 rounded-xl flex items-center justify-between px-4">
-        <div className="flex items-center gap-2">
-          <span className="material-symbols-outlined text-[#E3B341] text-[16px]">temp_preferences_custom</span>
-          <span className="text-[#E3B341] text-[12px] font-medium ml-1">İpucu:</span>
-          <span className="text-[#8B949E] text-[12px]">Kartları sürükleyip bırakarak durumlarını değiştirebilirsiniz.</span>
-          <div className="flex gap-2 items-center ml-4">
-            <span className="text-[11px] bg-[#2D333B] px-2 py-1 rounded text-white border border-white/10 flex items-center shadow-sm">Space</span>
-            <span className="text-[#8B949E] text-[11px]">Onayla</span>
-            
-            <span className="text-[11px] bg-[#2D333B] px-2 py-1 rounded text-white border border-white/10 flex items-center shadow-sm ml-2">D</span>
-            <span className="text-[#8B949E] text-[11px]">Detay aç</span>
-            
-            <span className="text-[11px] bg-[#2D333B] px-2 py-1 rounded text-white border border-white/10 flex items-center gap-1 shadow-sm ml-2">
-              <span className="material-symbols-outlined text-[12px]">arrow_back</span>
-              <span className="material-symbols-outlined text-[12px]">arrow_forward</span>
-            </span>
-            <span className="text-[#8B949E] text-[11px]">Sütunlar arası geçiş</span>
-          </div>
+      <div className="shrink-0 bg-surface border border-border rounded-card flex items-center justify-between p-16">
+        <div className="flex items-center gap-8">
+          <span className="material-symbols-outlined text-warning text-[20px]">temp_preferences_custom</span>
+          <span className="text-warning text-label font-bold ml-4">İpucu:</span>
+          <span className="text-text-muted text-label">Kartları sürükleyip bırakarak durumlarını değiştirebilirsiniz.</span>
         </div>
-        <button className="flex items-center gap-1.5 bg-[#2D333B] border border-white/5 rounded-md px-3 py-1.5 text-[11px] font-medium text-[#8B949E] hover:text-white transition-colors">
-          <span className="material-symbols-outlined text-[14px]">apps</span> Tüm kısayolları gör
-        </button>
+        <GhostButton className="flex items-center gap-8">
+          <span className="material-symbols-outlined text-[16px]">apps</span> Tüm kısayollar
+        </GhostButton>
       </div>
       
     </div>

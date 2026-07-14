@@ -2,20 +2,45 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Custom scrollbar for deep matte aesthetic */
+:root {
+    /* Base Colors */
+    --color-primary: #00C8FF;
+    --color-surface: #0E1117;
+    --color-border: rgba(255, 255, 255, 0.05);
+    --color-text: #FFFFFF;
+    --color-text-muted: #8B949E;
+    
+    /* Status Colors */
+    --color-success: #22C55E;
+    --color-warning: #F59E0B;
+    --color-danger: #EF4444;
+    
+    /* Components */
+    --color-card: rgba(255, 255, 255, 0.03);
+
+    /* Shadows */
+    --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.15);
+    --glow-primary: 0 0 15px rgba(0, 200, 255, 0.15);
+    --glow-success: 0 0 15px rgba(34, 197, 94, 0.15);
+}
+
+/* Global Scroll System (Linear-style) */
 ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+    width: 8px;
+    height: 8px;
 }
 ::-webkit-scrollbar-track {
-    background: #0d1014;
+    background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-    background: #3c494d;
-    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 999px;
+    border: 2px solid var(--color-surface);
 }
 ::-webkit-scrollbar-thumb:hover {
-    background: #859398;
+    background: rgba(255, 255, 255, 0.2);
 }
 
 .glow-cyan {
