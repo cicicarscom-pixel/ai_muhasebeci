@@ -69,12 +69,12 @@ export function ClientCommunication({ client }: ClientCommunicationProps) {
         {events.map((event) => {
           const Icon = event.icon;
           return (
-            <div key={event.id} className="relative flex gap-4 items-start">
+            <div key={event.id} className="relative flex gap-1 items-start">
               <div className={`relative z-10 flex h-7 w-7 shrink-0 items-center justify-center rounded-full ${event.bg} border border-white/5 shadow-lg`}>
                 <Icon className={`h-3.5 w-3.5 ${event.color}`} />
               </div>
               
-              <div className="flex flex-col gap-1 rounded-xl border border-white/5 bg-white/[0.02] hover:bg-white/[0.04] transition-colors p-4 flex-1">
+              <div className="flex flex-col gap-1 rounded-xl border border-white/5 bg-white/[0.02] hover:bg-white/[0.04] transition-colors p-1 flex-1">
                 <div className="flex justify-between items-start mb-1">
                   <h4 className="text-[13px] font-semibold text-white">{event.title}</h4>
                   <span className="text-[11px] text-[#8B949E]">{event.date}</span>

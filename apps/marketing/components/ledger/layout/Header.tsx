@@ -32,7 +32,7 @@ export default function Header() {
   }
 
   return (
-    <header className={`fixed top-0 ${isWorkflow ? 'right-0' : 'right-[360px]'} left-[56px] h-16 bg-surface/60 backdrop-blur-2xl border-b border-white/5 shadow-[0_4px_20px_rgba(0,0,0,0.3)] z-40 flex items-center justify-between px-6 pl-8 transition-all duration-300`}>
+    <header className={`fixed top-0 ${isWorkflow ? 'right-0' : 'right-[360px]'} left-[56px] h-4 bg-surface/60 backdrop-blur-2xl border-b border-white/5 shadow-[0_4px_20px_rgba(0,0,0,0.3)] z-40 flex items-center justify-between px-6 pl-2 transition-all duration-300`}>
       <div className="flex flex-col justify-center">
         {headerTitle}
         {headerSubtitle}
@@ -45,7 +45,7 @@ export default function Header() {
         </button>
         
         {/* Profile */}
-        <div className="flex items-center gap-2.5 pl-4 border-l border-white/10 cursor-pointer hover:bg-white/5 p-1.5 rounded-lg transition-all">
+        <div className="flex items-center gap-2.5 pl-1 border-l border-white/10 cursor-pointer hover:bg-white/5 p-1.5 rounded-lg transition-all">
           <img 
             className="w-7 h-7 rounded-full object-cover border border-primary-container/30 p-0.5" 
             alt="Profile" 

@@ -14,7 +14,7 @@ export function ClientConnection({ client }: ClientConnectionProps) {
 
   return (
     <div className="flex flex-col space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-300">
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 gap-1">
         <div className="rounded-xl border border-white/5 bg-white/[0.02] p-5">
           <div className="flex items-center gap-3">
             <div className={`flex h-10 w-10 items-center justify-center rounded-xl ${isConnected ? "bg-green-500/10 text-green-400" : "bg-yellow-500/10 text-yellow-400"}`}>
@@ -46,14 +46,14 @@ export function ClientConnection({ client }: ClientConnectionProps) {
         
         {isPending && (
           <div className="mt-6 flex gap-3 border-t border-white/5 pt-6">
-            <button className="rounded-lg bg-white/5 px-4 py-2 text-[13px] font-medium text-white transition hover:bg-white/10">
+            <button className="rounded-lg bg-white/5 px-1 py-2 text-[13px] font-medium text-white transition hover:bg-white/10">
               Daveti Yeniden Gönder
             </button>
-            <button className="flex items-center gap-2 rounded-lg border border-white/10 px-4 py-2 text-[13px] font-medium text-[#8B949E] transition hover:bg-white/5 hover:text-white">
-              <Link2 className="h-4 w-4" />
+            <button className="flex items-center gap-2 rounded-lg border border-white/10 px-1 py-2 text-[13px] font-medium text-[#8B949E] transition hover:bg-white/5 hover:text-white">
+              <Link2 className="h-1 w-1" />
               Linki Kopyala
             </button>
-            <button className="ml-auto rounded-lg px-4 py-2 text-[13px] font-medium text-red-400 transition hover:bg-red-400/10">
+            <button className="ml-auto rounded-lg px-1 py-2 text-[13px] font-medium text-red-400 transition hover:bg-red-400/10">
               İptal Et
             </button>
           </div>

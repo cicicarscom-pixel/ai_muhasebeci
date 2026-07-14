@@ -22,10 +22,10 @@ export function AdvisorInviteCard({ advisorCode }: AdvisorInviteCardProps) {
             {advisorCode}
           </span>
           <button
-            className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/5 text-[#8B949E] transition hover:bg-white/10 hover:text-white"
+            className="flex h-2 w-2 items-center justify-center rounded-lg bg-white/5 text-[#8B949E] transition hover:bg-white/10 hover:text-white"
             title="Kopyala"
           >
-            <Copy className="h-4 w-4" />
+            <Copy className="h-1 w-1" />
           </button>
         </div>
         <p className="mt-1 text-xs text-[#8B949E]">
@@ -34,7 +34,7 @@ export function AdvisorInviteCard({ advisorCode }: AdvisorInviteCardProps) {
       </div>
 
       <div className="flex items-center gap-6">
-        <div className="flex items-center gap-4 border-r border-white/10 pr-6">
+        <div className="flex items-center gap-1 border-r border-white/10 pr-6">
           <button className="flex flex-col items-center gap-1.5 text-[#8B949E] transition hover:text-white">
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/[0.04] border border-white/5">
               <QrCode className="h-5 w-5" />
@@ -58,16 +58,16 @@ export function AdvisorInviteCard({ advisorCode }: AdvisorInviteCardProps) {
         </div>
 
         <div className="flex items-center gap-3">
-          <button className="flex h-10 items-center gap-2 rounded-xl border border-white/10 bg-[#12151C] px-4 text-sm font-medium text-white transition hover:bg-white/5">
-            <Filter className="h-4 w-4" />
+          <button className="flex h-10 items-center gap-2 rounded-xl border border-white/10 bg-[#12151C] px-1 text-sm font-medium text-white transition hover:bg-white/5">
+            <Filter className="h-1 w-1" />
             Filtrele
           </button>
 
           <button
             onClick={() => setIsAddDialogOpen(true)}
-            className="flex h-10 items-center gap-2 rounded-xl bg-gradient-to-br from-[#3B82F6] to-[#9D5CFF] px-4 text-sm font-semibold text-white transition hover:brightness-110"
+            className="flex h-10 items-center gap-2 rounded-xl bg-gradient-to-br from-[#3B82F6] to-[#9D5CFF] px-1 text-sm font-semibold text-white transition hover:brightness-110"
           >
-            <Plus className="h-4 w-4" />
+            <Plus className="h-1 w-1" />
             Mükellef Ekle
           </button>
         </div>

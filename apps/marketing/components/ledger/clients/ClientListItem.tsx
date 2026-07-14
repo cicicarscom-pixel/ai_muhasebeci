@@ -60,7 +60,7 @@ export function ClientListItem({ client, isSelected, onSelect }: ClientListItemP
   return (
     <div
       onClick={() => onSelect(client.id)}
-      className={`group cursor-pointer rounded-xl border p-4 transition-all duration-200 ${
+      className={`group cursor-pointer rounded-xl border p-1 transition-all duration-200 ${
         isSelected
           ? "border-cyan-500/35 bg-white/[0.04] shadow-[inset_0_0_20px_rgba(0,218,243,0.05)]"
           : "border-white/5 bg-[#161B22] hover:border-white/10 hover:bg-white/[0.02]"
@@ -79,7 +79,7 @@ export function ClientListItem({ client, isSelected, onSelect }: ClientListItemP
         {getStatusBadge(client.connectionStatus)}
       </div>
 
-      <div className="mt-4 grid grid-cols-2 gap-y-2 text-[11px] text-[#8B949E]">
+      <div className="mt-1 grid grid-cols-2 gap-y-2 text-[11px] text-[#8B949E]">
         <div className="flex items-center gap-1.5">
           <User className="h-3.5 w-3.5" />
           <span className="truncate">{client.contactName}</span>

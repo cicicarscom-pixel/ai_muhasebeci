@@ -21,7 +21,7 @@ export function StatusBadge({ status, children, className = '', ...props }: Stat
 
   return (
     <div 
-      className={`px-8 py-4 rounded-badge border text-muted uppercase tracking-wider font-semibold inline-flex items-center gap-4 ${getStatusClasses(status)} ${className}`}
+      className={`px-2 py-1 rounded-badge border text-muted uppercase tracking-wider font-semibold inline-flex items-center gap-1 ${getStatusClasses(status)} ${className}`}
       {...props}
     >
       {children}

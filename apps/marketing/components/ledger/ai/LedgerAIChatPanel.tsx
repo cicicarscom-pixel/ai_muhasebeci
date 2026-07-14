@@ -47,7 +47,7 @@ export function LedgerAIChatPanel({ contextLabel, onClose }: LedgerAIChatPanelPr
       transition={{ type: "spring", stiffness: 350, damping: 25 }}
       className="flex h-[30.5rem] max-h-[calc(100vh-40px)] w-[21.25rem] flex-col overflow-hidden rounded-[18px] border border-white/10 bg-[#12151C]/95 shadow-[0_24px_80px_rgba(0,0,0,0.55)] backdrop-blur-2xl"
     >
-      <header className="flex items-center justify-between border-b border-white/5 px-4 py-3">
+      <header className="flex items-center justify-between border-b border-white/5 px-1 py-3">
         <div className="flex items-center gap-3">
           <span className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-[#3B82F6] to-[#9D5CFF]">
             <Bot className="h-5 w-5 text-white" />
@@ -60,24 +60,24 @@ export function LedgerAIChatPanel({ contextLabel, onClose }: LedgerAIChatPanelPr
 
         <div className="flex items-center gap-1">
           <button className="rounded-lg p-2 text-[#8B949E] transition hover:bg-white/5 hover:text-white" aria-label="Sohbeti sabitle">
-            <Pin className="h-4 w-4" />
+            <Pin className="h-1 w-1" />
           </button>
           <button onClick={onClose} className="rounded-lg p-2 text-[#8B949E] transition hover:bg-white/5 hover:text-white" aria-label="Sohbeti küçült">
-            <Minus className="h-4 w-4" />
+            <Minus className="h-1 w-1" />
           </button>
           <button onClick={onClose} className="rounded-lg p-2 text-[#8B949E] transition hover:bg-white/5 hover:text-white" aria-label="Sohbeti kapat">
-            <X className="h-4 w-4" />
+            <X className="h-1 w-1" />
           </button>
         </div>
       </header>
 
-      <div className="border-b border-white/5 px-4 py-2">
+      <div className="border-b border-white/5 px-1 py-2">
         <span className="inline-flex rounded-full border border-cyan-400/15 bg-cyan-400/5 px-3 py-1 text-[11px] text-[#00DAF3]">
           Bağlam: {contextLabel}
         </span>
       </div>
 
-      <div ref={scrollRef} className="flex-1 space-y-4 overflow-y-auto p-4 custom-scrollbar">
+      <div ref={scrollRef} className="flex-1 space-y-1 overflow-y-auto p-1 custom-scrollbar">
         {messages.map((msg) => (
           <div
             key={msg.id}
@@ -92,7 +92,7 @@ export function LedgerAIChatPanel({ contextLabel, onClose }: LedgerAIChatPanelPr
         ))}
       </div>
 
-      <div className="flex flex-wrap gap-2 border-t border-white/5 px-4 py-3">
+      <div className="flex flex-wrap gap-2 border-t border-white/5 px-1 py-3">
         {["Özetle", "Durumu kontrol et", "Takip oluştur"].map((command) => (
           <button
             key={command}
@@ -117,7 +117,7 @@ export function LedgerAIChatPanel({ contextLabel, onClose }: LedgerAIChatPanelPr
           className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#3B82F6] to-[#9D5CFF] text-white transition hover:brightness-110"
           aria-label="Mesaj gönder"
         >
-          <Send className="h-4 w-4" />
+          <Send className="h-1 w-1" />
         </button>
       </form>
     </motion.section>

@@ -40,8 +40,8 @@ interface MetricCardProps extends Omit<CardProps, 'children'> {
 
 export function MetricCard({ title, value, icon, trend, className = '', ...props }: MetricCardProps) {
   return (
-    <AppCard className={`p-16 flex flex-col justify-between min-h-[100px] group ${className}`} {...props}>
-      <div className="flex items-center gap-8 mb-8 relative z-10">
+    <AppCard className={`p-4 flex flex-col justify-between min-h-[100px] group ${className}`} {...props}>
+      <div className="flex items-center gap-2 mb-2 relative z-10">
         {icon && <div className="text-text-muted group-hover:text-primary transition-colors duration-fast">{icon}</div>}
         <span className="text-muted text-text-muted uppercase tracking-widest group-hover:text-text transition-colors duration-fast">
           {title}
@@ -50,7 +50,7 @@ export function MetricCard({ title, value, icon, trend, className = '', ...props
       <div className="flex items-baseline justify-between relative z-10">
         <span className="text-[32px] font-bold text-text tracking-tight">{value}</span>
         {trend && (
-          <div className={`flex items-center gap-4 text-muted px-8 py-4 rounded-badge border ${
+          <div className={`flex items-center gap-1 text-muted px-2 py-1 rounded-badge border ${
             trend.direction === 'up' 
               ? 'text-success bg-success/10 border-success/20' 
               : 'text-danger bg-danger/10 border-danger/20'
@@ -68,7 +68,7 @@ export function MetricCard({ title, value, icon, trend, className = '', ...props
 
 export function ActivityCard({ children, className = '', ...props }: CardProps) {
   return (
-    <div className={`flex items-start gap-12 p-8 border-l-[2px] bg-card/30 ${className}`} {...props}>
+    <div className={`flex items-start gap-3 p-2 border-l-[2px] bg-card/30 ${className}`} {...props}>
       {children}
     </div>
   );

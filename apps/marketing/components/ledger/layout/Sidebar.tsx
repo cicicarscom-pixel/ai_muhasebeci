@@ -11,12 +11,12 @@ export default function Sidebar() {
   };
 
   return (
-    <nav className="fixed left-0 top-0 h-full w-[64px] bg-surface border-r border-border z-50 flex flex-col items-center py-24">
-      <div className="mb-32 w-full flex items-center justify-center relative group">
+    <nav className="fixed left-0 top-0 h-full w-[64px] bg-surface border-r border-border z-50 flex flex-col items-center py-6">
+      <div className="mb-8 w-full flex items-center justify-center relative group">
         <span className="material-symbols-outlined text-primary text-card-title cursor-pointer hover:scale-110 transition-transform">token</span>
       </div>
       
-      <div className="flex-1 w-full flex flex-col gap-8 items-center">
+      <div className="flex-1 w-full flex flex-col gap-2 items-center">
         <SidebarItem icon="dashboard" label="Dashboard" href="/ledger/dashboard" active={isActive('/ledger/dashboard')} />
         <SidebarItem icon="groups" label="Mükellefler" href="/ledger/clients" active={isActive('/ledger/clients')} />
         <SidebarItem icon="account_tree" label="İş Akışı" href="/ledger/workflow" active={isActive('/ledger/workflow')} />
@@ -25,7 +25,7 @@ export default function Sidebar() {
         <SidebarItem icon="settings" label="Ayarlar" href="/ledger/settings" active={isActive('/ledger/settings')} />
       </div>
 
-      <div className="mt-auto w-full flex flex-col gap-8 items-center pb-8">
+      <div className="mt-auto w-full flex flex-col gap-2 items-center pb-2">
         <SidebarItem icon="help" label="Destek" href="#" />
         <SidebarItem icon="logout" label="Çıkış" href="#" />
       </div>
@@ -40,7 +40,7 @@ function SidebarItem({ icon, label, href, active }: { icon: string, label: strin
       
       {/* Tooltip */}
       <div className="absolute left-[56px] top-1/2 -translate-y-1/2 opacity-0 pointer-events-none group-hover/item:opacity-100 group-hover/item:translate-x-[4px] transition-all duration-medium ease-in-out z-50 flex items-center">
-        <div className={`px-12 py-8 rounded-card whitespace-nowrap font-bold text-label shadow-glow-primary relative ${active ? 'bg-primary/10 border border-primary/20 text-primary' : 'bg-surface border border-border text-text'}`}>
+        <div className={`px-3 py-2 rounded-card whitespace-nowrap font-bold text-label shadow-glow-primary relative ${active ? 'bg-primary/10 border border-primary/20 text-primary' : 'bg-surface border border-border text-text'}`}>
           <div className={`absolute -left-[6px] top-1/2 -translate-y-1/2 w-0 h-0 border-y-[6px] border-y-transparent border-r-[6px] ${active ? 'border-r-primary/20' : 'border-r-border'}`}></div>
           {label}
         </div>

@@ -7,18 +7,18 @@ import { ActivityCard } from '../ui/Cards';
 
 export default function DashboardPage() {
   return (
-    <div className="flex flex-col gap-24">
+    <div className="flex flex-col gap-6">
       {/* Page Rhythm: Title -> Subtitle -> 24px -> KPI */}
       <div>
         <PageTitle>Dashboard</PageTitle>
-        <p className="text-body text-text-muted mt-8">Welcome back. Here is your daily overview.</p>
+        <p className="text-body text-text-muted mt-2">Welcome back. Here is your daily overview.</p>
       </div>
 
       {/* Grid Container: 12 Columns */}
-      <div className="grid grid-cols-12 gap-16">
+      <div className="grid grid-cols-12 gap-1">
         
         {/* ROW 1: 5 KPI Cards */}
-        <div className="col-span-12 grid grid-cols-5 gap-16">
+        <div className="col-span-12 grid grid-cols-5 gap-1">
           <MetricCard 
             title="HAZIR EVRAK" 
             value="131" 
@@ -51,28 +51,28 @@ export default function DashboardPage() {
           />
         </div>
 
-        {/* 32px spacing enforced by gap-32 below for content section rhythm */}
+        {/* 32px spacing enforced by gap-8 below for content section rhythm */}
       </div>
 
-      <div className="grid grid-cols-12 gap-16 pt-8">
+      <div className="grid grid-cols-12 gap-1 pt-2">
         {/* ROW 2 */}
         {/* Upcoming Deadlines (3 cols) */}
-        <AppCard className="col-span-3 p-24">
-          <SectionHeader className="mb-16">Önemli Tarihler</SectionHeader>
-          <div className="flex flex-col gap-16">
+        <AppCard className="col-span-3 p-6">
+          <SectionHeader className="mb-4">Önemli Tarihler</SectionHeader>
+          <div className="flex flex-col gap-1">
             {[
               { day: '26', month: 'MAY', title: 'KDV Beyannamesi', desc: '4 gün kaldı', color: 'primary' },
               { day: '31', month: 'MAY', title: 'Muhtasar', desc: '9 gün kaldı', color: 'primary' },
               { day: '10', month: 'HAZ', title: 'Kurumlar Vergisi', desc: '19 gün kaldı', color: 'text-muted' },
             ].map((d, i) => (
-              <div key={i} className="flex items-center gap-16 p-8 rounded-input hover:bg-card/50 transition-colors duration-fast">
+              <div key={i} className="flex items-center gap-1 p-2 rounded-input hover:bg-card/50 transition-colors duration-fast">
                 <div className="w-[48px] h-[48px] rounded-button bg-card border border-border flex flex-col items-center justify-center shrink-0">
                   <span className="text-[14px] font-bold text-text leading-none">{d.day}</span>
-                  <span className="text-[10px] text-text-muted font-bold tracking-tighter mt-4">{d.month}</span>
+                  <span className="text-[10px] text-text-muted font-bold tracking-tighter mt-1">{d.month}</span>
                 </div>
                 <div className="flex flex-col">
                   <span className="text-body font-semibold text-text">{d.title}</span>
-                  <span className={`text-muted mt-4 text-${d.color}`}>{d.desc}</span>
+                  <span className={`text-muted mt-1 text-${d.color}`}>{d.desc}</span>
                 </div>
               </div>
             ))}
@@ -80,19 +80,19 @@ export default function DashboardPage() {
         </AppCard>
 
         {/* Operations Feed (4 cols) */}
-        <AppCard className="col-span-4 p-24">
-          <SectionHeader className="mb-16 flex items-center gap-8">
+        <AppCard className="col-span-4 p-6">
+          <SectionHeader className="mb-4 flex items-center gap-2">
             <span className="material-symbols-outlined text-primary text-[20px]">stream</span>
             Operasyon Akışı
           </SectionHeader>
-          <div className="flex flex-col gap-16">
+          <div className="flex flex-col gap-1">
             <ActivityCard className="border-success">
               <div className="w-[24px] h-[24px] rounded-full bg-success/10 flex items-center justify-center shrink-0">
                 <span className="material-symbols-outlined text-success text-[14px]">rule</span>
               </div>
               <div className="flex-1">
                 <span className="text-body font-semibold text-text block">3 yeni otomatik kural</span>
-                <p className="text-muted text-text-muted mt-4">Opet, Shell ve Amazon faturaları için oluşturuldu.</p>
+                <p className="text-muted text-text-muted mt-1">Opet, Shell ve Amazon faturaları için oluşturuldu.</p>
               </div>
             </ActivityCard>
             <ActivityCard className="border-primary">
@@ -101,7 +101,7 @@ export default function DashboardPage() {
               </div>
               <div className="flex-1">
                 <span className="text-body font-semibold text-text block">18 belge işlendi</span>
-                <p className="text-muted text-text-muted mt-4">Son 1 saat içinde sisteme düşen evraklar kontrol bekliyor.</p>
+                <p className="text-muted text-text-muted mt-1">Son 1 saat içinde sisteme düşen evraklar kontrol bekliyor.</p>
               </div>
             </ActivityCard>
             <ActivityCard className="border-warning">
@@ -110,19 +110,19 @@ export default function DashboardPage() {
               </div>
               <div className="flex-1">
                 <span className="text-body font-semibold text-text block">5 müşteri cevapladı</span>
-                <p className="text-muted text-text-muted mt-4">WhatsApp üzerinden gönderilen eksik evrak taleplerine yanıt geldi.</p>
+                <p className="text-muted text-text-muted mt-1">WhatsApp üzerinden gönderilen eksik evrak taleplerine yanıt geldi.</p>
               </div>
             </ActivityCard>
           </div>
         </AppCard>
 
         {/* Recent Documents (5 cols) */}
-        <AppCard className="col-span-5 p-24">
-          <div className="flex justify-between items-center mb-16">
+        <AppCard className="col-span-5 p-6">
+          <div className="flex justify-between items-center mb-4">
             <SectionHeader>Son Gelenler</SectionHeader>
             <a className="text-primary hover:underline transition-colors text-label font-medium" href="#">Tümü</a>
           </div>
-          <div className="flex flex-col gap-8">
+          <div className="flex flex-col gap-2">
             {[
               { name: 'Shell Türkiye', type: 'Fatura', date: 'Bugün', statusLabel: 'HAZIR', status: 'info', icon: 'local_gas_station' },
               { name: 'Migros A.Ş.', type: 'Fiş', date: 'Bugün', statusLabel: 'KONTROL', status: 'warning', icon: 'store' },
@@ -130,17 +130,17 @@ export default function DashboardPage() {
               { name: 'Turkcell', type: 'Fatura', date: 'Dün', statusLabel: 'HAZIR', status: 'info', icon: 'cell_tower' },
               { name: 'Yemeksepeti', type: 'Fiş', date: '2 GÜN ÖNCE', statusLabel: 'KONTROL', status: 'warning', icon: 'restaurant' },
             ].map((doc, i) => (
-              <div key={i} className="flex items-center justify-between p-8 hover:bg-card/50 rounded-input transition-colors duration-fast cursor-pointer">
-                <div className="flex items-center gap-16">
+              <div key={i} className="flex items-center justify-between p-2 hover:bg-card/50 rounded-input transition-colors duration-fast cursor-pointer">
+                <div className="flex items-center gap-1">
                   <div className="w-[32px] h-[32px] rounded-button bg-surface border border-border flex items-center justify-center shrink-0">
                     <span className="material-symbols-outlined text-text-muted text-[16px]">{doc.icon}</span>
                   </div>
                   <div className="flex flex-col">
                     <span className="text-body text-text font-semibold">{doc.name}</span>
-                    <span className="text-muted text-text-muted uppercase tracking-wider mt-4">{doc.type} • {doc.date}</span>
+                    <span className="text-muted text-text-muted uppercase tracking-wider mt-1">{doc.type} • {doc.date}</span>
                   </div>
                 </div>
-                <div className="flex items-center gap-16">
+                <div className="flex items-center gap-1">
                   {/* @ts-ignore */}
                   <StatusBadge status={doc.status}>{doc.statusLabel}</StatusBadge>
                   <span className="material-symbols-outlined text-text-muted hover:text-text transition-colors duration-fast">more_vert</span>
@@ -152,16 +152,16 @@ export default function DashboardPage() {
 
         {/* ROW 3 */}
         {/* Workflow Summary (7 cols) */}
-        <AppCard className="col-span-7 p-24 flex flex-col">
-          <div className="flex justify-between items-center mb-24">
+        <AppCard className="col-span-7 p-6 flex flex-col">
+          <div className="flex justify-between items-center mb-6">
             <SectionHeader>İş Akışı</SectionHeader>
             <a className="text-primary hover:underline transition-colors text-label font-medium" href="#">Detay</a>
           </div>
           <div className="flex-1 flex flex-col justify-center relative">
             <div className="absolute top-1/2 left-32 right-32 h-[1px] bg-border -translate-y-1/2 z-0"></div>
-            <div className="flex justify-between items-center relative z-10 px-16">
+            <div className="flex justify-between items-center relative z-10 px-4">
               
-              <div className="flex items-center gap-16 bg-surface px-16 py-8 rounded-card border border-border">
+              <div className="flex items-center gap-1 bg-surface px-4 py-2 rounded-card border border-border">
                 <div className="w-[32px] h-[32px] rounded-full bg-border flex items-center justify-center">
                   <span className="material-symbols-outlined text-text-muted text-[16px]">inventory_2</span>
                 </div>
@@ -173,7 +173,7 @@ export default function DashboardPage() {
 
               <span className="material-symbols-outlined text-border text-[20px]">arrow_forward</span>
 
-              <div className="flex items-center gap-16 bg-surface px-16 py-8 rounded-card border border-border">
+              <div className="flex items-center gap-1 bg-surface px-4 py-2 rounded-card border border-border">
                 <div className="w-[32px] h-[32px] rounded-full bg-primary/10 flex items-center justify-center">
                   <span className="material-symbols-outlined text-primary text-[16px]">bolt</span>
                 </div>
@@ -185,7 +185,7 @@ export default function DashboardPage() {
 
               <span className="material-symbols-outlined text-border text-[20px]">arrow_forward</span>
 
-              <div className="flex items-center gap-16 bg-surface px-16 py-8 rounded-card border border-border">
+              <div className="flex items-center gap-1 bg-surface px-4 py-2 rounded-card border border-border">
                 <div className="w-[32px] h-[32px] rounded-full bg-warning/10 flex items-center justify-center">
                   <span className="material-symbols-outlined text-warning text-[16px]">engineering</span>
                 </div>
@@ -197,7 +197,7 @@ export default function DashboardPage() {
 
               <span className="material-symbols-outlined text-border text-[20px]">arrow_forward</span>
 
-              <div className="flex items-center gap-16 bg-surface px-16 py-8 rounded-card border border-border">
+              <div className="flex items-center gap-1 bg-surface px-4 py-2 rounded-card border border-border">
                 <div className="w-[32px] h-[32px] rounded-full bg-success/10 flex items-center justify-center">
                   <span className="material-symbols-outlined text-success text-[16px]">check_circle</span>
                 </div>
@@ -212,26 +212,26 @@ export default function DashboardPage() {
         </AppCard>
 
         {/* Workload Chart (5 cols) */}
-        <AppCard className="col-span-5 p-24 flex flex-col min-h-[220px] max-h-[260px]">
-          <div className="flex justify-between items-center mb-16">
+        <AppCard className="col-span-5 p-6 flex flex-col min-h-[220px] max-h-[260px]">
+          <div className="flex justify-between items-center mb-4">
             <SectionHeader>İş Yükü Trendi</SectionHeader>
-            <select className="bg-surface border border-border rounded-input px-8 py-4 text-muted font-semibold text-text-muted focus:outline-none focus:border-primary appearance-none cursor-pointer">
+            <select className="bg-surface border border-border rounded-input px-2 py-1 text-muted font-semibold text-text-muted focus:outline-none focus:border-primary appearance-none cursor-pointer">
               <option>BU HAFTA</option>
               <option>GEÇEN HAFTA</option>
             </select>
           </div>
-          <div className="flex-1 relative mt-8">
+          <div className="flex-1 relative mt-2">
             <div className="absolute inset-0 flex flex-col justify-between z-0 pointer-events-none opacity-5">
               <div className="h-[1px] bg-white"></div>
               <div className="h-[1px] bg-white"></div>
               <div className="h-[1px] bg-white"></div>
             </div>
-            <div className="absolute left-0 top-0 bottom-24 flex flex-col justify-between text-muted font-medium text-text-muted/50 z-10 pointer-events-none">
+            <div className="absolute left-0 top-0 bottom-6 flex flex-col justify-between text-muted font-medium text-text-muted/50 z-10 pointer-events-none">
               <span>200</span>
               <span>100</span>
               <span>0</span>
             </div>
-            <svg className="absolute inset-0 w-full h-[calc(100%-24px)] z-10 pl-24 pr-8 overflow-visible" preserveAspectRatio="none" viewBox="0 0 100 100">
+            <svg className="absolute inset-0 w-full h-[calc(100%-24px)] z-10 pl-6 pr-2 overflow-visible" preserveAspectRatio="none" viewBox="0 0 100 100">
               <defs>
                 <linearGradient id="chartGradient" x1="0%" x2="0%" y1="0%" y2="100%">
                   <stop offset="0%" stopColor="var(--color-primary)" stopOpacity="0.05"></stop>

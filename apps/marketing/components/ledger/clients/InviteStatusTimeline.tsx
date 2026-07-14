@@ -52,7 +52,7 @@ export function InviteStatusTimeline({ status }: InviteStatusTimelineProps) {
           const showFailed = isCurrent && isFailed;
 
           return (
-            <div key={step.id} className="relative flex items-center gap-4">
+            <div key={step.id} className="relative flex items-center gap-1">
               <div
                 className={`relative z-10 flex h-6 w-6 shrink-0 items-center justify-center rounded-full border ${
                   isCompleted

@@ -51,7 +51,7 @@ export function AddClientDialog({ onClose }: AddClientDialogProps) {
                 <label className="mb-1.5 block text-[11px] font-medium text-[#8B949E]">Firma Unvanı</label>
                 <input type="text" className="h-9 w-full rounded-xl border border-white/10 bg-[#161B22] px-3 text-sm text-white focus:border-cyan-400/30 focus:outline-none" placeholder="Örn: ABC Yazılım A.Ş." />
               </div>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-1">
                 <div>
                   <label className="mb-1.5 block text-[11px] font-medium text-[#8B949E]">VKN / TCKN</label>
                   <input type="text" className="h-9 w-full rounded-xl border border-white/10 bg-[#161B22] px-3 text-sm text-white focus:border-cyan-400/30 focus:outline-none" />
@@ -73,7 +73,7 @@ export function AddClientDialog({ onClose }: AddClientDialogProps) {
               <div className="mt-5 flex justify-end gap-3 pt-2">
                 <button 
                   onClick={onClose}
-                  className="rounded-xl px-4 py-2 text-sm font-medium text-[#8B949E] transition hover:text-white"
+                  className="rounded-xl px-1 py-2 text-sm font-medium text-[#8B949E] transition hover:text-white"
                 >
                   İptal
                 </button>
@@ -86,16 +86,16 @@ export function AddClientDialog({ onClose }: AddClientDialogProps) {
               </div>
             </div>
           ) : (
-            <div className="py-6 px-4">
-              <div className="mb-8 flex flex-col items-center text-center">
-                <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-cyan-400/10 border border-cyan-400/20 text-cyan-400 shadow-[0_0_30px_rgba(0,218,243,0.15)]">
-                  <Send className="h-8 w-8" />
+            <div className="py-6 px-1">
+              <div className="mb-2 flex flex-col items-center text-center">
+                <div className="mb-1 flex h-4 w-4 items-center justify-center rounded-2xl bg-cyan-400/10 border border-cyan-400/20 text-cyan-400 shadow-[0_0_30px_rgba(0,218,243,0.15)]">
+                  <Send className="h-2 w-2" />
                 </div>
                 <h3 className="text-lg font-bold text-white">Davet Süreci Başlatıldı</h3>
                 <p className="mt-1 text-sm text-[#8B949E]">Lütfen işlemin tamamlanmasını bekleyin.</p>
               </div>
 
-              <div className="space-y-4 max-w-sm mx-auto">
+              <div className="space-y-1 max-w-sm mx-auto">
                 {flowSteps.map((s, idx) => {
                   const isDone = flowStep > idx;
                   const isCurrent = flowStep === idx;
@@ -120,7 +120,7 @@ export function AddClientDialog({ onClose }: AddClientDialogProps) {
                   );
                 })}
                 {flowStep >= flowSteps.length && (
-                  <div className="mt-4 flex items-center gap-3">
+                  <div className="mt-1 flex items-center gap-3">
                     <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-orange-500 bg-orange-500/20 text-orange-400">
                       <Clock className="h-3 w-3" />
                     </div>
@@ -135,7 +135,7 @@ export function AddClientDialog({ onClose }: AddClientDialogProps) {
                 <div className="mt-10 flex justify-center">
                   <button 
                     onClick={onClose}
-                    className="rounded-xl border border-white/10 bg-white/5 px-8 py-2 text-sm font-medium text-white transition hover:bg-white/10"
+                    className="rounded-xl border border-white/10 bg-white/5 px-2 py-2 text-sm font-medium text-white transition hover:bg-white/10"
                   >
                     Kapat
                   </button>

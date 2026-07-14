@@ -54,17 +54,6 @@ const config = {
         danger: 'var(--color-danger)',
         card: 'var(--color-card)',
       },
-      spacing: {
-        ...(tailwindConfig.theme && tailwindConfig.theme.extend && tailwindConfig.theme.extend.spacing ? tailwindConfig.theme.extend.spacing : {}),
-        // Ledger Spacing
-        '4': '4px',
-        '8': '8px',
-        '16': '16px',
-        '24': '24px',
-        '32': '32px',
-        '48': '48px',
-        '64': '64px',
-      },
       borderRadius: {
         ...(tailwindConfig.theme && tailwindConfig.theme.extend && tailwindConfig.theme.extend.borderRadius ? tailwindConfig.theme.extend.borderRadius : {}),
         'input': '14px',

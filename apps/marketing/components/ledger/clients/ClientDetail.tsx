@@ -38,16 +38,16 @@ export function ClientDetail({ client }: ClientDetailProps) {
           </div>
           
           <div className="flex gap-2">
-            <button className="rounded-xl border border-white/10 bg-[#161B22] px-4 py-2 text-sm font-medium text-white transition hover:bg-white/5">
+            <button className="rounded-xl border border-white/10 bg-[#161B22] px-1 py-2 text-sm font-medium text-white transition hover:bg-white/5">
               Düzenle
             </button>
-            <button className="rounded-xl bg-white/5 px-4 py-2 text-sm font-medium text-white transition hover:bg-white/10">
+            <button className="rounded-xl bg-white/5 px-1 py-2 text-sm font-medium text-white transition hover:bg-white/10">
               Mesaj Gönder
             </button>
           </div>
         </div>
 
-        <div className="mt-6 flex flex-wrap gap-x-8 gap-y-4 rounded-xl border border-white/5 bg-[#12151C] p-4 text-sm">
+        <div className="mt-6 flex flex-wrap gap-x-2 gap-y-1 rounded-xl border border-white/5 bg-[#12151C] p-1 text-sm">
           <div className="flex flex-col gap-1">
             <span className="text-xs text-[#8B949E]">Yetkili Kişi</span>
             <div className="flex items-center gap-2 text-white">
@@ -59,7 +59,7 @@ export function ClientDetail({ client }: ClientDetailProps) {
           </div>
           <div className="flex flex-col gap-1">
             <span className="text-xs text-[#8B949E]">İletişim</span>
-            <div className="flex items-center gap-4 text-white">
+            <div className="flex items-center gap-1 text-white">
               <span className="flex items-center gap-1.5"><Phone className="h-3.5 w-3.5 text-[#8B949E]" /> {client.phone}</span>
               <span className="flex items-center gap-1.5"><Mail className="h-3.5 w-3.5 text-[#8B949E]" /> {client.email}</span>
             </div>
@@ -77,7 +77,7 @@ export function ClientDetail({ client }: ClientDetailProps) {
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className={`relative border-b-2 py-4 text-sm font-medium transition-colors ${
+            className={`relative border-b-2 py-1 text-sm font-medium transition-colors ${
               activeTab === tab.id
                 ? "border-[#00DAF3] text-[#00DAF3]"
                 : "border-transparent text-[#8B949E] hover:text-white"
@@ -94,7 +94,7 @@ export function ClientDetail({ client }: ClientDetailProps) {
           <div className="grid gap-6 animate-in fade-in slide-in-from-bottom-2 duration-300">
             <div className="grid grid-cols-2 gap-6">
               <div className="rounded-xl border border-white/5 bg-[#161B22] p-5">
-                <h3 className="mb-4 text-sm font-semibold text-white">Firma Bilgileri</h3>
+                <h3 className="mb-1 text-sm font-semibold text-white">Firma Bilgileri</h3>
                 <div className="space-y-3 text-sm">
                   <div className="flex justify-between border-b border-white/5 pb-2">
                     <span className="text-[#8B949E]">Firma Türü</span>
@@ -116,7 +116,7 @@ export function ClientDetail({ client }: ClientDetailProps) {
               </div>
 
               <div className="rounded-xl border border-white/5 bg-[#161B22] p-5">
-                <h3 className="mb-4 text-sm font-semibold text-white">Operasyon Özeti</h3>
+                <h3 className="mb-1 text-sm font-semibold text-white">Operasyon Özeti</h3>
                 <div className="space-y-3 text-sm">
                   <div className="flex justify-between border-b border-white/5 pb-2">
                     <span className="text-[#8B949E]">Sonraki Takip</span>
@@ -148,7 +148,7 @@ export function ClientDetail({ client }: ClientDetailProps) {
           <div className="animate-in fade-in slide-in-from-bottom-2 duration-300">
             <div className="mb-6 flex items-center justify-between">
               <p className="text-sm text-[#8B949E]">Bu notlar mükellefe görünmez, sadece ofis içi kullanımdır.</p>
-              <button className="rounded-lg bg-white/5 px-4 py-2 text-sm font-medium text-white transition hover:bg-white/10">
+              <button className="rounded-lg bg-white/5 px-1 py-2 text-sm font-medium text-white transition hover:bg-white/10">
                 + Yeni Not Ekle
               </button>
             </div>
@@ -170,7 +170,7 @@ export function ClientDetail({ client }: ClientDetailProps) {
         )}
 
         {activeTab === "gecmis" && (
-          <div className="animate-in fade-in slide-in-from-bottom-2 duration-300 flex items-center justify-center h-32">
+          <div className="animate-in fade-in slide-in-from-bottom-2 duration-300 flex items-center justify-center h-8">
             <p className="text-sm text-[#8B949E]">Sistem geçmişi yakında eklenecektir.</p>
           </div>
         )}

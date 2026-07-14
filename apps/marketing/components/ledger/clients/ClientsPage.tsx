@@ -31,10 +31,10 @@ export function ClientsPage() {
     clients.find((client) => client.id === selectedClientId) ?? clients[0];
 
   return (
-    <section className="flex h-full min-h-0 flex-col gap-4 overflow-hidden p-4">
+    <section className="flex h-full min-h-0 flex-col gap-1 overflow-hidden p-1">
       <AdvisorInviteCard advisorCode="WG-73492" />
 
-      <div className="grid min-h-0 flex-1 grid-cols-[minmax(19rem,34%)_minmax(0,1fr)] gap-4">
+      <div className="grid min-h-0 flex-1 grid-cols-[minmax(19rem,34%)_minmax(0,1fr)] gap-1">
         <ClientList
           clients={filteredClients}
           selectedClientId={selectedClient?.id}
