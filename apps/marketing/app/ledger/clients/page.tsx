@@ -1,5 +1,8 @@
 import { ClientsPage } from "@/components/ledger/clients/ClientsPage";
+import { getClientsAction } from "@/modules/clients/application/get-clients.action";
 
-export default function Page() {
-  return <ClientsPage />;
+export default async function Page() {
+  const { advisorCode, clients } = await getClientsAction();
+  
+  return <ClientsPage advisorCode={advisorCode} clients={clients} />;
 }

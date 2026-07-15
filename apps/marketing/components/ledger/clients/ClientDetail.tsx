@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Client } from "@/data/mock/clients";
+import { Client } from "@/modules/clients/application/get-clients.action";
 import { ClientConnection } from "./ClientConnection";
 import { ClientCommunication } from "./ClientCommunication";
 import { Mail, Phone, Calendar, Globe, FileText, CheckCircle2 } from "lucide-react";

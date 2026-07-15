@@ -1,6 +1,6 @@
 "use client";
 
-import { Client } from "@/data/mock/clients";
+import { Client } from "@/modules/clients/application/get-clients.action";
 import { CheckCircle2, FileText, Send, Phone, MessageSquare, AlertCircle } from "lucide-react";
 
 interface ClientCommunicationProps {

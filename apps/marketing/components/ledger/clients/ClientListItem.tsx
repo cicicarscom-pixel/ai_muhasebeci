@@ -1,6 +1,6 @@
 "use client";
 
-import { Client, ClientConnectionStatus } from "@/data/mock/clients";
+import { Client, ClientConnectionStatus } from "@/modules/clients/application/get-clients.action";
 import { User, Phone, CheckCircle2, Clock, Mail, AlertTriangle, AlertCircle, Send } from "lucide-react";
 
 interface ClientListItemProps {

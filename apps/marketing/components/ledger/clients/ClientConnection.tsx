@@ -1,6 +1,6 @@
 "use client";
 
-import { Client } from "@/data/mock/clients";
+import { Client } from "@/modules/clients/application/get-clients.action";
 import { InviteStatusTimeline } from "./InviteStatusTimeline";
 import { Link2, Smartphone, KeyRound, CheckCircle2, AlertCircle } from "lucide-react";
 

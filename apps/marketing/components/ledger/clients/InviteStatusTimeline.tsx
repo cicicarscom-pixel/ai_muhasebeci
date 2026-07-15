@@ -1,6 +1,6 @@
 "use client";
 
-import { ClientConnectionStatus } from "@/data/mock/clients";
+import { ClientConnectionStatus } from "@/modules/clients/application/get-clients.action";
 import { Check, Clock, X } from "lucide-react";
 
 interface InviteStatusTimelineProps {
