@@ -40,8 +40,11 @@ export async function getClientsAction(): Promise<{ advisorCode: string | null; 
     // 1. Get current logged-in user
     const { data: { user }, error: authError } = await supabaseUserClient.auth.getUser();
     
-    if (authError || !user) {
-      return { advisorCode: null, clients: [] };
+    if (authError) {
+      return { advisorCode: `Hata: Oturum hatası (${authError.message})`, clients: [] };
+    }
+    if (!user) {
+      return { advisorCode: 'Hata: Giriş yapılmamış (Lütfen tekrar giriş yapın)', clients: [] };
     }
 
     const accountantId = user.id;
