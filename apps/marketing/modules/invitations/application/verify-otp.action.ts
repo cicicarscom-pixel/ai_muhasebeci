@@ -1,7 +1,7 @@
 'use server';
 
 import { createClient } from '@/utils/supabase/server';
-import { getAdminSupabaseClient } from '@/utils/supabase/admin';
+import { createAdminClient } from '@/utils/supabase/admin';
 import { InvitationRepository } from '../infrastructure/invitation.repository';
 import * as crypto from 'crypto';
 import { cookies } from 'next/headers';
@@ -10,7 +10,7 @@ export async function verifyOtpAndAcceptAction(rawToken: string, phoneE164: stri
   try {
     const cookieStore = await cookies();
     const supabase = createClient(cookieStore);
-    const adminSupabase = getAdminSupabaseClient();
+    const adminSupabase = createAdminClient();
     const repository = new InvitationRepository(adminSupabase);
 
     // 1. Double check the token hash first

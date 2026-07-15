@@ -1,7 +1,7 @@
 'use server';
 
 import { createClient } from '@/utils/supabase/server';
-import { getAdminSupabaseClient } from '@/utils/supabase/admin';
+import { createAdminClient } from '@/utils/supabase/admin';
 import { InvitationRepository } from '../infrastructure/invitation.repository';
 import * as crypto from 'crypto';
 import { cookies } from 'next/headers';
@@ -13,7 +13,7 @@ export async function getInvitationDetailsAction(rawToken: string) {
     }
 
     const tokenHash = crypto.createHash('sha256').update(rawToken).digest('hex');
-    const adminSupabase = getAdminSupabaseClient();
+    const adminSupabase = createAdminClient();
     const repository = new InvitationRepository(adminSupabase);
 
     const invitation = await repository.findByTokenHash(tokenHash);

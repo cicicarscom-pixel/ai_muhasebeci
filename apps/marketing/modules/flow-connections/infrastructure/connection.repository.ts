@@ -5,7 +5,8 @@ export class ConnectionRepository {
   constructor(private supabase: SupabaseClient) {}
 
   async findFirmByConnectionCode(code: string): Promise<AccountingFirm | null> {
-    const { data, error } = await this.supabase
+    // 1. Find the firm
+    const { data: firm, error } = await this.supabase
       .from('ledger_accounting_firms')
       .select('id, user_id, connection_code')
       .eq('connection_code', code)
@@ -16,7 +17,20 @@ export class ConnectionRepository {
       throw new Error(`Firma sorgulanırken hata oluştu: ${error.message}`);
     }
 
-    return data as AccountingFirm;
+    // 2. Try to get the accountant's name from profiles
+    const { data: profile } = await this.supabase
+      .from('profiles')
+      .select('full_name, location')
+      .eq('id', firm.user_id)
+      .single();
+
+    return {
+      ...firm,
+      name: profile?.full_name || 'Akbulut Mali Müşavirlik', // Fallback to user's requested default
+      location: profile?.location || 'İstanbul / Başakşehir', // Mock or real
+      rating: 4.9, // Mocked for UI
+      active_taxpayers: 120 // Mocked for UI
+    } as AccountingFirm;
   }
 
   async checkExistingLink(taxpayerId: string, firmId: string): Promise<boolean> {

@@ -12,4 +12,8 @@ export interface AccountingFirm {
   id: string;
   user_id: string; // The accountant's user ID
   connection_code: string;
+  name?: string;
+  location?: string;
+  rating?: number;
+  active_taxpayers?: number;
 }

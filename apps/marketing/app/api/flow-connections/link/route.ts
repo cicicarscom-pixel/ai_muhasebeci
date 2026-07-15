@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@/utils/supabase/server';
-import { getAdminSupabaseClient } from '@/utils/supabase/admin';
+import { createAdminClient } from '@/utils/supabase/admin';
 import { ConnectionRepository } from '../../../../modules/flow-connections/infrastructure/connection.repository';
 import { cookies } from 'next/headers';
 
@@ -34,7 +34,7 @@ export async function POST(request: Request) {
 
     // We use Admin Client for repository operations because the user might not have
     // read access to ledger_accounting_firms table via RLS before being linked.
-    const adminSupabase = getAdminSupabaseClient();
+    const adminSupabase = createAdminClient();
     const repository = new ConnectionRepository(adminSupabase);
 
     // 3. Look up the accounting firm by the connection code
