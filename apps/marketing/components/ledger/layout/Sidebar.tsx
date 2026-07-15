@@ -3,11 +3,20 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
+import { logoutAction } from '../../../../modules/auth/application/auth.actions';
+import { useRouter } from 'next/navigation';
+
 export default function Sidebar() {
   const pathname = usePathname();
+  const router = useRouter();
   
   const isActive = (path: string) => {
     return pathname === path;
+  };
+
+  const handleLogout = async () => {
+    await logoutAction();
+    router.push('/ledger/login');
   };
 
   return (
@@ -27,15 +36,43 @@ export default function Sidebar() {
 
       <div className="mt-auto w-full flex flex-col gap-2 items-center pb-2">
         <SidebarItem icon="help" label="Destek" href="#" />
-        <SidebarItem icon="logout" label="Çıkış" href="#" />
+        <SidebarItem icon="logout" label="Çıkış" onClick={handleLogout} />
       </div>
     </nav>
   );
 }
 
-function SidebarItem({ icon, label, href, active }: { icon: string, label: string, href: string, active?: boolean }) {
+function SidebarItem({ icon, label, href, active, onClick }: { icon: string, label: string, href?: string, active?: boolean, onClick?: () => void }) {
+  const content = (
+    <>
+      <span className={`material-symbols-outlined text-[24px] transition-colors duration-medium ${active ? 'text-primary' : 'text-text-muted group-hover/item:text-text'}`} style={active ? { fontVariationSettings: "'FILL' 1" } : {}}>{icon}</span>
+      
+      {/* Tooltip */}
+      <div className="absolute left-[56px] top-1/2 -translate-y-1/2 opacity-0 pointer-events-none group-hover/item:opacity-100 group-hover/item:translate-x-[4px] transition-all duration-medium ease-in-out z-50 flex items-center">
+        <div className={`px-3 py-2 rounded-card whitespace-nowrap font-bold text-label shadow-glow-primary relative ${active ? 'bg-primary/10 border border-primary/20 text-primary' : 'bg-surface border border-border text-text'}`}>
+          <div className={`absolute -left-[6px] top-1/2 -translate-y-1/2 w-0 h-0 border-y-[6px] border-y-transparent border-r-[6px] ${active ? 'border-r-primary/20' : 'border-r-border'}`}></div>
+          {label}
+        </div>
+      </div>
+    </>
+  );
+
+  const className = `relative flex items-center justify-center w-[48px] h-[48px] rounded-[14px] group/item transition-all duration-medium ease-in-out ${active ? 'bg-primary/10 border-l-[3px] border-l-primary' : 'hover:bg-card/50 hover:scale-[1.02]'}`;
+
+  if (onClick) {
+    return (
+      <button onClick={onClick} className={className}>
+        {content}
+      </button>
+    );
+  }
+
   return (
-    <Link href={href} className={`relative flex items-center justify-center w-[48px] h-[48px] rounded-[14px] group/item transition-all duration-medium ease-in-out ${active ? 'bg-primary/10 border-l-[3px] border-l-primary' : 'hover:bg-card/50 hover:scale-[1.02]'}`}>
+    <Link href={href || '#'} className={className}>
+      {content}
+    </Link>
+  );
+}
       <span className={`material-symbols-outlined text-[24px] transition-colors duration-medium ${active ? 'text-primary' : 'text-text-muted group-hover/item:text-text'}`} style={active ? { fontVariationSettings: "'FILL' 1" } : {}}>{icon}</span>
       
       {/* Tooltip */}

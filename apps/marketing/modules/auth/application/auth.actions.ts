@@ -99,3 +99,15 @@ export async function registerAccountantAction(formData: FormData) {
     return { success: false, error: 'Beklenmeyen bir sunucu hatası oluştu.' };
   }
 }
+
+export async function logoutAction() {
+  const cookieStore = await cookies();
+  const supabase = createClient(cookieStore);
+  
+  const { error } = await supabase.auth.signOut();
+  if (error) {
+    console.error('Logout error:', error);
+    return { success: false, error: error.message };
+  }
+  return { success: true };
+}
