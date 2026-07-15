@@ -53,6 +53,8 @@ export async function getClientsAction(): Promise<{ advisorCode: string | null; 
       .eq('user_id', accountantId)
       .single();
 
+    let advisorCode = firmData?.connection_code || null;
+    
     if (!firmData) {
       // Auto-generate if missing (e.g. user logged in without custom registration)
       const connectionCode = `WG-${Math.floor(10000 + Math.random() * 90000)}`;
@@ -66,12 +68,15 @@ export async function getClientsAction(): Promise<{ advisorCode: string | null; 
         .select('id, connection_code')
         .single();
         
-      if (!insertError && newFirm) {
+      if (insertError) {
+        advisorCode = `Hata: ${insertError.message}`;
+        console.error('Auto-generate firm error:', insertError);
+      } else if (newFirm) {
         firmData = newFirm;
+        advisorCode = newFirm.connection_code;
       }
     }
 
-    const advisorCode = firmData?.connection_code || null;
     const firmId = firmData?.id;
     
     let clientsList: Client[] = [];
