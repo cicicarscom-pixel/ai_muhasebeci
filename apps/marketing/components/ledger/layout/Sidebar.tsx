@@ -31,7 +31,7 @@ export default function Sidebar() {
         <SidebarItem icon="dashboard" label="Dashboard" href="/ledger/dashboard" active={isActive('/ledger/dashboard')} />
         <SidebarItem icon="groups" label="Mükellefler" href="/ledger/clients" active={isActive('/ledger/clients')} />
         <SidebarItem icon="account_tree" label="İş Akışı" href="/ledger/workflow" active={isActive('/ledger/workflow')} />
-        <SidebarItem icon="fact_check" label="Onay Merkezi" href="/ledger/approval/1" active={pathname?.startsWith('/ledger/approval')} />
+        <SidebarItem icon="fact_check" label="Onay Merkezi" href="/ledger/approval" active={pathname?.startsWith('/ledger/approval')} />
         <SidebarItem icon="analytics" label="Analitik" href="/ledger/analytics" active={isActive('/ledger/analytics')} />
         <SidebarItem icon="settings" label="Ayarlar" href="/ledger/settings" active={isActive('/ledger/settings')} />
       </div>
