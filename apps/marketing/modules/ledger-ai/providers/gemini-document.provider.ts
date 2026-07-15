@@ -1,5 +1,6 @@
 import { generateObject } from 'ai';
-import { google } from '@ai-sdk/google';
+import { createGoogleGenerativeAI, google as defaultGoogle } from '@ai-sdk/google';
+import { createAdminClient } from '@/utils/supabase/admin';
 import { z } from 'zod';
 import { DocumentAIProvider, DocumentExtractionResult, DocumentType } from '../domain/types';
 
@@ -15,8 +16,24 @@ export class GeminiDocumentProvider implements DocumentAIProvider {
     }
     const arrayBuffer = await imageResponse.arrayBuffer();
 
+    // Fetch API Key from Supabase dynamically (or fallback to env)
+    const adminSupabase = createAdminClient();
+    const { data: setting } = await adminSupabase
+      .from('system_settings')
+      .select('value')
+      .eq('key', 'GEMINI_API_KEY')
+      .single();
+
+    const apiKey = setting?.value || process.env.GOOGLE_GENERATIVE_AI_API_KEY;
+    
+    if (!apiKey) {
+      throw new Error('Google Generative AI API key is missing from Supabase system_settings.');
+    }
+
+    const customGoogle = createGoogleGenerativeAI({ apiKey });
+
     const { object } = await generateObject({
-      model: google('gemini-1.5-pro-latest'), // Using gemini-1.5-pro for best vision/reasoning
+      model: customGoogle('gemini-1.5-pro-latest'), // Using gemini-1.5-pro for best vision/reasoning
       schema: z.object({
         documentType: z.enum(['receipt', 'invoice', 'other']),
         vendorName: z.string().nullable().describe('The name of the vendor or supplier on the document.'),
