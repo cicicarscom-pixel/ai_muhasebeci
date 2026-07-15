@@ -256,7 +256,51 @@ export default function DashboardPage() {
             </div>
           </div>
         </AppCard>
+      </div>
 
+      <div className="grid grid-cols-12 gap-1 pt-2">
+        {/* ROW 4 */}
+        {/* AI Haber Bülteni / Mevzuat (6 cols) */}
+        <AppCard className="col-span-6 p-6">
+          <div className="flex justify-between items-center mb-6">
+            <SectionHeader>Mevzuat ve Duyurular</SectionHeader>
+            <a className="text-primary hover:underline transition-colors text-label font-medium" href="#">Tümünü Gör</a>
+          </div>
+          
+          <div className="flex flex-col gap-4">
+            
+            {/* Haber Satırı 1 */}
+            <div className="flex items-start gap-4 p-4 border border-border rounded-[14px] hover:border-primary transition-colors duration-180">
+              <StatusBadge status="warning">İSMMMO - Acil</StatusBadge>
+              <div className="flex-1 mt-[2px]">
+                <p className="text-primary font-medium text-[14px] leading-snug">KDV Beyanname verme süresi uzatıldı.</p>
+                <span className="text-text-muted text-[12px] mt-1 block">Bugün, 09:15 • AI Özeti</span>
+              </div>
+            </div>
+
+            {/* Haber Satırı 2 */}
+            <div className="flex items-start gap-4 p-4 border border-border rounded-[14px] hover:border-primary transition-colors duration-180">
+              <StatusBadge status="info">GİB - Sirküler</StatusBadge>
+              <div className="flex-1 mt-[2px]">
+                <p className="text-primary font-medium text-[14px] leading-snug">E-Fatura geçiş zorunluluğu tebliği yayımlandı.</p>
+                <span className="text-text-muted text-[12px] mt-1 block">Dün, 14:30 • AI Özeti</span>
+              </div>
+            </div>
+
+            {/* Haber Satırı 3 */}
+            <div className="flex items-start gap-4 p-4 border border-border rounded-[14px] hover:border-primary transition-colors duration-180">
+              <StatusBadge status="success">SGK - Bilgi</StatusBadge>
+              <div className="flex-1 mt-[2px]">
+                <p className="text-primary font-medium text-[14px] leading-snug">Asgari ücret destek ödemeleri hesaplara yatırılmaya başlandı.</p>
+                <span className="text-text-muted text-[12px] mt-1 block">2 Gün Önce, 10:00 • AI Özeti</span>
+              </div>
+            </div>
+
+          </div>
+        </AppCard>
+
+        {/* Empty space for future cards (6 cols) */}
+        <div className="col-span-6"></div>
       </div>
     </div>
   );
