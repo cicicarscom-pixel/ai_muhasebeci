@@ -8,7 +8,7 @@ export class ConnectionRepository {
     // 1. Find the firm
     const { data: firm, error } = await this.supabase
       .from('ledger_accounting_firms')
-      .select('id, user_id, connection_code')
+      .select('id, user_id, connection_code, firm_name')
       .eq('connection_code', code)
       .single();
 
@@ -17,16 +17,16 @@ export class ConnectionRepository {
       throw new Error(`Firma sorgulanırken hata oluştu: ${error.message}`);
     }
 
-    // 2. Try to get the accountant's name from profiles
+    // 2. Try to get the accountant's location from profiles
     const { data: profile } = await this.supabase
       .from('profiles')
-      .select('full_name, location')
+      .select('location')
       .eq('id', firm.user_id)
       .single();
 
     return {
       ...firm,
-      name: profile?.full_name || 'Akbulut Mali Müşavirlik', // Fallback to user's requested default
+      name: firm.firm_name, // Now we use the actual firm_name from the table
       location: profile?.location || 'İstanbul / Başakşehir', // Mock or real
       rating: 4.9, // Mocked for UI
       active_taxpayers: 120 // Mocked for UI

@@ -156,7 +156,7 @@ export default function LedgerLoginPage() {
           </form>
 
           <p className="text-center text-[14px] text-[#8E95B3] mt-8">
-            Henüz hesabınız yok mu? <a href="#" className="text-white font-bold hover:text-[#00F0FF] transition-colors">Ücretsiz Hesap Oluştur</a>
+            Henüz hesabınız yok mu? <Link href="/ledger/register" className="text-white font-bold hover:text-[#00F0FF] transition-colors">Ücretsiz Hesap Oluştur</Link>
           </p>
         </motion.div>
       </div>

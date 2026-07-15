@@ -61,3 +61,17 @@ Sağ panelde yer alan form elemanları (Fatura Tarihi, VKN vb.) aşağıdaki kur
 
 ---
 *Zero Visual Debt (Sıfır Görsel Borç) prensibi esastır. Bu manifestoya uymayan bir arayüz PR'ı (Pull Request) onaylanmamalıdır.*
+
+## 7. Kimlik Doğrulama ve Müşavir Kayıt Mimarisi (Auth & Onboarding)
+Ledger sisteminde muhasebecilerin sisteme dahil olması (onboarding) aşağıdaki standartlarla yönetilir:
+
+### 7.1. Kayıt (Registration) Akışı
+- **E-posta ve Şifre:** Sistem Supabase Auth altyapısı üzerinden e-posta ve şifre ile çalışır.
+- **Kullanıcı Profili:** Kayıt anında (veya kayıt sonrası ilk adımda) `profiles` tablosuna kullanıcının `full_name` verisi eklenir.
+
+### 7.2. Otomatik Müşavir Kodu Üretimi (Connection Code)
+Mükelleflerin "Müşavirime Bağlan" (AI-Esnaf vs.) mobil arayüzünden ilgili mali müşavire güvenle bağlanabilmesi için:
+- **Benzersiz Kod Üretimi:** Muhasebeci sisteme kayıt olduğu anda arka planda çalışan bir `Server Action` tetiklenir.
+- **Format:** `WG-XXXXX` formatında rastgele ve benzersiz 5 haneli bir kod üretilir (Örn: `WG-73492`).
+- **Veritabanı Kaydı:** Bu kod kullanılarak `ledger_accounting_firms` tablosunda `connection_code` alanına sahip yeni bir firma profili anında oluşturulur.
+- **Bağlantı Mimarisi:** İleride `shared_accountant_taxpayer_links` tablosunda bu kod üzerinden mükellef-müşavir eşleştirmesi (`status: 'pending'`) yapılır.
