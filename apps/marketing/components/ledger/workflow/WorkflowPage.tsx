@@ -1,10 +1,30 @@
 'use client';
-import React from 'react';
+import React, from 'react';
 import { PageTitle, SectionHeader } from '../ui/Typography';
-import { MetricCard } from '../ui/Cards';
+import { MetricCard, AppCard } from '../ui/Cards';
 import { SecondaryButton, GhostButton } from '../ui/Buttons';
+import Link from 'next/link';
 
-export default function WorkflowPage() {
+export default function WorkflowPage({ initialDocuments = [] }: { initialDocuments?: any[] }) {
+  // 1. Yeni Geldi (uploaded and not yet processing)
+  const yeniGeldi = initialDocuments.filter(d => d.processing_status === 'uploaded');
+  
+  // 2. AI İşliyor (currently processing by AI)
+  const aiIsliyor = initialDocuments.filter(d => d.processing_status === 'processing');
+  
+  // 3. Kontrol Bekliyor (AI finished, review pending)
+  const kontrolBekliyor = initialDocuments.filter(d => d.processing_status === 'completed' && d.review_status === 'pending');
+  
+  // 4. Onaylandı (review completed/approved)
+  const onaylandi = initialDocuments.filter(d => d.review_status === 'approved');
+
+  const formatCurrency = (amount: number, currency: string) => {
+    if (amount === undefined || amount === null) return '-';
+    return new Intl.NumberFormat('tr-TR', { style: 'currency', currency: currency || 'TRY' }).format(amount);
+  };
+
+  const totalAmount = initialDocuments.reduce((acc, doc) => acc + (Number(doc.total_amount) || 0), 0);
+
   return (
     <div className="flex flex-col h-full w-full bg-surface text-text p-6 overflow-hidden gap-6">
       
@@ -26,23 +46,23 @@ export default function WorkflowPage() {
       <div className="grid grid-cols-4 gap-1">
         <MetricCard 
           title="Toplam Evrak"
-          value="0"
+          value={initialDocuments.length.toString()}
           icon={<span className="material-symbols-outlined text-[18px]">description</span>}
         />
         <MetricCard 
           title="Toplam Tutar"
-          value="₺0,00"
+          value={formatCurrency(totalAmount, 'TRY')}
           icon={<span className="material-symbols-outlined text-[18px]">payments</span>}
         />
         <MetricCard 
-          title="Bugün İşlenen"
-          value="0"
-          icon={<span className="material-symbols-outlined text-[18px]">check_circle</span>}
+          title="Onay Bekleyen"
+          value={kontrolBekliyor.length.toString()}
+          icon={<span className="material-symbols-outlined text-[18px]">hourglass_empty</span>}
         />
         <MetricCard 
-          title="Ortalama Süre"
-          value="0dk"
-          icon={<span className="material-symbols-outlined text-[18px]">schedule</span>}
+          title="Onaylanan"
+          value={onaylandi.length.toString()}
+          icon={<span className="material-symbols-outlined text-[18px]">check_circle</span>}
         />
       </div>
 
@@ -55,14 +75,28 @@ export default function WorkflowPage() {
               <span className="material-symbols-outlined text-text-muted text-[18px]">download</span>
               <SectionHeader className="text-[14px]">Yeni Geldi</SectionHeader>
             </div>
-            <span className="text-text text-muted font-bold px-2 py-1 rounded-badge bg-surface border border-border">0</span>
+            <span className="text-text text-muted font-bold px-2 py-1 rounded-badge bg-surface border border-border">{yeniGeldi.length}</span>
           </div>
           <p className="text-muted text-text-muted mb-4">AI okumayı bekliyor</p>
           
           <div className="flex flex-col gap-1 overflow-y-auto custom-scrollbar flex-1 pr-1">
-            <GhostButton className="w-full mt-1 flex items-center justify-center gap-2 border border-border bg-surface text-gray-400">
-               Burada henüz evrak yok
-            </GhostButton>
+            {yeniGeldi.length === 0 && (
+              <GhostButton className="w-full mt-1 flex items-center justify-center gap-2 border border-border bg-surface text-gray-400">
+                 Burada henüz evrak yok
+              </GhostButton>
+            )}
+            {yeniGeldi.map(doc => (
+              <AppCard key={doc.id} className="p-4 cursor-pointer">
+                <div className="flex justify-between items-center mb-4">
+                  <span className="text-muted text-[#58A6FF] font-semibold truncate" title={doc.organizations?.name}>{doc.organizations?.name || 'Bilinmiyor'}</span>
+                  <span className="material-symbols-outlined text-text-muted text-[16px]">description</span>
+                </div>
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="material-symbols-outlined text-text-muted text-[16px]">calendar_today</span>
+                  <span className="text-label text-text-muted">{new Date(doc.created_at).toLocaleDateString('tr-TR')}</span>
+                </div>
+              </AppCard>
+            ))}
           </div>
         </div>
 
@@ -73,14 +107,28 @@ export default function WorkflowPage() {
               <span className="material-symbols-outlined text-text-muted text-[18px]">neurology</span>
               <SectionHeader className="text-[14px]">AI İşliyor</SectionHeader>
             </div>
-            <span className="text-text text-muted font-bold px-2 py-1 rounded-badge bg-surface border border-border">0</span>
+            <span className="text-text text-muted font-bold px-2 py-1 rounded-badge bg-surface border border-border">{aiIsliyor.length}</span>
           </div>
           <p className="text-muted text-text-muted mb-4">Okuma ve analiz yapılıyor</p>
           
           <div className="flex flex-col gap-1 overflow-y-auto custom-scrollbar flex-1 pr-1">
-             <GhostButton className="w-full mt-1 flex items-center justify-center gap-2 border border-border bg-surface text-gray-400">
-               Burada henüz evrak yok
-            </GhostButton>
+             {aiIsliyor.length === 0 && (
+               <GhostButton className="w-full mt-1 flex items-center justify-center gap-2 border border-border bg-surface text-gray-400">
+                 Burada henüz evrak yok
+              </GhostButton>
+             )}
+             {aiIsliyor.map(doc => (
+               <AppCard key={doc.id} className="p-4 cursor-pointer">
+                 <div className="flex justify-between items-center mb-4">
+                   <span className="text-muted text-[#58A6FF] font-semibold truncate" title={doc.organizations?.name}>{doc.organizations?.name || 'Bilinmiyor'}</span>
+                   <span className="material-symbols-outlined text-primary text-[18px] animate-spin">progress_activity</span>
+                 </div>
+                 <div className="flex items-center gap-2 mb-2">
+                   <span className="material-symbols-outlined text-text-muted text-[16px]">calendar_today</span>
+                   <span className="text-label text-text-muted">{new Date(doc.created_at).toLocaleDateString('tr-TR')}</span>
+                 </div>
+               </AppCard>
+             ))}
           </div>
         </div>
 
@@ -91,14 +139,40 @@ export default function WorkflowPage() {
               <span className="material-symbols-outlined text-text-muted text-[18px]">error</span>
               <SectionHeader className="text-[14px]">Kontrol Bekliyor</SectionHeader>
             </div>
-            <span className="text-text text-muted font-bold px-2 py-1 rounded-badge bg-surface border border-border">0</span>
+            <span className="text-text text-muted font-bold px-2 py-1 rounded-badge bg-surface border border-border">{kontrolBekliyor.length}</span>
           </div>
           <p className="text-muted text-text-muted mb-4">Müşavir kontrolü gerekli</p>
           
           <div className="flex flex-col gap-1 overflow-y-auto custom-scrollbar flex-1 pr-1">
-            <GhostButton className="w-full mt-1 flex items-center justify-center gap-2 border border-border bg-surface text-gray-400">
-               Burada henüz evrak yok
-            </GhostButton>
+            {kontrolBekliyor.length === 0 && (
+              <GhostButton className="w-full mt-1 flex items-center justify-center gap-2 border border-border bg-surface text-gray-400">
+                 Burada henüz evrak yok
+              </GhostButton>
+            )}
+            {kontrolBekliyor.map(doc => (
+              <Link href={`/ledger/approval/${doc.id}`} key={doc.id}>
+                <AppCard className="p-4 cursor-pointer hover:border-warning/50 transition-colors">
+                  <div className="flex justify-between items-center mb-4">
+                    <span className="text-muted text-[#58A6FF] font-semibold truncate" title={doc.organizations?.name}>{doc.organizations?.name || 'Bilinmiyor'}</span>
+                    <span className="bg-surface text-primary border border-primary/20 text-[10px] px-2 py-1 rounded-badge font-bold uppercase">AI</span>
+                  </div>
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="material-symbols-outlined text-text-muted text-[18px]">domain</span>
+                    <span className="text-body font-semibold text-text truncate" title={doc.vendor_name || 'Okunamadı'}>{doc.vendor_name || 'Okunamadı'}</span>
+                  </div>
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="material-symbols-outlined text-text-muted text-[18px]">payments</span>
+                    <span className="text-card-title font-bold text-text">{formatCurrency(doc.total_amount, doc.currency)}</span>
+                  </div>
+                  {doc.accounting_drafts?.[0]?.ledger_account_code && (
+                    <div className="flex items-center gap-2 mt-3 pt-3 border-t border-border">
+                      <span className="text-label font-bold text-warning">{doc.accounting_drafts[0].ledger_account_code}</span>
+                      <span className="text-muted text-text-muted">Önerilen Kod</span>
+                    </div>
+                  )}
+                </AppCard>
+              </Link>
+            ))}
           </div>
         </div>
 
@@ -109,14 +183,38 @@ export default function WorkflowPage() {
               <span className="material-symbols-outlined text-text-muted text-[18px]">check_circle</span>
               <SectionHeader className="text-[14px]">Onaylandı</SectionHeader>
             </div>
-            <span className="text-text text-muted font-bold px-2 py-1 rounded-badge bg-surface border border-border">0</span>
+            <span className="text-text text-muted font-bold px-2 py-1 rounded-badge bg-surface border border-border">{onaylandi.length}</span>
           </div>
           <p className="text-muted text-text-muted mb-4">Toplu gönderime hazır</p>
           
           <div className="flex flex-col gap-1 overflow-y-auto custom-scrollbar flex-1 pr-1">
-            <GhostButton className="w-full mt-1 flex items-center justify-center gap-2 border border-border bg-surface text-gray-400">
-               Burada henüz evrak yok
-            </GhostButton>
+            {onaylandi.length === 0 && (
+              <GhostButton className="w-full mt-1 flex items-center justify-center gap-2 border border-border bg-surface text-gray-400">
+                 Burada henüz evrak yok
+              </GhostButton>
+            )}
+            {onaylandi.map(doc => (
+              <AppCard key={doc.id} className="p-4 cursor-pointer">
+                <div className="flex justify-between items-center mb-4">
+                  <span className="text-muted text-[#9D5CFF] font-semibold truncate" title={doc.organizations?.name}>{doc.organizations?.name || 'Bilinmiyor'}</span>
+                  <span className="material-symbols-outlined text-success text-[18px]">check_circle</span>
+                </div>
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="material-symbols-outlined text-text-muted text-[18px]">domain</span>
+                  <span className="text-body font-semibold text-text truncate" title={doc.vendor_name || 'Okunamadı'}>{doc.vendor_name || 'Okunamadı'}</span>
+                </div>
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="material-symbols-outlined text-text-muted text-[18px]">payments</span>
+                  <span className="text-card-title font-bold text-text">{formatCurrency(doc.total_amount, doc.currency)}</span>
+                </div>
+                {doc.accounting_drafts?.[0]?.ledger_account_code && (
+                  <div className="flex items-center gap-2 mt-3 pt-3 border-t border-border">
+                    <span className="text-label font-bold text-success">{doc.accounting_drafts[0].ledger_account_code}</span>
+                    <span className="text-muted text-text-muted">Onaylanan Kod</span>
+                  </div>
+                )}
+              </AppCard>
+            ))}
           </div>
         </div>
 
