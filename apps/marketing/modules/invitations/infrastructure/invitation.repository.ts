@@ -6,7 +6,7 @@ export class InvitationRepository {
 
   async create(input: CreateInvitationInput): Promise<Invitation> {
     const { data, error } = await this.supabase
-      .from('invitations')
+      .from('ledger_invitations')
       .insert({
         accounting_firm_id: input.accounting_firm_id,
         accountant_id: input.accountant_id,
@@ -28,7 +28,7 @@ export class InvitationRepository {
 
   async hasActiveInvitationForPhone(phone_e164: string): Promise<boolean> {
     const { data, error } = await this.supabase
-      .from('invitations')
+      .from('ledger_invitations')
       .select('id')
       .eq('phone_e164', phone_e164)
       .in('status', ['pending', 'sent', 'delivered'])
@@ -47,7 +47,7 @@ export class InvitationRepository {
     updates: Partial<Pick<Invitation, 'status' | 'delivery_status' | 'provider_message_id' | 'sent_at'>>
   ): Promise<void> {
     const { error } = await this.supabase
-      .from('invitations')
+      .from('ledger_invitations')
       .update(updates)
       .eq('id', id);
 
