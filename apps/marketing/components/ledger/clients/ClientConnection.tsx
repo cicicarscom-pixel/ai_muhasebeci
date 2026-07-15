@@ -64,13 +64,18 @@ export function ClientConnection({ client }: ClientConnectionProps) {
   const handleDelete = async () => {
     if (confirm("Bu mükellef kaydını TAMAMEN SİLMEK istediğinize emin misiniz?\nBu işlem geri alınamaz.")) {
       setLoading(true);
-      const res = await deleteConnectionAction(client.id);
-      if (!res.success) {
-        alert(res.error);
+      try {
+        const res = await deleteConnectionAction(client.id);
+        if (!res.success) {
+          alert(res.error);
+          setLoading(false);
+        } else {
+          window.location.reload();
+        }
+      } catch (err: any) {
+        console.error("Delete Error:", err);
+        alert("Beklenmeyen bir hata oluştu: " + (err.message || "Bilinmiyor"));
         setLoading(false);
-      } else {
-        // If we delete, the selectedClient disappears, refreshing the page is best
-        window.location.reload();
       }
     }
   };
