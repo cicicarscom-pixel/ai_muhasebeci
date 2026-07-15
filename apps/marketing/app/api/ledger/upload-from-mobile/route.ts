@@ -52,7 +52,10 @@ export async function POST(req: NextRequest) {
     }
     const firmId = link.accounting_firm_id;
 
-    // 6. Decode Base64 and Upload to Supabase Storage
+    // 6. Ensure Bucket Exists and Decode Base64
+    // Attempt to create bucket (fails silently if exists)
+    await adminSupabase.storage.createBucket('documents', { public: false });
+
     // Remove any data URI prefix if it exists (handles images and PDFs)
     const base64Data = image.replace(/^data:(image|application)\/\w+;base64,/, '');
     const buffer = Buffer.from(base64Data, 'base64');
