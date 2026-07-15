@@ -73,15 +73,3 @@ function SidebarItem({ icon, label, href, active, onClick }: { icon: string, lab
     </Link>
   );
 }
-      <span className={`material-symbols-outlined text-[24px] transition-colors duration-medium ${active ? 'text-primary' : 'text-text-muted group-hover/item:text-text'}`} style={active ? { fontVariationSettings: "'FILL' 1" } : {}}>{icon}</span>
-      
-      {/* Tooltip */}
-      <div className="absolute left-[56px] top-1/2 -translate-y-1/2 opacity-0 pointer-events-none group-hover/item:opacity-100 group-hover/item:translate-x-[4px] transition-all duration-medium ease-in-out z-50 flex items-center">
-        <div className={`px-3 py-2 rounded-card whitespace-nowrap font-bold text-label shadow-glow-primary relative ${active ? 'bg-primary/10 border border-primary/20 text-primary' : 'bg-surface border border-border text-text'}`}>
-          <div className={`absolute -left-[6px] top-1/2 -translate-y-1/2 w-0 h-0 border-y-[6px] border-y-transparent border-r-[6px] ${active ? 'border-r-primary/20' : 'border-r-border'}`}></div>
-          {label}
-        </div>
-      </div>
-    </Link>
-  );
-}
