@@ -77,7 +77,7 @@ export async function getClientsAction(): Promise<{ advisorCode: string | null; 
           firm_name: user.user_metadata?.full_name || user.email?.split('@')[0] || 'Yeni Firma',
           connection_code: connectionCode
         })
-        .select('id, connection_code')
+        .select('id, connection_code, firm_name')
         .single();
         
       if (insertError) {
@@ -100,7 +100,7 @@ export async function getClientsAction(): Promise<{ advisorCode: string | null; 
         .from('accounting_firms')
         .update({ connection_code: connectionCode })
         .eq('id', firmData.id)
-        .select('id, connection_code')
+        .select('id, connection_code, firm_name')
         .single();
         
       if (updateError) {
