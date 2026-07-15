@@ -7,6 +7,7 @@ import { cancelInvitationAction } from "@/modules/accountant-bridge/application/
 import { disconnectTaxpayerAction } from "@/modules/accountant-bridge/application/disconnect-taxpayer.action";
 import { acceptConnectionAction } from "@/modules/clients/application/accept-connection.action";
 import { rejectConnectionAction } from "@/modules/clients/application/reject-connection.action";
+import { deleteConnectionAction } from "@/modules/clients/application/delete-connection.action";
 import { useState } from "react";
 
 interface ClientConnectionProps {
@@ -17,6 +18,7 @@ export function ClientConnection({ client }: ClientConnectionProps) {
   const isConnected = client.connectionStatus === "connected";
   const isActivationPending = client.connectionStatus === "activation_pending";
   const isOutgoingPending = ["invited", "waiting_reply"].includes(client.connectionStatus);
+  const isInactive = client.connectionStatus === "inactive";
   const [loading, setLoading] = useState(false);
 
   const handleCancelInvite = async () => {
@@ -48,6 +50,15 @@ export function ClientConnection({ client }: ClientConnectionProps) {
     if (confirm("Bu bağlantı isteğini reddetmek istediğinize emin misiniz?")) {
       setLoading(true);
       const res = await rejectConnectionAction(client.id);
+      if (!res.success) alert(res.error);
+      setLoading(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    if (confirm("Bu mükellef kaydını TAMAMEN SİLMEK istediğinize emin misiniz?\nBu işlem geri alınamaz.")) {
+      setLoading(true);
+      const res = await deleteConnectionAction(client.id);
       if (!res.success) alert(res.error);
       setLoading(false);
     }
@@ -128,6 +139,23 @@ export function ClientConnection({ client }: ClientConnectionProps) {
               disabled={loading}
               className="ml-auto rounded-lg px-1 py-2 text-[13px] font-medium text-red-400 transition hover:bg-red-400/10 border border-red-500/20">
               {loading ? "İşleniyor..." : "Bağlantıyı Kes"}
+            </button>
+             <button 
+              onClick={handleDelete}
+              disabled={loading}
+              className="rounded-lg px-1 py-2 text-[13px] font-medium text-gray-500 transition hover:bg-red-400/10 border border-white/5 hover:text-red-400">
+              {loading ? "..." : "Kaydı Sil"}
+            </button>
+          </div>
+        )}
+
+        {isInactive && (
+          <div className="mt-6 flex gap-3 border-t border-white/5 pt-6">
+             <button 
+              onClick={handleDelete}
+              disabled={loading}
+              className="ml-auto rounded-lg px-4 py-2 text-[13px] font-medium text-red-400 transition hover:bg-red-400/10 border border-red-500/20">
+              {loading ? "İşleniyor..." : "Bu Kaydı Tamamen Sil"}
             </button>
           </div>
         )}
