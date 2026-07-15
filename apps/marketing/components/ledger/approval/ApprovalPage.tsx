@@ -196,14 +196,22 @@ export default function ApprovalPage({
                   </button>
                 </div>
 
-                <div className="w-full max-w-[600px] h-full max-h-[800px] bg-white rounded-card shadow-2xl relative overflow-auto border border-border flex justify-center">
-                  {imageUrl ? (
-                    <img src={imageUrl} alt="Document" className="object-contain w-full h-auto" />
-                  ) : (
-                    <div className="flex items-center justify-center h-full w-full text-gray-400">
-                      Görsel yüklenemedi.
-                    </div>
-                  )}
+                <div className="w-full max-w-[600px] h-full max-h-[800px] bg-white rounded-card shadow-2xl relative overflow-auto border border-border flex flex-col items-center print:border-none print:shadow-none print:max-h-none print:h-auto print:max-w-none">
+                  
+                  {/* Ownership Stamp / Header for Print & View */}
+                  <div className="w-full bg-slate-100 border-b border-border py-3 px-6 text-center text-slate-800 font-bold uppercase tracking-wider text-[11px] print:bg-white print:border-black print:text-black print:text-sm shrink-0">
+                    MÜKELLEF: {activeDocument.organizations?.name || 'Bilinmiyor'}
+                  </div>
+
+                  <div className="w-full flex-1 flex justify-center items-start overflow-auto relative">
+                    {imageUrl ? (
+                      <img src={imageUrl} alt="Document" className="object-contain w-full h-auto print:w-full" />
+                    ) : (
+                      <div className="flex items-center justify-center h-full w-full text-gray-400 print:hidden absolute inset-0">
+                        Görsel yüklenemedi.
+                      </div>
+                    )}
+                  </div>
                 </div>
               </>
             )}
