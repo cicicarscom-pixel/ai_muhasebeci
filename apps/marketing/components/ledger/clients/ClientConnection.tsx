@@ -9,6 +9,7 @@ import { acceptConnectionAction } from "@/modules/clients/application/accept-con
 import { rejectConnectionAction } from "@/modules/clients/application/reject-connection.action";
 import { deleteConnectionAction } from "@/modules/clients/application/delete-connection.action";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 interface ClientConnectionProps {
   client: Client;
@@ -20,12 +21,14 @@ export function ClientConnection({ client }: ClientConnectionProps) {
   const isOutgoingPending = ["invited", "waiting_reply"].includes(client.connectionStatus);
   const isInactive = client.connectionStatus === "inactive";
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const handleCancelInvite = async () => {
     if (confirm("Bu daveti iptal etmek istediğinize emin misiniz?")) {
       setLoading(true);
       const res = await cancelInvitationAction(client.id);
       if (!res.success) alert(res.error);
+      else router.refresh();
       setLoading(false);
     }
   };
@@ -35,6 +38,7 @@ export function ClientConnection({ client }: ClientConnectionProps) {
       setLoading(true);
       const res = await disconnectTaxpayerAction(client.id, "Müşavirin talebi");
       if (!res.success) alert(res.error);
+      else router.refresh();
       setLoading(false);
     }
   };
@@ -43,6 +47,7 @@ export function ClientConnection({ client }: ClientConnectionProps) {
     setLoading(true);
     const res = await acceptConnectionAction(client.id);
     if (!res.success) alert(res.error);
+    else router.refresh();
     setLoading(false);
   };
 
@@ -51,6 +56,7 @@ export function ClientConnection({ client }: ClientConnectionProps) {
       setLoading(true);
       const res = await rejectConnectionAction(client.id);
       if (!res.success) alert(res.error);
+      else router.refresh();
       setLoading(false);
     }
   };
@@ -59,8 +65,13 @@ export function ClientConnection({ client }: ClientConnectionProps) {
     if (confirm("Bu mükellef kaydını TAMAMEN SİLMEK istediğinize emin misiniz?\nBu işlem geri alınamaz.")) {
       setLoading(true);
       const res = await deleteConnectionAction(client.id);
-      if (!res.success) alert(res.error);
-      setLoading(false);
+      if (!res.success) {
+        alert(res.error);
+        setLoading(false);
+      } else {
+        // If we delete, the selectedClient disappears, refreshing the page is best
+        window.location.reload();
+      }
     }
   };
 

@@ -8,6 +8,7 @@ import { ClientDetail } from "./ClientDetail";
 import { acceptConnectionAction } from "@/modules/clients/application/accept-connection.action";
 import { rejectConnectionAction } from "@/modules/clients/application/reject-connection.action";
 import { AlertCircle, Check, X } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 interface ClientsPageProps {
   advisorCode: string | null;
@@ -18,6 +19,7 @@ export function ClientsPage({ advisorCode, clients }: ClientsPageProps) {
   const [selectedClientId, setSelectedClientId] = useState(clients[0]?.id);
   const [query, setQuery] = useState("");
   const [loadingActionId, setLoadingActionId] = useState<string | null>(null);
+  const router = useRouter();
 
   const pendingClients = clients.filter((c) => c.connectionStatus === "activation_pending");
 
@@ -45,6 +47,7 @@ export function ClientsPage({ advisorCode, clients }: ClientsPageProps) {
     setLoadingActionId(clientId);
     const res = await acceptConnectionAction(clientId);
     if (!res.success) alert(res.error);
+    else router.refresh();
     setLoadingActionId(null);
   };
 
@@ -53,6 +56,7 @@ export function ClientsPage({ advisorCode, clients }: ClientsPageProps) {
       setLoadingActionId(clientId);
       const res = await rejectConnectionAction(clientId);
       if (!res.success) alert(res.error);
+      else router.refresh();
       setLoadingActionId(null);
     }
   };
