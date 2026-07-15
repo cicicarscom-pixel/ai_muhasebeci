@@ -1,10 +1,12 @@
 'use server';
 
 import { createClient } from '@/utils/supabase/server';
+import { cookies } from 'next/headers';
 
 export async function rejectConnectionAction(linkId: string) {
   try {
-    const supabase = await createClient();
+    const cookieStore = await cookies();
+    const supabase = createClient(cookieStore);
 
     const { data, error } = await supabase.rpc('review_connection_request', {
       p_link_id: linkId,
