@@ -53,7 +53,8 @@ export async function POST(req: NextRequest) {
     const firmId = link.accounting_firm_id;
 
     // 6. Decode Base64 and Upload to Supabase Storage
-    const base64Data = image.replace(/^data:image\/\w+;base64,/, '');
+    // Remove any data URI prefix if it exists (handles images and PDFs)
+    const base64Data = image.replace(/^data:(image|application)\/\w+;base64,/, '');
     const buffer = Buffer.from(base64Data, 'base64');
     const actualMimeType = mimeType || 'image/jpeg';
     const fileExt = actualMimeType === 'application/pdf' ? 'pdf' : 'jpg';
@@ -69,7 +70,7 @@ export async function POST(req: NextRequest) {
 
     if (uploadError) {
       console.error('Storage upload error:', uploadError);
-      return NextResponse.json({ error: 'Failed to upload document image' }, { status: 500 });
+      return NextResponse.json({ error: 'Failed to upload document image. ' + uploadError.message }, { status: 500 });
     }
 
     // 7. Insert Record into accounting_documents
@@ -96,15 +97,39 @@ export async function POST(req: NextRequest) {
     }
 
     // 8. Trigger AI Processing
-    // Await it to ensure Vercel processes it before closing function
     const processRes = await processDocumentAction(document.id);
 
     if (!processRes.success) {
-      return NextResponse.json({ error: 'AI Processing failed: ' + processRes.error }, { status: 500 });
+      console.error('AI Processing failed:', processRes.error);
+      // We don't fail the request completely so the document stays in the queue for manual review.
+    }
+
+    // 9. Fetch processed data and save to old `transactions` table for the mobile app's calendar!
+    const { data: updatedDoc } = await adminSupabase
+      .from('accounting_documents')
+      .select('*')
+      .eq('id', document.id)
+      .single();
+
+    if (updatedDoc && updatedDoc.total_amount) {
+      const txType = updatedDoc.document_type === 'sales_invoice' ? 'income' : 'expense';
+      
+      await adminSupabase.from('transactions').insert({
+        profile_id: user.id,
+        title: updatedDoc.vendor_name || 'Fatura/Fiş',
+        amount: updatedDoc.total_amount,
+        type: txType,
+        date: updatedDoc.issue_date || new Date().toISOString().split('T')[0],
+        receipt_url: storagePath
+      });
     }
 
     // Return success
-    return NextResponse.json({ success: true, documentId: document.id, message: 'Document successfully uploaded and processed by Ledger AI' });
+    return NextResponse.json({ 
+      success: true, 
+      documentId: document.id, 
+      message: 'Belge başarıyla onay kuyruğuna gönderildi ve takvime işlendi.' 
+    });
 
   } catch (error: any) {
     console.error('Mobile upload API error:', error);
