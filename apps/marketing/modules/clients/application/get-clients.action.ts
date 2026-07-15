@@ -69,11 +69,28 @@ export async function getClientsAction(): Promise<{ advisorCode: string | null; 
         .single();
         
       if (insertError) {
-        advisorCode = `Hata: ${insertError.message}`;
+        advisorCode = `Hata (Insert): ${insertError.message}`;
         console.error('Auto-generate firm error:', insertError);
       } else if (newFirm) {
         firmData = newFirm;
         advisorCode = newFirm.connection_code;
+      }
+    } else if (!advisorCode) {
+      // Firm exists but connection_code is missing
+      const connectionCode = `WG-${Math.floor(10000 + Math.random() * 90000)}`;
+      const { data: updatedFirm, error: updateError } = await adminSupabase
+        .from('ledger_accounting_firms')
+        .update({ connection_code: connectionCode })
+        .eq('id', firmData.id)
+        .select('id, connection_code')
+        .single();
+        
+      if (updateError) {
+        advisorCode = `Hata (Update): ${updateError.message}`;
+        console.error('Update firm error:', updateError);
+      } else if (updatedFirm) {
+        firmData = updatedFirm;
+        advisorCode = updatedFirm.connection_code;
       }
     }
 
