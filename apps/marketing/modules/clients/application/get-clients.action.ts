@@ -64,7 +64,8 @@ export async function getClientsAction(): Promise<{ advisorCode: string | null; 
       .limit(1)
       .single();
 
-    let firmData = firmMemberData?.accounting_firms;
+    let firmDataRaw = firmMemberData?.accounting_firms;
+    let firmData = Array.isArray(firmDataRaw) ? firmDataRaw[0] : firmDataRaw;
     let advisorCode = firmData?.connection_code || null;
     
     // Auto-create for seamless UX if missing
@@ -198,7 +199,8 @@ export async function getClientsAction(): Promise<{ advisorCode: string | null; 
              }
           }
 
-          const orgName = link.organizations?.name || `Bağlı İşletme (${link.taxpayer_organization_id.substring(0,4)})`;
+          const orgData = Array.isArray(link.organizations) ? link.organizations[0] : link.organizations;
+          const orgName = orgData?.name || `Bağlı İşletme (${link.taxpayer_organization_id.substring(0,4)})`;
 
           clientsList.push({
             id: link.id,
