@@ -1,10 +1,31 @@
 "use client";
 
-import React from "react";
+import React, { useState, useTransition } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { loginAccountantAction } from "../../../modules/auth/application/auth.actions";
 
 export default function LedgerLoginPage() {
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+  const [error, setError] = useState<string | null>(null);
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setError(null);
+    const formData = new FormData(e.currentTarget);
+    
+    startTransition(async () => {
+      const result = await loginAccountantAction(formData);
+      if (result.success) {
+        router.push("/ledger/clients");
+        router.refresh();
+      } else {
+        setError(result.error || "Giriş başarısız.");
+      }
+    });
+  };
   return (
     <div className="min-h-screen bg-[#070B14] text-white selection:bg-[#00F0FF]/30 selection:text-white font-sans flex overflow-hidden relative">
       
@@ -122,11 +143,19 @@ export default function LedgerLoginPage() {
             <div className="flex-1 h-px bg-white/10"></div>
           </div>
 
-          <form className="flex flex-col gap-4">
+          <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+            {error && (
+              <div className="bg-error/10 border border-error/50 text-error px-4 py-3 rounded-xl text-[13px] font-medium text-center">
+                {error}
+              </div>
+            )}
+            
             <div className="flex flex-col gap-1.5">
               <label className="text-[13px] font-bold text-gray-300">E-posta Adresi</label>
               <input 
                 type="email" 
+                name="email"
+                required
                 placeholder="ornek@sirket.com" 
                 className="w-full bg-[#0D1017] border border-[#232B45] text-white px-4 py-3.5 rounded-xl focus:outline-none focus:border-[#00F0FF] focus:ring-1 focus:ring-[#00F0FF]/50 transition-all placeholder-[#8E95B3]/50"
               />
@@ -139,20 +168,28 @@ export default function LedgerLoginPage() {
               </div>
               <input 
                 type="password" 
+                name="password"
+                required
                 placeholder="••••••••" 
                 className="w-full bg-[#0D1017] border border-[#232B45] text-white px-4 py-3.5 rounded-xl focus:outline-none focus:border-[#00F0FF] focus:ring-1 focus:ring-[#00F0FF]/50 transition-all placeholder-[#8E95B3]/50"
               />
             </div>
 
-            <Link href="/ledger/dashboard" className="w-full text-center bg-gradient-to-r from-[#00F0FF] to-[#0080FF] text-white font-bold py-3.5 px-4 rounded-xl mt-2 hover:shadow-[0_0_20px_rgba(0,240,255,0.4)] transition-all hover:scale-[1.02] relative overflow-hidden group">
-              <span className="relative z-10">Giriş Yap</span>
-              <motion.div 
-                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12"
-                initial={{ x: "-100%" }}
-                animate={{ x: "200%" }}
-                transition={{ repeat: Infinity, duration: 2, repeatDelay: 3 }}
-              />
-            </Link>
+            <button 
+              type="submit" 
+              disabled={isPending}
+              className={`w-full text-center bg-gradient-to-r from-[#00F0FF] to-[#0080FF] text-white font-bold py-3.5 px-4 rounded-xl mt-2 hover:shadow-[0_0_20px_rgba(0,240,255,0.4)] transition-all hover:scale-[1.02] relative overflow-hidden group ${isPending ? 'opacity-70 cursor-not-allowed' : ''}`}
+            >
+              <span className="relative z-10">{isPending ? "Giriş Yapılıyor..." : "Giriş Yap"}</span>
+              {!isPending && (
+                <motion.div 
+                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12"
+                  initial={{ x: "-100%" }}
+                  animate={{ x: "200%" }}
+                  transition={{ repeat: Infinity, duration: 2, repeatDelay: 3 }}
+                />
+              )}
+            </button>
           </form>
 
           <p className="text-center text-[14px] text-[#8E95B3] mt-8">

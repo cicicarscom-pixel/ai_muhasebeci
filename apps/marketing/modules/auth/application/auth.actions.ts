@@ -10,6 +10,35 @@ function generateConnectionCode(): string {
   return `WG-${code}`;
 }
 
+export async function loginAccountantAction(formData: FormData) {
+  try {
+    const email = formData.get('email') as string;
+    const password = formData.get('password') as string;
+
+    if (!email || !password) {
+      return { success: false, error: 'Lütfen e-posta ve şifrenizi girin.' };
+    }
+
+    const cookieStore = await cookies();
+    const supabase = createClient(cookieStore);
+
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) {
+      console.error('Giriş hatası:', error.message);
+      return { success: false, error: 'E-posta veya şifre hatalı.' };
+    }
+
+    return { success: true };
+  } catch (error: any) {
+    console.error('loginAccountantAction beklenmeyen hata:', error);
+    return { success: false, error: 'Beklenmeyen bir sunucu hatası oluştu.' };
+  }
+}
+
 export async function registerAccountantAction(formData: FormData) {
   try {
     const email = formData.get('email') as string;
