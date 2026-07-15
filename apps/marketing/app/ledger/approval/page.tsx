@@ -3,6 +3,8 @@ import { cookies } from 'next/headers';
 import { getPendingDocumentsAction } from '../../../modules/ledger-ai/application/read-documents.action';
 import ApprovalPage from '@/components/ledger/approval/ApprovalPage';
 
+import { redirect } from 'next/navigation';
+
 export default async function Page() {
   const cookieStore = await cookies();
   const supabase = createClient(cookieStore);
@@ -21,6 +23,10 @@ export default async function Page() {
 
   const result = await getPendingDocumentsAction(firmMember.accounting_firm_id);
   const queue = result.data || [];
+
+  if (queue.length > 0) {
+    redirect(`/ledger/approval/${queue[0].id}`);
+  }
 
   return <ApprovalPage queue={queue} />;
 }
