@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import { usePathname } from 'next/navigation';
-import InviteTaxpayerDialog from '../../../../modules/invitations/presentation/InviteTaxpayerDialog';
+import InviteTaxpayerDialog from '../../../modules/invitations/presentation/InviteTaxpayerDialog';
 
 export default function Header() {
   const pathname = usePathname();
