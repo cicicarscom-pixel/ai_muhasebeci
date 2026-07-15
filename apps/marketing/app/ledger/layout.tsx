@@ -21,6 +21,7 @@ export default function LedgerLayout({ children }: { children: React.ReactNode }
   }
 
   const isLandingPage = pathname === '/ledger';
+  const isAuthPage = pathname === '/ledger/login' || pathname === '/ledger/register';
 
   // Dynamic Scaling
   const zoomLevel = isApproval ? 0.75 : 0.90;
@@ -28,8 +29,8 @@ export default function LedgerLayout({ children }: { children: React.ReactNode }
   const heightClass = isApproval ? 'h-[133.33vh]' : 'h-[111.11vh]';
   const vhValue = isApproval ? '133.33vh' : '111.11vh';
 
-  // If it's the landing page, don't render app layout components
-  if (isLandingPage) {
+  // If it's the landing page or auth page, don't render app layout components
+  if (isLandingPage || isAuthPage) {
     return (
       <div className={`font-body antialiased bg-background text-on-surface ${minHeightClass} overflow-x-hidden relative`}>
         <Script src='https://unpkg.com/@phosphor-icons/web' strategy='lazyOnload' />
