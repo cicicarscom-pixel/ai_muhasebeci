@@ -3,6 +3,9 @@
 import { Client } from "@/modules/clients/application/get-clients.action";
 import { InviteStatusTimeline } from "./InviteStatusTimeline";
 import { Link2, Smartphone, KeyRound, CheckCircle2, AlertCircle } from "lucide-react";
+import { cancelInvitationAction } from "@/modules/accountant-bridge/application/cancel-invitation.action";
+import { disconnectTaxpayerAction } from "@/modules/accountant-bridge/application/disconnect-taxpayer.action";
+import { useState } from "react";
 
 interface ClientConnectionProps {
   client: Client;
@@ -11,6 +14,26 @@ interface ClientConnectionProps {
 export function ClientConnection({ client }: ClientConnectionProps) {
   const isConnected = client.connectionStatus === "connected";
   const isPending = ["invited", "activation_pending", "waiting_reply"].includes(client.connectionStatus);
+  const [loading, setLoading] = useState(false);
+
+  const handleCancelInvite = async () => {
+    if (confirm("Bu daveti iptal etmek istediğinize emin misiniz?")) {
+      setLoading(true);
+      const res = await cancelInvitationAction(client.id);
+      if (!res.success) alert(res.error);
+      setLoading(false);
+    }
+  };
+
+  const handleDisconnect = async () => {
+    if (confirm(`${client.companyName} ile bağlantıyı kaldırmak üzeresiniz.\nBu işlemden sonra yeni belgeler ofisinize aktarılmaz. Geçmiş kayıtlar korunur.`)) {
+      setLoading(true);
+      // We pass the default reason for now, optionally could implement a dropdown
+      const res = await disconnectTaxpayerAction(client.id, "Müşavirin talebi");
+      if (!res.success) alert(res.error);
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="flex flex-col space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-300">
@@ -46,15 +69,29 @@ export function ClientConnection({ client }: ClientConnectionProps) {
         
         {isPending && (
           <div className="mt-6 flex gap-3 border-t border-white/5 pt-6">
-            <button className="rounded-lg bg-white/5 px-1 py-2 text-[13px] font-medium text-white transition hover:bg-white/10">
+            <button className="rounded-lg bg-white/5 px-1 py-2 text-[13px] font-medium text-white transition hover:bg-white/10" disabled={loading}>
               Daveti Yeniden Gönder
             </button>
-            <button className="flex items-center gap-2 rounded-lg border border-white/10 px-1 py-2 text-[13px] font-medium text-[#8B949E] transition hover:bg-white/5 hover:text-white">
+            <button className="flex items-center gap-2 rounded-lg border border-white/10 px-1 py-2 text-[13px] font-medium text-[#8B949E] transition hover:bg-white/5 hover:text-white" disabled={loading}>
               <Link2 className="h-1 w-1" />
               Linki Kopyala
             </button>
-            <button className="ml-auto rounded-lg px-1 py-2 text-[13px] font-medium text-red-400 transition hover:bg-red-400/10">
-              İptal Et
+            <button 
+              onClick={handleCancelInvite}
+              disabled={loading}
+              className="ml-auto rounded-lg px-1 py-2 text-[13px] font-medium text-red-400 transition hover:bg-red-400/10">
+              {loading ? "İşleniyor..." : "İptal Et"}
+            </button>
+          </div>
+        )}
+
+        {isConnected && (
+          <div className="mt-6 flex gap-3 border-t border-white/5 pt-6">
+             <button 
+              onClick={handleDisconnect}
+              disabled={loading}
+              className="ml-auto rounded-lg px-1 py-2 text-[13px] font-medium text-red-400 transition hover:bg-red-400/10 border border-red-500/20">
+              {loading ? "İşleniyor..." : "Bağlantıyı Kes"}
             </button>
           </div>
         )}

@@ -49,22 +49,30 @@ export async function getClientsAction(): Promise<{ advisorCode: string | null; 
 
     const accountantId = user.id;
 
-    // 2. Fetch connection_code from ledger_accounting_firms
-    let { data: firmData } = await adminSupabase
-      .from('ledger_accounting_firms')
-      .select('id, connection_code')
+    // 2. Fetch connection_code from accounting_firm_members -> accounting_firms
+    let { data: firmMemberData } = await adminSupabase
+      .from('accounting_firm_members')
+      .select(`
+        accounting_firm_id,
+        accounting_firms (
+          id,
+          connection_code,
+          firm_name
+        )
+      `)
       .eq('user_id', accountantId)
+      .limit(1)
       .single();
 
+    let firmData = firmMemberData?.accounting_firms;
     let advisorCode = firmData?.connection_code || null;
     
+    // Auto-create for seamless UX if missing
     if (!firmData) {
-      // Auto-generate if missing (e.g. user logged in without custom registration)
       const connectionCode = `WG-${Math.floor(10000 + Math.random() * 90000)}`;
       const { data: newFirm, error: insertError } = await adminSupabase
-        .from('ledger_accounting_firms')
+        .from('accounting_firms')
         .insert({
-          user_id: accountantId,
           firm_name: user.user_metadata?.full_name || user.email?.split('@')[0] || 'Yeni Firma',
           connection_code: connectionCode
         })
@@ -72,9 +80,15 @@ export async function getClientsAction(): Promise<{ advisorCode: string | null; 
         .single();
         
       if (insertError) {
-        advisorCode = `Hata (Insert): ${insertError.message}`;
+        advisorCode = `Hata (Insert Firm): ${insertError.message}`;
         console.error('Auto-generate firm error:', insertError);
       } else if (newFirm) {
+        // Also insert membership
+        await adminSupabase.from('accounting_firm_members').insert({
+            accounting_firm_id: newFirm.id,
+            user_id: accountantId,
+            role: 'admin'
+        });
         firmData = newFirm;
         advisorCode = newFirm.connection_code;
       }
@@ -82,7 +96,7 @@ export async function getClientsAction(): Promise<{ advisorCode: string | null; 
       // Firm exists but connection_code is missing
       const connectionCode = `WG-${Math.floor(10000 + Math.random() * 90000)}`;
       const { data: updatedFirm, error: updateError } = await adminSupabase
-        .from('ledger_accounting_firms')
+        .from('accounting_firms')
         .update({ connection_code: connectionCode })
         .eq('id', firmData.id)
         .select('id, connection_code')
@@ -101,20 +115,26 @@ export async function getClientsAction(): Promise<{ advisorCode: string | null; 
     
     let clientsList: Client[] = [];
 
-    // If we have a firm, fetch the clients
+    // If we have a firm, fetch the connected clients
     if (firmId) {
-      // 3. Fetch Invitations
-      const { data: invitations } = await adminSupabase
+      console.log('Fetching clients for firmId:', firmId);
+
+      // 3a. Fetch Invitations
+      const { data: invitations, error: invError } = await adminSupabase
         .from('ledger_invitations')
         .select('*')
         .eq('accounting_firm_id', firmId);
+
+      if (invError) {
+        console.error('Error fetching invitations:', invError);
+      }
 
       if (invitations) {
         const invitedClients = invitations.map((inv: any) => ({
           id: inv.id,
           companyName: inv.company_name || 'İsimsiz Firma',
           initials: (inv.company_name || 'İ F').substring(0, 2).toUpperCase(),
-          taxNumber: '-', // Not available in invitation
+          taxNumber: '-', 
           taxOffice: '-',
           contactName: '-',
           phone: inv.phone_e164 || '',
@@ -127,42 +147,70 @@ export async function getClientsAction(): Promise<{ advisorCode: string | null; 
           language: 'Türkçe',
         } as Client));
         
-        // We only add those that aren't fully connected yet to avoid duplicates if they exist in shared links
         const pendingInvites = invitedClients.filter((c: Client) => c.connectionStatus !== 'connected');
         clientsList = [...clientsList, ...pendingInvites];
       }
 
-      // 4. Fetch Connected Clients (from shared_accountant_taxpayer_links)
-      const { data: sharedLinks } = await adminSupabase
-        .from('shared_accountant_taxpayer_links')
+      // 3b. Fetch Connected Clients (from accountant_taxpayer_links -> organizations)
+      const { data: sharedLinks, error: linkError } = await adminSupabase
+        .from('accountant_taxpayer_links')
         .select(`
           id,
           status,
           created_at,
-          taxpayer_id
+          taxpayer_organization_id,
+          organizations (
+            name
+          )
         `)
         .eq('accounting_firm_id', firmId);
         
+      console.log('Shared links result:', { sharedLinks, linkError });
+
+      if (linkError) {
+        console.error('Error fetching links:', linkError);
+      }
+
       if (sharedLinks && sharedLinks.length > 0) {
-        // We do a loop to fetch the taxpayer profile data
+        // Fetch organization details
         for (const link of sharedLinks) {
-          const { data: profile } = await adminSupabase
-            .from('profiles')
-            .select('full_name')
-            .eq('id', link.taxpayer_id)
+          // We get the first owner/admin of the organization to display as contact
+          const { data: orgMember } = await adminSupabase
+            .from('organization_members')
+            .select('user_id')
+            .eq('organization_id', link.taxpayer_organization_id)
+            .limit(1)
             .single();
+
+          let contactName = 'Yetkili';
+          let phone = '-';
+          let email = '-';
+
+          if (orgMember) {
+             const { data: profile } = await adminSupabase
+              .from('profiles')
+              .select('full_name')
+              .eq('id', orgMember.user_id)
+              .single();
+              
+             if (profile?.full_name) {
+               contactName = profile.full_name;
+             }
+          }
+
+          const orgName = link.organizations?.name || `Bağlı İşletme (${link.taxpayer_organization_id.substring(0,4)})`;
 
           clientsList.push({
             id: link.id,
-            companyName: profile?.full_name || `Bağlı Firma (${link.taxpayer_id.substring(0,4)})`,
-            initials: (profile?.full_name || 'B F').substring(0, 2).toUpperCase(),
+            companyName: orgName,
+            initials: orgName.substring(0, 2).toUpperCase(),
             taxNumber: '-',
             taxOffice: '-',
-            contactName: profile?.full_name || 'Yetkili',
-            phone: '-',
-            email: '-',
-            connectionStatus: link.status === 'pending' ? 'activation_pending' : 'connected',
-            lastContact: new Date(link.created_at).toLocaleDateString('tr-TR'),
+            contactName: contactName,
+            phone: phone,
+            email: email,
+            connectionStatus: link.status === 'pending_confirmation' ? 'activation_pending' : (link.status === 'active' ? 'connected' : 'inactive'),
+            lastContact: link.created_at ? new Date(link.created_at).toLocaleDateString('tr-TR') : '-',
             assignedAccountant: 'Siz',
             country: 'Türkiye',
             language: 'Türkçe',
