@@ -1,4 +1,4 @@
-import { getDocumentDetailsAction } from '../../../../../modules/ledger-ai/application/read-documents.action';
+import { getDocumentDetailsAction } from '../../../../modules/ledger-ai/application/read-documents.action';
 import ApprovalClient from './ApprovalClient';
 import Link from 'next/link';
 

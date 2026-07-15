@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { approveDocumentAction } from '../../../../../modules/ledger-ai/application/approve-document.action';
+import { approveDocumentAction } from '../../../../modules/ledger-ai/application/approve-document.action';
 
 export default function ApprovalClient({ document, draft, lines, imageUrl }: { document: any, draft: any, lines: any[], imageUrl: string | null }) {
   const router = useRouter();

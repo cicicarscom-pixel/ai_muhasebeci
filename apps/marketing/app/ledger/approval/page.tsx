@@ -1,7 +1,7 @@
 import { createClient } from '@/utils/supabase/server';
 import { cookies } from 'next/headers';
 import Link from 'next/link';
-import { getPendingDocumentsAction } from '../../../../modules/ledger-ai/application/read-documents.action';
+import { getPendingDocumentsAction } from '../../../modules/ledger-ai/application/read-documents.action';
 
 export default async function ApprovalPage() {
   const cookieStore = await cookies();

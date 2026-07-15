@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 import { createClient } from '@/utils/supabase/client';
-import { uploadDocumentAction } from '../../../../modules/ledger-ai/application/upload-document.action';
-import { processDocumentAction } from '../../../../modules/ledger-ai/application/process-document.action';
+import { uploadDocumentAction } from '../../../modules/ledger-ai/application/upload-document.action';
+import { processDocumentAction } from '../../../modules/ledger-ai/application/process-document.action';
 
 export default function UploadDocumentClient({ orgId, firmId }: { orgId: string, firmId: string }) {
   const [file, setFile] = useState<File | null>(null);
