@@ -20,7 +20,7 @@ export default async function DocumentApprovalDetailPage({ params }: { params: {
         document={result.document} 
         draft={result.draft} 
         lines={result.lines || []} 
-        imageUrl={result.imageUrl} 
+        imageUrl={result.imageUrl || null} 
       />
     </div>
   );
