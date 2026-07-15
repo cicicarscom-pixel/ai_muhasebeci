@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { PrimaryButton, SecondaryButton, GhostButton } from '../ui/Buttons';
 import { approveDocumentAction } from '../../../modules/ledger-ai/application/approve-document.action';
+import { deleteDocumentAction } from '../../../modules/ledger-ai/application/delete-document.action';
 
 export default function ApprovalPage({ 
   queue = [], 
@@ -39,6 +40,22 @@ export default function ApprovalPage({
 
     if (!res.success) {
       alert('Onaylama başarısız: ' + res.error);
+      setIsSubmitting(false);
+    } else {
+      router.push('/ledger/approval');
+      router.refresh();
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!activeDocument) return;
+    if (!confirm('Bu evrakı tamamen silmek istediğinize emin misiniz?')) return;
+    
+    setIsSubmitting(true);
+    const res = await deleteDocumentAction(activeDocument.id);
+    
+    if (!res.success) {
+      alert('Silme başarısız: ' + res.error);
       setIsSubmitting(false);
     } else {
       router.push('/ledger/approval');
@@ -277,6 +294,7 @@ export default function ApprovalPage({
                       <span className="text-text text-[24px] font-bold font-mono">{activeDocument ? formatCurrency(activeDocument.total_amount, activeDocument.currency) : '0,00 ₺'}</span>
                     </div>
                     <div className="flex items-center gap-3">
+                      <GhostButton onClick={handleDelete} disabled={isSubmitting || !activeDocument} className="text-[#FF4A4A] hover:bg-[#FF4A4A]/10 border border-transparent hover:border-[#FF4A4A]/20 transition-colors">Sil</GhostButton>
                       <SecondaryButton onClick={() => router.push('/ledger/approval')} disabled={!activeDocument}>Taslak</SecondaryButton>
                       <PrimaryButton onClick={handleApprove} disabled={isSubmitting || !activeDocument} className="flex items-center gap-2 group">
                         {isSubmitting ? 'Onaylanıyor...' : 'Onayla'}
