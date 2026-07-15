@@ -35,7 +35,7 @@ export default async function Page({ params }: { params: { id: string } }) {
   }
 
   const queue = queueResult.data || [];
-  const result = detailResult.data;
+  const result = detailResult;
 
   return (
     <ApprovalPage 
