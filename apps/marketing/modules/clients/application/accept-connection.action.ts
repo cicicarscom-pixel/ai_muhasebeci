@@ -1,12 +1,12 @@
 'use server';
 
-import { createAdminClient } from '@/utils/supabase/server';
+import { createClient } from '@/utils/supabase/server';
 
 export async function acceptConnectionAction(linkId: string) {
   try {
-    const adminSupabase = await createAdminClient();
+    const supabase = await createClient();
 
-    const { data, error } = await adminSupabase.rpc('review_connection_request', {
+    const { data, error } = await supabase.rpc('review_connection_request', {
       p_link_id: linkId,
       p_action: 'accept'
     });
