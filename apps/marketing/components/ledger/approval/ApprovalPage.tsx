@@ -150,15 +150,17 @@ export default function ApprovalPage({
         {/* Workspace Wrapper */}
         <div className="flex-1 flex overflow-hidden">
           
-          {!activeDocument ? (
-             <div className="flex-1 flex flex-col items-center justify-center bg-card text-text-muted">
-               <span className="material-symbols-outlined text-[64px] mb-4 opacity-50">quick_reference_all</span>
-               <h2 className="text-xl font-bold text-text">Lütfen bir evrak seçin</h2>
-               <p className="mt-2">Sol menüden onaylamak istediğiniz evrağı seçerek işleme başlayabilirsiniz.</p>
-             </div>
-          ) : (
-            <>
-              {/* Left Column: PDF Canvas */}
+          <div className="flex-1 flex overflow-hidden">
+            {/* Left Column (Middle): PDF Canvas */}
+            <section className="flex-1 h-full bg-card relative flex items-center justify-center p-8 overflow-hidden group">
+              {!activeDocument ? (
+                <div className="flex flex-col items-center justify-center text-text-muted w-full h-full">
+                  <span className="material-symbols-outlined text-[64px] mb-4 opacity-50">quick_reference_all</span>
+                  <h2 className="text-xl font-bold text-text">Lütfen bir evrak seçin</h2>
+                  <p className="mt-2 text-center">Sol menüden onaylamak istediğiniz evrağı seçerek işleme başlayabilirsiniz.</p>
+                </div>
+              ) : (
+                <>
               <section className="w-1/2 h-full bg-card relative flex items-center justify-center p-8 overflow-hidden group">
                 {/* Floating Toolbar */}
                 <div className="absolute top-6 left-1/2 -translate-x-1/2 bg-surface/80 backdrop-blur-md border border-border rounded-full px-2 py-1 flex items-center gap-1 z-10 opacity-80 hover:opacity-100 transition-opacity duration-fast shadow-glow-primary">
@@ -188,10 +190,12 @@ export default function ApprovalPage({
                     </div>
                   )}
                 </div>
-              </section>
+                </>
+              )}
+            </section>
 
-              {/* Right Column: Operation Panel */}
-              <section className="w-1/2 h-full bg-card flex flex-col border-l border-border relative overflow-y-auto custom-scrollbar">
+            {/* Right Column: Operation Panel (Always Visible) */}
+            <section className="w-[450px] flex-shrink-0 h-full bg-card flex flex-col border-l border-border relative overflow-y-auto custom-scrollbar">
                 <div className="flex-1 flex flex-col justify-center min-h-max py-6">
                   {/* Form Area */}
                   <div className="px-8 pb-6">
@@ -202,26 +206,26 @@ export default function ApprovalPage({
                         <div className="grid grid-cols-2 gap-2">
                           <div className="space-y-1">
                             <label className="text-[10px] font-medium text-text-muted tracking-wider uppercase">Fatura Tarihi</label>
-                            <input className="w-full h-9 bg-white border border-border rounded-lg text-[13px] text-[#0E1117] px-3 focus:outline-none focus:border-primary transition-all" type="text" defaultValue={activeDocument.issue_date || ''} />
+                            <input className="w-full h-9 bg-white border border-border rounded-lg text-[13px] text-[#0E1117] px-3 focus:outline-none focus:border-primary transition-all" type="text" defaultValue={activeDocument?.issue_date || ''} disabled={!activeDocument} />
                           </div>
                           <div className="space-y-1">
                             <label className="text-[10px] font-medium text-text-muted tracking-wider uppercase">Fatura Numarası</label>
-                            <input className="w-full h-9 bg-white border border-border rounded-lg text-[#0E1117] px-3 focus:outline-none focus:border-primary transition-all font-mono text-[13px]" type="text" defaultValue={activeDocument.invoice_number || ''} />
+                            <input className="w-full h-9 bg-white border border-border rounded-lg text-[#0E1117] px-3 focus:outline-none focus:border-primary transition-all font-mono text-[13px]" type="text" defaultValue={activeDocument?.invoice_number || ''} disabled={!activeDocument} />
                           </div>
                           <div className="space-y-1">
                             <label className="text-[10px] font-medium text-text-muted tracking-wider uppercase">Fatura Türü</label>
-                            <select className="w-full h-9 bg-white border border-border rounded-lg text-[13px] text-[#0E1117] px-3 appearance-none focus:outline-none focus:border-primary transition-all" defaultValue={activeDocument.document_type || 'Alış Faturası'}>
+                            <select className="w-full h-9 bg-white border border-border rounded-lg text-[13px] text-[#0E1117] px-3 appearance-none focus:outline-none focus:border-primary transition-all" defaultValue={activeDocument?.document_type || 'Alış Faturası'} disabled={!activeDocument}>
                               <option value="invoice">Alış Faturası</option>
                               <option value="receipt">Fiş</option>
                             </select>
                           </div>
                           <div className="space-y-1">
                             <label className="text-[10px] font-medium text-text-muted tracking-wider uppercase">VKN/TCKN</label>
-                            <input className="w-full h-9 bg-white border border-border rounded-lg text-[#0E1117] px-3 focus:outline-none focus:border-primary transition-all font-mono text-[13px]" type="text" defaultValue={activeDocument.vendor_tax_identifier || ''} />
+                            <input className="w-full h-9 bg-white border border-border rounded-lg text-[#0E1117] px-3 focus:outline-none focus:border-primary transition-all font-mono text-[13px]" type="text" defaultValue={activeDocument?.vendor_tax_identifier || ''} disabled={!activeDocument} />
                           </div>
                           <div className="col-span-2 space-y-1">
                             <label className="text-[10px] font-medium text-text-muted tracking-wider uppercase">Açıklama</label>
-                            <input className="w-full h-9 bg-white border border-border rounded-lg text-[13px] text-[#0E1117] px-3 focus:outline-none focus:border-primary transition-all" type="text" defaultValue={activeDocument.vendor_name || ''} />
+                            <input className="w-full h-9 bg-white border border-border rounded-lg text-[13px] text-[#0E1117] px-3 focus:outline-none focus:border-primary transition-all" type="text" defaultValue={activeDocument?.vendor_name || ''} disabled={!activeDocument} />
                           </div>
                         </div>
                       </div>
@@ -251,15 +255,15 @@ export default function ApprovalPage({
                               <div className="space-y-1"><label className="text-label font-bold text-text-muted uppercase px-2 whitespace-nowrap">%8 KDV</label><input className="w-full h-[32px] bg-white border border-border focus:border-primary outline-none text-body font-mono font-bold text-[#0E1117] px-2 text-right transition-colors rounded-md" defaultValue="0.00" /></div>
                               <div className="space-y-1"><label className="text-label font-bold text-text-muted uppercase px-2 whitespace-nowrap">%10 KDV</label><input className="w-full h-[32px] bg-white border border-border focus:border-primary outline-none text-body font-mono font-bold text-[#0E1117] px-2 text-right transition-colors rounded-md" defaultValue="0.00" /></div>
                               <div className="space-y-1"><label className="text-label font-bold text-text-muted uppercase px-2 whitespace-nowrap">%18 KDV</label><input className="w-full h-[32px] bg-white border border-border focus:border-primary outline-none text-body font-mono font-bold text-[#0E1117] px-2 text-right transition-colors rounded-md" defaultValue="0.00" /></div>
-                              <div className="space-y-1"><label className="text-label font-bold text-primary uppercase px-2 whitespace-nowrap">%20 KDV</label><input className="w-full h-[32px] bg-white border border-border focus:border-primary outline-none text-body font-mono font-bold text-[#0E1117] px-2 text-right transition-colors rounded-md" defaultValue={activeDocument.tax_amount || "0.00"} /></div>
+                              <div className="space-y-1"><label className="text-label font-bold text-primary uppercase px-2 whitespace-nowrap">%20 KDV</label><input className="w-full h-[32px] bg-white border border-border focus:border-primary outline-none text-body font-mono font-bold text-[#0E1117] px-2 text-right transition-colors rounded-md" defaultValue={activeDocument?.tax_amount || "0.00"} disabled={!activeDocument} /></div>
                             </div>
                             {/* Matrah Fields */}
                             <div className="grid grid-cols-5 gap-2">
-                              <div className="space-y-1"><label className="text-label font-bold text-text-muted uppercase px-2 whitespace-nowrap">%1 Matrah</label><input className="w-full h-[32px] bg-white border border-border focus:border-primary outline-none text-body font-mono font-bold text-[#0E1117] px-2 text-right transition-colors rounded-md" defaultValue="0.00" /></div>
-                              <div className="space-y-1"><label className="text-label font-bold text-text-muted uppercase px-2 whitespace-nowrap">%8 Matrah</label><input className="w-full h-[32px] bg-white border border-border focus:border-primary outline-none text-body font-mono font-bold text-[#0E1117] px-2 text-right transition-colors rounded-md" defaultValue="0.00" /></div>
-                              <div className="space-y-1"><label className="text-label font-bold text-text-muted uppercase px-2 whitespace-nowrap">%10 Matrah</label><input className="w-full h-[32px] bg-white border border-border focus:border-primary outline-none text-body font-mono font-bold text-[#0E1117] px-2 text-right transition-colors rounded-md" defaultValue="0.00" /></div>
-                              <div className="space-y-1"><label className="text-label font-bold text-text-muted uppercase px-2 whitespace-nowrap">%18 Matrah</label><input className="w-full h-[32px] bg-white border border-border focus:border-primary outline-none text-body font-mono font-bold text-[#0E1117] px-2 text-right transition-colors rounded-md" defaultValue="0.00" /></div>
-                              <div className="space-y-1"><label className="text-label font-bold text-primary uppercase px-2 whitespace-nowrap">%20 Matrah</label><input className="w-full h-[32px] bg-white border border-border focus:border-primary outline-none text-body font-mono font-bold text-[#0E1117] px-2 text-right transition-colors rounded-md" defaultValue={activeDocument.net_amount || "0.00"} /></div>
+                              <div className="space-y-1"><label className="text-label font-bold text-text-muted uppercase px-2 whitespace-nowrap">%1 Matrah</label><input className="w-full h-[32px] bg-white border border-border focus:border-primary outline-none text-body font-mono font-bold text-[#0E1117] px-2 text-right transition-colors rounded-md" defaultValue="0.00" disabled={!activeDocument} /></div>
+                              <div className="space-y-1"><label className="text-label font-bold text-text-muted uppercase px-2 whitespace-nowrap">%8 Matrah</label><input className="w-full h-[32px] bg-white border border-border focus:border-primary outline-none text-body font-mono font-bold text-[#0E1117] px-2 text-right transition-colors rounded-md" defaultValue="0.00" disabled={!activeDocument} /></div>
+                              <div className="space-y-1"><label className="text-label font-bold text-text-muted uppercase px-2 whitespace-nowrap">%10 Matrah</label><input className="w-full h-[32px] bg-white border border-border focus:border-primary outline-none text-body font-mono font-bold text-[#0E1117] px-2 text-right transition-colors rounded-md" defaultValue="0.00" disabled={!activeDocument} /></div>
+                              <div className="space-y-1"><label className="text-label font-bold text-text-muted uppercase px-2 whitespace-nowrap">%18 Matrah</label><input className="w-full h-[32px] bg-white border border-border focus:border-primary outline-none text-body font-mono font-bold text-[#0E1117] px-2 text-right transition-colors rounded-md" defaultValue="0.00" disabled={!activeDocument} /></div>
+                              <div className="space-y-1"><label className="text-label font-bold text-primary uppercase px-2 whitespace-nowrap">%20 Matrah</label><input className="w-full h-[32px] bg-white border border-border focus:border-primary outline-none text-body font-mono font-bold text-[#0E1117] px-2 text-right transition-colors rounded-md" defaultValue={activeDocument?.net_amount || "0.00"} disabled={!activeDocument} /></div>
                             </div>
                           </div>
                         </div>
@@ -272,11 +276,11 @@ export default function ApprovalPage({
                   <div className="px-8 py-6 max-w-xl mx-auto w-full flex items-center justify-between mt-2 border-t border-border">
                     <div className="flex flex-col">
                       <span className="text-[10px] font-bold text-text-muted tracking-wider uppercase mb-1">Genel Toplam</span>
-                      <span className="text-text text-[24px] font-bold font-mono">{formatCurrency(activeDocument.total_amount, activeDocument.currency)}</span>
+                      <span className="text-text text-[24px] font-bold font-mono">{activeDocument ? formatCurrency(activeDocument.total_amount, activeDocument.currency) : '0,00 ₺'}</span>
                     </div>
                     <div className="flex items-center gap-3">
-                      <SecondaryButton onClick={() => router.push('/ledger/approval')}>Taslak</SecondaryButton>
-                      <PrimaryButton onClick={handleApprove} disabled={isSubmitting} className="flex items-center gap-2 group">
+                      <SecondaryButton onClick={() => router.push('/ledger/approval')} disabled={!activeDocument}>Taslak</SecondaryButton>
+                      <PrimaryButton onClick={handleApprove} disabled={isSubmitting || !activeDocument} className="flex items-center gap-2 group">
                         {isSubmitting ? 'Onaylanıyor...' : 'Onayla'}
                         <span className="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
                       </PrimaryButton>
@@ -284,8 +288,7 @@ export default function ApprovalPage({
                   </div>
                 </div>
               </section>
-            </>
-          )}
+
 
         </div>
       </main>
