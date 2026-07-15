@@ -1,6 +1,7 @@
 'use server';
 
 import { createClient } from '@/utils/supabase/server';
+import { createAdminClient } from '@/utils/supabase/admin';
 import { cookies } from 'next/headers';
 
 export async function getPendingDocumentsAction(firmId: string) {
@@ -68,11 +69,16 @@ export async function getDocumentDetailsAction(documentId: string) {
       .eq('document_id', documentId)
       .order('created_at', { ascending: true });
 
-    // Generate Signed URL for the image
-    const { data: signedUrlData, error: signedUrlError } = await supabase
+    // Generate Signed URL for the image using Admin Client (since bucket is private without RLS)
+    const adminSupabase = createAdminClient();
+    const { data: signedUrlData, error: signedUrlError } = await adminSupabase
       .storage
       .from(document.storage_bucket)
       .createSignedUrl(document.storage_path, 3600); // 1 hour
+
+    if (signedUrlError) {
+      console.error('Error generating signed URL:', signedUrlError);
+    }
 
     return {
       success: true,
