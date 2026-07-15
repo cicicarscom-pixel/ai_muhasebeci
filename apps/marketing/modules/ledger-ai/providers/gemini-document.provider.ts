@@ -33,7 +33,7 @@ export class GeminiDocumentProvider implements DocumentAIProvider {
     const customGoogle = createGoogleGenerativeAI({ apiKey });
 
     const { object } = await generateObject({
-      model: customGoogle('gemini-1.5-pro-latest'), // Using gemini-1.5-pro for best vision/reasoning
+      model: customGoogle('gemini-1.5-pro'), // Using gemini-1.5-pro for best vision/reasoning
       schema: z.object({
         documentType: z.enum(['receipt', 'invoice', 'other']),
         vendorName: z.string().nullable().describe('The name of the vendor or supplier on the document.'),
