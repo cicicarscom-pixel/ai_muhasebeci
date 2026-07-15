@@ -5,6 +5,8 @@ import { InviteStatusTimeline } from "./InviteStatusTimeline";
 import { Link2, Smartphone, KeyRound, CheckCircle2, AlertCircle } from "lucide-react";
 import { cancelInvitationAction } from "@/modules/accountant-bridge/application/cancel-invitation.action";
 import { disconnectTaxpayerAction } from "@/modules/accountant-bridge/application/disconnect-taxpayer.action";
+import { acceptConnectionAction } from "@/modules/clients/application/accept-connection.action";
+import { rejectConnectionAction } from "@/modules/clients/application/reject-connection.action";
 import { useState } from "react";
 
 interface ClientConnectionProps {
@@ -13,7 +15,8 @@ interface ClientConnectionProps {
 
 export function ClientConnection({ client }: ClientConnectionProps) {
   const isConnected = client.connectionStatus === "connected";
-  const isPending = ["invited", "activation_pending", "waiting_reply"].includes(client.connectionStatus);
+  const isActivationPending = client.connectionStatus === "activation_pending";
+  const isOutgoingPending = ["invited", "waiting_reply"].includes(client.connectionStatus);
   const [loading, setLoading] = useState(false);
 
   const handleCancelInvite = async () => {
@@ -28,8 +31,23 @@ export function ClientConnection({ client }: ClientConnectionProps) {
   const handleDisconnect = async () => {
     if (confirm(`${client.companyName} ile bağlantıyı kaldırmak üzeresiniz.\nBu işlemden sonra yeni belgeler ofisinize aktarılmaz. Geçmiş kayıtlar korunur.`)) {
       setLoading(true);
-      // We pass the default reason for now, optionally could implement a dropdown
       const res = await disconnectTaxpayerAction(client.id, "Müşavirin talebi");
+      if (!res.success) alert(res.error);
+      setLoading(false);
+    }
+  };
+
+  const handleAccept = async () => {
+    setLoading(true);
+    const res = await acceptConnectionAction(client.id);
+    if (!res.success) alert(res.error);
+    setLoading(false);
+  };
+
+  const handleReject = async () => {
+    if (confirm("Bu bağlantı isteğini reddetmek istediğinize emin misiniz?")) {
+      setLoading(true);
+      const res = await rejectConnectionAction(client.id);
       if (!res.success) alert(res.error);
       setLoading(false);
     }
@@ -67,7 +85,7 @@ export function ClientConnection({ client }: ClientConnectionProps) {
         <h3 className="mb-6 text-sm font-semibold text-white">Bağlantı ve Davet Süreci</h3>
         <InviteStatusTimeline status={client.connectionStatus} />
         
-        {isPending && (
+        {isOutgoingPending && (
           <div className="mt-6 flex gap-3 border-t border-white/5 pt-6">
             <button className="rounded-lg bg-white/5 px-1 py-2 text-[13px] font-medium text-white transition hover:bg-white/10" disabled={loading}>
               Daveti Yeniden Gönder
@@ -81,6 +99,24 @@ export function ClientConnection({ client }: ClientConnectionProps) {
               disabled={loading}
               className="ml-auto rounded-lg px-1 py-2 text-[13px] font-medium text-red-400 transition hover:bg-red-400/10">
               {loading ? "İşleniyor..." : "İptal Et"}
+            </button>
+          </div>
+        )}
+
+        {isActivationPending && (
+          <div className="mt-6 flex gap-3 border-t border-white/5 pt-6 items-center">
+            <p className="text-sm text-yellow-400 mr-auto font-medium">Bu mükellef size bağlanmak istiyor.</p>
+            <button 
+              onClick={handleReject}
+              disabled={loading}
+              className="rounded-lg border border-white/10 px-4 py-2 text-[13px] font-medium text-red-400 transition hover:bg-white/5">
+              {loading ? "İşleniyor..." : "Reddet"}
+            </button>
+            <button 
+              onClick={handleAccept}
+              disabled={loading}
+              className="rounded-lg bg-[#00daf3] px-4 py-2 text-[13px] font-medium text-black transition hover:bg-[#00b5cc]">
+              {loading ? "İşleniyor..." : "Bağlantıyı Onayla"}
             </button>
           </div>
         )}

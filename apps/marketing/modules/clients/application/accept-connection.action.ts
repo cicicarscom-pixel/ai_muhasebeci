@@ -1,0 +1,24 @@
+'use server';
+
+import { createAdminClient } from '@/utils/supabase/server';
+
+export async function acceptConnectionAction(linkId: string) {
+  try {
+    const adminSupabase = await createAdminClient();
+
+    const { data, error } = await adminSupabase.rpc('review_connection_request', {
+      p_link_id: linkId,
+      p_action: 'accept'
+    });
+
+    if (error || !data?.success) {
+      console.error('acceptConnectionAction Error:', error || data?.error);
+      return { success: false, error: data?.error || 'Bağlantı onaylanamadı.' };
+    }
+
+    return { success: true, message: 'Bağlantı başarıyla onaylandı.' };
+  } catch (error) {
+    console.error('acceptConnectionAction Exception:', error);
+    return { success: false, error: 'Sunucu hatası oluştu.' };
+  }
+}
