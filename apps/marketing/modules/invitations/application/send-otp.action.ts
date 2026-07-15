@@ -1,7 +1,7 @@
 'use server';
 
 import { createClient } from '@/utils/supabase/server';
-import { getAdminSupabaseClient } from '@/utils/supabase/admin';
+import { createAdminClient } from '@/utils/supabase/admin';
 import { cookies } from 'next/headers';
 
 export async function sendOtpAction(phoneE164: string) {
