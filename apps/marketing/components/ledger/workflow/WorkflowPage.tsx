@@ -1,5 +1,5 @@
 'use client';
-import React, from 'react';
+import React from 'react';
 import { PageTitle, SectionHeader } from '../ui/Typography';
 import { MetricCard, AppCard } from '../ui/Cards';
 import { SecondaryButton, GhostButton } from '../ui/Buttons';
