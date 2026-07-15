@@ -47,11 +47,29 @@ export async function getClientsAction(): Promise<{ advisorCode: string | null; 
     const accountantId = user.id;
 
     // 2. Fetch connection_code from ledger_accounting_firms
-    const { data: firmData } = await adminSupabase
+    let { data: firmData } = await adminSupabase
       .from('ledger_accounting_firms')
       .select('id, connection_code')
       .eq('user_id', accountantId)
       .single();
+
+    if (!firmData) {
+      // Auto-generate if missing (e.g. user logged in without custom registration)
+      const connectionCode = `WG-${Math.floor(10000 + Math.random() * 90000)}`;
+      const { data: newFirm, error: insertError } = await adminSupabase
+        .from('ledger_accounting_firms')
+        .insert({
+          user_id: accountantId,
+          firm_name: user.user_metadata?.full_name || user.email?.split('@')[0] || 'Yeni Firma',
+          connection_code: connectionCode
+        })
+        .select('id, connection_code')
+        .single();
+        
+      if (!insertError && newFirm) {
+        firmData = newFirm;
+      }
+    }
 
     const advisorCode = firmData?.connection_code || null;
     const firmId = firmData?.id;
