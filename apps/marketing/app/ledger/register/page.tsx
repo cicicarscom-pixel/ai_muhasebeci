@@ -38,7 +38,7 @@ export default function LedgerRegisterPage() {
       {/* Background Ambience */}
       <div className="fixed top-[-20%] left-[-10%] w-[50%] h-[50%] bg-[#00F0FF]/10 blur-[150px] rounded-full pointer-events-none z-0"></div>
       <div className="fixed bottom-[-10%] right-[-10%] w-[40%] h-[50%] bg-[#8A2BE2]/10 blur-[150px] rounded-full pointer-events-none z-0"></div>
-      <div className="fixed inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] pointer-events-none z-0 mix-blend-overlay"></div>
+      <div className="fixed inset-0 bg-[url('/noise.svg')] opacity-[0.03] pointer-events-none z-0 mix-blend-overlay"></div>
 
       {/* Left Column (Visuals) */}
       <div className="hidden lg:flex flex-1 relative z-10 flex-col justify-between p-12 overflow-hidden border-r border-white/5 bg-[#0A0D14]/50 backdrop-blur-md">
