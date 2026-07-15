@@ -10,14 +10,11 @@ export default function Navbar() {
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
-      className="fixed top-0 left-0 right-0 z-50 w-full px-6 py-4 flex items-center justify-between backdrop-blur-lg bg-[#070B14]/70 border-b border-white/5"
+      className="fixed top-0 left-0 right-0 z-50 w-full px-6 py-4 flex items-center justify-between bg-[#11141E] border-b border-white/5"
     >
       {/* Logo */}
       <Link href="/" className="flex items-center gap-3 group">
-        <div className="w-8 h-8 rounded-lg bg-[#00F0FF]/20 flex items-center justify-center border border-[#00F0FF]/50 shadow-[0_0_15px_rgba(0,240,255,0.3)] group-hover:shadow-[0_0_20px_rgba(0,240,255,0.5)] transition-shadow">
-          <span className="text-[#00F0FF] text-[16px] font-black">W</span>
-        </div>
-        <span className="text-white font-extrabold text-[18px] tracking-tight">Workigom <span className="text-[#00F0FF]">Flow</span></span>
+        <img src="/images/flow-logo.png" alt="Workigom Flow" className="h-10 w-auto object-contain" />
       </Link>
 
       {/* Center Links */}
