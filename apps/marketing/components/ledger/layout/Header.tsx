@@ -1,6 +1,7 @@
 'use client';
 import React from 'react';
 import { usePathname } from 'next/navigation';
+import InviteTaxpayerDialog from '../../../../modules/invitations/presentation/InviteTaxpayerDialog';
 
 export default function Header() {
   const pathname = usePathname();
@@ -39,6 +40,7 @@ export default function Header() {
       </div>
       <div className="flex items-center gap-6">
         {/* Actions */}
+        <InviteTaxpayerDialog />
         <button className="relative text-on-surface-variant hover:text-primary-container hover:bg-white/5 transition-all p-1.5 rounded-full active:scale-95">
           <span className="material-symbols-outlined text-[20px]">notifications</span>
           <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-error rounded-full ring-2 ring-surface"></span>
