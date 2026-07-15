@@ -116,37 +116,42 @@ export default function DashboardPage() {
           </div>
         </AppCard>
 
-        {/* Recent Documents (5 cols) */}
+        {/* AI Haber Bülteni / Mevzuat (5 cols) */}
         <AppCard className="col-span-5 p-6">
-          <div className="flex justify-between items-center mb-4">
-            <SectionHeader>Son Gelenler</SectionHeader>
-            <a className="text-primary hover:underline transition-colors text-label font-medium" href="#">Tümü</a>
+          <div className="flex justify-between items-center mb-6">
+            <SectionHeader>Mevzuat ve Duyurular</SectionHeader>
+            <a className="text-primary hover:underline transition-colors text-label font-medium" href="#">Tümünü Gör</a>
           </div>
-          <div className="flex flex-col gap-2">
-            {[
-              { name: 'Shell Türkiye', type: 'Fatura', date: 'Bugün', statusLabel: 'HAZIR', status: 'info', icon: 'local_gas_station' },
-              { name: 'Migros A.Ş.', type: 'Fiş', date: 'Bugün', statusLabel: 'KONTROL', status: 'warning', icon: 'store' },
-              { name: 'Opet Petrolcülük', type: 'Fatura', date: 'Dün', statusLabel: 'EKSİK BİLGİ', status: 'danger', icon: 'local_shipping' },
-              { name: 'Turkcell', type: 'Fatura', date: 'Dün', statusLabel: 'HAZIR', status: 'info', icon: 'cell_tower' },
-              { name: 'Yemeksepeti', type: 'Fiş', date: '2 GÜN ÖNCE', statusLabel: 'KONTROL', status: 'warning', icon: 'restaurant' },
-            ].map((doc, i) => (
-              <div key={i} className="flex items-center justify-between p-2 hover:bg-card/50 rounded-input transition-colors duration-fast cursor-pointer">
-                <div className="flex items-center gap-1">
-                  <div className="w-[32px] h-[32px] rounded-button bg-surface border border-border flex items-center justify-center shrink-0">
-                    <span className="material-symbols-outlined text-text-muted text-[16px]">{doc.icon}</span>
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="text-body text-text font-semibold">{doc.name}</span>
-                    <span className="text-muted text-text-muted uppercase tracking-wider mt-1">{doc.type} • {doc.date}</span>
-                  </div>
-                </div>
-                <div className="flex items-center gap-1">
-                  {/* @ts-ignore */}
-                  <StatusBadge status={doc.status}>{doc.statusLabel}</StatusBadge>
-                  <span className="material-symbols-outlined text-text-muted hover:text-text transition-colors duration-fast">more_vert</span>
-                </div>
+          
+          <div className="flex flex-col gap-4">
+            
+            {/* Haber Satırı 1 */}
+            <div className="flex items-start gap-4 p-4 border border-border rounded-[14px] hover:border-primary transition-colors duration-180 cursor-pointer">
+              <StatusBadge status="warning">İSMMMO - Acil</StatusBadge>
+              <div className="flex-1 mt-[2px]">
+                <p className="text-primary font-medium text-[14px] leading-snug">KDV Beyanname verme süresi uzatıldı.</p>
+                <span className="text-text-muted text-[12px] mt-1 block">Bugün, 09:15 • AI Özeti</span>
               </div>
-            ))}
+            </div>
+
+            {/* Haber Satırı 2 */}
+            <div className="flex items-start gap-4 p-4 border border-border rounded-[14px] hover:border-primary transition-colors duration-180 cursor-pointer">
+              <StatusBadge status="info">GİB - Sirküler</StatusBadge>
+              <div className="flex-1 mt-[2px]">
+                <p className="text-primary font-medium text-[14px] leading-snug">E-Fatura geçiş zorunluluğu tebliği yayımlandı.</p>
+                <span className="text-text-muted text-[12px] mt-1 block">Dün, 14:30 • AI Özeti</span>
+              </div>
+            </div>
+
+            {/* Haber Satırı 3 */}
+            <div className="flex items-start gap-4 p-4 border border-border rounded-[14px] hover:border-primary transition-colors duration-180 cursor-pointer">
+              <StatusBadge status="success">SGK - Bilgi</StatusBadge>
+              <div className="flex-1 mt-[2px]">
+                <p className="text-primary font-medium text-[14px] leading-snug">Asgari ücret destek ödemeleri yatmaya başladı.</p>
+                <span className="text-text-muted text-[12px] mt-1 block">2 Gün Önce, 10:00 • AI Özeti</span>
+              </div>
+            </div>
+
           </div>
         </AppCard>
 
@@ -260,42 +265,37 @@ export default function DashboardPage() {
 
       <div className="grid grid-cols-12 gap-1 pt-2">
         {/* ROW 4 */}
-        {/* AI Haber Bülteni / Mevzuat (6 cols) */}
+        {/* Recent Documents (6 cols) */}
         <AppCard className="col-span-6 p-6">
-          <div className="flex justify-between items-center mb-6">
-            <SectionHeader>Mevzuat ve Duyurular</SectionHeader>
-            <a className="text-primary hover:underline transition-colors text-label font-medium" href="#">Tümünü Gör</a>
+          <div className="flex justify-between items-center mb-4">
+            <SectionHeader>Son Gelenler</SectionHeader>
+            <a className="text-primary hover:underline transition-colors text-label font-medium" href="#">Tümü</a>
           </div>
-          
-          <div className="flex flex-col gap-4">
-            
-            {/* Haber Satırı 1 */}
-            <div className="flex items-start gap-4 p-4 border border-border rounded-[14px] hover:border-primary transition-colors duration-180">
-              <StatusBadge status="warning">İSMMMO - Acil</StatusBadge>
-              <div className="flex-1 mt-[2px]">
-                <p className="text-primary font-medium text-[14px] leading-snug">KDV Beyanname verme süresi uzatıldı.</p>
-                <span className="text-text-muted text-[12px] mt-1 block">Bugün, 09:15 • AI Özeti</span>
+          <div className="flex flex-col gap-2">
+            {[
+              { name: 'Shell Türkiye', type: 'Fatura', date: 'Bugün', statusLabel: 'HAZIR', status: 'info', icon: 'local_gas_station' },
+              { name: 'Migros A.Ş.', type: 'Fiş', date: 'Bugün', statusLabel: 'KONTROL', status: 'warning', icon: 'store' },
+              { name: 'Opet Petrolcülük', type: 'Fatura', date: 'Dün', statusLabel: 'EKSİK BİLGİ', status: 'danger', icon: 'local_shipping' },
+              { name: 'Turkcell', type: 'Fatura', date: 'Dün', statusLabel: 'HAZIR', status: 'info', icon: 'cell_tower' },
+              { name: 'Yemeksepeti', type: 'Fiş', date: '2 GÜN ÖNCE', statusLabel: 'KONTROL', status: 'warning', icon: 'restaurant' },
+            ].map((doc, i) => (
+              <div key={i} className="flex items-center justify-between p-2 hover:bg-card/50 rounded-input transition-colors duration-fast cursor-pointer">
+                <div className="flex items-center gap-1">
+                  <div className="w-[32px] h-[32px] rounded-button bg-surface border border-border flex items-center justify-center shrink-0">
+                    <span className="material-symbols-outlined text-text-muted text-[16px]">{doc.icon}</span>
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-body text-text font-semibold">{doc.name}</span>
+                    <span className="text-muted text-text-muted uppercase tracking-wider mt-1">{doc.type} • {doc.date}</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-1">
+                  {/* @ts-ignore */}
+                  <StatusBadge status={doc.status}>{doc.statusLabel}</StatusBadge>
+                  <span className="material-symbols-outlined text-text-muted hover:text-text transition-colors duration-fast">more_vert</span>
+                </div>
               </div>
-            </div>
-
-            {/* Haber Satırı 2 */}
-            <div className="flex items-start gap-4 p-4 border border-border rounded-[14px] hover:border-primary transition-colors duration-180">
-              <StatusBadge status="info">GİB - Sirküler</StatusBadge>
-              <div className="flex-1 mt-[2px]">
-                <p className="text-primary font-medium text-[14px] leading-snug">E-Fatura geçiş zorunluluğu tebliği yayımlandı.</p>
-                <span className="text-text-muted text-[12px] mt-1 block">Dün, 14:30 • AI Özeti</span>
-              </div>
-            </div>
-
-            {/* Haber Satırı 3 */}
-            <div className="flex items-start gap-4 p-4 border border-border rounded-[14px] hover:border-primary transition-colors duration-180">
-              <StatusBadge status="success">SGK - Bilgi</StatusBadge>
-              <div className="flex-1 mt-[2px]">
-                <p className="text-primary font-medium text-[14px] leading-snug">Asgari ücret destek ödemeleri hesaplara yatırılmaya başlandı.</p>
-                <span className="text-text-muted text-[12px] mt-1 block">2 Gün Önce, 10:00 • AI Özeti</span>
-              </div>
-            </div>
-
+            ))}
           </div>
         </AppCard>
 
