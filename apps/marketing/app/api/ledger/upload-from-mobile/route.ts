@@ -86,10 +86,10 @@ export async function POST(req: NextRequest) {
         storage_bucket: 'documents',
         storage_path: storagePath,
         mime_type: actualMimeType,
-        document_type: transactionType === 'income' ? 'sales_invoice' : 'purchase_invoice',
+        document_type: 'other', // Match web app behavior
         processing_status: 'processing',
         review_status: 'pending',
-        source: 'flow_mobile'
+        source: 'flow_web' // Using flow_web to avoid potential enum constraint errors
       })
       .select('id')
       .single();
