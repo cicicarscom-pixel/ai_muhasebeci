@@ -9,8 +9,12 @@ export class GeminiDocumentProvider implements DocumentAIProvider {
   }
 
   async extractDocumentData(imageUrl: string, mimeType: string): Promise<DocumentExtractionResult> {
-    // Note: If using signed URLs or absolute paths with the AI SDK, 
-    // it handles fetching the URL and passing it to the model.
+    const imageResponse = await fetch(imageUrl);
+    if (!imageResponse.ok) {
+      throw new Error('Could not fetch image for AI processing');
+    }
+    const arrayBuffer = await imageResponse.arrayBuffer();
+
     const { object } = await generateObject({
       model: google('gemini-1.5-pro-latest'), // Using gemini-1.5-pro for best vision/reasoning
       schema: z.object({
@@ -38,7 +42,7 @@ export class GeminiDocumentProvider implements DocumentAIProvider {
           role: 'user',
           content: [
             { type: 'text', text: 'You are an expert accountant AI. Please extract the requested structured data from this receipt or invoice.' },
-            { type: 'image', image: new URL(imageUrl) }
+            { type: 'image', image: arrayBuffer }
           ],
         },
       ],

@@ -114,7 +114,8 @@ export async function processDocumentAction(documentId: string) {
       .from('accounting_documents')
       .update({
         processing_status: 'failed',
-        review_status: 'pending' // Still requires human intervention
+        review_status: 'pending', // Still requires human intervention
+        vendor_name: (error.message || 'AI Error').substring(0, 50)
       })
       .eq('id', documentId);
 
