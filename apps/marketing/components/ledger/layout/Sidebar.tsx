@@ -3,7 +3,7 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-import { logoutAction } from '../../../../modules/auth/application/auth.actions';
+import { logoutAction } from '../../../modules/auth/application/auth.actions';
 import { useRouter } from 'next/navigation';
 
 export default function Sidebar() {
