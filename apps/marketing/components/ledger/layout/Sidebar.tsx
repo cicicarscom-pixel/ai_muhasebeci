@@ -3,7 +3,7 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-import { logoutAction } from '../../../modules/auth/application/auth.actions';
+import { createClient } from '@/utils/supabase/client';
 import { useRouter } from 'next/navigation';
 
 export default function Sidebar() {
@@ -15,7 +15,9 @@ export default function Sidebar() {
   };
 
   const handleLogout = async () => {
-    await logoutAction();
+    const supabase = createClient();
+    await supabase.auth.signOut();
+    router.refresh(); // Refresh to clear server state
     router.push('/ledger/login');
   };
 
