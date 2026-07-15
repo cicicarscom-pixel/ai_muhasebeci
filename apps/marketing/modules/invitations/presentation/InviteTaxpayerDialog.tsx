@@ -40,10 +40,15 @@ export default function InviteTaxpayerDialog({ children }: { children?: React.Re
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
           <div className="bg-surface border border-border w-full max-w-md rounded-2xl shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
             <div className="px-6 py-4 border-b border-border flex justify-between items-center bg-card/50">
-              <h2 className="text-lg font-semibold text-text flex items-center gap-2">
-                <span className="material-symbols-outlined text-primary">contact_phone</span>
-                WhatsApp Daveti Gönder
-              </h2>
+              <div className="flex flex-col gap-1">
+                <h2 className="text-lg font-semibold text-text flex items-center gap-2">
+                  <span className="material-symbols-outlined text-primary">contact_phone</span>
+                  WhatsApp Daveti Gönder
+                </h2>
+                <span className="text-[10px] font-bold uppercase tracking-widest text-warning bg-warning/10 px-2 py-0.5 rounded w-fit border border-warning/20">
+                  Mock (Test) Modu Aktif
+                </span>
+              </div>
               <button onClick={() => setIsOpen(false)} className="text-text-muted hover:text-text transition-colors">
                 <span className="material-symbols-outlined">close</span>
               </button>

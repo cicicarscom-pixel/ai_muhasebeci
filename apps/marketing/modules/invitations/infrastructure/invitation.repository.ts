@@ -42,6 +42,21 @@ export class InvitationRepository {
     return data && data.length > 0;
   }
 
+  async findByTokenHash(tokenHash: string): Promise<Invitation | null> {
+    const { data, error } = await this.supabase
+      .from('ledger_invitations')
+      .select('*')
+      .eq('token_hash', tokenHash)
+      .single();
+
+    if (error) {
+      if (error.code === 'PGRST116') return null; // Not found
+      throw new Error(`Davet bulunamadı: ${error.message}`);
+    }
+
+    return data as Invitation;
+  }
+
   async updateStatus(
     id: string, 
     updates: Partial<Pick<Invitation, 'status' | 'delivery_status' | 'provider_message_id' | 'sent_at'>>
@@ -53,6 +68,21 @@ export class InvitationRepository {
 
     if (error) {
       throw new Error(`Davet durumu güncellenemedi: ${error.message}`);
+    }
+  }
+
+  async markAsAccepted(id: string, taxpayerId: string): Promise<void> {
+    const { error } = await this.supabase
+      .from('ledger_invitations')
+      .update({
+        status: 'accepted',
+        accepted_at: new Date().toISOString(),
+        taxpayer_id: taxpayerId
+      })
+      .eq('id', id);
+
+    if (error) {
+      throw new Error(`Davet kabul edilemedi: ${error.message}`);
     }
   }
 }
