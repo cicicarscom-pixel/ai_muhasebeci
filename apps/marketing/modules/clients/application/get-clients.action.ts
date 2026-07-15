@@ -202,12 +202,42 @@ export async function getClientsAction(): Promise<{ advisorCode: string | null; 
           const orgData = Array.isArray(link.organizations) ? link.organizations[0] : link.organizations;
           const orgName = orgData?.name || `Bağlı İşletme (${link.taxpayer_organization_id.substring(0,4)})`;
 
+          let taxNumber = '-';
+          let taxOffice = '-';
+
+          const { data: legalProfile } = await adminSupabase
+            .from('organization_legal_profiles')
+            .select('tax_identifier, tax_office')
+            .eq('organization_id', link.taxpayer_organization_id)
+            .single();
+          
+          if (legalProfile) {
+            taxNumber = legalProfile.tax_identifier || '-';
+            if (taxNumber && taxNumber !== '-') {
+               taxNumber = taxNumber.substring(0, 3) + '******' + taxNumber.substring(taxNumber.length - 1);
+            }
+            taxOffice = legalProfile.tax_office || '-';
+          }
+
+          const { data: contacts } = await adminSupabase
+            .from('organization_contacts')
+            .select('type, value')
+            .eq('organization_id', link.taxpayer_organization_id)
+            .eq('is_primary', true);
+
+          if (contacts) {
+            const p = contacts.find((c:any) => c.type === 'phone');
+            const e = contacts.find((c:any) => c.type === 'email');
+            if (p) phone = p.value;
+            if (e) email = e.value;
+          }
+
           clientsList.push({
             id: link.id,
             companyName: orgName,
             initials: orgName.substring(0, 2).toUpperCase(),
-            taxNumber: '-',
-            taxOffice: '-',
+            taxNumber: taxNumber,
+            taxOffice: taxOffice,
             contactName: contactName,
             phone: phone,
             email: email,
