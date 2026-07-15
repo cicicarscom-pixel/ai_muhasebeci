@@ -19,7 +19,7 @@ export default async function DocumentApprovalDetailPage({ params }: { params: {
       <ApprovalClient 
         document={result.document} 
         draft={result.draft} 
-        lines={result.lines} 
+        lines={result.lines || []} 
         imageUrl={result.imageUrl} 
       />
     </div>
