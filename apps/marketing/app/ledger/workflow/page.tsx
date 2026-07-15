@@ -20,6 +20,16 @@ export default async function Page() {
   if (!firmMember) return <div className="p-8">Müşavir yetkiniz bulunmuyor.</div>;
 
   const result = await getWorkflowDocumentsAction(firmMember.accounting_firm_id);
+  
+  if (!result.success) {
+    return (
+      <div className="p-8 flex flex-col items-center justify-center h-full text-red-500">
+        <h2 className="text-xl font-bold mb-4">Veritabanı Hatası</h2>
+        <p className="bg-red-50 p-4 border border-red-200 rounded-lg whitespace-pre-wrap">{result.error}</p>
+      </div>
+    );
+  }
+
   const documents = result.data || [];
 
   return <WorkflowPage initialDocuments={documents} />;
