@@ -22,12 +22,12 @@ export function ClientsPage({ advisorCode, clients }: ClientsPageProps) {
 
     return clients.filter((client) =>
       [
-        client.companyName,
-        client.contactName,
-        client.taxNumber,
-        client.email,
+        client?.companyName,
+        client?.contactName,
+        client?.taxNumber,
+        client?.email,
       ].some((value) =>
-        value.toLocaleLowerCase("tr").includes(normalized),
+        value ? value.toLocaleLowerCase("tr").includes(normalized) : false,
       ),
     );
   }, [query]);
