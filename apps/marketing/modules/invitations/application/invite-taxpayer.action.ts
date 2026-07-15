@@ -24,9 +24,6 @@ export async function inviteTaxpayerAction(formData: FormData) {
     }
 
     const accountantId = user.id;
-    // Gerçek senaryoda bu değer kullanıcının profil (memberships) tablosundan çekilmelidir.
-    // Şimdilik demo veya metadata üzerinden alınıyor gibi kurgulanmıştır.
-    const accountingFirmId = user.user_metadata?.accounting_firm_id || '00000000-0000-0000-0000-000000000000'; 
 
     // 2. Girdileri Doğrulama
     const phone = formData.get('phone_number')?.toString().trim();
@@ -43,6 +40,19 @@ export async function inviteTaxpayerAction(formData: FormData) {
     // 3. Bağımlılıkları Kurma
     // İşlemleri Service Role (Admin) ile yaparak RLS takılmalarını güvenli backend tarafında aşıyoruz
     const supabaseAdmin = createAdminClient();
+    
+    // Gerçek firma ID'sini çekme
+    const { data: firmData, error: firmError } = await supabaseAdmin
+      .from('ledger_accounting_firms')
+      .select('id')
+      .eq('user_id', accountantId)
+      .single();
+
+    if (firmError || !firmData) {
+      throw new Error("Kullanıcıya ait firma bilgisi bulunamadı.");
+    }
+    const accountingFirmId = firmData.id;
+
     const repository = new InvitationRepository(supabaseAdmin);
     const gateway = new MockWhatsAppGateway();
 

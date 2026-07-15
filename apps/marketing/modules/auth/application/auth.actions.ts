@@ -67,6 +67,7 @@ export async function registerAccountantAction(formData: FormData) {
     }
 
     if (!isUnique) {
+      await adminSupabase.auth.admin.deleteUser(userId);
       return { success: false, error: 'Bağlantı kodu üretilemedi. Lütfen tekrar deneyin.' };
     }
 
