@@ -150,18 +150,16 @@ export default function ApprovalPage({
         {/* Workspace Wrapper */}
         <div className="flex-1 flex overflow-hidden">
           
-          <div className="flex-1 flex overflow-hidden">
-            {/* Left Column (Middle): PDF Canvas */}
-            <section className="flex-1 h-full bg-card relative flex items-center justify-center p-8 overflow-hidden group">
-              {!activeDocument ? (
-                <div className="flex flex-col items-center justify-center text-text-muted w-full h-full">
-                  <span className="material-symbols-outlined text-[64px] mb-4 opacity-50">quick_reference_all</span>
-                  <h2 className="text-xl font-bold text-text">Lütfen bir evrak seçin</h2>
-                  <p className="mt-2 text-center">Sol menüden onaylamak istediğiniz evrağı seçerek işleme başlayabilirsiniz.</p>
-                </div>
-              ) : (
-                <>
-              <section className="w-1/2 h-full bg-card relative flex items-center justify-center p-8 overflow-hidden group">
+          {/* Left Column (PDF Canvas or Empty State) */}
+          <section className="flex-1 h-full bg-card relative flex items-center justify-center p-8 overflow-hidden group">
+            {!activeDocument ? (
+              <div className="flex flex-col items-center justify-center text-text-muted">
+                <span className="material-symbols-outlined text-[64px] mb-4 opacity-50">quick_reference_all</span>
+                <h2 className="text-xl font-bold text-text">Lütfen bir evrak seçin</h2>
+                <p className="mt-2">Sol menüden onaylamak istediğiniz evrağı seçerek işleme başlayabilirsiniz.</p>
+              </div>
+            ) : (
+              <>
                 {/* Floating Toolbar */}
                 <div className="absolute top-6 left-1/2 -translate-x-1/2 bg-surface/80 backdrop-blur-md border border-border rounded-full px-2 py-1 flex items-center gap-1 z-10 opacity-80 hover:opacity-100 transition-opacity duration-fast shadow-glow-primary">
                   <button className="p-2 rounded-full text-text-muted hover:text-primary hover:bg-white/5 transition-colors" title="Search">
@@ -190,12 +188,12 @@ export default function ApprovalPage({
                     </div>
                   )}
                 </div>
-                </>
-              )}
-            </section>
+              </>
+            )}
+          </section>
 
-            {/* Right Column: Operation Panel (Always Visible) */}
-            <section className="w-[450px] flex-shrink-0 h-full bg-card flex flex-col border-l border-border relative overflow-y-auto custom-scrollbar">
+          {/* Right Column: Operation Panel (Always Visible) */}
+          <section className="w-[450px] flex-shrink-0 h-full bg-card flex flex-col border-l border-border relative overflow-y-auto custom-scrollbar">
                 <div className="flex-1 flex flex-col justify-center min-h-max py-6">
                   {/* Form Area */}
                   <div className="px-8 pb-6">
@@ -288,7 +286,6 @@ export default function ApprovalPage({
                   </div>
                 </div>
               </section>
-
 
         </div>
       </main>

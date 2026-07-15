@@ -12,8 +12,10 @@ export default function WorkflowPage({ initialDocuments = [] }: { initialDocumen
   // 2. AI İşliyor (currently processing by AI)
   const aiIsliyor = initialDocuments.filter(d => d.processing_status === 'processing');
   
-  // 3. Kontrol Bekliyor (AI finished, review pending)
-  const kontrolBekliyor = initialDocuments.filter(d => d.processing_status === 'completed' && d.review_status === 'pending');
+  // 3. Kontrol Bekliyor (AI finished or failed, review pending)
+  const kontrolBekliyor = initialDocuments.filter(d => 
+    (d.processing_status === 'completed' || d.processing_status === 'failed') && d.review_status === 'pending'
+  );
   
   // 4. Onaylandı (review completed/approved)
   const onaylandi = initialDocuments.filter(d => d.review_status === 'approved');
