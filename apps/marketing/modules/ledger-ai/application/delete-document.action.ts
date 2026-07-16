@@ -48,7 +48,7 @@ export async function deleteDocumentAction(documentId: string) {
     
     // Also delete any potential client_documents or other junction tables if they exist
     // (Ignoring errors if table doesn't exist)
-    await supabaseAdmin.from('client_documents').delete().eq('document_id', documentId).catch(() => {});
+    await supabaseAdmin.from('client_documents').delete().eq('document_id', documentId);
     
     const { error: deleteError, count } = await supabaseAdmin
       .from('accounting_documents')
