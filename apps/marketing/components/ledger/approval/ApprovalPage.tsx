@@ -131,7 +131,7 @@ export default function ApprovalPage({
               const firstLetter = doc.vendor_name ? doc.vendor_name.charAt(0).toUpperCase() : '?';
               return (
                 <Link href={`/ledger/approval/${doc.id}`} key={doc.id}>
-                  <div className={`p-4 rounded-card cursor-pointer flex flex-col gap-2 transition-all ${
+                  <div className={`group p-4 rounded-card cursor-pointer flex flex-col gap-2 transition-all ${
                     isActive 
                       ? 'border border-primary/50 bg-primary/5 shadow-glow-primary' 
                       : 'border border-border hover:bg-card/50'
