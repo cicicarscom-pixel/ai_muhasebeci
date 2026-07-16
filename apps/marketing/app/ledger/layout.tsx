@@ -3,8 +3,7 @@ import React from 'react';
 import Script from 'next/script';
 import Sidebar from '@/components/ledger/layout/Sidebar';
 import Header from '@/components/ledger/layout/Header';
-import dynamic from 'next/dynamic';
-const FloatingLedgerAI = dynamic(() => import('@/components/ledger/ai/FloatingLedgerAI').then(mod => mod.FloatingLedgerAI), { ssr: false });
+import { FloatingLedgerAI } from '@/components/ledger/ai/FloatingLedgerAI';
 import { usePathname } from 'next/navigation';
 
 export default function LedgerLayout({ children }: { children: React.ReactNode }) {
