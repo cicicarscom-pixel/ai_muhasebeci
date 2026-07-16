@@ -50,7 +50,7 @@ export async function deleteDocumentAction(documentId: string) {
     // (Ignoring errors if table doesn't exist)
     await supabaseAdmin.from('client_documents').delete().eq('document_id', documentId);
     
-    const { error: deleteError, count } = await supabaseAdmin
+    const { data: deletedRows, error: deleteError } = await supabaseAdmin
       .from('accounting_documents')
       .delete()
       .eq('id', documentId)
@@ -60,7 +60,7 @@ export async function deleteDocumentAction(documentId: string) {
       throw deleteError;
     }
     
-    if (!count || count.length === 0) {
+    if (!deletedRows || deletedRows.length === 0) {
       throw new Error('Veritabanı silme işlemi başarısız (kayıt bulunamadı).');
     }
 
