@@ -30,25 +30,19 @@ export async function deleteDocumentAction(documentId: string) {
       throw new Error('Belge bulunamadı veya silinmiş.');
     }
 
-    // 1. Delete from storage
-    if (document.storage_bucket && document.storage_path) {
-      const { error: storageError } = await supabaseAdmin.storage
-        .from(document.storage_bucket)
-        .remove([document.storage_path]);
-        
-      if (storageError) {
-        console.error('Storage deletion error:', storageError);
-      }
-    }
+    // 1. Delete from storage (prepare promise)
+    const storagePromise = (document.storage_bucket && document.storage_path) 
+      ? supabaseAdmin.storage.from(document.storage_bucket).remove([document.storage_path]).catch(err => console.error('Storage deletion error:', err))
+      : Promise.resolve();
 
-    // 2. Delete from database (Cascade manually)
-    await supabaseAdmin.from('accounting_document_lines').delete().eq('document_id', documentId);
-    await supabaseAdmin.from('accounting_drafts').delete().eq('document_id', documentId);
-    await supabaseAdmin.from('document_processing_runs').delete().eq('document_id', documentId);
-    
-    // Also delete any potential client_documents or other junction tables if they exist
-    // (Ignoring errors if table doesn't exist)
-    await supabaseAdmin.from('client_documents').delete().eq('document_id', documentId);
+    // 2. Delete from database (Cascade children manually and concurrently)
+    const p1 = supabaseAdmin.from('accounting_document_lines').delete().eq('document_id', documentId);
+    const p2 = supabaseAdmin.from('accounting_drafts').delete().eq('document_id', documentId);
+    const p3 = supabaseAdmin.from('document_processing_runs').delete().eq('document_id', documentId);
+    const p4 = supabaseAdmin.from('client_documents').delete().eq('document_id', documentId);
+
+    // Wait for all child records and storage to be deleted concurrently
+    await Promise.all([storagePromise, p1, p2, p3, p4]);
     
     const { data: deletedRows, error: deleteError } = await supabaseAdmin
       .from('accounting_documents')
