@@ -165,7 +165,7 @@ export default function ApprovalPage({
                         <span className="text-text font-mono text-body font-bold">{formatCurrency(doc.total_amount, doc.currency)}</span>
                         <div className="flex items-center text-text-muted text-label gap-1 font-medium">
                           <span className="material-symbols-outlined text-[14px]">schedule</span>
-                          {doc.issue_date || new Date(doc.created_at).toLocaleDateString('tr-TR')}
+                          {doc.issue_date || <span suppressHydrationWarning>{new Date(doc.created_at).toLocaleDateString('tr-TR')}</span>}
                         </div>
                       </div>
                       <span className="text-primary text-label font-bold">%98</span>

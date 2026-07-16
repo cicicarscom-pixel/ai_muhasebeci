@@ -95,7 +95,7 @@ export default function WorkflowPage({ initialDocuments = [] }: { initialDocumen
                 </div>
                 <div className="flex items-center gap-2 mb-2">
                   <span className="material-symbols-outlined text-text-muted text-[16px]">calendar_today</span>
-                  <span className="text-label text-text-muted">{new Date(doc.created_at).toLocaleDateString('tr-TR')}</span>
+                  <span className="text-label text-text-muted" suppressHydrationWarning>{new Date(doc.created_at).toLocaleDateString('tr-TR')}</span>
                 </div>
               </AppCard>
             ))}
@@ -127,7 +127,7 @@ export default function WorkflowPage({ initialDocuments = [] }: { initialDocumen
                  </div>
                  <div className="flex items-center gap-2 mb-2">
                    <span className="material-symbols-outlined text-text-muted text-[16px]">calendar_today</span>
-                   <span className="text-label text-text-muted">{new Date(doc.created_at).toLocaleDateString('tr-TR')}</span>
+                   <span className="text-label text-text-muted" suppressHydrationWarning>{new Date(doc.created_at).toLocaleDateString('tr-TR')}</span>
                  </div>
                </AppCard>
              ))}
