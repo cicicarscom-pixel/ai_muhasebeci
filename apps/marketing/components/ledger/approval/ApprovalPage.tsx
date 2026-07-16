@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { motion } from 'framer-motion';
 import { PrimaryButton, SecondaryButton, GhostButton } from '../ui/Buttons';
 import { approveDocumentAction } from '../../../modules/ledger-ai/application/approve-document.action';
 import { deleteDocumentAction } from '../../../modules/ledger-ai/application/delete-document.action';
@@ -235,16 +236,22 @@ export default function ApprovalPage({
                     MÜKELLEF: {activeDocument.organizations?.name || 'Bilinmiyor'}
                   </div>
 
-                  <div className="w-full flex-1 flex justify-center items-start overflow-auto relative bg-[#F8F9FA] custom-scrollbar p-4">
+                  <div className="w-full flex-1 flex justify-center items-center overflow-hidden relative bg-[#F8F9FA] p-4 cursor-grab active:cursor-grabbing">
                     {imageUrl ? (
-                      <div className="flex origin-top justify-center" style={{ transform: `scale(${zoom / 100})`, transition: 'transform 0.2s ease' }}>
+                      <motion.div 
+                        drag
+                        dragMomentum={false}
+                        animate={{ scale: zoom / 100, rotate: rotation }}
+                        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                        className="flex origin-center justify-center items-center"
+                      >
                         <img 
                           src={imageUrl} 
                           alt="Document" 
-                          className="object-contain print:w-full max-w-full bg-white shadow-sm border border-border/10"
-                          style={{ transform: `rotate(${rotation}deg)`, transition: 'transform 0.2s ease', maxHeight: '1000px' }}
+                          className="object-contain print:w-full max-w-full bg-white shadow-sm border border-border/10 pointer-events-none"
+                          style={{ maxHeight: '1000px' }}
                         />
-                      </div>
+                      </motion.div>
                     ) : (
                       <div className="flex items-center justify-center h-full w-full text-gray-400 print:hidden absolute inset-0">
                         Görsel yüklenemedi.
