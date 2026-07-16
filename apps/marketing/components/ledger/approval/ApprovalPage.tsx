@@ -19,6 +19,14 @@ export default function ApprovalPage({
 }) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [zoom, setZoom] = useState(100);
+  const [rotation, setRotation] = useState(0);
+
+  // Reset zoom and rotation when active document changes
+  React.useEffect(() => {
+    setZoom(100);
+    setRotation(0);
+  }, [activeDocument?.id]);
 
   const formatCurrency = (amount: number, currency: string) => {
     if (amount === undefined || amount === null) return '0.00';
@@ -131,7 +139,25 @@ export default function ApprovalPage({
                       <div className={`w-[24px] h-[24px] rounded-[4px] flex items-center justify-center font-bold text-[12px] ${isActive ? 'bg-primary text-white' : 'bg-[#FF7900] text-white'}`}>
                         {firstLetter}
                       </div>
-                      <span className="text-text font-bold text-body truncate">{doc.vendor_name || 'Okunamadı'}</span>
+                      <span className="text-text font-bold text-body truncate flex-1">{doc.vendor_name || 'Okunamadı'}</span>
+                      <button 
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          if (confirm('Bu evrakı tamamen silmek istediğinize emin misiniz?')) {
+                            setIsSubmitting(true);
+                            deleteDocumentAction(doc.id).then((res) => {
+                              setIsSubmitting(false);
+                              if (!res.success) alert('Silme başarısız: ' + res.error);
+                              else { router.push('/ledger/approval'); router.refresh(); }
+                            });
+                          }
+                        }}
+                        className="text-text-muted hover:text-[#FF4A4A] p-1 transition-colors rounded hover:bg-[#FF4A4A]/10 opacity-0 group-hover:opacity-100"
+                        title="Sil"
+                      >
+                        <span className="material-symbols-outlined text-[16px]">delete</span>
+                      </button>
                     </div>
                     <div className="flex items-end justify-between pl-[40px]">
                       <div className="flex flex-col gap-1">
@@ -178,20 +204,26 @@ export default function ApprovalPage({
             ) : (
               <>
                 {/* Floating Toolbar */}
-                <div className="absolute top-6 left-1/2 -translate-x-1/2 bg-surface/80 backdrop-blur-md border border-border rounded-full px-2 py-1 flex items-center gap-1 z-10 opacity-80 hover:opacity-100 transition-opacity duration-fast shadow-glow-primary">
+                <div className="absolute top-6 left-1/2 -translate-x-1/2 bg-surface/80 backdrop-blur-md border border-border rounded-full px-2 py-1 flex items-center gap-1 z-20 opacity-80 hover:opacity-100 transition-opacity duration-fast shadow-glow-primary">
                   <button className="p-2 rounded-full text-text-muted hover:text-primary hover:bg-white/5 transition-colors" title="Search">
                     <span className="material-symbols-outlined text-[20px]">search</span>
                   </button>
                   <div className="w-[1px] h-4 bg-border mx-1"></div>
-                  <button className="p-2 rounded-full text-text-muted hover:text-primary hover:bg-white/5 transition-colors" title="Zoom Out">
+                  <button 
+                    onClick={() => setZoom(z => Math.max(25, z - 25))}
+                    className="p-2 rounded-full text-text-muted hover:text-primary hover:bg-white/5 transition-colors" title="Zoom Out">
                     <span className="material-symbols-outlined text-[20px]">zoom_out</span>
                   </button>
-                  <span className="text-label font-bold text-text px-2 w-[64px] text-center">%100</span>
-                  <button className="p-2 rounded-full text-text-muted hover:text-primary hover:bg-white/5 transition-colors" title="Zoom In">
+                  <span className="text-label font-bold text-text px-2 w-[64px] text-center">%{zoom}</span>
+                  <button 
+                    onClick={() => setZoom(z => Math.min(300, z + 25))}
+                    className="p-2 rounded-full text-text-muted hover:text-primary hover:bg-white/5 transition-colors" title="Zoom In">
                     <span className="material-symbols-outlined text-[20px]">zoom_in</span>
                   </button>
                   <div className="w-[1px] h-4 bg-border mx-1"></div>
-                  <button className="p-2 rounded-full text-text-muted hover:text-primary hover:bg-white/5 transition-colors" title="Rotate">
+                  <button 
+                    onClick={() => setRotation(r => r + 90)}
+                    className="p-2 rounded-full text-text-muted hover:text-primary hover:bg-white/5 transition-colors" title="Rotate">
                     <span className="material-symbols-outlined text-[20px]">rotate_right</span>
                   </button>
                 </div>
@@ -203,9 +235,16 @@ export default function ApprovalPage({
                     MÜKELLEF: {activeDocument.organizations?.name || 'Bilinmiyor'}
                   </div>
 
-                  <div className="w-full flex-1 flex justify-center items-start overflow-auto relative">
+                  <div className="w-full flex-1 flex justify-center items-start overflow-auto relative bg-[#F8F9FA] custom-scrollbar p-4">
                     {imageUrl ? (
-                      <img src={imageUrl} alt="Document" className="object-contain w-full h-auto print:w-full" />
+                      <div className="flex origin-top justify-center" style={{ transform: `scale(${zoom / 100})`, transition: 'transform 0.2s ease' }}>
+                        <img 
+                          src={imageUrl} 
+                          alt="Document" 
+                          className="object-contain print:w-full max-w-full bg-white shadow-sm border border-border/10"
+                          style={{ transform: `rotate(${rotation}deg)`, transition: 'transform 0.2s ease', maxHeight: '1000px' }}
+                        />
+                      </div>
                     ) : (
                       <div className="flex items-center justify-center h-full w-full text-gray-400 print:hidden absolute inset-0">
                         Görsel yüklenemedi.
@@ -218,7 +257,7 @@ export default function ApprovalPage({
           </section>
 
           {/* Right Column: Operation Panel (Always Visible) */}
-          <section className="w-[450px] flex-shrink-0 h-full bg-card flex flex-col border-l border-border relative overflow-y-auto custom-scrollbar">
+          <section className="w-[550px] flex-shrink-0 h-full bg-card flex flex-col border-l border-border relative overflow-y-auto custom-scrollbar">
                 <div className="flex-1 flex flex-col justify-center min-h-max py-6">
                   {/* Form Area */}
                   <div className="px-8 pb-6">
@@ -278,7 +317,7 @@ export default function ApprovalPage({
                               <div className="space-y-1"><label className="text-label font-bold text-text-muted uppercase px-2 whitespace-nowrap">%8 KDV</label><input className="w-full h-[32px] bg-white border border-border focus:border-primary outline-none text-body font-mono font-bold text-[#0E1117] px-2 text-right transition-colors rounded-md" defaultValue="0.00" /></div>
                               <div className="space-y-1"><label className="text-label font-bold text-text-muted uppercase px-2 whitespace-nowrap">%10 KDV</label><input className="w-full h-[32px] bg-white border border-border focus:border-primary outline-none text-body font-mono font-bold text-[#0E1117] px-2 text-right transition-colors rounded-md" defaultValue="0.00" /></div>
                               <div className="space-y-1"><label className="text-label font-bold text-text-muted uppercase px-2 whitespace-nowrap">%18 KDV</label><input className="w-full h-[32px] bg-white border border-border focus:border-primary outline-none text-body font-mono font-bold text-[#0E1117] px-2 text-right transition-colors rounded-md" defaultValue="0.00" /></div>
-                              <div className="space-y-1"><label className="text-label font-bold text-primary uppercase px-2 whitespace-nowrap">%20 KDV</label><input className="w-full h-[32px] bg-white border border-border focus:border-primary outline-none text-body font-mono font-bold text-[#0E1117] px-2 text-right transition-colors rounded-md" defaultValue={activeDocument?.tax_amount || "0.00"} disabled={!activeDocument} /></div>
+                              <div className="space-y-1"><label className="text-label font-bold text-text-muted uppercase px-2 whitespace-nowrap">%20 KDV</label><input className="w-full h-[32px] bg-white border border-border focus:border-primary outline-none text-body font-mono font-bold text-[#0E1117] px-2 text-right transition-colors rounded-md" defaultValue={activeDocument?.tax_amount || "0.00"} disabled={!activeDocument} /></div>
                             </div>
                             {/* Matrah Fields */}
                             <div className="grid grid-cols-5 gap-2">
@@ -286,7 +325,7 @@ export default function ApprovalPage({
                               <div className="space-y-1"><label className="text-label font-bold text-text-muted uppercase px-2 whitespace-nowrap">%8 Matrah</label><input className="w-full h-[32px] bg-white border border-border focus:border-primary outline-none text-body font-mono font-bold text-[#0E1117] px-2 text-right transition-colors rounded-md" defaultValue="0.00" disabled={!activeDocument} /></div>
                               <div className="space-y-1"><label className="text-label font-bold text-text-muted uppercase px-2 whitespace-nowrap">%10 Matrah</label><input className="w-full h-[32px] bg-white border border-border focus:border-primary outline-none text-body font-mono font-bold text-[#0E1117] px-2 text-right transition-colors rounded-md" defaultValue="0.00" disabled={!activeDocument} /></div>
                               <div className="space-y-1"><label className="text-label font-bold text-text-muted uppercase px-2 whitespace-nowrap">%18 Matrah</label><input className="w-full h-[32px] bg-white border border-border focus:border-primary outline-none text-body font-mono font-bold text-[#0E1117] px-2 text-right transition-colors rounded-md" defaultValue="0.00" disabled={!activeDocument} /></div>
-                              <div className="space-y-1"><label className="text-label font-bold text-primary uppercase px-2 whitespace-nowrap">%20 Matrah</label><input className="w-full h-[32px] bg-white border border-border focus:border-primary outline-none text-body font-mono font-bold text-[#0E1117] px-2 text-right transition-colors rounded-md" defaultValue={activeDocument?.net_amount || "0.00"} disabled={!activeDocument} /></div>
+                              <div className="space-y-1"><label className="text-label font-bold text-text-muted uppercase px-2 whitespace-nowrap">%20 Matrah</label><input className="w-full h-[32px] bg-white border border-border focus:border-primary outline-none text-body font-mono font-bold text-[#0E1117] px-2 text-right transition-colors rounded-md" defaultValue={activeDocument?.net_amount || "0.00"} disabled={!activeDocument} /></div>
                             </div>
                           </div>
                         </div>
