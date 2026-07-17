@@ -47,7 +47,6 @@ export default function LedgerLayout({ children }: { children: React.ReactNode }
             background-color: #0d1516;
             color: #dce4e5;
             overflow-x: hidden;
-            zoom: ${zoomLevel};
             background-image: 
                 radial-gradient(circle at 2px 2px, rgba(0, 229, 253, 0.05) 1px, transparent 0);
             background-size: 40px 40px;
@@ -130,7 +129,7 @@ export default function LedgerLayout({ children }: { children: React.ReactNode }
       
       {/* Main Content Area */}
       <div className={`${mainPadding} w-full ${minHeightClass} z-10 relative`}>
-        <main className={`${isApproval ? `${heightClass} p-0 max-w-full` : `p-6 max-w-[1400px] ${minHeightClass}`} mx-auto relative`}>
+        <main className={`${isApproval ? `${heightClass} p-0 max-w-full` : `p-6 max-w-[1400px] ${minHeightClass}`} mx-auto relative`} style={{ zoom: zoomLevel }}>
           {children}
         </main>
       </div>
