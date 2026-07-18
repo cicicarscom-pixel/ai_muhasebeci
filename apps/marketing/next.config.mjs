@@ -5,7 +5,7 @@ const nextConfig = {
       fallback: [
         {
           source: "/ledger/:path*",
-          destination: "https://cicicarscom-pixel-ai-muhasebeci.vercel.app/ledger/:path*",
+          destination: "https://ledger.workigom.com/ledger/:path*",
         },
       ]
     };
