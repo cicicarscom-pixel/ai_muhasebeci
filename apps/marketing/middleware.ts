@@ -34,6 +34,30 @@ export async function middleware(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
+  // Handle explicit /logout route
+  if (request.nextUrl.pathname === '/logout') {
+    await supabase.auth.signOut();
+    const redirectResponse = NextResponse.redirect(new URL('/login', request.url));
+    
+    // Copy cookies from supabaseResponse to redirectResponse
+    supabaseResponse.cookies.getAll().forEach((cookie) => {
+      redirectResponse.cookies.set(cookie.name, cookie.value, {
+        domain: cookie.domain,
+        path: cookie.path,
+        maxAge: cookie.maxAge,
+        httpOnly: cookie.httpOnly,
+        secure: cookie.secure,
+        sameSite: cookie.sameSite,
+      });
+    });
+    
+    // Fallback manual delete just in case
+    redirectResponse.cookies.delete('sb-access-token');
+    redirectResponse.cookies.delete('sb-refresh-token');
+    
+    return redirectResponse;
+  }
+
   const isAuthPage = request.nextUrl.pathname.startsWith('/ledger/login') || request.nextUrl.pathname.startsWith('/ledger/register');
   const isLedgerRoute = request.nextUrl.pathname.startsWith('/ledger');
 
