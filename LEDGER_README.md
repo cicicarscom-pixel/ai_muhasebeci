@@ -1,4 +1,4 @@
-# Ledger & Flow Entegrasyon Dokümantasyonu
+# Ledger & Flow Entegrasyon Dokümantasyonu (V1 Kurgusu)
 
 Bu doküman, **Ledger** (Mali Müşavir Paneli) ve **Flow** (Mükellef Uygulaması / Mobil & Web) arasındaki mimariyi, veritabanı yapılandırmalarını ve backend süreçlerini detaylandırmak amacıyla oluşturulmuştur.
 
@@ -6,17 +6,17 @@ Bu doküman, **Ledger** (Mali Müşavir Paneli) ve **Flow** (Mükellef Uygulamas
 
 ---
 
-## 1. Mimari Genel Bakış
+## 1. Mimari Felsefe (Veri Ayrıştırıcı & Dışa Aktarıcı)
 
-Sistem temelde iki ana aktör üzerine kuruludur:
-* **Ledger (Mali Müşavir):** Mükelleflerini yöneten, faturaları inceleyen, onay süreçlerini yürüten ve AI asistanını kullanan profesyoneller.
-* **Flow (Mükellef):** Kendi ön muhasebesini tutan, fatura/fiş yükleyen ve Ledger üzerindeki mali müşavirine bağlanan işletme sahipleri.
+Önceki karmaşık ERP ve muhasebe fişi mantıkları tamamen terk edilmiştir. Sistem "Veri Ayrıştırıcı ve Dışa Aktarıcı (Data Extractor & Exporter)" olarak çalışır.
+* **Flow (Esnaf):** Evrakı yükler, sadece gelir-gider ve tahmini net bakiye metriklerini basitçe görür.
+* **Ledger AI (Müşavir):** Belirlenen özel JSON şemasına (kurallara) göre gelen belgeleri Edge Function (Gemini) aracılığıyla okur ve ayrıştırır. Müşavir onaylar ve Excel/XML/PDF olarak dışa aktarır.
 
 **Kullanılan Teknolojiler:**
 * **Frontend (Web):** Next.js 15 (App Router), React, TailwindCSS, Framer Motion
 * **Frontend (Mobil):** React Native, Expo
 * **Backend & Veritabanı:** Supabase (PostgreSQL, Auth, Storage)
-* **Backend Mantığı:** Next.js Server Actions & API Routes (`app/api/...`)
+* **Backend Motoru (AI):** Supabase Edge Functions (Deno) + Gemini 1.5 Flash Vision API (`response_mime_type: "application/json"`)
 
 ---
 
@@ -26,61 +26,55 @@ Sistemdeki en önemli iki tablo ve aralarındaki ilişki şu şekildedir:
 
 ### `auth.users` (Supabase Varsayılan Tablosu)
 * Tüm kullanıcıların (Müşavir ve Mükellef) giriş bilgileri burada tutulur.
-* E-posta onayı (Email Confirmation) ayarına bağlı olarak giriş izinleri yönetilir. Hızlı test ve geliştirme için genellikle kapalı tutulur.
 
-### `ledger_accounting_firms` (Müşavir/Firma Tablosu)
-Mali müşavir Ledger sistemine kayıt olduğunda, bu tabloda ona özel bir kayıt açılır.
-* `id` (UUID)
-* `user_id` (UUID - auth.users tablosuna referans)
-* `firm_name` (Firma Adı)
-* `email` (Müşavir E-postası)
-* `connection_code` (Benzersiz Bağlantı Kodu, örn: `WG-44062`)
-* `created_at` (Tarih)
+### `ledger_ai_settings` (Müşavir AI Kuralları Tablosu)
+Müşavirin Ledger Onboarding ekranında kilitlediği dinamik OCR çıkarma kurallarını barındırır.
+* `firm_id` (UUID)
+* `extraction_schema` (JSONB) - Hangi kolonların (örn: vendor_name, tax_amount) okunacağı.
+* `instruction_rules` (JSONB) - Müşavirin özel talimatları.
+* `schema_version` (INT) - Geriye dönük uyumluluk için versiyonlama.
 
----
+### `finance_documents` (Ortak Fatura Tablosu)
+Flow'dan gelen veya Ledger'da işlenen belgeler. Karmaşık ERP tabloları yerine bu tek tabloda tutulur.
+* `organization_id`, `type`, `counterparty_name`, `amount_minor` (BigInt, TRY), `currency_code`
+* `tax_details` (JSONB) - Gemini'den çıkarılan o faturanın tüm detayları buradadır.
+* `document_status` ('draft', 'processing', 'ready_for_review', 'approved', 'archived')
+* `extraction_schema_version` (Hangi şema ile işlendiği)
 
-## 3. Kayıt ve Giriş Akışı (Authentication)
-
-### 3.1. Müşavir Kayıt (Register) Süreci
-Müşavir Ledger üzerinden kayıt olurken Next.js Server Actions kullanılır (`registerAccountantAction`).
-1. `supabase.auth.signUp` ile `auth.users` tablosuna kullanıcı eklenir.
-2. 5 haneli rastgele bir bağlantı kodu üretilir (Örn: `WG-12345`).
-3. Üretilen kod ve firma bilgileri `ledger_accounting_firms` tablosuna `user_id` ile eşleştirilerek kaydedilir.
-
-### 3.2. Müşavir Giriş (Login) Süreci
-1. `loginAccountantAction` üzerinden `supabase.auth.signInWithPassword` çağrılır.
-2. Başarılı girişte oturum çerezleri (cookies) oluşturulur ve kullanıcı `/ledger/dashboard` veya `/ledger/clients` sayfasına yönlendirilir.
+### `document_events` (Denetim İzi / Audit Log)
+Kim neyi değiştirdi takip edebilmek için:
+* `event_type`, `actor_type` ('ai', 'accountant', 'taxpayer'), `old_value`, `new_value`
 
 ---
 
-## 4. Flow - Ledger Bağlantı Senaryosu (Connection)
+## 3. Akış Senaryoları
 
-Mükellef (Flow kullanıcısı) ile Müşavir (Ledger kullanıcısı) arasındaki eşleşme süreci **"Bağlantı Kodu" (Connection Code)** üzerinden yürütülür.
+### 3.1. Ledger Onboarding (Şema Tanımlama)
+1. Müşavir `/ledger/onboarding` sayfasına girer.
+2. Sisteme test faturası yükler (PDF/Görsel).
+3. Base64'e çevrilen görsel, `c:\ai_muhasebeci\supabase\functions\process-document` fonksiyonuna `mode: 'test'` argümanı ile POST edilir.
+4. Edge Function, Gemini Vision API'yi çağırıp JSON çıkartır ve veritabanına kaydetmeden UI'a geri yollar. UI bu JSON anahtarlarından bir Şema listesi çıkartır ve kilitler (`ledger_ai_settings` tablosuna yazar).
 
-### Adım 1: Kodun Alınması
-Müşavir, Ledger paneline girdiğinde `ledger_accounting_firms` tablosundaki kendisine ait `connection_code` (Örn: `WG-44062`) değerini görür ve mükellefine (Flow kullanıcısına) iletir.
-
-### Adım 2: Kodun Doğrulanması (Mobil / Web)
-Mükellef, Flow uygulamasında "Muhasebecim" veya "Bağlan" sayfasına girer. Kodu yazdığında sistem kodu doğrular:
-* **API:** `GET /api/flow-connections/verify?code=WG-44062`
-* **İşlem:** `ledger_accounting_firms` tablosunda bu kod aranır. Bulunursa Müşavirin adı, konumu ve (varsa) istatistikleri geri döndürülür.
-
-### Adım 3: Bağlantının Kurulması
-Mükellef "Bağlan" butonuna bastığında bağlantı kalıcı hale getirilir.
-* **API:** `POST /api/flow-connections/link`
-* **Payload:** `{ connectionCode: "WG-44062", taxpayerId: "kullanici_id" }` (Gelecekte bağlantı tablosu `taxpayer_accountant_links` oluşturulduğunda bu tabloya yazılır).
-* **Mobil State (React Native):** Bağlantı başarılı olduğunda, durum cihazın yerel hafızasına (`AsyncStorage`) kaydedilir. (Örn: `muhasebeci_step = 'connected'`). Böylece kullanıcı uygulamayı kapatıp açsa dahi bağlantı durumu korunur.
+### 3.2. Flow Evrak Yükleme & Ledger Onaylama
+1. Mükellef telefonundan fişi çeker, Edge Function çağrılır (Bu kez gerçek modda).
+2. Edge Function faturayı `ledger_ai_settings` içindeki şemaya uygun okur ve `finance_documents` tablosuna ekler.
+3. Fatura `ready_for_review` statüsünde `/ledger/approval` ekranında müşavire düşer.
+4. Müşavir faturayı görüntüler, `InvoiceCard` üzerinde Mükellef adını ve etiketini görür, dinamik form (schema'ya göre çizilen form) üzerinden düzenler ve Onaylar.
+5. Onaylanan faturalar `/ledger/approved` ekranında "Mükellef" bazlı akordeon listelerde toplanır. Oradan dışa aktarılır (`export_batch_id`) ve arşivlenir.
 
 ---
 
-## 5. Mobil Uygulama (React Native) İçin Backend Kullanım Rehberi
+## 4. Edge Functions & Backend Konumu
 
-Mobil uygulama geliştirilirken web ile **tamamen aynı backend altyapısı** kullanılacaktır. 
+Backend işlemlerinin, Edge Function'ların ve DB Migration'larının tamamı **Ledger (Ortak Monorepo) Projesi İçindedir (`c:\ai_muhasebeci\supabase`)**. 
 
-1. **API İstekleri:** Mobil uygulamada Axios veya Fetch kullanılarak Next.js API rotalarına (`https://workigom.com/api/...`) istek atılmalıdır.
-2. **Supabase Client:** Mobil uygulamada Supabase SDK (`@supabase/supabase-js`) kullanılabilir ancak gizli API anahtarlarının mobil istemcide açığa çıkmaması için doğrudan veritabanı işlemleri yerine Next.js API rotaları üzerinden geçiş yapılması daha güvenlidir.
-3. **State Yönetimi (AsyncStorage):** Flow veya Ledger tarafında cihaz üzerinde tutulması gereken (Bağlantı yapıldı/yapılmadı gibi) durumlar `AsyncStorage` ile yönetilir. Sayfa açıldığında `useEffect` ile bu state okunup ekran çizilir.
+Flow (Mobil) uygulaması (`c:\ai_esnaf`) sadece ön yüz (UI) kodlarını barındırır. Mobil uygulama veya Next.js projeleri, veritabanına veya Edge Function'lara istek atmak için bu merkezi Supabase projesinin URL'ini ve anahtarlarını kullanır.
 
----
-
-*Not: Bu doküman, sisteme eklenecek yeni modüller (Belge yönetimi, fatura aktarımı vb.) ile güncellenmeye devam edecektir.*
+Edge fonksiyonunu lokalde test etmek için `c:\ai_muhasebeci` dizininde:
+```bash
+supabase functions serve process-document --env-file ./supabase/.env.local
+```
+Deploy etmek için:
+```bash
+supabase functions deploy process-document
+```

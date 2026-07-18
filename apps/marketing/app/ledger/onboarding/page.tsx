@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { createClient } from "@supabase/supabase-js";
 
 // A mock Supabase client for frontend if needed, but usually we use a utility. 
 // Assuming the user has a setup for this.
@@ -20,8 +19,74 @@ export default function LedgerOnboardingPage() {
     { key: "tax_amount", type: "number", label: "KDV Tutarı" }
   ]);
 
+  const [file, setFile] = useState<File | null>(null);
+
   const handleNextStep = () => {
     setStep(s => s + 1);
+  };
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setFile(e.target.files[0]);
+    }
+  };
+
+  const fileToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        const result = reader.result as string;
+        // Strip the data:image/...;base64, prefix
+        const base64Data = result.split(',')[1];
+        resolve(base64Data);
+      };
+      reader.onerror = error => reject(error);
+    });
+  };
+
+  const handleAnalyze = async () => {
+    if (!file) return;
+    setLoading(true);
+    try {
+      const base64 = await fileToBase64(file);
+      
+      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'http://127.0.0.1:54321';
+      const response = await fetch(`${supabaseUrl}/functions/v1/process-document`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          mode: 'test',
+          mimeType: file.type || 'image/jpeg',
+          fileBase64: base64
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('Analiz başarısız');
+      }
+
+      const { extractedData } = await response.json();
+      
+      if (extractedData) {
+        // Auto-detect schema from keys
+        const newSchema = Object.keys(extractedData).map(key => {
+          let type = typeof extractedData[key];
+          if (type === 'number' || !isNaN(Number(extractedData[key]))) {
+            type = 'number';
+          }
+          return { key, type, label: key.replace(/_/g, ' ').toUpperCase() };
+        });
+        setSchema(newSchema);
+      }
+      
+      setStep(3);
+    } catch (error) {
+      console.error(error);
+      alert('Analiz sırasında hata oluştu.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleSaveAndLock = async () => {
@@ -74,11 +139,18 @@ export default function LedgerOnboardingPage() {
               Nasıl çalıştığımı test etmek için lütfen en sık karşılaştığınız bir alış veya satış faturasını yükleyin. Ben okuyup ne anladığımı size göstereceğim.
             </p>
             
-            <div className="border-2 border-dashed border-white/20 rounded-xl p-12 flex flex-col items-center justify-center cursor-pointer hover:border-brand-primary/50 transition-colors bg-[#1A1D24]/50">
-              <span className="material-symbols-outlined text-4xl text-brand-primary mb-4">upload_file</span>
-              <p className="text-white font-medium mb-1">Fatura Yükle (PDF, JPG, PNG)</p>
-              <p className="text-text-muted text-sm">veya sürükleyip bırakın</p>
-            </div>
+            <label className="border-2 border-dashed border-white/20 rounded-xl p-12 flex flex-col items-center justify-center cursor-pointer hover:border-brand-primary/50 transition-colors bg-[#1A1D24]/50 relative">
+              <input type="file" accept="image/*,application/pdf" className="hidden" onChange={handleFileUpload} />
+              <span className="material-symbols-outlined text-4xl text-brand-primary mb-4">
+                {file ? 'check_circle' : 'upload_file'}
+              </span>
+              <p className="text-white font-medium mb-1">
+                {file ? file.name : 'Fatura Yükle (PDF, JPG, PNG)'}
+              </p>
+              <p className="text-text-muted text-sm">
+                {file ? 'Değiştirmek için tıklayın' : 'veya sürükleyip bırakın'}
+              </p>
+            </label>
 
             <div className="flex gap-4 mt-8">
               <button 
@@ -88,10 +160,11 @@ export default function LedgerOnboardingPage() {
                 Geri
               </button>
               <button 
-                onClick={handleNextStep}
-                className="flex-1 bg-brand-primary hover:bg-brand-primary/90 text-[#090B10] font-bold py-3 px-4 rounded-lg transition-all"
+                onClick={handleAnalyze}
+                disabled={!file || loading}
+                className="flex-1 flex items-center justify-center gap-2 bg-brand-primary hover:bg-brand-primary/90 text-[#090B10] font-bold py-3 px-4 rounded-lg transition-all disabled:opacity-50"
               >
-                Yükle ve Analiz Et
+                {loading ? <span className="material-symbols-outlined animate-spin">progress_activity</span> : 'Yükle ve Analiz Et'}
               </button>
             </div>
           </div>
