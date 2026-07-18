@@ -95,7 +95,7 @@ export default function LedgerOnboardingPage() {
     // to insert into ledger_ai_settings and set is_locked = true
     setTimeout(() => {
       setLoading(false);
-      router.push("/ledger/dashboard");
+      router.push("/dashboard");
     }, 1500);
   };
 

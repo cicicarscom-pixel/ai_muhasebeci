@@ -18,7 +18,7 @@ export default function Sidebar() {
     const supabase = createClient();
     await supabase.auth.signOut();
     router.refresh(); // Refresh to clear server state
-    router.push('/ledger/login');
+    router.push('/login');
   };
 
   return (
@@ -28,13 +28,13 @@ export default function Sidebar() {
       </div>
       
       <div className="flex-1 w-full flex flex-col gap-2 items-center">
-        <SidebarItem icon="dashboard" label="Dashboard" href="/ledger/dashboard" active={isActive('/ledger/dashboard')} />
-        <SidebarItem icon="groups" label="Mükellefler" href="/ledger/clients" active={isActive('/ledger/clients')} />
-        <SidebarItem icon="account_tree" label="İş Akışı" href="/ledger/workflow" active={isActive('/ledger/workflow')} />
-        <SidebarItem icon="fact_check" label="Onay Merkezi" href="/ledger/approval" active={pathname?.startsWith('/ledger/approval')} />
-        <SidebarItem icon="analytics" label="Analitik" href="/ledger/analytics" active={isActive('/ledger/analytics')} />
-        <SidebarItem icon="auto_awesome" label="AI Ayarları" href="/ai-settings" active={isActive('/ai-settings') || isActive('/ledger/ai-settings')} />
-        <SidebarItem icon="settings" label="Ayarlar" href="/ledger/settings" active={isActive('/ledger/settings')} />
+        <SidebarItem icon="dashboard" label="Dashboard" href="/dashboard" active={isActive('/dashboard')} />
+        <SidebarItem icon="groups" label="Mükellefler" href="/clients" active={isActive('/clients')} />
+        <SidebarItem icon="account_tree" label="İş Akışı" href="/workflow" active={isActive('/workflow')} />
+        <SidebarItem icon="fact_check" label="Onay Merkezi" href="/approval" active={pathname?.startsWith('/approval')} />
+        <SidebarItem icon="analytics" label="Analitik" href="/analytics" active={isActive('/analytics')} />
+        <SidebarItem icon="auto_awesome" label="AI Ayarları" href="/ai-settings" active={isActive('/ai-settings') || isActive('/ai-settings')} />
+        <SidebarItem icon="settings" label="Ayarlar" href="/settings" active={isActive('/settings')} />
       </div>
 
       <div className="mt-auto w-full flex flex-col gap-2 items-center pb-2">

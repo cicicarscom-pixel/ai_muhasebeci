@@ -20,8 +20,8 @@ export default function LedgerLayout({ children }: { children: React.ReactNode }
     mainPadding = 'pl-[56px] pr-0 pt-16'; // No right sidebar for workflow and clients
   }
 
-  const isLandingPage = pathname === '/ledger';
-  const isAuthPage = pathname === '/ledger/login' || pathname === '/ledger/register';
+  const isLandingPage = pathname === '/';
+  const isAuthPage = pathname === '/login' || pathname === '/register';
 
   // Dynamic Scaling
   const zoomLevel = isApproval ? 0.75 : 0.90;

@@ -68,7 +68,7 @@ export async function cancelInvitationAction(invitationId: string) {
         source: 'ledger'
     });
 
-    revalidatePath('/ledger/clients');
+    revalidatePath('/clients');
     
     return { success: true, message: 'Davet başarıyla iptal edildi.' };
 

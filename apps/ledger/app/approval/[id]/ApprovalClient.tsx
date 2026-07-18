@@ -29,7 +29,7 @@ export default function ApprovalClient({ document, draft, lines, imageUrl }: { d
       alert('Onaylama başarısız: ' + res.error);
       setIsSubmitting(false);
     } else {
-      router.push('/ledger/approval');
+      router.push('/approval');
       router.refresh();
     }
   };
@@ -128,7 +128,7 @@ export default function ApprovalClient({ document, draft, lines, imageUrl }: { d
 
           <div className="flex gap-4">
             <button 
-              onClick={() => router.push('/ledger/approval')}
+              onClick={() => router.push('/approval')}
               className="px-6 py-3 border border-gray-300 text-gray-700 font-medium rounded-xl hover:bg-gray-50 transition-colors"
             >
               İptal

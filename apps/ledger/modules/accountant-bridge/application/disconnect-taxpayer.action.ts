@@ -74,7 +74,7 @@ export async function disconnectTaxpayerAction(linkId: string, reason: string = 
         source: 'ledger'
     });
 
-    revalidatePath('/ledger/clients');
+    revalidatePath('/clients');
     
     return { success: true, message: 'Bağlantı başarıyla kesildi.' };
 

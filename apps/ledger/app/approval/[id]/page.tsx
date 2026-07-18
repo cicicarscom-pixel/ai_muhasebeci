@@ -29,7 +29,7 @@ export default async function Page({ params }: { params: { id: string } }) {
     return (
       <div className="flex flex-col h-full items-center justify-center bg-surface text-text">
         <h1 className="text-2xl font-bold text-warning mb-4">Hata: Belge bulunamadı.</h1>
-        <a href="/ledger/approval" className="text-primary hover:underline">Geri Dön</a>
+        <a href="/approval" className="text-primary hover:underline">Geri Dön</a>
       </div>
     );
   }

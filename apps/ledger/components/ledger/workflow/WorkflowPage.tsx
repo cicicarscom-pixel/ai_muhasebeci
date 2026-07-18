@@ -152,7 +152,7 @@ export default function WorkflowPage({ initialDocuments = [] }: { initialDocumen
               </GhostButton>
             )}
             {kontrolBekliyor.map(doc => (
-              <Link href={`/ledger/approval/${doc.id}`} key={doc.id}>
+              <Link href={`/approval/${doc.id}`} key={doc.id}>
                 <AppCard className="p-4 cursor-pointer hover:border-warning/50 transition-colors">
                   <div className="flex justify-between items-center mb-4">
                     <span className="text-muted text-[#58A6FF] font-semibold truncate" title={doc.organizations?.name}>{doc.organizations?.name || 'Bilinmiyor'}</span>

@@ -19,7 +19,7 @@ export default function LedgerLoginPage() {
     startTransition(async () => {
       const result = await loginAccountantAction(formData);
       if (result.success) {
-        router.push("/ledger/clients");
+        router.push("/clients");
         router.refresh();
       } else {
         setError(result.error || "Giriş başarısız.");
@@ -126,7 +126,7 @@ export default function LedgerLoginPage() {
             </p>
           </div>
 
-          <Link href="/ledger/dashboard" className="w-full flex items-center justify-center gap-3 bg-white text-[#07090E] font-bold py-3.5 px-4 rounded-xl hover:bg-gray-100 transition-all hover:scale-[1.02] shadow-[0_0_15px_rgba(255,255,255,0.1)] mb-6 relative overflow-hidden group">
+          <Link href="/dashboard" className="w-full flex items-center justify-center gap-3 bg-white text-[#07090E] font-bold py-3.5 px-4 rounded-xl hover:bg-gray-100 transition-all hover:scale-[1.02] shadow-[0_0_15px_rgba(255,255,255,0.1)] mb-6 relative overflow-hidden group">
             <svg className="w-5 h-5 relative z-10" viewBox="0 0 24 24">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
               <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
@@ -193,7 +193,7 @@ export default function LedgerLoginPage() {
           </form>
 
           <p className="text-center text-[14px] text-[#8E95B3] mt-8">
-            Henüz hesabınız yok mu? <Link href="/ledger/register" className="text-white font-bold hover:text-[#00F0FF] transition-colors">Ücretsiz Hesap Oluştur</Link>
+            Henüz hesabınız yok mu? <Link href="/register" className="text-white font-bold hover:text-[#00F0FF] transition-colors">Ücretsiz Hesap Oluştur</Link>
           </p>
         </motion.div>
       </div>

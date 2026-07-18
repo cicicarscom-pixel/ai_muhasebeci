@@ -25,7 +25,7 @@ export default async function Page() {
   const queue = result.data || [];
 
   if (queue.length > 0) {
-    redirect(`/ledger/approval/${queue[0].id}`);
+    redirect(`/approval/${queue[0].id}`);
   }
 
   return <ApprovalPage queue={queue} />;

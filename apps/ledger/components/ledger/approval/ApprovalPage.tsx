@@ -64,7 +64,7 @@ export default function ApprovalPage({
       alert('Onaylama başarısız: ' + res.error);
       setIsSubmitting(false);
     } else {
-      router.push('/ledger/approval');
+      router.push('/approval');
       router.refresh();
     }
   };
@@ -80,7 +80,7 @@ export default function ApprovalPage({
       alert('Silme başarısız: ' + res.error);
       setIsSubmitting(false);
     } else {
-      router.push('/ledger/approval');
+      router.push('/approval');
       router.refresh();
     }
   };
@@ -90,7 +90,7 @@ export default function ApprovalPage({
       {/* Top Navigation Bar */}
       <header className="flex justify-between items-center w-full px-6 z-50 bg-card/80 backdrop-blur-md top-0 sticky h-[64px] border-b border-border">
         <div className="flex items-center gap-1">
-          <Link href="/ledger/workflow" className="flex items-center gap-2 text-text-muted hover:text-text transition-colors duration-fast">
+          <Link href="/workflow" className="flex items-center gap-2 text-text-muted hover:text-text transition-colors duration-fast">
             <span className="material-symbols-outlined text-[20px]">arrow_back</span>
             <span className="font-semibold text-body">Geri</span>
           </Link>
@@ -150,14 +150,14 @@ export default function ApprovalPage({
                 currencyCode={doc.currency_code || doc.currency || 'TRY'}
                 date={doc.issue_date || new Date(doc.created_at).toLocaleDateString('tr-TR')}
                 isActive={activeDocument?.id === doc.id}
-                onSelect={() => router.push(`/ledger/approval/${doc.id}`)}
+                onSelect={() => router.push(`/approval/${doc.id}`)}
                 onDelete={() => {
                   if (confirm('Bu evrakı tamamen silmek istediğinize emin misiniz?')) {
                     setIsSubmitting(true);
                     deleteDocumentAction(doc.id).then((res) => {
                       setIsSubmitting(false);
                       if (!res.success) alert('Silme başarısız: ' + res.error);
-                      else { router.push('/ledger/approval'); router.refresh(); }
+                      else { router.push('/approval'); router.refresh(); }
                     });
                   }
                 }}
@@ -292,7 +292,7 @@ export default function ApprovalPage({
                     </div>
                     <div className="flex items-center gap-3">
                       <GhostButton onClick={handleDelete} disabled={isSubmitting || !activeDocument} className="text-[#FF4A4A] hover:bg-[#FF4A4A]/10 border border-transparent hover:border-[#FF4A4A]/20 transition-colors">Sil</GhostButton>
-                      <SecondaryButton onClick={() => router.push('/ledger/approval')} disabled={!activeDocument}>Taslak</SecondaryButton>
+                      <SecondaryButton onClick={() => router.push('/approval')} disabled={!activeDocument}>Taslak</SecondaryButton>
                       <PrimaryButton onClick={handleApprove} disabled={isSubmitting || !activeDocument} className="flex items-center gap-2 group">
                         {isSubmitting ? 'Onaylanıyor...' : 'Onayla'}
                         <span className="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform">arrow_forward</span>

@@ -58,8 +58,8 @@ export async function deleteDocumentAction(documentId: string) {
       throw new Error('Veritabanı silme işlemi başarısız (kayıt bulunamadı).');
     }
 
-    revalidatePath('/ledger/approval');
-    revalidatePath('/ledger/workflow');
+    revalidatePath('/approval');
+    revalidatePath('/workflow');
 
     return { success: true };
   } catch (error: any) {
