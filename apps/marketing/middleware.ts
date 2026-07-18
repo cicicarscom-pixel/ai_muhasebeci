@@ -60,9 +60,10 @@ export async function middleware(request: NextRequest) {
 
   const isAuthPage = request.nextUrl.pathname.startsWith('/ledger/login') || request.nextUrl.pathname.startsWith('/ledger/register');
   const isLedgerRoute = request.nextUrl.pathname.startsWith('/ledger');
+  const isStaticAsset = request.nextUrl.pathname.includes('/_next/') || request.nextUrl.pathname.match(/\.(png|jpg|jpeg|gif|webp|svg|css|js|ico)$/);
 
   // If user is not logged in and tries to access a protected ledger route, redirect to login
-  if (!user && isLedgerRoute && !isAuthPage && request.nextUrl.pathname !== '/ledger') {
+  if (!user && isLedgerRoute && !isAuthPage && !isStaticAsset && request.nextUrl.pathname !== '/ledger') {
     return NextResponse.redirect(new URL('/ledger/login', request.url));
   }
 
