@@ -27,7 +27,11 @@ export function InvoiceCard({
   onDelete
 }: InvoiceCardProps) {
   const formatCurrency = (amount: number, curr: string) => {
-    return new Intl.NumberFormat('tr-TR', { style: 'currency', currency: curr || 'TRY' }).format(amount / 100);
+    try {
+      return new Intl.NumberFormat('tr-TR', { style: 'currency', currency: curr || 'TRY' }).format(amount / 100);
+    } catch (e) {
+      return `${amount / 100} ${curr || 'TRY'}`;
+    }
   };
 
   const isExpense = type === 'expense' || type === 'invoice' || type === 'receipt';

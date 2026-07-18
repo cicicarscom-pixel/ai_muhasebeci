@@ -22,7 +22,11 @@ export default function WorkflowPage({ initialDocuments = [] }: { initialDocumen
 
   const formatCurrency = (amount: number, currency: string) => {
     if (amount === undefined || amount === null) return '-';
-    return new Intl.NumberFormat('tr-TR', { style: 'currency', currency: currency || 'TRY' }).format(amount);
+    try {
+      return new Intl.NumberFormat('tr-TR', { style: 'currency', currency: currency || 'TRY' }).format(amount);
+    } catch (e) {
+      return `${amount} ${currency || 'TRY'}`;
+    }
   };
 
   const totalAmount = initialDocuments.reduce((acc, doc) => acc + (Number(doc.total_amount) || 0), 0);

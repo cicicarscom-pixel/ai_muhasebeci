@@ -8,7 +8,9 @@ export default async function Page({ params }: { params: { id: string } }) {
   const supabase = createClient(cookieStore);
 
   const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return null;
+  if (!user) {
+    return <div className="p-8 text-center"><h2 className="text-xl font-bold">Lütfen Giriş Yapın</h2><p>Bu sayfayı görüntülemek için giriş yapmanız gerekmektedir.</p></div>;
+  }
 
   // Get firm ID
   const { data: firmMember } = await supabase

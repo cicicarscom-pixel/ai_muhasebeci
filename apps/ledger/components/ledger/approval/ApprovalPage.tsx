@@ -44,7 +44,11 @@ export default function ApprovalPage({
     if (amount === undefined || amount === null) return '0,00 ₺';
     // Use amount_minor / 100 for display
     const value = amount > 1000 ? amount / 100 : amount; // Simple check if it's already minor or not for demo
-    return new Intl.NumberFormat('tr-TR', { style: 'currency', currency: currency || 'TRY' }).format(value);
+    try {
+      return new Intl.NumberFormat('tr-TR', { style: 'currency', currency: currency || 'TRY' }).format(value);
+    } catch (e) {
+      return `${value} ${currency || 'TRY'}`;
+    }
   };
 
   const handleApprove = async () => {
