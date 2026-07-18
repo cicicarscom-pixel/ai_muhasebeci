@@ -37,7 +37,7 @@ export async function middleware(request: NextRequest) {
   // Handle explicit /logout route
   if (request.nextUrl.pathname === '/logout') {
     await supabase.auth.signOut();
-    const redirectResponse = NextResponse.redirect(new URL('/login', request.url));
+    const redirectResponse = NextResponse.redirect(new URL('/ledger/login', request.url));
     
     // Copy cookies from supabaseResponse to redirectResponse
     supabaseResponse.cookies.getAll().forEach((cookie) => {
