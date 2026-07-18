@@ -3,9 +3,20 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { PrimaryButton, SecondaryButton, GhostButton } from '../ui/Buttons';
+import { GhostButton, PrimaryButton, SecondaryButton } from '../ui/Buttons';
+import { InvoiceCard } from '../ui/InvoiceCard';
 import { approveDocumentAction } from '../../../modules/ledger-ai/application/approve-document.action';
 import { deleteDocumentAction } from '../../../modules/ledger-ai/application/delete-document.action';
+
+// Phase 3: Simulated dynamic extraction schema from ledger_ai_settings
+const dummySchema = [
+  { key: "issue_date", type: "date", label: "Fatura Tarihi" },
+  { key: "invoice_number", type: "string", label: "Fatura Numarası" },
+  { key: "vendor_tax_identifier", type: "string", label: "VKN/TCKN" },
+  { key: "vendor_name", type: "string", label: "Açıklama / Unvan" },
+  { key: "net_amount", type: "number", label: "Matrah (Net)" },
+  { key: "tax_amount", type: "number", label: "KDV Tutarı" }
+];
 
 export default function ApprovalPage({ 
   queue = [], 
@@ -30,8 +41,10 @@ export default function ApprovalPage({
   }, [activeDocument?.id]);
 
   const formatCurrency = (amount: number, currency: string) => {
-    if (amount === undefined || amount === null) return '0.00';
-    return new Intl.NumberFormat('tr-TR', { style: 'currency', currency: currency || 'TRY' }).format(amount);
+    if (amount === undefined || amount === null) return '0,00 ₺';
+    // Use amount_minor / 100 for display
+    const value = amount > 1000 ? amount / 100 : amount; // Simple check if it's already minor or not for demo
+    return new Intl.NumberFormat('tr-TR', { style: 'currency', currency: currency || 'TRY' }).format(value);
   };
 
   const handleApprove = async () => {
@@ -126,54 +139,30 @@ export default function ApprovalPage({
             {queue.length === 0 && (
               <div className="text-text-muted text-sm text-center py-8">Şu an onay bekleyen evrak bulunmuyor.</div>
             )}
-            {queue.map(doc => {
-              const isActive = activeDocument?.id === doc.id;
-              const firstLetter = doc.vendor_name ? doc.vendor_name.charAt(0).toUpperCase() : '?';
-              return (
-                <Link href={`/ledger/approval/${doc.id}`} key={doc.id}>
-                  <div className={`group p-4 rounded-card cursor-pointer flex flex-col gap-2 transition-all ${
-                    isActive 
-                      ? 'border border-primary/50 bg-primary/5 shadow-glow-primary' 
-                      : 'border border-border hover:bg-card/50'
-                  }`}>
-                    <div className="flex items-center gap-1">
-                      <div className={`w-[24px] h-[24px] rounded-[4px] flex items-center justify-center font-bold text-[12px] ${isActive ? 'bg-primary text-white' : 'bg-[#FF7900] text-white'}`}>
-                        {firstLetter}
-                      </div>
-                      <span className="text-text font-bold text-body truncate flex-1">{doc.vendor_name || 'Okunamadı'}</span>
-                      <button 
-                        onClick={(e) => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                          if (confirm('Bu evrakı tamamen silmek istediğinize emin misiniz?')) {
-                            setIsSubmitting(true);
-                            deleteDocumentAction(doc.id).then((res) => {
-                              setIsSubmitting(false);
-                              if (!res.success) alert('Silme başarısız: ' + res.error);
-                              else { router.push('/ledger/approval'); router.refresh(); }
-                            });
-                          }
-                        }}
-                        className="text-text-muted hover:text-[#FF4A4A] p-1 transition-colors rounded hover:bg-[#FF4A4A]/10 opacity-0 group-hover:opacity-100"
-                        title="Sil"
-                      >
-                        <span className="material-symbols-outlined text-[16px]">delete</span>
-                      </button>
-                    </div>
-                    <div className="flex items-end justify-between pl-[40px]">
-                      <div className="flex flex-col gap-1">
-                        <span className="text-text font-mono text-body font-bold">{formatCurrency(doc.total_amount, doc.currency)}</span>
-                        <div className="flex items-center text-text-muted text-label gap-1 font-medium">
-                          <span className="material-symbols-outlined text-[14px]">schedule</span>
-                          {doc.issue_date || <span suppressHydrationWarning>{new Date(doc.created_at).toLocaleDateString('tr-TR')}</span>}
-                        </div>
-                      </div>
-                      <span className="text-primary text-label font-bold">%98</span>
-                    </div>
-                  </div>
-                </Link>
-              );
-            })}
+            {queue.map(doc => (
+              <InvoiceCard
+                key={doc.id}
+                id={doc.id}
+                vendorName={doc.vendor_name}
+                taxpayerName={doc.organizations?.name || 'Test Mükellefi'}
+                type={doc.type || 'expense'}
+                amountMinor={doc.amount_minor || (doc.total_amount * 100) || 0}
+                currencyCode={doc.currency_code || doc.currency || 'TRY'}
+                date={doc.issue_date || new Date(doc.created_at).toLocaleDateString('tr-TR')}
+                isActive={activeDocument?.id === doc.id}
+                onSelect={() => router.push(`/ledger/approval/${doc.id}`)}
+                onDelete={() => {
+                  if (confirm('Bu evrakı tamamen silmek istediğinize emin misiniz?')) {
+                    setIsSubmitting(true);
+                    deleteDocumentAction(doc.id).then((res) => {
+                      setIsSubmitting(false);
+                      if (!res.success) alert('Silme başarısız: ' + res.error);
+                      else { router.push('/ledger/approval'); router.refresh(); }
+                    });
+                  }
+                }}
+              />
+            ))}
           </div>
 
           {/* Footer / Pagination */}
@@ -270,71 +259,25 @@ export default function ApprovalPage({
                   <div className="px-8 pb-6">
                     <div className="max-w-xl mx-auto space-y-4">
                       
-                      {/* Belge Section */}
-                      <div className="space-y-2">
-                        <div className="grid grid-cols-2 gap-2">
-                          <div className="space-y-1">
-                            <label className="text-[10px] font-medium text-text-muted tracking-wider uppercase">Fatura Tarihi</label>
-                            <input className="w-full h-9 bg-white border border-border rounded-lg text-[13px] text-[#0E1117] px-3 focus:outline-none focus:border-primary transition-all" type="text" defaultValue={activeDocument?.issue_date || ''} disabled={!activeDocument} />
-                          </div>
-                          <div className="space-y-1">
-                            <label className="text-[10px] font-medium text-text-muted tracking-wider uppercase">Fatura Numarası</label>
-                            <input className="w-full h-9 bg-white border border-border rounded-lg text-[#0E1117] px-3 focus:outline-none focus:border-primary transition-all font-mono text-[13px]" type="text" defaultValue={activeDocument?.invoice_number || ''} disabled={!activeDocument} />
-                          </div>
-                          <div className="space-y-1">
-                            <label className="text-[10px] font-medium text-text-muted tracking-wider uppercase">Fatura Türü</label>
-                            <select className="w-full h-9 bg-white border border-border rounded-lg text-[13px] text-[#0E1117] px-3 appearance-none focus:outline-none focus:border-primary transition-all" defaultValue={activeDocument?.document_type || 'Alış Faturası'} disabled={!activeDocument}>
-                              <option value="invoice">Alış Faturası</option>
-                              <option value="receipt">Fiş</option>
-                            </select>
-                          </div>
-                          <div className="space-y-1">
-                            <label className="text-[10px] font-medium text-text-muted tracking-wider uppercase">VKN/TCKN</label>
-                            <input className="w-full h-9 bg-white border border-border rounded-lg text-[#0E1117] px-3 focus:outline-none focus:border-primary transition-all font-mono text-[13px]" type="text" defaultValue={activeDocument?.vendor_tax_identifier || ''} disabled={!activeDocument} />
-                          </div>
-                          <div className="col-span-2 space-y-1">
-                            <label className="text-[10px] font-medium text-text-muted tracking-wider uppercase">Açıklama</label>
-                            <input className="w-full h-9 bg-white border border-border rounded-lg text-[13px] text-[#0E1117] px-3 focus:outline-none focus:border-primary transition-all" type="text" defaultValue={activeDocument?.vendor_name || ''} disabled={!activeDocument} />
-                          </div>
+                      {/* Dinamik Şema Alanları (Dynamic Fields from extraction_schema) */}
+                      <div className="space-y-4">
+                        <div className="bg-primary/5 border border-primary/20 rounded-lg p-3 flex items-center gap-2">
+                          <span className="material-symbols-outlined text-primary text-[18px]">auto_awesome</span>
+                          <span className="text-[12px] font-medium text-text-muted">Bu alanlar yapay zeka ayarlarınızdaki dinamik şemaya göre oluşturulmuştur.</span>
                         </div>
-                      </div>
-
-                      {/* Vergiler Section */}
-                      <div className="space-y-2">
-                        <div className="grid grid-cols-2 gap-2">
-                          <div className="space-y-1">
-                            <label className="text-[10px] font-medium text-text-muted tracking-wider uppercase">Tevkifat Oranı</label>
-                            <select className="w-full h-9 bg-white border border-border rounded-lg text-[13px] text-[#0E1117] px-3 appearance-none focus:outline-none focus:border-primary transition-all">
-                              <option>Yok</option>
-                              <option>2/10</option>
-                              <option>5/10</option>
-                            </select>
-                          </div>
-                          <div className="space-y-1">
-                            <label className="text-[10px] font-medium text-text-muted tracking-wider uppercase">Özel Matrah</label>
-                            <input className="w-full h-9 bg-white border border-border rounded-lg text-[#0E1117] px-3 text-right focus:outline-none focus:border-primary transition-all font-mono text-[13px]" type="text" defaultValue="0.00" />
-                          </div>
-                        </div>
-
-                        <div className="bg-card border border-border rounded-card p-3 overflow-x-auto custom-scrollbar">
-                          <div className="min-w-[420px]">
-                            {/* KDV Fields */}
-                            <div className="grid grid-cols-5 gap-2 mb-3">
-                              <div className="space-y-1"><label className="text-label font-bold text-text-muted uppercase px-2 whitespace-nowrap">%1 KDV</label><input className="w-full h-[32px] bg-white border border-border focus:border-primary outline-none text-body font-mono font-bold text-[#0E1117] px-2 text-right transition-colors rounded-md" defaultValue="0.00" /></div>
-                              <div className="space-y-1"><label className="text-label font-bold text-text-muted uppercase px-2 whitespace-nowrap">%8 KDV</label><input className="w-full h-[32px] bg-white border border-border focus:border-primary outline-none text-body font-mono font-bold text-[#0E1117] px-2 text-right transition-colors rounded-md" defaultValue="0.00" /></div>
-                              <div className="space-y-1"><label className="text-label font-bold text-text-muted uppercase px-2 whitespace-nowrap">%10 KDV</label><input className="w-full h-[32px] bg-white border border-border focus:border-primary outline-none text-body font-mono font-bold text-[#0E1117] px-2 text-right transition-colors rounded-md" defaultValue="0.00" /></div>
-                              <div className="space-y-1"><label className="text-label font-bold text-text-muted uppercase px-2 whitespace-nowrap">%18 KDV</label><input className="w-full h-[32px] bg-white border border-border focus:border-primary outline-none text-body font-mono font-bold text-[#0E1117] px-2 text-right transition-colors rounded-md" defaultValue="0.00" /></div>
-                              <div className="space-y-1"><label className="text-label font-bold text-text-muted uppercase px-2 whitespace-nowrap">%20 KDV</label><input className="w-full h-[32px] bg-white border border-border focus:border-primary outline-none text-body font-mono font-bold text-[#0E1117] px-2 text-right transition-colors rounded-md" defaultValue={activeDocument?.tax_amount || "0.00"} disabled={!activeDocument} /></div>
+                        
+                        <div className="grid grid-cols-2 gap-3">
+                          {dummySchema.map(field => (
+                            <div key={field.key} className={field.type === 'string' && field.key === 'vendor_name' ? 'col-span-2 space-y-1' : 'space-y-1'}>
+                              <label className="text-[10px] font-medium text-text-muted tracking-wider uppercase">{field.label}</label>
+                              <input 
+                                className={`w-full h-10 bg-[#1A1D24] border border-white/10 rounded-lg text-[13px] text-white px-3 focus:outline-none focus:border-brand-primary transition-all ${field.type === 'number' ? 'font-mono text-right' : ''}`}
+                                type="text" 
+                                defaultValue={activeDocument ? activeDocument[field.key] || '' : ''} 
+                                disabled={!activeDocument} 
+                              />
                             </div>
-                            {/* Matrah Fields */}
-                            <div className="grid grid-cols-5 gap-2">
-                              <div className="space-y-1"><label className="text-label font-bold text-text-muted uppercase px-2 whitespace-nowrap">%1 Matrah</label><input className="w-full h-[32px] bg-white border border-border focus:border-primary outline-none text-body font-mono font-bold text-[#0E1117] px-2 text-right transition-colors rounded-md" defaultValue="0.00" disabled={!activeDocument} /></div>
-                              <div className="space-y-1"><label className="text-label font-bold text-text-muted uppercase px-2 whitespace-nowrap">%8 Matrah</label><input className="w-full h-[32px] bg-white border border-border focus:border-primary outline-none text-body font-mono font-bold text-[#0E1117] px-2 text-right transition-colors rounded-md" defaultValue="0.00" disabled={!activeDocument} /></div>
-                              <div className="space-y-1"><label className="text-label font-bold text-text-muted uppercase px-2 whitespace-nowrap">%10 Matrah</label><input className="w-full h-[32px] bg-white border border-border focus:border-primary outline-none text-body font-mono font-bold text-[#0E1117] px-2 text-right transition-colors rounded-md" defaultValue="0.00" disabled={!activeDocument} /></div>
-                              <div className="space-y-1"><label className="text-label font-bold text-text-muted uppercase px-2 whitespace-nowrap">%18 Matrah</label><input className="w-full h-[32px] bg-white border border-border focus:border-primary outline-none text-body font-mono font-bold text-[#0E1117] px-2 text-right transition-colors rounded-md" defaultValue="0.00" disabled={!activeDocument} /></div>
-                              <div className="space-y-1"><label className="text-label font-bold text-text-muted uppercase px-2 whitespace-nowrap">%20 Matrah</label><input className="w-full h-[32px] bg-white border border-border focus:border-primary outline-none text-body font-mono font-bold text-[#0E1117] px-2 text-right transition-colors rounded-md" defaultValue={activeDocument?.net_amount || "0.00"} disabled={!activeDocument} /></div>
-                            </div>
-                          </div>
+                          ))}
                         </div>
                       </div>
 
