@@ -17,8 +17,7 @@ export default function Sidebar() {
   const handleLogout = async () => {
     const supabase = createClient();
     await supabase.auth.signOut();
-    router.refresh(); // Refresh to clear server state
-    router.push('/login');
+    window.location.href = '/login';
   };
 
   return (
