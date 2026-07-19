@@ -20,7 +20,8 @@ export async function getPendingDocumentsAction(firmId: string) {
         currency,
         processing_status,
         review_status,
-        created_at
+        created_at,
+        organizations!accounting_documents_taxpayer_organization_id_fkey (name)
       `)
       .eq('accounting_firm_id', firmId)
       .eq('review_status', 'pending')
@@ -45,7 +46,10 @@ export async function getDocumentDetailsAction(documentId: string) {
     // Get document metadata
     const { data: document, error: docError } = await supabase
       .from('accounting_documents')
-      .select('*')
+      .select(`
+        *,
+        organizations!accounting_documents_taxpayer_organization_id_fkey (name)
+      `)
       .eq('id', documentId)
       .single();
 
