@@ -13,10 +13,11 @@ Bu doküman, **Ledger** (Mali Müşavir Paneli) ve **Flow** (Mükellef Uygulamas
 * **Ledger AI (Müşavir):** Belirlenen özel JSON şemasına (kurallara) göre gelen belgeleri Edge Function (Gemini) aracılığıyla okur ve ayrıştırır. Müşavir onaylar ve Excel/XML/PDF olarak dışa aktarır.
 
 **Kullanılan Teknolojiler:**
-* **Frontend (Web):** Next.js 15 (App Router), React, TailwindCSS, Framer Motion
-* **Frontend (Mobil):** React Native, Expo
+* **Frontend (Web - Ledger & Marketing):** Next.js (App Router), React, TailwindCSS
+* **Frontend (Mobil - Flow):** İleride C:\Users\roman\Flow_ai dizininde bağımsız bir proje olarak geliştirilecektir. (Monorepo'dan ayrıldı)
 * **Backend & Veritabanı:** Supabase (PostgreSQL, Auth, Storage)
-* **Backend Motoru (AI):** Supabase Edge Functions (Deno) + Gemini 1.5 Flash Vision API (`response_mime_type: "application/json"`)
+* **Backend Motoru (AI):** Supabase Edge Functions + Gemini 1.5 Flash Vision API (`response_mime_type: "application/json"`)
+* **AI Asistanı:** Çoklu format (JPG, PNG, PDF, Excel, XML) ve pano yapıştırma (Copy-Paste) destekli entegre sohbet ve dosya analizi.
 
 ---
 
@@ -34,12 +35,19 @@ Müşavirin Ledger Onboarding ekranında kilitlediği dinamik OCR çıkarma kura
 * `instruction_rules` (JSONB) - Müşavirin özel talimatları.
 * `schema_version` (INT) - Geriye dönük uyumluluk için versiyonlama.
 
-### `finance_documents` (Ortak Fatura Tablosu)
-Flow'dan gelen veya Ledger'da işlenen belgeler. Karmaşık ERP tabloları yerine bu tek tabloda tutulur.
-* `organization_id`, `type`, `counterparty_name`, `amount_minor` (BigInt, TRY), `currency_code`
-* `tax_details` (JSONB) - Gemini'den çıkarılan o faturanın tüm detayları buradadır.
-* `document_status` ('draft', 'processing', 'ready_for_review', 'approved', 'archived')
-* `extraction_schema_version` (Hangi şema ile işlendiği)
+### `accounting_documents` (Ana Fatura / Belge Tablosu)
+Flow'dan yüklenen veya Ledger üzerinden eklenen tüm belgeler bu tabloda tutulur.
+* `id`, `created_at`
+* `accounting_firm_id` (Müşavir ID - UUID, FK)
+* `taxpayer_organization_id` (Mükellef ID - UUID, FK)
+* `uploaded_by_user_id` (Yükleyen Kişi - UUID, FK)
+* `storage_bucket`, `storage_path`, `mime_type` (Fiziksel dosya yolları)
+* `document_type`, `processing_status`, `review_status`, `source`
+* `issue_date`, `vendor_name`, `total_amount`, `currency` (Temel OCR çıktıları)
+
+### `accounting_drafts` (AI Taslakları)
+Yapay zeka tarafından analiz edilen evrakların taslak çıktıları burada tutulur.
+* Müşavir onayı için `ledger_account_code` kolonunu barındırır.
 
 ### `document_events` (Denetim İzi / Audit Log)
 Kim neyi değiştirdi takip edebilmek için:
@@ -64,11 +72,14 @@ Kim neyi değiştirdi takip edebilmek için:
 
 ---
 
-## 4. Edge Functions & Backend Konumu
+## 4. Proje Klasör Yapısı (Monorepo)
 
-Backend işlemlerinin, Edge Function'ların ve DB Migration'larının tamamı **Ledger (Ortak Monorepo) Projesi İçindedir (`c:\ai_muhasebeci\supabase`)**. 
+* **`apps/ledger`**: Mali müşavir uygulaması (Şu anki ana odak).
+* **`apps/marketing`**: Ana tanıtım sitesi (www.workigom.com). Flow'un landing page'i de burada yer almaktadır.
+* **Flow (Mükellef Uygulaması)**: Monorepo'yu karmaşıklaştırmamak adına çıkarılmış ve `C:\Users\roman\Flow_ai` yoluna taşınmıştır. İleride tamamen bağımsız bir proje olarak geliştirilecektir.
+* **`supabase`**: Veritabanı fonksiyonları (Edge Functions), kurguları ve yedekleri.
 
-Flow (Mobil) uygulaması (`c:\ai_esnaf`) sadece ön yüz (UI) kodlarını barındırır. Mobil uygulama veya Next.js projeleri, veritabanına veya Edge Function'lara istek atmak için bu merkezi Supabase projesinin URL'ini ve anahtarlarını kullanır.
+Edge fonksiyonunu lokalde test etmek için `c:\Ai_muhasebeci\workigom` dizininde:
 
 Edge fonksiyonunu lokalde test etmek için `c:\ai_muhasebeci` dizininde:
 ```bash
