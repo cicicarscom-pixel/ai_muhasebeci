@@ -1,9 +1,0 @@
-{
-    "name":  "@workigom/flow",
-    "version":  "0.0.0",
-    "private":  true,
-    "dependencies":  {
-                         "@workigom/design-system":  "workspace:*",
-                         "@workigom/ui":  "workspace:*"
-                     }
-}
