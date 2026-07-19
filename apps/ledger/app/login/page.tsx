@@ -17,12 +17,17 @@ export default function LedgerLoginPage() {
     const formData = new FormData(e.currentTarget);
     
     startTransition(async () => {
-      const result = await loginAccountantAction(formData);
-      if (result.success) {
-        router.push("/clients");
-        router.refresh();
-      } else {
-        setError(result.error || "Giriş başarısız.");
+      try {
+        const result = await loginAccountantAction(formData);
+        if (result.success) {
+          router.push("/clients");
+          router.refresh();
+        } else {
+          setError(result.error || "Giriş başarısız.");
+        }
+      } catch (err: any) {
+        console.error("Server Action Hatası:", err);
+        setError("Sunucuya bağlanılırken bir hata oluştu. Lütfen sayfayı yenileyip tekrar deneyin.");
       }
     });
   };
