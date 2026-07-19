@@ -23,7 +23,9 @@ export default function LedgerAiSettingsPage() {
   
   const [inputValue, setInputValue] = useState("");
   const [isTyping, setIsTyping] = useState(false);
+  const [chatAttachment, setChatAttachment] = useState<File | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [showAdvanced, setShowAdvanced] = useState(false);
 
   // Live Test State
@@ -38,16 +40,22 @@ export default function LedgerAiSettingsPage() {
   }, [messages, showAdvanced]);
 
   const handleSend = () => {
-    if (!inputValue.trim()) return;
+    if (!inputValue.trim() && !chatAttachment) return;
+
+    let content = inputValue;
+    if (chatAttachment) {
+      content = `[Eklenen Dosya: ${chatAttachment.name}]\n${content}`;
+    }
 
     const userMessage: ChatMessage = {
       id: Date.now().toString(),
       role: 'user',
-      content: inputValue
+      content: content.trim()
     };
 
     setMessages(prev => [...prev, userMessage]);
     setInputValue("");
+    setChatAttachment(null);
     setIsTyping(true);
 
     // Simulate AI reasoning and response
@@ -63,6 +71,12 @@ export default function LedgerAiSettingsPage() {
         }
       ]);
     }, 1500);
+  };
+
+  const handlePaste = (e: React.ClipboardEvent) => {
+    if (e.clipboardData.files.length > 0) {
+      setChatAttachment(e.clipboardData.files[0]);
+    }
   };
 
   const handleApproveChange = (msgId: string) => {
@@ -224,19 +238,44 @@ export default function LedgerAiSettingsPage() {
 
             {/* Chat Input */}
             <div className="p-4 bg-[#1A1D24] border-t border-white/5">
+              {chatAttachment && (
+                <div className="mb-3 flex items-center gap-2 bg-[#12151C] border border-white/10 w-fit px-3 py-1.5 rounded-lg animate-fade-in">
+                  <span className="material-symbols-outlined text-[16px] text-[#00DAF3]">attach_file</span>
+                  <span className="text-xs text-white truncate max-w-[200px]">{chatAttachment.name}</span>
+                  <button onClick={() => setChatAttachment(null)} className="text-text-muted hover:text-red-400 ml-1 transition-colors">
+                    <span className="material-symbols-outlined text-[16px]">close</span>
+                  </button>
+                </div>
+              )}
               <div className="relative flex items-center">
+                <input 
+                  type="file" 
+                  ref={fileInputRef} 
+                  className="hidden" 
+                  accept=".jpg,.jpeg,.png,.pdf,.xml,.xlsx,.xls"
+                  onChange={(e) => {
+                    if (e.target.files && e.target.files[0]) setChatAttachment(e.target.files[0]);
+                  }} 
+                />
+                <button 
+                  onClick={() => fileInputRef.current?.click()}
+                  className="absolute left-2 p-1.5 text-text-muted hover:text-white transition-colors z-10"
+                >
+                  <span className="material-symbols-outlined text-[24px]">add_circle</span>
+                </button>
                 <input 
                   type="text" 
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleSend()}
+                  onPaste={handlePaste}
                   placeholder="Örn: Yemek faturalarında bahşiş tutarını ayrı kolon yap..."
-                  className="w-full bg-[#12151C] border border-white/10 focus:border-[#00DAF3]/50 rounded-xl py-3 pl-4 pr-12 text-white outline-none transition-colors text-sm shadow-inner"
+                  className="w-full bg-[#12151C] border border-white/10 focus:border-[#00DAF3]/50 rounded-xl py-3 pl-12 pr-12 text-white outline-none transition-colors text-sm shadow-inner"
                 />
                 <button 
                   onClick={handleSend}
-                  disabled={!inputValue.trim()}
-                  className="absolute right-2 p-1.5 bg-[#00DAF3]/10 text-[#00DAF3] hover:bg-[#00DAF3]/20 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  disabled={!inputValue.trim() && !chatAttachment}
+                  className="absolute right-2 p-1.5 bg-[#00DAF3]/10 text-[#00DAF3] hover:bg-[#00DAF3]/20 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors z-10"
                 >
                   <span className="material-symbols-outlined text-[20px]">send</span>
                 </button>
