@@ -11,10 +11,7 @@ export async function getWorkflowDocumentsAction(firmId: string) {
     const { data, error } = await supabase
       .from('accounting_documents')
       .select(`
-        *,
-        accounting_drafts (
-           id, ledger_account_code
-        )
+        *
       `)
       .eq('accounting_firm_id', firmId)
       .order('created_at', { ascending: false });

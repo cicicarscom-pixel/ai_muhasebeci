@@ -20,8 +20,7 @@ export async function getPendingDocumentsAction(firmId: string) {
         currency,
         processing_status,
         review_status,
-        created_at,
-        organizations!accounting_documents_taxpayer_organization_id_fkey (name)
+        created_at
       `)
       .eq('accounting_firm_id', firmId)
       .eq('review_status', 'pending')
