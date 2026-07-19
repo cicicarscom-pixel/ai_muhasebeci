@@ -30,8 +30,7 @@ export default function Sidebar() {
         <SidebarItem icon="account_tree" label="İş Akışı" href="/workflow" active={isActive('/workflow')} />
         <SidebarItem icon="fact_check" label="Onay Merkezi" href="/approval" active={pathname?.startsWith('/approval')} />
         <SidebarItem icon="analytics" label="Analitik" href="/analytics" active={isActive('/analytics')} />
-        <SidebarItem icon="auto_awesome" label="AI Ayarları" href="/ai-settings" active={isActive('/ai-settings') || isActive('/ai-settings')} />
-        <SidebarItem icon="settings" label="Ayarlar" href="/settings" active={isActive('/settings')} />
+        <SidebarItem icon="settings" label="Ayarlar" href="/settings" active={isActive('/settings') || isActive('/ai-settings')} />
       </div>
 
       <div className="mt-auto w-full flex flex-col gap-2 items-center pb-2">
