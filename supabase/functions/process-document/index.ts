@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.182.0/http/server.ts";
 import { createClient } from "supabase";
+import { GoogleGenerativeAI } from "https://esm.sh/@google/generative-ai@0.21.0";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -89,44 +90,35 @@ Müşavir Kuralları: ${JSON.stringify(instruction_rules)}
 1. Sadece genel toplamları değil, tıpkı uluslararası standartlarda (Xero vb.) olduğu gibi faturadaki tüm kalemleri (line items) satır satır ayrıştırarak "line_items" dizisine (Item, Description, Qty, Unit Price, Account, Tax Rate formunda) ekle.
 2. Sadece geçerli bir JSON dön, başka hiçbir açıklama yapma.`;
 
-    const GEMINI_API_KEY = Deno.env.get('GEMINI_API_KEY');
+    const GEMINI_API_KEY = Deno.env.get('LEDGER_GEMINI_API_KEY');
     if (!GEMINI_API_KEY) {
-      throw new Error("GEMINI_API_KEY is not set.");
+      throw new Error("LEDGER_GEMINI_API_KEY is not set.");
     }
 
-    // 3. Call Gemini Vision API
-    const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+    // 3. Call Gemini Vision API using the official SDK
+    const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
+    // Explicitly use 'gemini-1.5-flash' without 'models/' prefix since SDK handles it
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
     
-    const geminiRequestBody = {
+    const result = await model.generateContent({
       contents: [{
+        role: "user",
         parts: [
           { text: prompt },
           {
-            inline_data: {
-              mime_type: mimeType || "image/jpeg",
+            inlineData: {
+              mimeType: mimeType || "image/jpeg",
               data: fileBase64
             }
           }
         ]
       }],
       generationConfig: {
-        response_mime_type: "application/json" // EXACTLY AS REQUESTED: Force structured JSON
+        responseMimeType: "application/json" // EXACTLY AS REQUESTED: Force structured JSON
       }
-    };
-
-    const geminiRes = await fetch(geminiUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(geminiRequestBody)
     });
 
-    if (!geminiRes.ok) {
-      const errText = await geminiRes.text();
-      throw new Error(`Gemini API Error: ${errText}`);
-    }
-
-    const geminiData = await geminiRes.json();
-    const responseText = geminiData.candidates?.[0]?.content?.parts?.[0]?.text;
+    const responseText = result.response.text();
 
     if (!responseText) {
       throw new Error("Empty response from Gemini.");
