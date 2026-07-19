@@ -12,7 +12,6 @@ export async function getWorkflowDocumentsAction(firmId: string) {
       .from('accounting_documents')
       .select(`
         *,
-        organizations (name),
         accounting_drafts (
            id, ledger_account_code
         )

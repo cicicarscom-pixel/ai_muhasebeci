@@ -46,10 +46,7 @@ export async function getDocumentDetailsAction(documentId: string) {
     // Get document metadata
     const { data: document, error: docError } = await supabase
       .from('accounting_documents')
-      .select(`
-        *,
-        organizations!accounting_documents_taxpayer_organization_id_fkey (name)
-      `)
+      .select('*')
       .eq('id', documentId)
       .single();
 
