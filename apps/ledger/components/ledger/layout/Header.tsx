@@ -33,14 +33,14 @@ export default function Header() {
   }
 
   return (
-    <header className={`fixed top-0 ${isWorkflow ? 'right-0' : 'right-[360px]'} left-[56px] h-4 bg-surface/60 backdrop-blur-2xl border-b border-white/5 shadow-[0_4px_20px_rgba(0,0,0,0.3)] z-40 flex items-center justify-between px-6 pl-2 transition-all duration-300`}>
+    <header className={`fixed top-0 ${isWorkflow ? 'right-0' : 'right-[360px]'} left-[56px] h-16 bg-surface/60 backdrop-blur-2xl border-b border-white/5 shadow-[0_4px_20px_rgba(0,0,0,0.3)] z-40 flex items-center justify-between px-6 pl-2 transition-all duration-300`}>
       <div className="flex flex-col justify-center">
         {headerTitle}
         {headerSubtitle}
       </div>
       <div className="flex items-center gap-6">
         {/* Actions */}
-        <InviteTaxpayerDialog />
+        {isClients && <InviteTaxpayerDialog />}
         <button className="relative text-on-surface-variant hover:text-primary-container hover:bg-white/5 transition-all p-1.5 rounded-full active:scale-95">
           <span className="material-symbols-outlined text-[20px]">notifications</span>
           <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-error rounded-full ring-2 ring-surface"></span>
