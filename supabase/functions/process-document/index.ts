@@ -4,6 +4,7 @@ import { createClient } from "supabase";
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS',
 };
 
 serve(async (req) => {
@@ -64,7 +65,17 @@ serve(async (req) => {
         "total_amount": "number",
         "net_amount": "number",
         "tax_amount": "number",
-        "document_type": "string (invoice or receipt)"
+        "document_type": "string (invoice or receipt)",
+        "line_items": [
+          {
+            "item": "string",
+            "description": "string",
+            "qty": "number",
+            "unit_price": "number",
+            "account": "string (hesap kodu veya kategorisi)",
+            "tax_rate": "number"
+          }
+        ]
       };
     }
 
@@ -74,7 +85,9 @@ Gönderilen faturayı/fişi analiz et ve aşağıdaki JSON şemasına uygun veri
 Müşavir Kuralları: ${JSON.stringify(instruction_rules)}
 Çıkarılacak JSON Şeması (Keys): ${JSON.stringify(extraction_schema)}
 
-ÇOK ÖNEMLİ: Sadece JSON dön, başka hiçbir açıklama yapma.`;
+ÇOK ÖNEMLİ KURALLAR:
+1. Sadece genel toplamları değil, tıpkı uluslararası standartlarda (Xero vb.) olduğu gibi faturadaki tüm kalemleri (line items) satır satır ayrıştırarak "line_items" dizisine (Item, Description, Qty, Unit Price, Account, Tax Rate formunda) ekle.
+2. Sadece geçerli bir JSON dön, başka hiçbir açıklama yapma.`;
 
     const GEMINI_API_KEY = Deno.env.get('GEMINI_API_KEY');
     if (!GEMINI_API_KEY) {

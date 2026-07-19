@@ -39,7 +39,7 @@ export default function LedgerAiSettingsPage() {
     }
   }, [messages, showAdvanced]);
 
-  const handleSend = () => {
+  const handleSend = async () => {
     if (!inputValue.trim() && !chatAttachment) return;
 
     let content = inputValue;
@@ -58,19 +58,41 @@ export default function LedgerAiSettingsPage() {
     setChatAttachment(null);
     setIsTyping(true);
 
-    // Simulate AI reasoning and response
-    setTimeout(() => {
-      setIsTyping(false);
+    try {
+      const supabase = createClient();
+      const { data, error } = await supabase.functions.invoke('gemini-chat', {
+        body: {
+          prompt: content.trim(),
+          mode: 'playground',
+          customInstruction: "Sen uzman bir Workigom Mali Müşavir Asistanısın. Kullanıcıya ASLA kod, JSON veya teknik terim gösterme. Yaptığın işlemleri, muhasebeciye veya mükellefe açıklıyormuş gibi, doğal dilde, kibar ve profesyonel bir üslupla teyit et."
+        }
+      });
+
+      if (error) {
+        throw new Error(error.message);
+      }
+
       setMessages(prev => [
         ...prev, 
         {
           id: Date.now().toString(),
           role: 'assistant',
-          content: "Şu kolonu eklemek istediğinizi anlıyorum: 'Ödeme Yöntemi'. Bu değişikliği şemaya (v2) uygulayıp, bundan sonraki evraklarda kullanmaya başlayayım mı?",
-          isApprovalRequest: true
+          content: data.text || "Üzgünüm, şu an yanıt oluşturamıyorum.",
         }
       ]);
-    }, 1500);
+    } catch (err: any) {
+      console.error(err);
+      setMessages(prev => [
+        ...prev, 
+        {
+          id: Date.now().toString(),
+          role: 'assistant',
+          content: `Bir hata oluştu: ${err.message}`
+        }
+      ]);
+    } finally {
+      setIsTyping(false);
+    }
   };
 
   const handlePaste = (e: React.ClipboardEvent) => {
@@ -333,13 +355,78 @@ export default function LedgerAiSettingsPage() {
                 <div className="mt-6 animate-fade-in">
                   <h3 className="text-xs font-bold text-white mb-3 flex items-center gap-2">
                     <span className="material-symbols-outlined text-[#00ff7f] text-[16px]">check_circle</span>
-                    JSON Çıktısı
+                    Analiz Sonucu (Önizleme)
                   </h3>
-                  <div className="bg-[#090B10] border border-white/5 rounded-xl p-4 overflow-x-auto shadow-inner relative">
-                    <pre className="text-xs text-[#00DAF3] font-mono whitespace-pre-wrap">
-                      {JSON.stringify(testResult, null, 2)}
-                    </pre>
-                  </div>
+                  
+                  {testResult.error ? (
+                    <div className="bg-red-500/10 text-red-400 p-4 rounded-xl border border-red-500/20 text-xs">
+                      {testResult.error}
+                    </div>
+                  ) : (
+                    <div className="bg-[#090B10] border border-white/5 rounded-xl overflow-hidden shadow-inner flex flex-col">
+                      <div className="grid grid-cols-2 gap-4 p-4 border-b border-white/5">
+                        <div>
+                          <span className="text-[10px] text-text-muted uppercase tracking-wider">Tedarikçi</span>
+                          <p className="text-sm text-white font-semibold">{testResult.vendor_name || '-'}</p>
+                          <p className="text-xs text-text-muted">{testResult.vendor_tax_identifier || '-'}</p>
+                        </div>
+                        <div className="text-right">
+                          <span className="text-[10px] text-text-muted uppercase tracking-wider">Tarih & Fatura No</span>
+                          <p className="text-sm text-white font-semibold">{testResult.issue_date || '-'}</p>
+                          <p className="text-xs text-text-muted">{testResult.invoice_number || '-'}</p>
+                        </div>
+                      </div>
+                      
+                      {testResult.line_items && testResult.line_items.length > 0 && (
+                        <div className="overflow-x-auto">
+                          <table className="w-full text-left text-xs text-text-muted">
+                            <thead className="bg-white/5 text-[10px] uppercase">
+                              <tr>
+                                <th className="px-4 py-2 font-medium">Kalem / Açıklama</th>
+                                <th className="px-4 py-2 font-medium">Hesap</th>
+                                <th className="px-4 py-2 font-medium text-right">Miktar</th>
+                                <th className="px-4 py-2 font-medium text-right">B.Fiyat</th>
+                                <th className="px-4 py-2 font-medium text-right">KDV</th>
+                              </tr>
+                            </thead>
+                            <tbody className="divide-y divide-white/5">
+                              {testResult.line_items.map((item: any, idx: number) => (
+                                <tr key={idx} className="hover:bg-white/5 transition-colors">
+                                  <td className="px-4 py-3">
+                                    <p className="text-white font-medium">{item.item || '-'}</p>
+                                    <p className="text-[10px] opacity-70">{item.description || ''}</p>
+                                  </td>
+                                  <td className="px-4 py-3">
+                                    <span className="bg-brand-primary/10 text-[#00DAF3] px-2 py-0.5 rounded text-[10px]">{item.account || '-'}</span>
+                                  </td>
+                                  <td className="px-4 py-3 text-right">{item.qty || 1}</td>
+                                  <td className="px-4 py-3 text-right">{item.unit_price || 0}</td>
+                                  <td className="px-4 py-3 text-right">%{item.tax_rate || 0}</td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      )}
+
+                      <div className="bg-[#12151C] p-4 flex justify-end">
+                        <div className="w-48 space-y-2">
+                          <div className="flex justify-between text-xs text-text-muted">
+                            <span>Net Tutar:</span>
+                            <span>{testResult.net_amount || 0}</span>
+                          </div>
+                          <div className="flex justify-between text-xs text-text-muted">
+                            <span>KDV Tutarı:</span>
+                            <span>{testResult.tax_amount || 0}</span>
+                          </div>
+                          <div className="flex justify-between text-sm font-bold text-white border-t border-white/10 pt-2">
+                            <span>Genel Toplam:</span>
+                            <span>{testResult.total_amount || 0}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
