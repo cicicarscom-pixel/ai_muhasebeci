@@ -4,7 +4,7 @@ import React, { useState, useTransition } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { loginAccountantAction } from "../../modules/auth/application/auth.actions";
+import { createClient } from "@/utils/supabase/client";
 
 export default function LedgerLoginPage() {
   const router = useRouter();
@@ -18,15 +18,21 @@ export default function LedgerLoginPage() {
     
     startTransition(async () => {
       try {
-        const result = await loginAccountantAction(formData);
-        if (result.success) {
-          router.push("/clients");
-          router.refresh();
-        } else {
-          setError(result.error || "Giriş başarısız.");
+        const supabase = createClient();
+        const { error: authError } = await supabase.auth.signInWithPassword({
+          email: formData.get('email') as string,
+          password: formData.get('password') as string,
+        });
+
+        if (authError) {
+          setError("E-posta veya şifre hatalı.");
+          return;
         }
+
+        router.push("/clients");
+        router.refresh();
       } catch (err: any) {
-        console.error("Server Action Hatası:", err);
+        console.error("Giriş Hatası:", err);
         setError("Sunucuya bağlanılırken bir hata oluştu. Lütfen sayfayı yenileyip tekrar deneyin.");
       }
     });
