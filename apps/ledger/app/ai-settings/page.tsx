@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { PrimaryButton } from "../../components/ledger/ui/Buttons";
+import { createClient } from "@/utils/supabase/client";
 
 interface ChatMessage {
   id: string;
@@ -91,24 +92,21 @@ export default function LedgerAiSettingsPage() {
     setTestResult(null);
     try {
       const base64 = await fileToBase64(file);
-      // Fallback Supabase URL per the project constraints
-      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'http://127.0.0.1:54321';
-      const response = await fetch(`${supabaseUrl}/functions/v1/process-document`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+      const supabase = createClient();
+      
+      const { data, error } = await supabase.functions.invoke('process-document', {
+        body: {
           mode: 'test',
           mimeType: file.type || 'image/jpeg',
           fileBase64: base64
-        })
+        }
       });
 
-      if (!response.ok) {
-        throw new Error(`Analiz başarısız: ${response.statusText}`);
+      if (error) {
+        throw new Error(`Analiz başarısız: ${error.message}`);
       }
 
-      const { extractedData } = await response.json();
-      setTestResult(extractedData || { message: "Sonuç bulunamadı." });
+      setTestResult(data.extractedData || { message: "Sonuç bulunamadı." });
     } catch (error: any) {
       console.error(error);
       setTestResult({ error: error.message || "Analiz sırasında bir hata oluştu." });
