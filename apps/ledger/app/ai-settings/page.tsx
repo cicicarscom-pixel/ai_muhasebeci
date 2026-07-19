@@ -87,6 +87,8 @@ export default function LedgerAiSettingsPage() {
         });
 
         if (error) throw new Error(error.message);
+        if (data && data.error) throw new Error(data.error);
+        if (data && data.success === false) throw new Error(data.error || "Bilinmeyen analiz hatası");
         
         parsedInvoiceData = data.extractedData;
         assistantContent = "Yüklediğiniz belgeyi analiz ettim ve satır kalemlerini (line items) aşağıdaki gibi ayrıştırdım. Çıktı formatını veya kuralları değiştirmek isterseniz bana yazabilirsiniz.";
@@ -101,6 +103,7 @@ export default function LedgerAiSettingsPage() {
         });
 
         if (error) throw new Error(error.message);
+        if (data && data.error) throw new Error(data.error);
         assistantContent = data.text || "Üzgünüm, şu an yanıt oluşturamıyorum.";
       }
 

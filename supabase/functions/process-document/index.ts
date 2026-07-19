@@ -179,7 +179,7 @@ Müşavir Kuralları: ${JSON.stringify(instruction_rules)}
     console.error(error);
     return new Response(JSON.stringify({ success: false, error: error.message }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      status: 400
+      status: 200
     });
   }
 });
