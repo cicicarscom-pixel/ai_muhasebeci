@@ -31,25 +31,40 @@ export default function LedgerOnboardingPage() {
     }
   };
 
-  const fileToBase64 = (file: File): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        const result = reader.result as string;
-        // Strip the data:image/...;base64, prefix
-        const base64Data = result.split(',')[1];
-        resolve(base64Data);
-      };
-      reader.onerror = error => reject(error);
+  const uploadToStorage = async (file: File): Promise<string> => {
+    // Note: Assuming createClient is defined or accessible. 
+    // In actual Next.js code we'd import it from @/utils/supabase/client
+    // We will use the REST API here for simplicity if client isn't imported
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'http://127.0.0.1:54321';
+    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+    
+    const fileExt = file.name.split('.').pop();
+    const fileName = `${Date.now()}_${Math.random().toString(36).substring(7)}.${fileExt}`;
+    const filePath = `uploads/${fileName}`;
+
+    const uploadRes = await fetch(`${supabaseUrl}/storage/v1/object/invoices/${filePath}`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${supabaseAnonKey}`,
+        'apikey': supabaseAnonKey,
+        'Content-Type': file.type
+      },
+      body: file
     });
+
+    if (!uploadRes.ok) {
+      const errorText = await uploadRes.text();
+      throw new Error("Storage Upload Error: " + errorText);
+    }
+
+    return `${supabaseUrl}/storage/v1/object/public/invoices/${filePath}`;
   };
 
   const handleAnalyze = async () => {
     if (!file) return;
     setLoading(true);
     try {
-      const base64 = await fileToBase64(file);
+      const imageUrl = await uploadToStorage(file);
       
       const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'http://127.0.0.1:54321';
       const response = await fetch(`${supabaseUrl}/functions/v1/ledger-process-document`, {
@@ -58,7 +73,7 @@ export default function LedgerOnboardingPage() {
         body: JSON.stringify({
           mode: 'test',
           mimeType: file.type || 'image/jpeg',
-          fileBase64: base64
+          imageUrl: imageUrl
         })
       });
 

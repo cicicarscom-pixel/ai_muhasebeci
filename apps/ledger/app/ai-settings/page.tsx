@@ -36,94 +36,67 @@ export default function LedgerAiSettingsPage() {
     }
   }, [messages, showAdvanced]);
 
-  const fileToBase64 = (file: File): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      if (file.type.startsWith('image/')) {
-        const img = new Image();
-        const url = URL.createObjectURL(file);
-        img.onload = () => {
-          URL.revokeObjectURL(url);
-          const canvas = document.createElement('canvas');
-          let { width, height } = img;
-          const MAX_SIZE = 1600; // Optimum limit for OCR and Vision APIs
-          if (width > height && width > MAX_SIZE) {
-            height *= MAX_SIZE / width;
-            width = MAX_SIZE;
-          } else if (height > MAX_SIZE) {
-            width *= MAX_SIZE / height;
-            height = MAX_SIZE;
-          }
-          canvas.width = width;
-          canvas.height = height;
-          const ctx = canvas.getContext('2d');
-          if (ctx) {
-            ctx.drawImage(img, 0, 0, width, height);
-            const dataUrl = canvas.toDataURL('image/jpeg', 0.8); // Compress to 80%
-            resolve(dataUrl.split(',')[1]);
-          } else {
-            fallbackReader(file, resolve, reject);
-          }
-        };
-        img.onerror = () => fallbackReader(file, resolve, reject);
-        img.src = url;
-      } else {
-        fallbackReader(file, resolve, reject);
-      }
-    });
-  };
+  const uploadToStorage = async (file: File): Promise<string> => {
+    const supabase = createClient();
+    const fileExt = file.name.split('.').pop();
+    const fileName = `${Date.now()}_${Math.random().toString(36).substring(7)}.${fileExt}`;
+    const filePath = `uploads/${fileName}`;
 
-  const fallbackReader = (file: File, resolve: any, reject: any) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve((reader.result as string).split(',')[1]);
-    reader.onerror = error => reject(error);
+    const { error: uploadError } = await supabase.storage.from('invoices').upload(filePath, file);
+    if (uploadError) {
+      throw new Error("Storage Upload Error: " + uploadError.message);
+    }
+
+    const { data } = supabase.storage.from('invoices').getPublicUrl(filePath);
+    return data.publicUrl;
   };
 
   const handleSend = async () => {
     if (!inputValue.trim() && !invoiceAttachment && !uiAttachment) return;
 
     let content = inputValue;
-    let base64Invoice = null;
+    let invoiceUrl = null;
     let mimeTypeInvoice = null;
-    let base64Ui = null;
+    let uiUrl = null;
     let mimeTypeUi = null;
 
-    if (invoiceAttachment) {
-      base64Invoice = await fileToBase64(invoiceAttachment);
-      mimeTypeInvoice = invoiceAttachment.type;
-      content = `[Fatura: ${invoiceAttachment.name}]\n${content}`;
-    }
-    
-    if (uiAttachment) {
-      base64Ui = await fileToBase64(uiAttachment);
-      mimeTypeUi = uiAttachment.type;
-      content = `[Ekran Görüntüsü: ${uiAttachment.name}]\n${content}`;
-    }
-
-    const userMessage: ChatMessage = {
-      id: Date.now().toString(),
-      role: 'user',
-      content: content.trim()
-    };
-
-    setMessages(prev => [...prev, userMessage]);
-    setInputValue("");
-    setInvoiceAttachment(null);
-    setUiAttachment(null);
-    setIsTyping(true);
+    setIsTyping(true); // Start typing early since upload takes time
 
     try {
+      if (invoiceAttachment) {
+        invoiceUrl = await uploadToStorage(invoiceAttachment);
+        mimeTypeInvoice = invoiceAttachment.type;
+        content = `[Fatura: ${invoiceAttachment.name}]\n${content}`;
+      }
+      
+      if (uiAttachment) {
+        uiUrl = await uploadToStorage(uiAttachment);
+        mimeTypeUi = uiAttachment.type;
+        content = `[Ekran Görüntüsü: ${uiAttachment.name}]\n${content}`;
+      }
+
+      const userMessage: ChatMessage = {
+        id: Date.now().toString(),
+        role: 'user',
+        content: content.trim()
+      };
+
+      setMessages(prev => [...prev, userMessage]);
+      setInputValue("");
+      setInvoiceAttachment(null);
+      setUiAttachment(null);
+
       const supabase = createClient();
       let assistantContent = "";
       let parsedInvoiceData = null;
 
-      if (base64Invoice && base64Ui) {
+      if (invoiceUrl && uiUrl) {
         // İki görsel de yüklendiyse Şema Oluşturucu (generate-schema) çalışır
         const { data, error } = await supabase.functions.invoke('ledger-generate-schema', {
           body: {
-            invoiceBase64: base64Invoice,
+            invoiceUrl: invoiceUrl,
             invoiceMimeType: mimeTypeInvoice || 'image/jpeg',
-            uiScreenshotBase64: base64Ui,
+            uiScreenshotUrl: uiUrl,
             uiScreenshotMimeType: mimeTypeUi || 'image/jpeg'
           }
         });
@@ -133,13 +106,13 @@ export default function LedgerAiSettingsPage() {
         
         parsedInvoiceData = data;
         assistantContent = data.ai_message || "Harika! Muhasebe ekranınızı faturanızla eşleştirdim ve size özel dinamik şemayı oluşturdum. Aşağıdan inceleyebilirsiniz.";
-      } else if (base64Invoice) {
+      } else if (invoiceUrl) {
         // Sadece fatura yüklendiyse process-document çalışır
         const { data, error } = await supabase.functions.invoke('ledger-process-document', {
           body: {
             mode: 'test',
             mimeType: mimeTypeInvoice || 'image/jpeg',
-            fileBase64: base64Invoice
+            imageUrl: invoiceUrl
           }
         });
 

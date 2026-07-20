@@ -1,6 +1,6 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.40.0";
 import { GoogleGenAI } from "npm:@google/genai";
-import { decode } from "https://deno.land/std@0.168.0/encoding/base64.ts";
+import { decode, encode } from "https://deno.land/std@0.168.0/encoding/base64.ts";
 import * as XLSX from "npm:xlsx";
 
 const corsHeaders = {
@@ -27,10 +27,23 @@ Deno.serve(async (req) => {
       throw new Error("Invalid JSON body: " + e.message);
     }
 
-    const { fileBase64, mimeType, organization_id, mode } = bodyJson;
+    const { fileBase64, imageUrl, mimeType, organization_id, mode } = bodyJson;
 
-    if (!fileBase64) {
-      throw new Error("Missing fileBase64");
+    if (!fileBase64 && !imageUrl) {
+      throw new Error("Missing fileBase64 or imageUrl in payload");
+    }
+
+    let activeBase64 = fileBase64;
+
+    if (imageUrl) {
+      console.log("Fetching image from Storage URL...");
+      const imgRes = await fetch(imageUrl);
+      if (!imgRes.ok) {
+        throw new Error("Failed to download image from URL: " + imgRes.statusText);
+      }
+      const arrayBuffer = await imgRes.arrayBuffer();
+      const uint8Array = new Uint8Array(arrayBuffer);
+      activeBase64 = encode(uint8Array);
     }
 
     if (mode !== 'test' && !organization_id) {
@@ -109,7 +122,7 @@ Müşavir Kuralları: ${JSON.stringify(instruction_rules)}
 
     if (isExcel) {
       try {
-        const uint8Array = decode(fileBase64);
+        const uint8Array = decode(activeBase64);
         const workbook = XLSX.read(uint8Array, { type: 'array' });
         const firstSheetName = workbook.SheetNames[0];
         const worksheet = workbook.Sheets[firstSheetName];
@@ -117,10 +130,10 @@ Müşavir Kuralları: ${JSON.stringify(instruction_rules)}
         parts.push({ text: `Excel verileri CSV formatında:\n\n${csvString}` });
       } catch (e) {
         console.error("Failed to parse Excel file:", e);
-        parts.push({ inlineData: { mimeType: mimeType || "image/jpeg", data: fileBase64 } });
+        parts.push({ inlineData: { mimeType: mimeType || "image/jpeg", data: activeBase64 } });
       }
     } else {
-      parts.push({ inlineData: { mimeType: mimeType || "image/jpeg", data: fileBase64 } });
+      parts.push({ inlineData: { mimeType: mimeType || "image/jpeg", data: activeBase64 } });
     }
 
     const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
