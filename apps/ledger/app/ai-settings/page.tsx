@@ -17,7 +17,7 @@ export default function LedgerAiSettingsPage() {
     {
       id: "msg_1",
       role: 'assistant',
-      content: "Merhaba! Ben Ledger AI. Fatura ayarlarınızı yapılandırmak veya yeni bir belge analiz etmek için buradayım. Lütfen test etmek istediğiniz bir fatura yükleyin veya kurallarınızı yazın."
+      content: "Merhaba! Fatura onay ekranınızı, alışkın olduğunuz muhasebe programına (Zirve, Logo, Excel vb.) göre sadece 1 dakikada yapılandıralım.\n\nLütfen bu sohbete şu iki dosyayı yükleyin:\n1. Sisteme işlediğiniz örnek bir fatura.\n2. Bu faturayı kaydettiğiniz programın, fatura kaydedilmiş (doldurulmuş) haldeki ekran görüntüsü.\n\nİkisini yüklediğiniz anda eşleştirmeyi yapıp çalışma ekranınızı hazırlayacağım. 🚀"
     }
   ]);
   

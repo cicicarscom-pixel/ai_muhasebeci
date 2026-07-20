@@ -32,24 +32,17 @@ serve(async (req) => {
     });
 
     const promptText = `
-Sana iki adet görsel veriyorum:
-1. Görsel: İşlenmesi gereken örnek bir faturadır.
-2. Görsel: Bu faturanın girileceği muhasebe programı ekranının (formunun) ekran görüntüsüdür.
+Görev: Yüklenen fatura ile muhasebe programı ekran görüntüsünü (screenshot) analiz edip eşleştirmek. Faturadaki verilerin ekrandaki hangi kutucuklara girildiğini tespit et.
 
-GÖREVİN:
-Muhasebe programı ekranındaki tüm giriş kutucuklarını analiz et. Faturadaki verilerin (Tarih, Cari, Tutar vb.) ekrandaki hangi kutucuklara veya alanlara denk geldiğini eşleştir.
-Bunu yaparken şuna DİKKAT ET ("Boş Kolon Öngörüsü"):
-Ekrandaki muhasebe formunda var olan ancak şu anki faturada değer olmadığı için BOŞ duran tüm oranları veya kesintileri (Örn: %1 KDV, %8 KDV, ÖİV, Tevkifat vb.) TESPİT ET ve şemaya bağımsız kolonlar olarak mutlaka dahil et. Gelecekteki faturalar için bu esneklik şarttır.
+Boş Kolon Öngörüsü (KRİTİK): Sadece faturadaki dolu verileri DEĞİL; ekran görüntüsünde var olan ancak o anki faturada yer almadığı için boş duran tüm vergi oranlarını ve başlıkları da (Örn: %1 KDV, %10 KDV, Özel İletişim Vergisi, Tevkifat vb.) tespit et. Bunları gelecekteki farklı faturalar için şemaya bağımsız kolonlar olarak zorunlu dahil et.
 
-Aşağıdaki JSON formatında yanıt ver:
+Aşağıdaki JSON formatında yanıt ver. Çıktın SADECE bu JSON objesi olmalıdır:
 {
+  "ai_message": "Buraya insansı bir özet sunacaksın. Örnek: 'Muhasebe ekranınızı analiz ettim. Faturadaki bilgileri ekranınızla eşleştirdim. Ayrıca ekranınızda boş duran %1, %8 KDV gibi alanları da gelecekteki faturalarınız için şablona dahil ettim. Onay ekranınızı şu [Sayı] kolon ile güncelleyeceğim: [Kolon İsimleri]. Onaylıyor musunuz?'",
   "columns": [
-    { "name": "Kolon Adı (Örn: Tarih, Cari Hesap, %20 KDV, %1 KDV vb.)", "type": "Veri Tipi (string, number, date)", "mapped_from": "Faturadaki Eşleştiği Yer veya Açıklama" }
-  ],
-  "ai_message": "Harika! Kullandığınız muhasebe ekranını analiz ettim..."
+    { "name": "Kolon Adı (Örn: Tarih, Cari Hesap, %20 KDV, %1 KDV vb.)", "type": "Veri Tipi", "mapped_from": "Açıklama" }
+  ]
 }
-
-Çıktın SADECE bu JSON objesi olmalıdır. Başka hiçbir açıklama metni ekleme.
 `;
 
     const result = await ai.models.generateContent({
