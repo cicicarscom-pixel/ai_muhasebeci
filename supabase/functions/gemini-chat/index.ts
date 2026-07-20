@@ -2,6 +2,7 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
 import { decode, encode } from "https://deno.land/std@0.168.0/encoding/base64.ts"
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.40.0"
 import { GoogleGenAI } from "npm:@google/genai"
+import * as XLSX from "npm:xlsx"
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
@@ -38,6 +39,8 @@ serve(async (req) => {
     }
 
     const hasImage = !!image;
+    // Check if the uploaded file is an Excel spreadsheet
+    const isExcel = mimeType === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || mimeType === 'application/vnd.ms-excel';
     const hasRefImage = !!referenceImage;
     // Social modunda, kullanıcı resim yüklese de yüklemese de her zaman çift kanalı (dual pipeline) aktif et
     // Böylece sadece metin yazarak da görsel ürettirebilirler.
@@ -49,18 +52,43 @@ serve(async (req) => {
     // 2. Prepare content parts for Gemini API
     const parts = []
 
-    // A. Add user's raw image (if provided)
+    // A. Add user's raw image or document (if provided)
     if (hasImage) {
       const base64Data = image.replace(/^data:image\/\w+;base64,/, '').replace(/^data:application\/\w+;base64,/, '')
       const imageMimeType = mimeType || 'image/jpeg'
-      imagenBase64 = base64Data;
-      imagenMimeType = imageMimeType;
-      parts.push({
-        inlineData: {
-          mimeType: imageMimeType,
-          data: base64Data
+      
+      if (isExcel) {
+        try {
+          console.log("Excel document detected, converting to CSV...");
+          const uint8Array = decode(base64Data);
+          const workbook = XLSX.read(uint8Array, { type: 'array' });
+          const firstSheetName = workbook.SheetNames[0];
+          const worksheet = workbook.Sheets[firstSheetName];
+          const csvString = XLSX.utils.sheet_to_csv(worksheet);
+          
+          parts.push({
+            text: `Aşağıda yüklenen Excel dosyasının verileri CSV formatında sunulmuştur:\n\n${csvString}`
+          });
+          console.log("Excel file successfully parsed to CSV.");
+        } catch (e) {
+          console.error("Failed to parse Excel file:", e);
+          parts.push({
+            inlineData: {
+              mimeType: imageMimeType,
+              data: base64Data
+            }
+          });
         }
-      })
+      } else {
+        imagenBase64 = base64Data;
+        imagenMimeType = imageMimeType;
+        parts.push({
+          inlineData: {
+            mimeType: imageMimeType,
+            data: base64Data
+          }
+        })
+      }
     }
 
     // B. Add reference style image (if provided)
@@ -141,7 +169,10 @@ Yanıtını SADECE aşağıdaki JSON formatında vermelisin. Başka hiçbir aç�
 
     // 4. Send request to Gemini API (Stage 1)
     console.log("Calling Gemini Flash via SDK...");
-    const ai = new GoogleGenAI({ apiKey: apiKey });
+    const ai = new GoogleGenAI({ 
+      apiKey: apiKey,
+      httpOptions: { apiVersion: 'v1' } 
+    });
 
     const sdkParts = finalParts.map(p => {
        if (p.text) return { text: p.text };
@@ -150,7 +181,7 @@ Yanıtını SADECE aşağıdaki JSON formatında vermelisin. Başka hiçbir aç�
     });
 
     const sdkResult = await ai.models.generateContent({
-      model: "gemini-1.5-flash",
+      model: "gemini-3.5-flash",
       contents: [{ role: "user", parts: sdkParts }]
     });
 
@@ -159,7 +190,8 @@ Yanıtını SADECE aşağıdaki JSON formatında vermelisin. Başka hiçbir aç�
     
     let parsedResult = { adCopy: "İçerik oluşturulamadı.", imagePrompt: "" }
     try {
-       parsedResult = JSON.parse(generatedText)
+       let cleanText = generatedText.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+       parsedResult = JSON.parse(cleanText)
     } catch(e) {
        console.error("Failed to parse Gemini JSON output:", generatedText)
        parsedResult.adCopy = generatedText
@@ -173,7 +205,7 @@ Yanıtını SADECE aşağıdaki JSON formatında vermelisin. Başka hiçbir aç�
     if (runDualPipeline && parsedResult.imagePrompt) {
       try {
           // The user explicitly requested to remove all manual fetch blocks and use gemini-1.5-flash
-          console.log("Stage 2 image generation requested, but manually overridden to use SDK with gemini-1.5-flash.");
+          console.log("Stage 2 image generation requested, but manually overridden to use SDK with gemini-3.5-flash.");
           
           let modifiedPrompt = parsedResult.imagePrompt;
           if (aspectRatio) {
@@ -191,13 +223,13 @@ Yanıtını SADECE aşağıdaki JSON formatında vermelisin. Başka hiçbir aç�
           }
 
           const geminiResponse = await ai.models.generateContent({
-            model: 'gemini-1.5-flash',
+            model: 'gemini-3.5-flash',
             contents: parts
           });
 
           parsedResult.adCopy = geminiResponse.text || "Görsel üretimi devre dışı bırakıldı.";
           generatedImageBase64 = null;
-          console.log("Successfully called gemini-1.5-flash via SDK for Stage 2 fallback!");
+          console.log("Successfully called gemini-3.5-flash via SDK for Stage 2 fallback!");
       } catch (err) {
         imagenError = err.message;
         console.error("Image generation process failed:", err);
@@ -221,8 +253,8 @@ Yanıtını SADECE aşağıdaki JSON formatında vermelisin. Başka hiçbir aç�
 
     const featureName = mode === 'finance' ? 'finance' : 'social_image';
     const usedModel = generatedImageCount > 0 
-      ? (!imagenBase64 ? 'imagen-4.0-generate-001' : 'gemini-1.5-flash') 
-      : 'gemini-1.5-flash';
+      ? (!imagenBase64 ? 'imagen-4.0-generate-001' : 'gemini-3.5-flash') 
+      : 'gemini-3.5-flash';
 
     const { error: logError } = await supabaseClient
       .from('api_usage_logs')

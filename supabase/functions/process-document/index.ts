@@ -1,6 +1,8 @@
 import { serve } from "https://deno.land/std@0.182.0/http/server.ts";
 import { createClient } from "supabase";
 import { GoogleGenAI } from "npm:@google/genai";
+import { decode } from "https://deno.land/std@0.168.0/encoding/base64.ts";
+import * as XLSX from "npm:xlsx";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -95,22 +97,52 @@ Müşavir Kuralları: ${JSON.stringify(instruction_rules)}
       throw new Error("LEDGER_GEMINI_API_KEY is not set.");
     }
 
-    // 3. Call Gemini Vision API using the official SDK
-    const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
+    // 3. Prepare parts and check for Excel
+    const isExcel = mimeType === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || mimeType === 'application/vnd.ms-excel';
+    let parts: any[] = [{ text: prompt }];
+
+    if (isExcel) {
+      try {
+        console.log("Excel document detected in process-document, converting to CSV...");
+        const uint8Array = decode(fileBase64);
+        const workbook = XLSX.read(uint8Array, { type: 'array' });
+        const firstSheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[firstSheetName];
+        const csvString = XLSX.utils.sheet_to_csv(worksheet);
+        
+        parts.push({
+          text: `Aşağıda yüklenen faturaya ait Excel verileri CSV formatında sunulmuştur:\n\n${csvString}`
+        });
+        console.log("Excel file successfully parsed to CSV.");
+      } catch (e) {
+        console.error("Failed to parse Excel file:", e);
+        parts.push({
+          inlineData: {
+            mimeType: mimeType || "image/jpeg",
+            data: fileBase64
+          }
+        });
+      }
+    } else {
+      parts.push({
+        inlineData: {
+          mimeType: mimeType || "image/jpeg",
+          data: fileBase64
+        }
+      });
+    }
+
+    // 4. Call Gemini Vision API using the official SDK
+    const ai = new GoogleGenAI({ 
+      apiKey: GEMINI_API_KEY,
+      httpOptions: { apiVersion: 'v1' } 
+    });
     
     const result = await ai.models.generateContent({
-      model: "gemini-1.5-flash",
+      model: "gemini-3.5-flash",
       contents: [{
         role: "user",
-        parts: [
-          { text: prompt },
-          {
-            inlineData: {
-              mimeType: mimeType || "image/jpeg",
-              data: fileBase64
-            }
-          }
-        ]
+        parts: parts
       }]
     });
 
@@ -121,7 +153,8 @@ Müşavir Kuralları: ${JSON.stringify(instruction_rules)}
     }
 
     // 4. Parse the strict JSON
-    const extractedData = JSON.parse(responseText);
+    let cleanText = responseText.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+    const extractedData = JSON.parse(cleanText);
 
     // 5. If test mode, just return the parsed data without DB insertion
     if (mode === 'test') {
