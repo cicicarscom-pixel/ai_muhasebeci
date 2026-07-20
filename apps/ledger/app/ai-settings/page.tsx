@@ -150,12 +150,12 @@ export default function LedgerAiSettingsPage() {
         parsedInvoiceData = data.extractedData;
         assistantContent = "Yüklediğiniz belgeyi mevcut şemaya göre analiz ettim. Çıktı formatını veya kuralları değiştirmek isterseniz ekran görüntüsü yükleyebilirsiniz.";
       } else {
-        // Sadece sohbet ediliyorsa gemini-chat'e git
-        const { data, error } = await supabase.functions.invoke('gemini-chat', {
+        // Sadece sohbet ediliyorsa ledger-ai-chat'e git
+        const { data, error } = await supabase.functions.invoke('ledger-ai-chat', {
           body: {
             prompt: content.trim(),
             mode: 'playground',
-            customInstruction: "Sen uzman bir Workigom Mali Müşavir Asistanısın. Kullanıcıya ASLA kod, JSON veya teknik terim gösterme. Yaptığın işlemleri doğal dilde teyit et."
+            customInstruction: "Sen uzman bir Workigom Mali Müşavir Asistanısın. Kullanıcıya ASLA kod, JSON veya teknik terim gösterme. Yaptığın işlemleri, muhasebeciye veya mükellefe açıklıyormuş gibi, doğal dilde, kibar ve profesyonel bir üslupla teyit et."
           }
         });
 
