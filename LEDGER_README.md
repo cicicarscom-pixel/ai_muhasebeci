@@ -57,11 +57,12 @@ Kim neyi değiştirdi takip edebilmek için:
 
 ## 3. Akış Senaryoları
 
-### 3.1. Ledger Onboarding (Şema Tanımlama)
-1. Müşavir `/ledger/onboarding` sayfasına girer.
-2. Sisteme test faturası yükler (PDF/Görsel).
-3. Base64'e çevrilen görsel, `c:\ai_muhasebeci\supabase\functions\process-document` fonksiyonuna `mode: 'test'` argümanı ile POST edilir.
-4. Edge Function, Gemini Vision API'yi çağırıp JSON çıkartır ve veritabanına kaydetmeden UI'a geri yollar. UI bu JSON anahtarlarından bir Şema listesi çıkartır ve kilitler (`ledger_ai_settings` tablosuna yazar).
+### 3.1. Ledger Onboarding & AI Ayarları (Şema Tanımlama)
+1. Müşavir sisteme ilk girdiğinde veya şablonunu güncellemek istediğinde `/ledger/ai-settings` sayfasına girer.
+2. Sisteme SOHBET üzerinden 2 (iki) görsel yükler: İşlediği örnek bir fatura ve muhasebe programının dolu ekran görüntüsü.
+3. Çift dosya yüklendiğinde `generate-schema` Edge Fonksiyonu tetiklenir.
+4. Edge Function (Gemini Vision), "Boş Kolon Öngörüsü" prensibiyle faturadaki verileri ve muhasebe ekranında o an boş olan tüm KDV/Vergi dilimlerini tespit ederek kalıcı bir JSON şeması üretir.
+5. Yeni JSON şemasına (columns dizisi) göre hem sohbet mesajı içerisindeki tablo, hem de Onay Merkezindeki (`ApprovalPage`) fatura kalemleri (line items) TAMAMEN DİNAMİK olarak render edilir. Artık sistemde hardcoded sütun başlıkları yoktur.
 
 ### 3.2. Flow Evrak Yükleme & Ledger Onaylama
 1. Mükellef telefonundan fişi çeker, Edge Function çağrılır (Bu kez gerçek modda).
