@@ -119,7 +119,7 @@ export default function LedgerAiSettingsPage() {
 
       if (base64Invoice && base64Ui) {
         // İki görsel de yüklendiyse Şema Oluşturucu (generate-schema) çalışır
-        const { data, error } = await supabase.functions.invoke('generate-schema', {
+        const { data, error } = await supabase.functions.invoke('ledger-generate-schema', {
           body: {
             invoiceBase64: base64Invoice,
             invoiceMimeType: mimeTypeInvoice || 'image/jpeg',
@@ -135,7 +135,7 @@ export default function LedgerAiSettingsPage() {
         assistantContent = data.ai_message || "Harika! Muhasebe ekranınızı faturanızla eşleştirdim ve size özel dinamik şemayı oluşturdum. Aşağıdan inceleyebilirsiniz.";
       } else if (base64Invoice) {
         // Sadece fatura yüklendiyse process-document çalışır
-        const { data, error } = await supabase.functions.invoke('process-document', {
+        const { data, error } = await supabase.functions.invoke('ledger-process-document', {
           body: {
             mode: 'test',
             mimeType: mimeTypeInvoice || 'image/jpeg',
