@@ -144,13 +144,13 @@ export default function LedgerAiSettingsPage() {
         }
       ]);
     } catch (err: any) {
-      console.error(err);
+      console.error("AI Error:", err);
       setMessages(prev => [
         ...prev, 
         {
           id: Date.now().toString(),
           role: 'assistant',
-          content: `Bir hata oluştu: ${err.message}`
+          content: "Kusura bakmayın, şu an evrak servisinde anlık bir yoğunluk var ve işlemi tam olarak tamamlayamadım. Lütfen birkaç saniye bekleyip tekrar dener misiniz?"
         }
       ]);
     } finally {
