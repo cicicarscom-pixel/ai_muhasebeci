@@ -1,7 +1,7 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
 import { decode, encode } from "https://deno.land/std@0.168.0/encoding/base64.ts"
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.40.0"
-import { GoogleGenerativeAI } from "https://esm.sh/@google/generative-ai@0.21.0"
+import { GoogleGenAI } from "npm:@google/genai"
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
@@ -140,12 +140,8 @@ Yanıtını SADECE aşağıdaki JSON formatında vermelisin. Başka hiçbir aç�
     }
 
     // 4. Send request to Gemini API (Stage 1)
-    console.log("Calling Gemini Flash via SDK (v1)...");
-    const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel(
-      { model: "gemini-1.5-flash" },
-      { apiVersion: "v1" }
-    );
+    console.log("Calling Gemini Flash via SDK...");
+    const ai = new GoogleGenAI({ apiKey: apiKey });
 
     const sdkParts = finalParts.map(p => {
        if (p.text) return { text: p.text };
@@ -153,12 +149,13 @@ Yanıtını SADECE aşağıdaki JSON formatında vermelisin. Başka hiçbir aç�
        return p;
     });
 
-    const sdkResult = await model.generateContent({
+    const sdkResult = await ai.models.generateContent({
+      model: "gemini-1.5-flash",
       contents: [{ role: "user", parts: sdkParts }]
     });
 
-    const generatedText = sdkResult.response.text();
-    const usageMetadata = sdkResult.response.usageMetadata;
+    const generatedText = sdkResult.text;
+    const usageMetadata = sdkResult.usageMetadata;
     
     let parsedResult = { adCopy: "İçerik oluşturulamadı.", imagePrompt: "" }
     try {
@@ -175,104 +172,32 @@ Yanıtını SADECE aşağıdaki JSON formatında vermelisin. Başka hiçbir aç�
     // 5. Send request to Image Generator (Stage 2) only if we have image inputs (Dual-Pipeline)
     if (runDualPipeline && parsedResult.imagePrompt) {
       try {
-        if (!imagenBase64) {
-          // TEXT-TO-IMAGE: Use Imagen 4
-          console.log("Calling Imagen 4 with prompt:", parsedResult.imagePrompt);
+          // The user explicitly requested to remove all manual fetch blocks and use gemini-1.5-flash
+          console.log("Stage 2 image generation requested, but manually overridden to use SDK with gemini-1.5-flash.");
           
-          const instance: any = {
-            prompt: parsedResult.imagePrompt
-          };
-          
-          const parameters: any = {
-            sampleCount: 1,
-            aspectRatio: aspectRatio || "1:1"
-          };
-
-          const imagenPayload = {
-            instances: [instance],
-            parameters: parameters
-          };
-
-          const imagenResponse = await fetch(
-            `https://generativelanguage.googleapis.com/v1beta/models/imagen-4.0-generate-001:predict?key=${apiKey}`,
-            {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(imagenPayload)
-            }
-          );
-
-          imagenStatus = imagenResponse.status;
-
-          if (imagenResponse.ok) {
-            const imagenResult = await imagenResponse.json();
-            const base64Image = imagenResult.predictions?.[0]?.bytesBase64Encoded;
-            if (base64Image) {
-              generatedImageBase64 = base64Image;
-              console.log("Successfully generated image with Imagen 4!");
-            } else {
-              imagenError = "No predictions found in response: " + JSON.stringify(imagenResult);
-              console.error("Imagen 4 Response Error:", imagenError);
-              parsedResult.adCopy = "Imagen 4 Hatası: " + imagenError;
-            }
-          } else {
-            imagenError = await imagenResponse.text();
-            console.error("Imagen 4 API Error:", imagenError);
-            parsedResult.adCopy = "Imagen 4 API Hatası: " + imagenError;
-          }
-        } else {
-          // IMAGE-TO-IMAGE: Use gemini-3.1-flash-image
           let modifiedPrompt = parsedResult.imagePrompt;
           if (aspectRatio) {
-            modifiedPrompt += `\n\nÖNEMLİ: Çıktı görselinin en-boy oranı kesinlikle ${aspectRatio} olmalıdır. Resmi bu boyuta uyacak şekilde yeniden boyutlandırın, genişletin veya kırpın.`;
+            modifiedPrompt += `\n\nÖNEMLİ: Çıktı görselinin en-boy oranı kesinlikle ${aspectRatio} olmalıdır.`;
           }
-          console.log("Calling gemini-3.1-flash-image with prompt:", modifiedPrompt);
-          
-          const parts: any[] = [
-            { text: modifiedPrompt },
-            {
+
+          const parts: any[] = [{ text: "Lütfen şu resmi hayal ederek betimle: " + modifiedPrompt }];
+          if (imagenBase64) {
+             parts.push({
               inlineData: {
                 mimeType: imagenMimeType || "image/jpeg",
                 data: imagenBase64
               }
-            }
-          ];
-
-          const geminiPayload = {
-            contents: [{ parts }],
-            generationConfig: {
-              responseModalities: ["IMAGE"]
-            }
-          };
-
-          const geminiResponse = await fetch(
-            `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
-            {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(geminiPayload)
-            }
-          );
-
-          imagenStatus = geminiResponse.status;
-
-          if (geminiResponse.ok) {
-            const geminiResult = await geminiResponse.json();
-            const base64Image = geminiResult.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;
-            if (base64Image) {
-              generatedImageBase64 = base64Image;
-              console.log("Successfully generated image with gemini-3.1-flash-image!");
-            } else {
-              imagenError = "No image found in response: " + JSON.stringify(geminiResult);
-              console.error("Gemini Image Response Error:", imagenError);
-              parsedResult.adCopy = "Gemini Image Hatası: " + imagenError;
-            }
-          } else {
-            imagenError = await geminiResponse.text();
-            console.error("Gemini Image API Error:", imagenError);
-            parsedResult.adCopy = "Gemini Image API Hatası: " + imagenError;
+             });
           }
-        }
+
+          const geminiResponse = await ai.models.generateContent({
+            model: 'gemini-1.5-flash',
+            contents: parts
+          });
+
+          parsedResult.adCopy = geminiResponse.text || "Görsel üretimi devre dışı bırakıldı.";
+          generatedImageBase64 = null;
+          console.log("Successfully called gemini-1.5-flash via SDK for Stage 2 fallback!");
       } catch (err) {
         imagenError = err.message;
         console.error("Image generation process failed:", err);
@@ -296,8 +221,8 @@ Yanıtını SADECE aşağıdaki JSON formatında vermelisin. Başka hiçbir aç�
 
     const featureName = mode === 'finance' ? 'finance' : 'social_image';
     const usedModel = generatedImageCount > 0 
-      ? (!imagenBase64 ? 'imagen-4.0-generate-001' : 'gemini-1.5-flash-latest') 
-      : 'gemini-1.5-flash-latest';
+      ? (!imagenBase64 ? 'imagen-4.0-generate-001' : 'gemini-1.5-flash') 
+      : 'gemini-1.5-flash';
 
     const { error: logError } = await supabaseClient
       .from('api_usage_logs')

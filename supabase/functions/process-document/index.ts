@@ -1,6 +1,6 @@
 import { serve } from "https://deno.land/std@0.182.0/http/server.ts";
 import { createClient } from "supabase";
-import { GoogleGenerativeAI } from "https://esm.sh/@google/generative-ai@0.21.0";
+import { GoogleGenAI } from "npm:@google/genai";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -96,11 +96,10 @@ Müşavir Kuralları: ${JSON.stringify(instruction_rules)}
     }
 
     // 3. Call Gemini Vision API using the official SDK
-    const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
-    // Explicitly use 'gemini-1.5-flash' without 'models/' prefix since SDK handles it
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
     
-    const result = await model.generateContent({
+    const result = await ai.models.generateContent({
+      model: "gemini-1.5-flash",
       contents: [{
         role: "user",
         parts: [
@@ -112,13 +111,10 @@ Müşavir Kuralları: ${JSON.stringify(instruction_rules)}
             }
           }
         ]
-      }],
-      generationConfig: {
-        responseMimeType: "application/json" // EXACTLY AS REQUESTED: Force structured JSON
-      }
+      }]
     });
 
-    const responseText = result.response.text();
+    const responseText = result.text;
 
     if (!responseText) {
       throw new Error("Empty response from Gemini.");
