@@ -138,6 +138,7 @@ export default function LedgerAiSettingsPage() {
   };
 
   const renderInvoiceTable = (testResult: any) => {
+    console.log("AI Response Data:", testResult);
     if (!testResult) return null;
     if (testResult.error) {
       return (
