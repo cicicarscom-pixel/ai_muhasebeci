@@ -52,7 +52,7 @@ export default function LedgerOnboardingPage() {
       const base64 = await fileToBase64(file);
       
       const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'http://127.0.0.1:54321';
-      const response = await fetch(`${supabaseUrl}/functions/v1/process-document`, {
+      const response = await fetch(`${supabaseUrl}/functions/v1/ledger-process-document`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
