@@ -197,15 +197,14 @@ Müşavir Kuralları: ${JSON.stringify(instruction_rules)}
     });
 
   } catch (error) {
-    console.error("Process Document Error:", error);
-    const isServiceError = error.message?.includes('503') || error.message?.includes('500') || error.message?.includes('fetch') || error.message?.includes('timeout');
-    const friendlyMessage = isServiceError 
-      ? "Kusura bakmayın, evrak analiz servisinde anlık bir yoğunluk var. Lütfen faturayı birkaç saniye sonra tekrar yüklemeyi deneyin." 
-      : "Kusura bakmayın, belge işlenirken teknik bir pürüz oluştu. Lütfen tekrar deneyin.";
-
-    return new Response(JSON.stringify({ success: false, error: friendlyMessage }), {
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      status: 200
-    });
+    console.error("Process Document RAW Error:", error);
+    return new Response(
+      JSON.stringify({ 
+        success: false, 
+        error: error.message || error.toString(),
+        stack: error.stack 
+      }), 
+      { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+    );
   }
 });
