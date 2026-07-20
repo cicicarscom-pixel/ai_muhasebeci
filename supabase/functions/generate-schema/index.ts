@@ -46,7 +46,7 @@ Aşağıdaki JSON formatında yanıt ver. Çıktın SADECE bu JSON objesi olmal�
 `;
 
     const result = await ai.models.generateContent({
-      model: "gemini-3.5-flash",
+      model: "gemini-1.5-flash",
       contents: [{
         role: "user",
         parts: [
@@ -90,8 +90,13 @@ Aşağıdaki JSON formatında yanıt ver. Çıktın SADECE bu JSON objesi olmal�
 
   } catch (error) {
     console.error("generate-schema error:", error);
-    return new Response(JSON.stringify({ error: error.message }), {
-      status: 500,
+    const isServiceError = error.message?.includes('503') || error.message?.includes('500') || error.message?.includes('fetch') || error.message?.includes('timeout');
+    const friendlyMessage = isServiceError 
+      ? "Kusura bakmayın, şema analiz servisinde anlık bir yoğunluk yaşanıyor. Lütfen birkaç saniye sonra tekrar deneyin." 
+      : "Kusura bakmayın, belgeler eşleştirilirken teknik bir hata oluştu. Lütfen tekrar deneyin.";
+      
+    return new Response(JSON.stringify({ error: friendlyMessage }), {
+      status: 200, // Return 200 so frontend catches it gracefully instead of network error
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
   }

@@ -38,15 +38,45 @@ export default function LedgerAiSettingsPage() {
 
   const fileToBase64 = (file: File): Promise<string> => {
     return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        const result = reader.result as string;
-        const base64Data = result.split(',')[1];
-        resolve(base64Data);
-      };
-      reader.onerror = error => reject(error);
+      if (file.type.startsWith('image/')) {
+        const img = new Image();
+        const url = URL.createObjectURL(file);
+        img.onload = () => {
+          URL.revokeObjectURL(url);
+          const canvas = document.createElement('canvas');
+          let { width, height } = img;
+          const MAX_SIZE = 1600; // Optimum limit for OCR and Vision APIs
+          if (width > height && width > MAX_SIZE) {
+            height *= MAX_SIZE / width;
+            width = MAX_SIZE;
+          } else if (height > MAX_SIZE) {
+            width *= MAX_SIZE / height;
+            height = MAX_SIZE;
+          }
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          if (ctx) {
+            ctx.drawImage(img, 0, 0, width, height);
+            const dataUrl = canvas.toDataURL('image/jpeg', 0.8); // Compress to 80%
+            resolve(dataUrl.split(',')[1]);
+          } else {
+            fallbackReader(file, resolve, reject);
+          }
+        };
+        img.onerror = () => fallbackReader(file, resolve, reject);
+        img.src = url;
+      } else {
+        fallbackReader(file, resolve, reject);
+      }
     });
+  };
+
+  const fallbackReader = (file: File, resolve: any, reject: any) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve((reader.result as string).split(',')[1]);
+    reader.onerror = error => reject(error);
   };
 
   const handleSend = async () => {

@@ -139,7 +139,7 @@ Müşavir Kuralları: ${JSON.stringify(instruction_rules)}
     });
     
     const result = await ai.models.generateContent({
-      model: "gemini-3.5-flash",
+      model: "gemini-1.5-flash",
       contents: [{
         role: "user",
         parts: parts
