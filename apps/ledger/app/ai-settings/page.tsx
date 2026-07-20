@@ -150,7 +150,15 @@ export default function LedgerAiSettingsPage() {
         {
           id: Date.now().toString(),
           role: 'assistant',
-          content: `Bir hata oluştu: ${err.message}`  const handlePaste = (e: React.ClipboardEvent) => {
+          content: `Bir hata oluştu: ${err.message}`
+        }
+      ]);
+    } finally {
+      setIsTyping(false);
+    }
+  };
+
+  const handlePaste = (e: React.ClipboardEvent) => {
     if (e.clipboardData.files.length > 0) {
       setInvoiceAttachment(e.clipboardData.files[0]);
     }
