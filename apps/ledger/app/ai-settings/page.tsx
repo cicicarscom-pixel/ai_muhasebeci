@@ -166,37 +166,54 @@ export default function LedgerAiSettingsPage() {
           </div>
         </div>
         
-        {testResult.line_items && testResult.line_items.length > 0 && (
+        {(testResult.line_items && testResult.line_items.length > 0) || testResult.columns ? (
           <div className="overflow-x-auto w-full">
             <table className="w-full text-left text-xs text-text-muted">
               <thead className="bg-white/5 text-[10px] uppercase">
                 <tr>
-                  <th className="px-4 py-2 font-medium">Kalem / Açıklama</th>
-                  <th className="px-4 py-2 font-medium">Hesap</th>
-                  <th className="px-4 py-2 font-medium text-right">Miktar</th>
-                  <th className="px-4 py-2 font-medium text-right">B.Fiyat</th>
-                  <th className="px-4 py-2 font-medium text-right">KDV</th>
+                  {testResult.columns ? (
+                    testResult.columns.map((col: any, idx: number) => (
+                      <th key={idx} className="px-4 py-2 font-medium">{col.name}</th>
+                    ))
+                  ) : testResult.line_items && testResult.line_items.length > 0 ? (
+                    Object.keys(testResult.line_items[0]).map((key, idx) => (
+                      <th key={idx} className="px-4 py-2 font-medium">{key}</th>
+                    ))
+                  ) : null}
                 </tr>
               </thead>
               <tbody className="divide-y divide-white/5">
-                {testResult.line_items.map((item: any, idx: number) => (
-                  <tr key={idx} className="hover:bg-white/5 transition-colors">
-                    <td className="px-4 py-3">
-                      <p className="text-white font-medium whitespace-nowrap">{item.item || '-'}</p>
-                      <p className="text-[10px] opacity-70 truncate max-w-[200px]">{item.description || ''}</p>
-                    </td>
-                    <td className="px-4 py-3">
-                      <span className="bg-brand-primary/10 text-[#00DAF3] px-2 py-0.5 rounded text-[10px]">{item.account || '-'}</span>
-                    </td>
-                    <td className="px-4 py-3 text-right">{item.qty || 1}</td>
-                    <td className="px-4 py-3 text-right">{item.unit_price || 0}</td>
-                    <td className="px-4 py-3 text-right">%{item.tax_rate || 0}</td>
+                {testResult.line_items ? (
+                  testResult.line_items.map((item: any, rowIdx: number) => (
+                    <tr key={rowIdx} className="hover:bg-white/5 transition-colors">
+                      {testResult.columns ? (
+                        testResult.columns.map((col: any, colIdx: number) => (
+                          <td key={colIdx} className="px-4 py-3 text-white">
+                            {item[col.name] || item[col.mapped_from] || '-'}
+                          </td>
+                        ))
+                      ) : (
+                        Object.values(item).map((val: any, valIdx: number) => (
+                          <td key={valIdx} className="px-4 py-3 text-white">
+                            {typeof val === 'object' ? JSON.stringify(val) : String(val)}
+                          </td>
+                        ))
+                      )}
+                    </tr>
+                  ))
+                ) : testResult.columns ? (
+                  <tr className="hover:bg-white/5 transition-colors">
+                    {testResult.columns.map((col: any, colIdx: number) => (
+                      <td key={colIdx} className="px-4 py-3 text-text-muted italic text-[10px]">
+                        Eşleşme: {col.mapped_from}
+                      </td>
+                    ))}
                   </tr>
-                ))}
+                ) : null}
               </tbody>
             </table>
           </div>
-        )}
+        ) : null}
 
         <div className="bg-[#12151C] p-4 flex justify-end">
           <div className="w-56 space-y-2">
