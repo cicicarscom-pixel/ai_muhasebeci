@@ -23,9 +23,11 @@ export default function LedgerAiSettingsPage() {
   
   const [inputValue, setInputValue] = useState("");
   const [isTyping, setIsTyping] = useState(false);
-  const [chatAttachment, setChatAttachment] = useState<File | null>(null);
+  const [invoiceAttachment, setInvoiceAttachment] = useState<File | null>(null);
+  const [uiAttachment, setUiAttachment] = useState<File | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const invoiceInputRef = useRef<HTMLInputElement>(null);
+  const uiInputRef = useRef<HTMLInputElement>(null);
   const [showAdvanced, setShowAdvanced] = useState(false);
 
   useEffect(() => {
@@ -48,16 +50,24 @@ export default function LedgerAiSettingsPage() {
   };
 
   const handleSend = async () => {
-    if (!inputValue.trim() && !chatAttachment) return;
+    if (!inputValue.trim() && !invoiceAttachment && !uiAttachment) return;
 
     let content = inputValue;
-    let base64Attachment = null;
-    let attachmentType = null;
+    let base64Invoice = null;
+    let mimeTypeInvoice = null;
+    let base64Ui = null;
+    let mimeTypeUi = null;
 
-    if (chatAttachment) {
-      base64Attachment = await fileToBase64(chatAttachment);
-      attachmentType = chatAttachment.type;
-      content = `[Eklenen Dosya: ${chatAttachment.name}]\n${content}`;
+    if (invoiceAttachment) {
+      base64Invoice = await fileToBase64(invoiceAttachment);
+      mimeTypeInvoice = invoiceAttachment.type;
+      content = `[Fatura: ${invoiceAttachment.name}]\n${content}`;
+    }
+    
+    if (uiAttachment) {
+      base64Ui = await fileToBase64(uiAttachment);
+      mimeTypeUi = uiAttachment.type;
+      content = `[Ekran Görüntüsü: ${uiAttachment.name}]\n${content}`;
     }
 
     const userMessage: ChatMessage = {
@@ -68,7 +78,8 @@ export default function LedgerAiSettingsPage() {
 
     setMessages(prev => [...prev, userMessage]);
     setInputValue("");
-    setChatAttachment(null);
+    setInvoiceAttachment(null);
+    setUiAttachment(null);
     setIsTyping(true);
 
     try {
@@ -76,13 +87,29 @@ export default function LedgerAiSettingsPage() {
       let assistantContent = "";
       let parsedInvoiceData = null;
 
-      if (base64Attachment) {
-        // Dosya yüklendiyse faturayı process-document ile analiz et
+      if (base64Invoice && base64Ui) {
+        // İki görsel de yüklendiyse Şema Oluşturucu (generate-schema) çalışır
+        const { data, error } = await supabase.functions.invoke('generate-schema', {
+          body: {
+            invoiceBase64: base64Invoice,
+            invoiceMimeType: mimeTypeInvoice || 'image/jpeg',
+            uiScreenshotBase64: base64Ui,
+            uiScreenshotMimeType: mimeTypeUi || 'image/jpeg'
+          }
+        });
+
+        if (error) throw new Error(error.message);
+        if (data && data.error) throw new Error(data.error);
+        
+        parsedInvoiceData = data;
+        assistantContent = data.ai_message || "Harika! Muhasebe ekranınızı faturanızla eşleştirdim ve size özel dinamik şemayı oluşturdum. Aşağıdan inceleyebilirsiniz.";
+      } else if (base64Invoice) {
+        // Sadece fatura yüklendiyse process-document çalışır
         const { data, error } = await supabase.functions.invoke('process-document', {
           body: {
             mode: 'test',
-            mimeType: attachmentType || 'image/jpeg',
-            fileBase64: base64Attachment
+            mimeType: mimeTypeInvoice || 'image/jpeg',
+            fileBase64: base64Invoice
           }
         });
 
@@ -91,14 +118,14 @@ export default function LedgerAiSettingsPage() {
         if (data && data.success === false) throw new Error(data.error || "Bilinmeyen analiz hatası");
         
         parsedInvoiceData = data.extractedData;
-        assistantContent = "Yüklediğiniz belgeyi analiz ettim ve satır kalemlerini (line items) aşağıdaki gibi ayrıştırdım. Çıktı formatını veya kuralları değiştirmek isterseniz bana yazabilirsiniz.";
+        assistantContent = "Yüklediğiniz belgeyi mevcut şemaya göre analiz ettim. Çıktı formatını veya kuralları değiştirmek isterseniz ekran görüntüsü yükleyebilirsiniz.";
       } else {
         // Sadece sohbet ediliyorsa gemini-chat'e git
         const { data, error } = await supabase.functions.invoke('gemini-chat', {
           body: {
             prompt: content.trim(),
             mode: 'playground',
-            customInstruction: "Sen uzman bir Workigom Mali Müşavir Asistanısın. Kullanıcıya ASLA kod, JSON veya teknik terim gösterme. Yaptığın işlemleri, muhasebeciye veya mükellefe açıklıyormuş gibi, doğal dilde, kibar ve profesyonel bir üslupla teyit et."
+            customInstruction: "Sen uzman bir Workigom Mali Müşavir Asistanısın. Kullanıcıya ASLA kod, JSON veya teknik terim gösterme. Yaptığın işlemleri doğal dilde teyit et."
           }
         });
 
@@ -123,17 +150,9 @@ export default function LedgerAiSettingsPage() {
         {
           id: Date.now().toString(),
           role: 'assistant',
-          content: `Bir hata oluştu: ${err.message}`
-        }
-      ]);
-    } finally {
-      setIsTyping(false);
-    }
-  };
-
-  const handlePaste = (e: React.ClipboardEvent) => {
+          content: `Bir hata oluştu: ${err.message}`  const handlePaste = (e: React.ClipboardEvent) => {
     if (e.clipboardData.files.length > 0) {
-      setChatAttachment(e.clipboardData.files[0]);
+      setInvoiceAttachment(e.clipboardData.files[0]);
     }
   };
 
@@ -333,31 +352,59 @@ export default function LedgerAiSettingsPage() {
 
           {/* Chat Input */}
           <div className="p-4 bg-[#1A1D24] border-t border-white/5">
-            {chatAttachment && (
-              <div className="mb-3 flex items-center gap-2 bg-[#12151C] border border-white/10 w-fit px-3 py-1.5 rounded-lg animate-fade-in">
-                <span className="material-symbols-outlined text-[16px] text-[#00DAF3]">attach_file</span>
-                <span className="text-xs text-white truncate max-w-[200px]">{chatAttachment.name}</span>
-                <button onClick={() => setChatAttachment(null)} className="text-text-muted hover:text-red-400 ml-1 transition-colors">
-                  <span className="material-symbols-outlined text-[16px]">close</span>
-                </button>
-              </div>
-            )}
-            <div className="relative flex items-center">
+            <div className="flex gap-2 mb-3">
+              {invoiceAttachment && (
+                <div className="flex items-center gap-2 bg-[#12151C] border border-[#00DAF3]/30 w-fit px-3 py-1.5 rounded-lg animate-fade-in">
+                  <span className="material-symbols-outlined text-[16px] text-[#00DAF3]">receipt</span>
+                  <span className="text-xs text-[#00DAF3] font-medium truncate max-w-[150px]">{invoiceAttachment.name}</span>
+                  <button onClick={() => setInvoiceAttachment(null)} className="text-[#00DAF3] hover:text-red-400 ml-1 transition-colors">
+                    <span className="material-symbols-outlined text-[16px]">close</span>
+                  </button>
+                </div>
+              )}
+              {uiAttachment && (
+                <div className="flex items-center gap-2 bg-[#12151C] border border-[#9D5CFF]/30 w-fit px-3 py-1.5 rounded-lg animate-fade-in">
+                  <span className="material-symbols-outlined text-[16px] text-[#9D5CFF]">desktop_windows</span>
+                  <span className="text-xs text-[#9D5CFF] font-medium truncate max-w-[150px]">{uiAttachment.name}</span>
+                  <button onClick={() => setUiAttachment(null)} className="text-[#9D5CFF] hover:text-red-400 ml-1 transition-colors">
+                    <span className="material-symbols-outlined text-[16px]">close</span>
+                  </button>
+                </div>
+              )}
+            </div>
+            
+            <div className="relative flex items-center gap-2">
               <input 
                 type="file" 
-                ref={fileInputRef} 
+                ref={invoiceInputRef} 
                 className="hidden" 
                 accept=".jpg,.jpeg,.png,.pdf,.xml,.xlsx,.xls"
                 onChange={(e) => {
-                  if (e.target.files && e.target.files[0]) setChatAttachment(e.target.files[0]);
+                  if (e.target.files && e.target.files[0]) setInvoiceAttachment(e.target.files[0]);
+                }} 
+              />
+              <input 
+                type="file" 
+                ref={uiInputRef} 
+                className="hidden" 
+                accept=".jpg,.jpeg,.png,.pdf"
+                onChange={(e) => {
+                  if (e.target.files && e.target.files[0]) setUiAttachment(e.target.files[0]);
                 }} 
               />
               <button 
-                onClick={() => fileInputRef.current?.click()}
-                className="absolute left-2 p-1.5 text-text-muted hover:text-[#00DAF3] transition-colors z-10"
-                title="Fatura / Dosya Yükle"
+                onClick={() => invoiceInputRef.current?.click()}
+                className="p-2.5 bg-white/5 hover:bg-white/10 rounded-xl text-text-muted hover:text-[#00DAF3] transition-colors flex shrink-0 items-center gap-1 group"
+                title="Fatura Yükle"
               >
-                <span className="material-symbols-outlined text-[24px]">add_circle</span>
+                <span className="material-symbols-outlined text-[20px] group-hover:scale-110 transition-transform">receipt</span>
+              </button>
+              <button 
+                onClick={() => uiInputRef.current?.click()}
+                className="p-2.5 bg-white/5 hover:bg-white/10 rounded-xl text-text-muted hover:text-[#9D5CFF] transition-colors flex shrink-0 items-center gap-1 group"
+                title="Muhasebe Ekranı Yükle"
+              >
+                <span className="material-symbols-outlined text-[20px] group-hover:scale-110 transition-transform">desktop_windows</span>
               </button>
               <input 
                 type="text" 
@@ -366,12 +413,12 @@ export default function LedgerAiSettingsPage() {
                 onKeyDown={(e) => e.key === 'Enter' && handleSend()}
                 onPaste={handlePaste}
                 placeholder="Örn: Yemek faturalarında bahşiş tutarını ayrı kolon yap veya faturanı buraya yapıştır..."
-                className="w-full bg-[#12151C] border border-white/10 focus:border-[#00DAF3]/50 rounded-xl py-4 pl-12 pr-12 text-white outline-none transition-colors text-sm shadow-inner"
+                className="w-full bg-[#12151C] border border-white/10 focus:border-[#00DAF3]/50 rounded-xl py-3 pl-4 pr-12 text-white outline-none transition-colors text-sm shadow-inner"
               />
               <button 
                 onClick={handleSend}
-                disabled={!inputValue.trim() && !chatAttachment}
-                className="absolute right-2 p-2 bg-[#00DAF3]/10 text-[#00DAF3] hover:bg-[#00DAF3]/20 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors z-10"
+                disabled={!inputValue.trim() && !invoiceAttachment && !uiAttachment}
+                className="absolute right-2 p-1.5 bg-[#00DAF3]/10 text-[#00DAF3] hover:bg-[#00DAF3]/20 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors z-10"
               >
                 <span className="material-symbols-outlined text-[20px]">send</span>
               </button>
