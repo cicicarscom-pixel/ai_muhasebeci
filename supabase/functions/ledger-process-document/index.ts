@@ -134,8 +134,7 @@ Müşavir Kuralları: ${JSON.stringify(instruction_rules)}
 
     // 4. Call Gemini Vision API using the official SDK
     const ai = new GoogleGenAI({ 
-      apiKey: GEMINI_API_KEY,
-      httpOptions: { apiVersion: 'v1' } 
+      apiKey: GEMINI_API_KEY
     });
     
     const result = await ai.models.generateContent({

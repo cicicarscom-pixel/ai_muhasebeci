@@ -56,8 +56,7 @@ SADECE aşağıdaki JSON formatında yanıt dön:
 
     console.log("Calling Gemini 1.5 Flash via SDK for Ledger AI Chat...");
     const ai = new GoogleGenAI({ 
-      apiKey: apiKey,
-      httpOptions: { apiVersion: 'v1' } 
+      apiKey: apiKey
     });
 
     const sdkResult = await ai.models.generateContent({

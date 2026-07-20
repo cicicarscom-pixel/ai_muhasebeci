@@ -27,8 +27,7 @@ serve(async (req) => {
     }
 
     const ai = new GoogleGenAI({ 
-      apiKey: apiKey,
-      httpOptions: { apiVersion: 'v1' } 
+      apiKey: apiKey
     });
 
     const promptText = `
