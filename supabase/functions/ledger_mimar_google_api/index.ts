@@ -52,11 +52,12 @@ serve(async (req) => {
 2. Görsel: Bu faturanın işleneceği Muhasebe Programı/Excel arayüzü.
 
 Görevin:
-1) İkinci görseldeki (muhasebe arayüzü) veri giriş alanlarını, sütunları ve kolon başlıklarını eksiksiz tespit et ve listele.
-2) İlk görseldeki (fatura) bilgileri analiz et ve hangi fatura bilgisinin, tespit ettiğin hangi kolona/alana girilmesi gerektiğini eşleştir.
-3) İşleyici (Analizci) AI asistanının daha sonra faturaları bu kurguya göre okuyabilmesi için net bir 'Kolon Çekim Kuralları' yönergesi oluştur.
+1) İkinci görseldeki (muhasebe arayüzü) veri giriş alanlarını, sütunları ve kolon başlıklarını EKSİKSİZ tespit et ve listele.
+2) ÇOK ÖNEMLİ KURAL: Muhasebe ekranındaki tüm kolonları listeye eklemeli ve eşleştirmelisin. 1. Görseldeki fatura örneğinde o kolona ait bir veri (örneğin %1 KDV) OLMASA BİLE, o kolonu tespit etmeli ve gelecekte o veriyi içeren bir fatura geldiğinde nereye yazılacağını belirtecek şekilde eşleştirmelisin (Örn: 'Faturada varsa %1 KDV Tutarı' -> '%1 KDV'). Şema, arayüzdeki tüm olası veri giriş alanlarını kapsamalıdır.
+3) İlk görseldeki (fatura) bilgileri analiz et ve hangi fatura bilgisinin, tespit ettiğin hangi kolona/alana girilmesi gerektiğini genel kurallar halinde eşleştir.
+4) İşleyici (Analizci) AI asistanının daha sonra faturaları bu kurguya göre okuyabilmesi için net bir 'Kolon Çekim Kuralları' yönergesi oluştur.
 
-DİKKAT: Gönderilen faturadaki verileri (isim, tutar, tarih vb.) KESİNLİKLE OKUMAYA VEYA ÇIKARTMAYA ÇALIŞMA. Görevin fatura okumak değil, SADECE iki görseli kıyaslayıp KOLON EŞLEŞTİRMESİ YAPMAKTIR (Mimar promptunu kullan). Asla hayali veri üretme.`;
+DİKKAT: Gönderilen faturadaki verileri (isim, tutar, tarih vb.) KESİNLİKLE OKUMAYA VEYA ÇIKARTMAYA ÇALIŞMA. Görevin fatura okumak değil, SADECE iki görseli kıyaslayıp mantıksal KOLON EŞLEŞTİRMESİ YAPMAKTIR (Mimar promptunu kullan). Asla hayali veri üretme.`;
 
     const responseSchema = {
       type: "object",
