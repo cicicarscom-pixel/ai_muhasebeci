@@ -21,71 +21,72 @@ Bu doküman, **Ledger** (Mali Müşavir Paneli) ve **Flow** (Mükellef Uygulamas
 
 ---
 
-## 2. Veritabanı Yapısı (Supabase)
+## 2. Veritabanı Yapısı (Supabase - V2 Ledger AI Kurgusu)
 
-Sistemdeki en önemli iki tablo ve aralarındaki ilişki şu şekildedir:
+Sistemdeki en önemli tablolar ve AI ilişkileri V2 mimarisiyle baştan yazılmıştır:
 
 ### `auth.users` (Supabase Varsayılan Tablosu)
 * Tüm kullanıcıların (Müşavir ve Mükellef) giriş bilgileri burada tutulur.
 
-### `ledger_ai_settings` (Müşavir AI Kuralları Tablosu)
-Müşavirin Ledger Onboarding ekranında kilitlediği dinamik OCR çıkarma kurallarını barındırır.
-* `firm_id` (UUID)
-* `extraction_schema` (JSONB) - Hangi kolonların (örn: vendor_name, tax_amount) okunacağı.
-* `instruction_rules` (JSONB) - Müşavirin özel talimatları.
-* `schema_version` (INT) - Geriye dönük uyumluluk için versiyonlama.
-
-### `accounting_documents` (Ana Fatura / Belge Tablosu)
-Flow'dan yüklenen veya Ledger üzerinden eklenen tüm belgeler bu tabloda tutulur.
+### `invoice_schemas` (Global Müşavir Şema Tablosu - Mimar AI Çıktısı)
+Müşavirin "AI Ayarları" (ai-settings) ekranında oluşturduğu ve Mimar AI'ın karar verdiği global okuma şemasını barındırır.
 * `id`, `created_at`
-* `accounting_firm_id` (Müşavir ID - UUID, FK)
-* `taxpayer_organization_id` (Mükellef ID - UUID, FK)
-* `uploaded_by_user_id` (Yükleyen Kişi - UUID, FK)
-* `storage_bucket`, `storage_path`, `mime_type` (Fiziksel dosya yolları)
-* `document_type`, `processing_status`, `review_status`, `source`
-* `issue_date`, `vendor_name`, `total_amount`, `currency` (Temel OCR çıktıları)
+* `schema_rules` (JSONB) - Mimar AI'ın çıkarttığı dinamik eşleştirme kuralları.
+* `analyzer_instructions` (TEXT) - İşleyici AI'a gönderilen özel prompt.
+* **NOT:** Eskiden belirli bir mükellefe (`taxpayer_id`) bağlıydı, ancak artık sistemde global bir şablon olarak çalışması için `taxpayer_id` bağımlılığı (constraint) kaldırılmıştır.
 
-### `accounting_drafts` (AI Taslakları)
-Yapay zeka tarafından analiz edilen evrakların taslak çıktıları burada tutulur.
-* Müşavir onayı için `ledger_account_code` kolonunu barındırır.
+### `invoices` (Dinamik Fatura Tablosu - İşleyici AI Çıktısı)
+İşleyici (Analyzer) AI tarafından okunan faturaların yapılandırılmış halde saklandığı tablodur.
+* `id`, `created_at`, `status`
+* `taxpayer_id` (UUID, FK) - Faturanın ait olduğu mükellef.
+* `preview_data` (JSONB) - Mükellef adı, fatura yönü (ALIŞ/SATIŞ), kesen firma gibi temel görselleştirme verileri.
+* `mapped_data` (JSONB) - Mimar AI'ın oluşturduğu `invoice_schemas` tablosundaki kolon başlıklarına birebir karşılık gelen dinamik veri kümesi (Örn: `{"%1'lik KDV": "100.00", "Fatura Tarihi": "12.04.2026"}`).
+* `raw_ai_response` (JSONB) - AI'ın döndürdüğü ham veri.
 
-### `document_events` (Denetim İzi / Audit Log)
-Kim neyi değiştirdi takip edebilmek için:
-* `event_type`, `actor_type` ('ai', 'accountant', 'taxpayer'), `old_value`, `new_value`
-
----
-
-## 3. Akış Senaryoları
-
-### 3.1. Ledger Onboarding (Şema Tanımlama)
-1. Müşavir `/ledger/onboarding` sayfasına girer.
-2. Sisteme test faturası yükler (PDF/Görsel).
-3. Base64'e çevrilen görsel, `c:\ai_muhasebeci\supabase\functions\process-document` fonksiyonuna `mode: 'test'` argümanı ile POST edilir.
-4. Edge Function, Gemini Vision API'yi çağırıp JSON çıkartır ve veritabanına kaydetmeden UI'a geri yollar. UI bu JSON anahtarlarından bir Şema listesi çıkartır ve kilitler (`ledger_ai_settings` tablosuna yazar).
-
-### 3.2. Flow Evrak Yükleme & Ledger Onaylama
-1. Mükellef telefonundan fişi çeker, Edge Function çağrılır (Bu kez gerçek modda).
-2. Edge Function faturayı `ledger_ai_settings` içindeki şemaya uygun okur ve `finance_documents` tablosuna ekler.
-3. Fatura `ready_for_review` statüsünde `/ledger/approval` ekranında müşavire düşer.
-4. Müşavir faturayı görüntüler, `InvoiceCard` üzerinde Mükellef adını ve etiketini görür, dinamik form (schema'ya göre çizilen form) üzerinden düzenler ve Onaylar.
-5. Onaylanan faturalar `/ledger/approved` ekranında "Mükellef" bazlı akordeon listelerde toplanır. Oradan dışa aktarılır (`export_batch_id`) ve arşivlenir.
+### `accounting_documents` & `accounting_drafts` (Legacy / Eski V1 Tabloları)
+* V1 mimarisinde kullanılan statik veri tutan tablolardır.
 
 ---
 
-## 4. Proje Klasör Yapısı (Monorepo)
+## 3. Akış Senaryoları (V2 AI Kurgusu)
+
+### 3.1. Şema Kurulumu (Mimar AI - `ledger_mimar_google_api`)
+1. Müşavir `/ai-settings` sayfasına girer.
+2. Sisteme bir Örnek Fatura ve bir Muhasebe Programı (UI) Ekran Görüntüsü yükler.
+3. İki görsel **Mimar AI** (Edge Function) fonksiyonuna yollanır.
+4. **Mimar Kuralı:** Mimar AI fatura okumaz! Sadece UI görselindeki **TÜM** veri giriş alanlarını tespit eder ve faturada o alan boş olsa bile (Örn: o faturada %1 KDV yoksa bile) gelecekteki faturalar için "Bu gelirse buraya yazılacak" şeklinde bir harita (`schema_rules`) oluşturur.
+5. Oluşturulan bu harita `invoice_schemas` tablosuna global olarak kaydedilir.
+
+### 3.2. Fatura Okuma ve İşleme (İşleyici AI - `ledger-isleyici-api`)
+1. Yeni bir fatura sisteme yüklendiğinde İşleyici AI devreye girer.
+2. İşleyici AI, okumadan önce `invoices` tablosuna (veya işlem anındaki payload'a) kaydedilmiş olan `taxpayer_id`'yi alır, veritabanından mükellefin unvanını çeker.
+3. **Yön Bulma Kuralı:** İşleyici AI'a "Şu an [Mükellef Unvanı] için işlem yapıyorsun. Eğer faturayı kesen bu firmaysa SATIŞ, fatura bu firmaya kesilmişse ALIŞ faturasıdır" kuralı (prompt) verilir.
+4. İşleyici AI, global `invoice_schemas` tablosundan kolon kurallarını alır, faturayı okur ve veriyi `preview_data` ile `mapped_data` olarak `invoices` tablosuna kaydeder.
+
+### 3.3. Onay Merkezi Dinamik Render (ApprovalPage.tsx)
+1. Müşavir Onay Merkezine (`/approval`) girdiğinde, frontend statik bir form çizmez.
+2. Sayfa yüklendiğinde `invoice_schemas` tablosuna gidip en güncel kural setini çeker.
+3. Form alanları tamamen bu dinamik şemaya göre ekrana dizilir. Ekrana basılacak değerler `activeDocument.mapped_data` içinden çekilir.
+4. Böylece AI Ayarlarında şema ne kadar değişirse değişsin, Onay Merkezi saniyesinde o şekle bürünür.
+
+---
+
+## 4. Kullanılan Yapay Zeka Altyapısı
+* Tüm sistem yeni nesil **Gemini Interactions API** (`@google/genai`) üzerine kuruludur. Eski `generateContent` metodu terk edilmiştir.
+* Model olarak yüksek hız ve mantıksal kavrama kapasitesi için `gemini-3.5-flash` kullanılmaktadır.
+* Gelen JSON yapısının tutarlılığı için katı schema tanımlamaları (Structured Output) kullanılmıştır.
+
+---
+
+## 5. Proje Klasör Yapısı (Monorepo)
 
 * **`apps/ledger`**: Mali müşavir uygulaması (Şu anki ana odak).
-* **`apps/marketing`**: Ana tanıtım sitesi (www.workigom.com). Flow'un landing page'i de burada yer almaktadır.
-* **Flow (Mükellef Uygulaması)**: Monorepo'yu karmaşıklaştırmamak adına çıkarılmış ve `C:\Users\roman\Flow_ai` yoluna taşınmıştır. İleride tamamen bağımsız bir proje olarak geliştirilecektir.
-* **`supabase`**: Veritabanı fonksiyonları (Edge Functions), kurguları ve yedekleri.
+* **`apps/marketing`**: Ana tanıtım sitesi (www.workigom.com).
+* **Flow (Mükellef Uygulaması)**: Monorepo'dan ayrılmış ve `C:\Users\roman\Flow_ai` yoluna taşınmıştır.
+* **`supabase`**: Veritabanı fonksiyonları (Edge Functions), migrations ve kurguları.
 
-Edge fonksiyonunu lokalde test etmek için `c:\Ai_muhasebeci\workigom` dizininde:
-
-Edge fonksiyonunu lokalde test etmek için `c:\ai_muhasebeci` dizininde:
+Edge fonksiyonlarını (Mimar ve İşleyici) lokalde test etmek veya sunucuya göndermek için terminal (komut istemi) üzerinden şu komutlar kullanılır:
 ```bash
-supabase functions serve process-document --env-file ./supabase/.env.local
-```
-Deploy etmek için:
-```bash
-supabase functions deploy process-document
+npx supabase functions deploy ledger_mimar_google_api
+npx supabase functions deploy ledger-isleyici-api
 ```
