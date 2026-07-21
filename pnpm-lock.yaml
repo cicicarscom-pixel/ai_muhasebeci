@@ -12,15 +12,6 @@ importers:
         specifier: latest
         version: 2.10.4
 
-  apps/flow:
-    dependencies:
-      '@workigom/design-system':
-        specifier: workspace:*
-        version: link:../../packages/design-system
-      '@workigom/ui':
-        specifier: workspace:*
-        version: link:../../packages/ui
-
   apps/ledger:
     dependencies:
       '@ai-sdk/google':

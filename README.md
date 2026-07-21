@@ -122,6 +122,7 @@ Workigom Marketing (Next.js) uygulamasının sayfa akışı şu şekildedir:
 1. **`/` (Ana Sayfa - `app/page.tsx`)**: Kök karşılama ekranı.
 2. **`/flow` (`app/flow/page.tsx`)**: Turkuaz/Yeşil (`#00E5FF`) temalı, Otomasyon ve RAG Drive özelliklerini sergileyen ürün sayfası.
 3. **`/ledger` (`app/ledger/page.tsx`)**: Koyu Mor/Lila (`#d0bcff`) uzay temalı, "Otonom Yapay Zeka İstasyonu" konseptli lüks muhasebe sayfası.
+4. **`/ai-settings` (`app/ledger/app/ai-settings/page.tsx`)**: Ledger AI Asistanı. Split-View yerine tam ekran (Full-Width) sohbet (chat) arayüzüne sahiptir. Fatura yüklemeleri doğrudan sohbet içinden (inline) analiz edilip şık görsel tablolar olarak (Xero standartlarında satır kalemleri ile birlikte) sohbet geçmişine entegre edilir. Alt yapısında Supabase Edge Functions (`gemini-chat` ve `process-document`) kullanır.
 
 **Bileşen İzolasyonu:** Her sayfa kendi WebGL efektini (örn: `LedgerThreeJs.tsx`) ve CSS yapılandırmasını barındırır.
 

@@ -8,15 +8,7 @@ import { InvoiceCard } from '../ui/InvoiceCard';
 import { approveDocumentAction } from '../../../modules/ledger-ai/application/approve-document.action';
 import { deleteDocumentAction } from '../../../modules/ledger-ai/application/delete-document.action';
 
-// Phase 3: Simulated dynamic extraction schema from ledger_ai_settings
-const dummySchema = [
-  { key: "issue_date", type: "date", label: "Fatura Tarihi" },
-  { key: "invoice_number", type: "string", label: "Fatura Numarası" },
-  { key: "vendor_tax_identifier", type: "string", label: "VKN/TCKN" },
-  { key: "vendor_name", type: "string", label: "Açıklama / Unvan" },
-  { key: "net_amount", type: "number", label: "Matrah (Net)" },
-  { key: "tax_amount", type: "number", label: "KDV Tutarı" }
-];
+import { createClient } from '@/utils/supabase/client';
 
 export default function ApprovalPage({ 
   queue = [], 
@@ -33,6 +25,24 @@ export default function ApprovalPage({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [zoom, setZoom] = useState(100);
   const [rotation, setRotation] = useState(0);
+  const [dynamicSchema, setDynamicSchema] = useState<any[]>([]);
+
+  React.useEffect(() => {
+    const fetchSchema = async () => {
+      const supabase = createClient();
+      const { data } = await supabase
+        .from('invoice_schemas')
+        .select('schema_rules')
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .maybeSingle();
+
+      if (data && data.schema_rules) {
+        setDynamicSchema(data.schema_rules);
+      }
+    };
+    fetchSchema();
+  }, []);
 
   // Reset zoom and rotation when active document changes
   React.useEffect(() => {
@@ -271,19 +281,83 @@ export default function ApprovalPage({
                         </div>
                         
                         <div className="grid grid-cols-2 gap-3">
-                          {dummySchema.map(field => (
-                            <div key={field.key} className={field.type === 'string' && field.key === 'vendor_name' ? 'col-span-2 space-y-1' : 'space-y-1'}>
-                              <label className="text-[10px] font-medium text-text-muted tracking-wider uppercase">{field.label}</label>
-                              <input 
-                                className={`w-full h-10 bg-[#1A1D24] border border-white/10 rounded-lg text-[13px] text-white px-3 focus:outline-none focus:border-brand-primary transition-all ${field.type === 'number' ? 'font-mono text-right' : ''}`}
-                                type="text" 
-                                defaultValue={activeDocument ? activeDocument[field.key] || '' : ''} 
-                                disabled={!activeDocument} 
-                              />
+                          {dynamicSchema.length > 0 ? (
+                            dynamicSchema.map(field => {
+                              const key = field.target_column;
+                              let val = '';
+                              if (activeDocument) {
+                                if (activeDocument.mapped_data && activeDocument.mapped_data[key]) {
+                                  val = activeDocument.mapped_data[key];
+                                } else {
+                                  // Fallback for older documents without mapped_data
+                                  val = activeDocument[key] || '';
+                                }
+                              }
+                              return (
+                                <div key={key} className="space-y-1">
+                                  <label className="text-[10px] font-medium text-text-muted tracking-wider uppercase">{key}</label>
+                                  <input 
+                                    className={`w-full h-10 bg-[#1A1D24] border border-white/10 rounded-lg text-[13px] text-white px-3 focus:outline-none focus:border-brand-primary transition-all`}
+                                    type="text" 
+                                    defaultValue={val} 
+                                    disabled={!activeDocument} 
+                                  />
+                                </div>
+                              );
+                            })
+                          ) : (
+                            <div className="col-span-2 text-sm text-text-muted text-center py-4">
+                              Dinamik şema yükleniyor veya ayarlanmamış...
                             </div>
-                          ))}
+                          )}
                         </div>
                       </div>
+
+                      {/* Dinamik Fatura Kalemleri (Invoice Table) */}
+                      {activeDocument?.line_items && activeDocument.line_items.length > 0 && (
+                        <div className="mt-6 border border-white/5 rounded-xl overflow-hidden bg-[#090B10]">
+                          <div className="bg-[#1A1D24] px-4 py-2 border-b border-white/5 flex items-center gap-2">
+                            <span className="material-symbols-outlined text-text-muted text-[16px]">list_alt</span>
+                            <span className="text-xs font-bold text-white">Fatura Kalemleri</span>
+                          </div>
+                          <div className="overflow-x-auto w-full">
+                            <table className="w-full text-left text-xs text-text-muted">
+                              <thead className="bg-white/5 text-[10px] uppercase">
+                                <tr>
+                                  {activeDocument.columns ? (
+                                    activeDocument.columns.map((col: any, idx: number) => (
+                                      <th key={idx} className="px-4 py-2 font-medium">{col.name}</th>
+                                    ))
+                                  ) : (
+                                    Object.keys(activeDocument.line_items[0]).map((key, idx) => (
+                                      <th key={idx} className="px-4 py-2 font-medium">{key}</th>
+                                    ))
+                                  )}
+                                </tr>
+                              </thead>
+                              <tbody className="divide-y divide-white/5">
+                                {activeDocument.line_items.map((item: any, rowIdx: number) => (
+                                  <tr key={rowIdx} className="hover:bg-white/5 transition-colors">
+                                    {activeDocument.columns ? (
+                                      activeDocument.columns.map((col: any, colIdx: number) => (
+                                        <td key={colIdx} className="px-4 py-3 text-white">
+                                          {item[col.name] || item[col.mapped_from] || '-'}
+                                        </td>
+                                      ))
+                                    ) : (
+                                      Object.values(item).map((val: any, valIdx: number) => (
+                                        <td key={valIdx} className="px-4 py-3 text-white">
+                                          {typeof val === 'object' ? JSON.stringify(val) : String(val)}
+                                        </td>
+                                      ))
+                                    )}
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      )}
 
                     </div>
                   </div>
