@@ -139,7 +139,7 @@ Müşavir Kuralları: ${JSON.stringify(instruction_rules)}
     const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
     
     const result = await ai.models.generateContent({
-      model: "gemini-1.5-flash-002",
+      model: "gemini-1.5-pro",
       contents: [{ role: "user", parts: parts }]
     });
 
