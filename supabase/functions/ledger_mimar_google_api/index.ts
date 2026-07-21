@@ -1,5 +1,5 @@
 import { serve } from "https://deno.land/std@0.182.0/http/server.ts";
-import { GoogleGenAI, Type, Schema } from "npm:@google/genai";
+import { GoogleGenAI } from "npm:@google/genai";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -58,63 +58,59 @@ Görevin:
 
 DİKKAT: Gönderilen faturadaki verileri (isim, tutar, tarih vb.) KESİNLİKLE OKUMAYA VEYA ÇIKARTMAYA ÇALIŞMA. Görevin fatura okumak değil, SADECE iki görseli kıyaslayıp KOLON EŞLEŞTİRMESİ YAPMAKTIR (Mimar promptunu kullan). Asla hayali veri üretme.`;
 
-    const responseSchema: Schema = {
-      type: Type.OBJECT,
+    const responseSchema = {
+      type: "object",
       properties: {
         detected_columns: {
-          type: Type.ARRAY,
-          items: { type: Type.STRING },
+          type: "array",
+          items: { type: "string" },
           description: "Ekranda tespit edilen tüm kolonların listesi"
         },
         mapping_rules: {
-          type: Type.ARRAY,
+          type: "array",
           items: {
-            type: Type.OBJECT,
+            type: "object",
             properties: {
-              source_field: { type: Type.STRING },
-              target_column: { type: Type.STRING }
+              source_field: { type: "string" },
+              target_column: { type: "string" }
             }
           },
           description: "Hangi kolon -> Faturadaki hangi bilgi. Örneğin: 'Belge No' kolonu -> Faturadaki Fatura Numarası"
         },
         analyzer_instructions: {
-          type: Type.STRING,
+          type: "string",
           description: "İşleyici AI için üretilmiş, 'Şu kolonlar için şu verileri bul' diyen kısa yönerge metni."
         }
       },
       required: ["detected_columns", "mapping_rules", "analyzer_instructions"]
     };
 
-    const interaction = await ai.models.generateContent({
-      model: "gemini-1.5-flash",
-      contents: [
+    const interaction = await ai.interactions.create({
+      model: "gemini-3.5-flash",
+      system_instruction: systemInstruction,
+      input: [
+        { type: "text", text: "Ekteki iki görseli analiz et ve eşleştirme şemasını çıkar." },
         {
-          role: "user",
-          parts: [
-            { text: "Ekteki iki görseli analiz et ve eşleştirme şemasını çıkar." },
-            {
-              inlineData: {
-                mimeType: invoiceMimeType || "image/jpeg",
-                data: invoiceData
-              }
-            },
-            {
-              inlineData: {
-                mimeType: uiScreenshotMimeType || "image/jpeg",
-                data: uiScreenshotData
-              }
-            }
-          ]
+          type: "image",
+          mime_type: invoiceMimeType || "image/jpeg",
+          data: invoiceData
+        },
+        {
+          type: "image",
+          mime_type: uiScreenshotMimeType || "image/jpeg",
+          data: uiScreenshotData
         }
       ],
-      config: {
-        systemInstruction: systemInstruction,
-        responseMimeType: "application/json",
-        responseSchema: responseSchema
-      }
+      response_format: [
+        {
+          type: "text",
+          mime_type: "application/json",
+          schema: responseSchema
+        }
+      ]
     });
 
-    let text = interaction.text || "";
+    let text = interaction.output_text || "";
     if (!text) {
       throw new Error("Empty response from Gemini.");
     }
