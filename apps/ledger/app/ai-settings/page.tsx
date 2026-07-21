@@ -105,7 +105,7 @@ export default function LedgerAiSettingsPage() {
         if (data && data.error) throw new Error(data.error);
         
         parsedInvoiceData = null;
-        assistantContent = data.text || "Harika! Muhasebe ekranınızı faturanızla eşleştirdim ve size özel dinamik şemayı oluşturdum. Aşağıdan inceleyebilirsiniz.";
+        assistantContent = data.text || "Harika! Muhasebe ekranınızı faturanızla eşleştirdim ve size özel dinamik şemayı oluşturdum.";
       } else if (invoiceUrl) {
         // Sadece fatura yüklendiyse process-document çalışır
         const { data, error } = await supabase.functions.invoke('ledger-process-document', {
@@ -120,8 +120,15 @@ export default function LedgerAiSettingsPage() {
         if (data && data.error) throw new Error(data.error);
         if (data && data.success === false) throw new Error(data.error || "Bilinmeyen analiz hatası");
         
-        parsedInvoiceData = data.extractedData;
-        assistantContent = "Yüklediğiniz belgeyi mevcut şemaya göre analiz ettim. Çıktı formatını veya kuralları değiştirmek isterseniz ekran görüntüsü yükleyebilirsiniz.";
+        parsedInvoiceData = null;
+        
+        // Convert the extracted data to a conversational text
+        const ext = data.extractedData || {};
+        const vendor = ext.vendor_name || 'Bilinmeyen Tedarikçi';
+        const total = ext.total_amount || 0;
+        const tax = ext.tax_amount || 0;
+        
+        assistantContent = `Faturanızı başarıyla okudum!\n\n**Tedarikçi:** ${vendor}\n**Genel Toplam:** ${total} TL\n**KDV Tutarı:** ${tax} TL\n\nŞimdi bu faturayı işlediğiniz muhasebe/excel ekranının görüntüsünü yüklerseniz, kolonları eşleştirebilir ve kendi kurallarınızı oluşturabiliriz.`;
       } else {
         // Sadece sohbet ediliyorsa ledger-ai-chat'e git
         const { data, error } = await supabase.functions.invoke('ledger-ai-chat', {
@@ -134,6 +141,8 @@ export default function LedgerAiSettingsPage() {
 
         if (error) throw new Error(error.message);
         if (data && data.error) throw new Error(data.error);
+        
+        parsedInvoiceData = null;
         assistantContent = data.text || "Üzgünüm, şu an yanıt oluşturamıyorum.";
       }
 
