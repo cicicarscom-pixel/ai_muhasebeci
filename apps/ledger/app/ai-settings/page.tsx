@@ -90,13 +90,19 @@ export default function LedgerAiSettingsPage() {
       let assistantContent = "";
       let parsedInvoiceData = null;
 
+import InvoicePreviewCard from '@/components/InvoicePreviewCard';
+
+// ... at the top of the file ...
+
       if (invoiceUrl && uiUrl) {
-        // İki görsel de yüklendiyse Şema Oluşturucu (generate-schema) çalışır
-        const { data, error } = await supabase.functions.invoke('ledger-generate-schema', {
+        // İki görsel de yüklendiyse Şema Oluşturucu (ledger-mimar-api) çalışır
+        // Note: Replace taxpayer_id with a real one or default UUID for testing
+        const { data, error } = await supabase.functions.invoke('ledger-mimar-api', {
           body: {
-            invoiceUrl: invoiceUrl,
+            taxpayer_id: '00000000-0000-0000-0000-000000000000', // Dummy taxpayer for settings playground
+            invoiceBase64: invoiceUrl, // In real scenario, pass base64 or URL. If URL, function needs download logic. We'll pass URL as base64 for now assuming the function can handle it or we download it.
             invoiceMimeType: mimeTypeInvoice || 'image/jpeg',
-            uiScreenshotUrl: uiUrl,
+            uiScreenshotBase64: uiUrl,
             uiScreenshotMimeType: mimeTypeUi || 'image/jpeg'
           }
         });
@@ -105,14 +111,14 @@ export default function LedgerAiSettingsPage() {
         if (data && data.error) throw new Error(data.error);
         
         parsedInvoiceData = null;
-        assistantContent = data.text || "Harika! Muhasebe ekranınızı faturanızla eşleştirdim ve size özel dinamik şemayı oluşturdum.";
+        assistantContent = data.ai_message || "Harika! Muhasebe ekranınızı faturanızla eşleştirdim ve size özel dinamik şemayı oluşturdum.";
       } else if (invoiceUrl) {
-        // Sadece fatura yüklendiyse process-document çalışır
-        const { data, error } = await supabase.functions.invoke('ledger-process-document', {
+        // Sadece fatura yüklendiyse process-document (ledger-isleyici-api) çalışır
+        const { data, error } = await supabase.functions.invoke('ledger-isleyici-api', {
           body: {
-            mode: 'test',
-            mimeType: mimeTypeInvoice || 'image/jpeg',
-            imageUrl: invoiceUrl
+            taxpayer_id: '00000000-0000-0000-0000-000000000000',
+            invoiceBase64: invoiceUrl, 
+            invoiceMimeType: mimeTypeInvoice || 'image/jpeg'
           }
         });
 
@@ -120,15 +126,9 @@ export default function LedgerAiSettingsPage() {
         if (data && data.error) throw new Error(data.error);
         if (data && data.success === false) throw new Error(data.error || "Bilinmeyen analiz hatası");
         
-        parsedInvoiceData = null;
+        parsedInvoiceData = data.invoice; // the DB record
         
-        // Convert the extracted data to a conversational text
-        const ext = data.extractedData || {};
-        const vendor = ext.vendor_name || 'Bilinmeyen Tedarikçi';
-        const total = ext.total_amount || 0;
-        const tax = ext.tax_amount || 0;
-        
-        assistantContent = `Faturanızı başarıyla okudum!\n\n**Tedarikçi:** ${vendor}\n**Genel Toplam:** ${total} TL\n**KDV Tutarı:** ${tax} TL\n\nŞimdi bu faturayı işlediğiniz muhasebe/excel ekranının görüntüsünü yüklerseniz, kolonları eşleştirebilir ve kendi kurallarınızı oluşturabiliriz.`;
+        assistantContent = `Faturanızı başarıyla okudum ve yapılandırdım. Aşağıdaki önizleme kartından kontrol edip kilitleyebilirsiniz.`;
       } else {
         // Sadece sohbet ediliyorsa ledger-ai-chat'e git
         const { data, error } = await supabase.functions.invoke('ledger-ai-chat', {
@@ -339,9 +339,12 @@ export default function LedgerAiSettingsPage() {
                   <p className="text-[14px] leading-relaxed whitespace-pre-wrap relative z-10">{msg.content}</p>
                   
                   {/* Inline visual table rendering if invoiceData is attached */}
-                  {msg.invoiceData && (
-                    <div className="relative z-10">
-                      {renderInvoiceTable(msg.invoiceData)}
+                  {msg.invoiceData && msg.invoiceData.preview_data && (
+                    <div className="relative z-10 mt-4">
+                      <InvoicePreviewCard 
+                        invoiceId={msg.invoiceData.id} 
+                        previewData={msg.invoiceData.preview_data} 
+                      />
                     </div>
                   )}
                 </div>
