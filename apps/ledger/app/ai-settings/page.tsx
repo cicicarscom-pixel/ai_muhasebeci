@@ -104,8 +104,8 @@ export default function LedgerAiSettingsPage() {
         if (error) throw new Error(error.message);
         if (data && data.error) throw new Error(data.error);
         
-        parsedInvoiceData = data;
-        assistantContent = data.ai_message || "Harika! Muhasebe ekranınızı faturanızla eşleştirdim ve size özel dinamik şemayı oluşturdum. Aşağıdan inceleyebilirsiniz.";
+        parsedInvoiceData = null;
+        assistantContent = data.text || "Harika! Muhasebe ekranınızı faturanızla eşleştirdim ve size özel dinamik şemayı oluşturdum. Aşağıdan inceleyebilirsiniz.";
       } else if (invoiceUrl) {
         // Sadece fatura yüklendiyse process-document çalışır
         const { data, error } = await supabase.functions.invoke('ledger-process-document', {
