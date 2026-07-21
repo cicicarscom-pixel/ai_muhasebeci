@@ -13,12 +13,11 @@ interface SchemaData {
 }
 
 interface SchemaApprovalCardProps {
-  taxpayerId: string;
   schemaData: SchemaData;
   onSaved?: () => void;
 }
 
-export default function SchemaApprovalCard({ taxpayerId, schemaData, onSaved }: SchemaApprovalCardProps) {
+export default function SchemaApprovalCard({ schemaData, onSaved }: SchemaApprovalCardProps) {
   const [isSaving, setIsSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -31,7 +30,6 @@ export default function SchemaApprovalCard({ taxpayerId, schemaData, onSaved }: 
       const { error: insertError } = await supabase
         .from('invoice_schemas')
         .insert({
-          taxpayer_id: taxpayerId,
           schema_rules: schemaData.mapping_rules
         });
 

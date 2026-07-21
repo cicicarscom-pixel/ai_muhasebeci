@@ -32,11 +32,10 @@ serve(async (req) => {
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
     );
 
-    // Fetch schema rules for this taxpayer
+    // Fetch schema rules (global now)
     const { data: schemaData, error: schemaError } = await supabaseClient
       .from('invoice_schemas')
       .select('schema_rules')
-      .eq('taxpayer_id', taxpayer_id)
       .order('created_at', { ascending: false })
       .limit(1)
       .maybeSingle();

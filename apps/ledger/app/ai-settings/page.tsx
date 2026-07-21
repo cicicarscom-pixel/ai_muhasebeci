@@ -11,7 +11,6 @@ export default function LedgerAiSettingsPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [schemaResult, setSchemaResult] = useState<any>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
-  const [taxpayerId, setTaxpayerId] = useState<string>('00000000-0000-0000-0000-000000000000');
 
   const invoiceInputRef = useRef<HTMLInputElement>(null);
   const uiInputRef = useRef<HTMLInputElement>(null);
@@ -49,15 +48,9 @@ export default function LedgerAiSettingsPage() {
       const mimeTypeUi = uiAttachment.type;
 
       const supabase = createClient();
-      
-      // Dummy ID yerine veritabanından geçerli bir taxpayer bulalım ki foreign key hatası almayalım.
-      const { data: taxpayers } = await supabase.from('taxpayers').select('id').limit(1);
-      const validTaxpayerId = (taxpayers && taxpayers.length > 0) ? taxpayers[0].id : '00000000-0000-0000-0000-000000000000';
-      setTaxpayerId(validTaxpayerId);
 
       const { data, error } = await supabase.functions.invoke('ledger_mimar_google_api', {
         body: {
-          taxpayer_id: validTaxpayerId, 
           invoiceBase64: invoiceUrl, 
           invoiceMimeType: mimeTypeInvoice || 'image/jpeg',
           uiScreenshotBase64: uiUrl,
@@ -189,7 +182,6 @@ export default function LedgerAiSettingsPage() {
             <div className="mt-12 animate-fade-in w-full flex justify-center">
               <div className="w-full max-w-3xl">
                 <SchemaApprovalCard 
-                  taxpayerId={taxpayerId}
                   schemaData={schemaResult} 
                 />
               </div>

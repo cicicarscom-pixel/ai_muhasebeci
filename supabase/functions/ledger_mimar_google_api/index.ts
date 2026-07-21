@@ -12,10 +12,10 @@ serve(async (req) => {
   }
 
   try {
-    const { invoiceBase64, invoiceMimeType, uiScreenshotBase64, uiScreenshotMimeType, taxpayer_id } = await req.json();
+    const { invoiceBase64, invoiceMimeType, uiScreenshotBase64, uiScreenshotMimeType } = await req.json();
 
-    if (!invoiceBase64 || !uiScreenshotBase64 || !taxpayer_id) {
-      return new Response(JSON.stringify({ error: "Missing required fields: invoiceBase64, uiScreenshotBase64, and taxpayer_id." }), {
+    if (!invoiceBase64 || !uiScreenshotBase64) {
+      return new Response(JSON.stringify({ error: "Missing required fields: invoiceBase64 and uiScreenshotBase64." }), {
         status: 400,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
