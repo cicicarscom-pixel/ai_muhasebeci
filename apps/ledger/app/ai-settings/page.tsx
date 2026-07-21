@@ -94,13 +94,17 @@ import InvoicePreviewCard from '@/components/InvoicePreviewCard';
 
 // ... at the top of the file ...
 
+import SchemaApprovalCard from '@/components/SchemaApprovalCard';
+
+// ... at the top of the file ...
+
       if (invoiceUrl && uiUrl) {
         // İki görsel de yüklendiyse Şema Oluşturucu (ledger_mimar_google_api) çalışır
         // Note: Replace taxpayer_id with a real one or default UUID for testing
         const { data, error } = await supabase.functions.invoke('ledger_mimar_google_api', {
           body: {
             taxpayer_id: '00000000-0000-0000-0000-000000000000', // Dummy taxpayer for settings playground
-            invoiceBase64: invoiceUrl, // In real scenario, pass base64 or URL. If URL, function needs download logic. We'll pass URL as base64 for now assuming the function can handle it or we download it.
+            invoiceBase64: invoiceUrl, 
             invoiceMimeType: mimeTypeInvoice || 'image/jpeg',
             uiScreenshotBase64: uiUrl,
             uiScreenshotMimeType: mimeTypeUi || 'image/jpeg'
@@ -110,8 +114,8 @@ import InvoicePreviewCard from '@/components/InvoicePreviewCard';
         if (error) throw new Error(error.message);
         if (data && data.error) throw new Error(data.error);
         
-        parsedInvoiceData = null;
-        assistantContent = data.ai_message || "Harika! Muhasebe ekranınızı faturanızla eşleştirdim ve size özel dinamik şemayı oluşturdum.";
+        parsedInvoiceData = { type: 'schema', data: data };
+        assistantContent = "Harika! Muhasebe ekranınızı faturanızla eşleştirdim ve size özel dinamik şemayı oluşturdum. Lütfen aşağıdaki kuralları inceleyip onaylayın.";
       } else if (invoiceUrl) {
         // Sadece fatura yüklendiyse process-document (ledger-isleyici-api) çalışır
         const { data, error } = await supabase.functions.invoke('ledger-isleyici-api', {
@@ -126,7 +130,7 @@ import InvoicePreviewCard from '@/components/InvoicePreviewCard';
         if (data && data.error) throw new Error(data.error);
         if (data && data.success === false) throw new Error(data.error || "Bilinmeyen analiz hatası");
         
-        parsedInvoiceData = data.invoice; // the DB record
+        parsedInvoiceData = { type: 'invoice', data: data.invoice }; // the DB record
         
         assistantContent = `Faturanızı başarıyla okudum ve yapılandırdım. Aşağıdaki önizleme kartından kontrol edip kilitleyebilirsiniz.`;
       } else {
@@ -338,12 +342,20 @@ import InvoicePreviewCard from '@/components/InvoicePreviewCard';
                   
                   <p className="text-[14px] leading-relaxed whitespace-pre-wrap relative z-10">{msg.content}</p>
                   
-                  {/* Inline visual table rendering if invoiceData is attached */}
-                  {msg.invoiceData && msg.invoiceData.preview_data && (
+                  {/* Inline visual component rendering if invoiceData is attached */}
+                  {msg.invoiceData && msg.invoiceData.type === 'invoice' && msg.invoiceData.data?.preview_data && (
                     <div className="relative z-10 mt-4">
                       <InvoicePreviewCard 
-                        invoiceId={msg.invoiceData.id} 
-                        previewData={msg.invoiceData.preview_data} 
+                        invoiceId={msg.invoiceData.data.id} 
+                        previewData={msg.invoiceData.data.preview_data} 
+                      />
+                    </div>
+                  )}
+                  {msg.invoiceData && msg.invoiceData.type === 'schema' && (
+                    <div className="relative z-10 mt-4">
+                      <SchemaApprovalCard 
+                        taxpayerId="00000000-0000-0000-0000-000000000000"
+                        schemaData={msg.invoiceData.data} 
                       />
                     </div>
                   )}

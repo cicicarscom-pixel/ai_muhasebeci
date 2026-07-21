@@ -1,6 +1,5 @@
 import { serve } from "https://deno.land/std@0.182.0/http/server.ts";
-import { GoogleGenAI } from "npm:@google/genai";
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2.40.0";
+import { GoogleGenAI, Type, Schema } from "npm:@google/genai";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -29,66 +28,79 @@ serve(async (req) => {
 
     const ai = new GoogleGenAI({ apiKey });
 
-    const promptText = `Sen bir muhasebe entegrasyon asistanısın.
-Görevin, sana gönderilecek iki görseli karşılaştırmaktır.
-İlk görsel kaynak faturadır.
-İkinci görsel, bu faturanın işlendiği muhasebe yazılımı/excel ekranıdır.
+    const systemInstruction = `Sen Workigom Ledger AI projesinin 'Mimar (Şema Kurucu) Asistanı'sın. Sana aynı anda iki adet görsel gönderilmektedir:
+1. Görsel: Kaynak Fatura.
+2. Görsel: Bu faturanın işleneceği Muhasebe Programı/Excel arayüzü.
 
-İkinci görseli analiz et ve ekrandaki sütun/kolon isimlerini listele. Ardından, ilk faturadaki hangi bilginin, ikinci görseldeki hangi kolona yazıldığını eşleştir.
+Görevin:
+1) İkinci görseldeki (muhasebe arayüzü) veri giriş alanlarını, sütunları ve kolon başlıklarını eksiksiz tespit et ve listele.
+2) İlk görseldeki (fatura) bilgileri analiz et ve hangi faturası bilgisinin, tespit ettiğin hangi kolona/alana girilmesi gerektiğini eşleştir.
+3) İşleyici (Analizci) AI asistanının daha sonra faturaları bu kurguya göre okuyabilmesi için net bir 'Kolon Çekim Kuralları' yönergesi oluştur.
 
-Aşağıdaki kuralları içeren bir JSON döndür:
-{
-  "ai_message": "Ekranda toplam [X] adet kolon tespit ettim... (Yukarıdaki analiz metnini buraya yaz)",
-  "schema_rules": [
-    { "source_field": "Faturadaki Alan Adı", "target_column": "Ekrandaki Kolon Adı", "type": "string" }
-  ]
-}`;
+Asla hayali veri üretme. Sadece yapı ve eşleştirme analizi yap.`;
 
-    const interaction = await ai.interactions.create({
-      model: "gemini-3.5-flash",
-      input: [
-        { type: "text", text: promptText },
-        {
-          type: "image",
-          mime_type: invoiceMimeType || "image/jpeg",
-          data: invoiceBase64.replace(/^data:image\/\w+;base64,/, '')
+    const responseSchema: Schema = {
+      type: Type.OBJECT,
+      properties: {
+        detected_columns: {
+          type: Type.ARRAY,
+          items: { type: Type.STRING },
+          description: "Ekranda tespit edilen tüm kolonların listesi"
         },
-        {
-          type: "image",
-          mime_type: uiScreenshotMimeType || "image/jpeg",
-          data: uiScreenshotBase64.replace(/^data:image\/\w+;base64,/, '')
+        mapping_rules: {
+          type: Type.ARRAY,
+          items: {
+            type: Type.OBJECT,
+            properties: {
+              source_field: { type: Type.STRING },
+              target_column: { type: Type.STRING }
+            }
+          },
+          description: "Hangi kolon -> Faturadaki hangi bilgi. Örneğin: 'Belge No' kolonu -> Faturadaki Fatura Numarası"
+        },
+        analyzer_instructions: {
+          type: Type.STRING,
+          description: "İşleyici AI için üretilmiş, 'Şu kolonlar için şu verileri bul' diyen kısa yönerge metni."
         }
-      ]
+      },
+      required: ["detected_columns", "mapping_rules", "analyzer_instructions"]
+    };
+
+    const interaction = await ai.models.generateContent({
+      model: "gemini-1.5-flash",
+      contents: [
+        {
+          role: "user",
+          parts: [
+            { text: "Ekteki iki görseli analiz et ve eşleştirme şemasını çıkar." },
+            {
+              inlineData: {
+                mimeType: invoiceMimeType || "image/jpeg",
+                data: invoiceBase64.replace(/^data:image\/\w+;base64,/, '')
+              }
+            },
+            {
+              inlineData: {
+                mimeType: uiScreenshotMimeType || "image/jpeg",
+                data: uiScreenshotBase64.replace(/^data:image\/\w+;base64,/, '')
+              }
+            }
+          ]
+        }
+      ],
+      config: {
+        systemInstruction: systemInstruction,
+        responseMimeType: "application/json",
+        responseSchema: responseSchema
+      }
     });
 
-    let text = interaction.output_text || "";
+    let text = interaction.text || "";
     if (!text) {
       throw new Error("Empty response from Gemini.");
     }
 
-    // Sanitize markdown JSON block
-    let cleanText = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
-    let parsedResult;
-    try {
-      parsedResult = JSON.parse(cleanText);
-    } catch (e) {
-      throw new Error("Gemini returned invalid JSON structure.");
-    }
-
-    // Save schema to Supabase
-    const supabaseClient = createClient(
-      Deno.env.get('SUPABASE_URL') ?? '',
-      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
-    );
-
-    const { error: insertError } = await supabaseClient
-      .from('invoice_schemas')
-      .insert({
-        taxpayer_id: taxpayer_id,
-        schema_rules: parsedResult.schema_rules
-      });
-
-    if (insertError) throw insertError;
+    const parsedResult = JSON.parse(text);
 
     return new Response(JSON.stringify(parsedResult), {
       status: 200,
