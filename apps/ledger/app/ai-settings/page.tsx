@@ -95,9 +95,9 @@ import InvoicePreviewCard from '@/components/InvoicePreviewCard';
 // ... at the top of the file ...
 
       if (invoiceUrl && uiUrl) {
-        // İki görsel de yüklendiyse Şema Oluşturucu (ledger-mimar-api) çalışır
+        // İki görsel de yüklendiyse Şema Oluşturucu (ledger_mimar_google_api) çalışır
         // Note: Replace taxpayer_id with a real one or default UUID for testing
-        const { data, error } = await supabase.functions.invoke('ledger-mimar-api', {
+        const { data, error } = await supabase.functions.invoke('ledger_mimar_google_api', {
           body: {
             taxpayer_id: '00000000-0000-0000-0000-000000000000', // Dummy taxpayer for settings playground
             invoiceBase64: invoiceUrl, // In real scenario, pass base64 or URL. If URL, function needs download logic. We'll pass URL as base64 for now assuming the function can handle it or we download it.
