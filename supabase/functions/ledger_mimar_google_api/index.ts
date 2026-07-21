@@ -28,6 +28,25 @@ serve(async (req) => {
 
     const ai = new GoogleGenAI({ apiKey });
 
+    // Yardımcı fonksiyon: URL'yi base64'e çevirir (veya zaten base64 ise sadece header'ı temizler)
+    async function getBase64Data(input: string): Promise<string> {
+      if (input.startsWith('http')) {
+        const response = await fetch(input);
+        if (!response.ok) throw new Error(`Failed to fetch image from URL: ${input}`);
+        const arrayBuffer = await response.arrayBuffer();
+        const bytes = new Uint8Array(arrayBuffer);
+        let binary = '';
+        for (let i = 0; i < bytes.byteLength; i++) {
+          binary += String.fromCharCode(bytes[i]);
+        }
+        return btoa(binary);
+      }
+      return input.replace(/^data:image\/\w+;base64,/, '');
+    }
+
+    const invoiceData = await getBase64Data(invoiceBase64);
+    const uiScreenshotData = await getBase64Data(uiScreenshotBase64);
+
     const systemInstruction = `Sen Workigom Ledger AI projesinin 'Mimar (Şema Kurucu) Asistanı'sın. Sana aynı anda iki adet görsel gönderilmektedir:
 1. Görsel: Kaynak Fatura.
 2. Görsel: Bu faturanın işleneceği Muhasebe Programı/Excel arayüzü.
@@ -76,13 +95,13 @@ DİKKAT: Gönderilen faturadaki verileri (isim, tutar, tarih vb.) KESİNLİKLE O
             {
               inlineData: {
                 mimeType: invoiceMimeType || "image/jpeg",
-                data: invoiceBase64.replace(/^data:image\/\w+;base64,/, '')
+                data: invoiceData
               }
             },
             {
               inlineData: {
                 mimeType: uiScreenshotMimeType || "image/jpeg",
-                data: uiScreenshotBase64.replace(/^data:image\/\w+;base64,/, '')
+                data: uiScreenshotData
               }
             }
           ]
