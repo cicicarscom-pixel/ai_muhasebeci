@@ -138,15 +138,29 @@ Müşavir Kuralları: ${JSON.stringify(instruction_rules)}
 
     const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
     
-    const result = await ai.models.generateContent({
-      model: "gemini-1.5-flash",
-      contents: [{ role: "user", parts: parts }]
+    // Convert parts to new Interactions API input format
+    let input: any[] = [];
+    for (const part of parts) {
+      if (part.text) {
+        input.push({ type: "text", text: part.text });
+      } else if (part.inlineData) {
+        input.push({
+          type: "image", // or document, depending on mime type, but image works broadly
+          data: part.inlineData.data,
+          mime_type: part.inlineData.mimeType
+        });
+      }
+    }
+
+    const interaction = await ai.interactions.create({
+      model: "gemini-3.5-flash",
+      input: input
     });
 
-    const responseText = result.text;
-    if (!responseText) throw new Error("Empty response from Gemini.");
+    let text = interaction.output_text || "";
+    if (!text) throw new Error("Empty response from Gemini.");
 
-    let cleanText = responseText.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+    let cleanText = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
     const extractedData = JSON.parse(cleanText);
 
     if (mode === 'test') {

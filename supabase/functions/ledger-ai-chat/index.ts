@@ -50,21 +50,23 @@ SADECE aşağıdaki JSON formatında yanıt dön:
 }`;
 
     // 3. Prepare parts for Gemini API
-    const finalParts = [
-      { text: `SİSTEM TALİMATI:\n${systemInstruction}\n\nKULLANICI TALEBİ:\n${prompt || 'Merhaba'}` }
-    ];
-
     console.log("Calling Gemini 1.5 Flash via SDK for Ledger AI Chat...");
     const ai = new GoogleGenAI({ 
       apiKey: apiKey
     });
 
-    const sdkResult = await ai.models.generateContent({
-      model: "gemini-1.5-flash",
-      contents: [{ role: "user", parts: finalParts }]
+    const input: any[] = (history || []).map((msg: any) => ({
+      type: "text",
+      text: msg.content
+    }));
+    input.push({ type: "text", text: `SİSTEM TALİMATI:\n${systemInstruction}\n\nKULLANICI TALEBİ:\n${prompt || 'Merhaba'}` });
+
+    const interaction = await ai.interactions.create({
+      model: "gemini-3.5-flash",
+      input: input
     });
 
-    const generatedText = sdkResult.text;
+    const generatedText = interaction.output_text || "";
     
     let parsedResult = { text: "İçerik oluşturulamadı." }
     try {

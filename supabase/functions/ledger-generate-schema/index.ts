@@ -44,35 +44,30 @@ Aşağıdaki JSON formatında yanıt ver. Çıktın SADECE bu JSON objesi olmal�
 }
 `;
 
-    const result = await ai.models.generateContent({
-      model: "gemini-1.5-flash",
-      contents: [{
-        role: "user",
-        parts: [
-          { text: promptText },
-          {
-            inlineData: {
-              mimeType: invoiceMimeType || "image/jpeg",
-              data: invoiceBase64.replace(/^data:image\/\w+;base64,/, '')
-            }
-          },
-          {
-            inlineData: {
-              mimeType: uiScreenshotMimeType || "image/jpeg",
-              data: uiScreenshotBase64.replace(/^data:image\/\w+;base64,/, '')
-            }
-          }
-        ]
-      }]
+    const interaction = await ai.interactions.create({
+      model: "gemini-3.5-flash",
+      input: [
+        { type: "text", text: promptText },
+        {
+          type: "image",
+          mime_type: invoiceMimeType || "image/jpeg",
+          data: invoiceBase64.replace(/^data:image\/\w+;base64,/, '')
+        },
+        {
+          type: "image",
+          mime_type: uiScreenshotMimeType || "image/jpeg",
+          data: uiScreenshotBase64.replace(/^data:image\/\w+;base64,/, '')
+        }
+      ]
     });
 
-    const responseText = result.text;
-    if (!responseText) {
+    let text = interaction.output_text || "";
+    if (!text) {
       throw new Error("Empty response from Gemini.");
     }
 
     // Sanitize markdown blocks if model appended any
-    let cleanText = responseText.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+    let cleanText = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
     
     let parsedResult;
     try {
