@@ -30,7 +30,7 @@ serve(async (req) => {
       apiKey: apiKey
     });
 
-Sen bir muhasebe entegrasyon asistanısın.
+    const promptText = `Sen bir muhasebe entegrasyon asistanısın.
 Görevin, sana gönderilecek iki görseli karşılaştırmaktır.
 İlk görsel kaynak faturadır.
 İkinci görsel, bu faturanın işlendiği muhasebe yazılımı/excel ekranıdır.
