@@ -62,7 +62,7 @@ export async function getClientsAction(): Promise<{ advisorCode: string | null; 
       `)
       .eq('user_id', accountantId)
       .limit(1)
-      .single();
+      .maybeSingle();
 
     let firmDataRaw = firmMemberData?.accounting_firms;
     let firmData = Array.isArray(firmDataRaw) ? firmDataRaw[0] : firmDataRaw;
@@ -78,7 +78,7 @@ export async function getClientsAction(): Promise<{ advisorCode: string | null; 
           connection_code: connectionCode
         })
         .select('id, connection_code, firm_name')
-        .single();
+        .maybeSingle();
         
       if (insertError) {
         advisorCode = `Hata (Insert Firm): ${insertError.message}`;
@@ -101,7 +101,7 @@ export async function getClientsAction(): Promise<{ advisorCode: string | null; 
         .update({ connection_code: connectionCode })
         .eq('id', firmData.id)
         .select('id, connection_code, firm_name')
-        .single();
+        .maybeSingle();
         
       if (updateError) {
         advisorCode = `Hata (Update): ${updateError.message}`;
@@ -181,7 +181,7 @@ export async function getClientsAction(): Promise<{ advisorCode: string | null; 
             .select('user_id')
             .eq('organization_id', link.taxpayer_organization_id)
             .limit(1)
-            .single();
+            .maybeSingle();
 
           let contactName = 'Yetkili';
           let phone = '-';
@@ -192,7 +192,7 @@ export async function getClientsAction(): Promise<{ advisorCode: string | null; 
               .from('profiles')
               .select('full_name')
               .eq('id', orgMember.user_id)
-              .single();
+              .maybeSingle();
               
              if (profile?.full_name) {
                contactName = profile.full_name;
@@ -209,7 +209,7 @@ export async function getClientsAction(): Promise<{ advisorCode: string | null; 
             .from('organization_legal_profiles')
             .select('tax_identifier, tax_office')
             .eq('organization_id', link.taxpayer_organization_id)
-            .single();
+            .maybeSingle();
           
           if (legalProfile) {
             taxNumber = legalProfile.tax_identifier || '-';
