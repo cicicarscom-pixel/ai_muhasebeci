@@ -133,10 +133,10 @@ Sadece JSON formatında yanıt ver. Baska hicbir sey yazma.`;
     }
 
     const interaction = await ai.interactions.create({
-      model: "gemini-2.0-flash",
+      model: "gemini-3.5-flash",
       system_instruction: systemInstruction,
       input: inputParts,
-      config: {
+      generation_config: {
         response_mime_type: "application/json",
         response_schema: responseSchema
       }
@@ -144,8 +144,16 @@ Sadece JSON formatında yanıt ver. Baska hicbir sey yazma.`;
 
     let text = interaction.output_text || "";
     if (!text) throw new Error("Empty response from Gemini.");
-
-    const extractedData = JSON.parse(text);
+    
+    // Clean up potential markdown formatting before parsing
+    text = text.replace(/```json/g, '').replace(/```/g, '').trim();
+    let extractedData;
+    try {
+      extractedData = JSON.parse(text);
+    } catch (parseError) {
+      console.error("JSON Parse Error:", parseError, "Raw text:", text);
+      throw new Error("Failed to parse Gemini response as JSON.");
+    }
 
     // Upload base64 to Storage
     let uploadedImageUrl = null;
