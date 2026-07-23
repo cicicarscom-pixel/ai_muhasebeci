@@ -69,7 +69,9 @@ serve(async (req) => {
         amount: { type: "number", description: "Faturadaki toplam tutar" },
         date: { type: "string", description: "YYYY-MM-DD formatında fatura tarihi" },
         title: { type: "string", description: "Karşı tarafın (satıcı/alıcı) kısa unvanı veya işlem başlığı" },
-        type: { type: "string", description: "income veya expense" }
+        type: { type: "string", description: "income veya expense" },
+        invoice_number: { type: "string", description: "Fatura numarası (genelde 16 haneli harf ve rakam)" },
+        vendor_tax_id: { type: "string", description: "Karşı tarafın VKN veya TCKN'si (10 veya 11 haneli sayı)" }
       },
       required: ["amount", "title", "type"]
     };

@@ -26,9 +26,6 @@ export default async function Page() {
   const result = await getPendingDocumentsAction(firmMember.accounting_firm_id);
   const queue = result.data || [];
 
-  if (queue.length > 0) {
-    redirect(`/approval/${queue[0].id}`);
-  }
 
   return <ApprovalPage queue={queue} />;
 }

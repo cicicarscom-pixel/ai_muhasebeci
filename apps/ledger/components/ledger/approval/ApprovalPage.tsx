@@ -50,6 +50,13 @@ export default function ApprovalPage({
     setRotation(0);
   }, [activeDocument?.id]);
 
+  useEffect(() => {
+    // Client-side redirect if no document is selected but queue has items
+    if (!activeDocument && queue.length > 0) {
+      router.push(`/approval/${queue[0].id}`);
+    }
+  }, [activeDocument, queue, router]);
+
   const formatCurrency = (amount: number, currency: string) => {
     if (amount === undefined || amount === null) return '0,00 ₺';
     // Use amount_minor / 100 for display

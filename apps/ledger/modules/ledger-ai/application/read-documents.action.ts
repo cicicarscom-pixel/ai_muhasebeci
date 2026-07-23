@@ -8,8 +8,34 @@ export async function getPendingDocumentsAction(firmId: string) {
   try {
     const cookieStore = await cookies();
     const supabase = createClient(cookieStore);
+    const adminSupabase = createAdminClient();
 
-    const { data, error } = await supabase
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) throw new Error('Yetkisiz');
+
+    // Verify firm membership
+    const { data: firmMember } = await supabase
+      .from('accounting_firm_members')
+      .select('id')
+      .eq('accounting_firm_id', firmId)
+      .eq('user_id', user.id)
+      .single();
+    
+    if (!firmMember) throw new Error('Müşavir yetkisi yok');
+
+    // Get linked taxpayer orgs
+    const { data: links } = await adminSupabase
+      .from('accountant_taxpayer_links')
+      .select('taxpayer_organization_id')
+      .eq('accounting_firm_id', firmId);
+      
+    const orgIds = links?.map(l => l.taxpayer_organization_id) || [];
+
+    if (orgIds.length === 0) {
+      return { success: true, data: [] };
+    }
+
+    const { data, error } = await adminSupabase
       .from('finance_documents')
       .select(`
         id,
@@ -23,6 +49,7 @@ export async function getPendingDocumentsAction(firmId: string) {
         organization_id,
         organizations (name)
       `)
+      .in('organization_id', orgIds)
       .eq('ledger_official_status', 'taslak')
       .order('created_at', { ascending: false });
 
@@ -41,9 +68,14 @@ export async function getDocumentDetailsAction(documentId: string) {
   try {
     const cookieStore = await cookies();
     const supabase = createClient(cookieStore);
+    const adminSupabase = createAdminClient();
+    
+    // We can assume user is already authenticated by the layout, but let's be safe
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) throw new Error('Yetkisiz');
 
-    // Get document metadata
-    const { data: document, error: docError } = await supabase
+    // Get document metadata using admin client to bypass organizations RLS
+    const { data: document, error: docError } = await adminSupabase
       .from('finance_documents')
       .select(`
         *,
@@ -55,15 +87,27 @@ export async function getDocumentDetailsAction(documentId: string) {
 
     if (docError || !document) throw new Error('Belge bulunamadı.');
 
+    // Security check: verify this user's firm actually manages this organization
+    const { data: hasAccess } = await adminSupabase
+      .from('accountant_taxpayer_links')
+      .select('id')
+      .eq('taxpayer_organization_id', document.organization_id)
+      .in('accounting_firm_id', (
+        await supabase.from('accounting_firm_members').select('accounting_firm_id').eq('user_id', user.id)
+      ).data?.map(m => m.accounting_firm_id) || [])
+      .single();
+
+    if (!hasAccess) throw new Error('Bu belgeye erişim yetkiniz yok.');
+
     // Get Accounting Draft
-    const { data: draft } = await supabase
+    const { data: draft } = await adminSupabase
       .from('accounting_drafts')
       .select('*')
       .eq('document_id', documentId)
       .single();
 
     // Get Document Lines
-    const { data: lines } = await supabase
+    const { data: lines } = await adminSupabase
       .from('accounting_document_lines')
       .select('*')
       .eq('document_id', documentId)
