@@ -20,8 +20,8 @@ export async function approveDocumentAction(
     if (!user) throw new Error('Oturum bulunamadı.');
 
     const supabaseAdmin = createAdminClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL,
-      process.env.SUPABASE_SERVICE_ROLE_KEY
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.SUPABASE_SERVICE_ROLE_KEY!
     );
 
     // DEBUG: Log that the action started
