@@ -144,14 +144,16 @@ export default function ApprovalPage({
         fieldValues  // Pass all field values to lock into the record
       );
 
-      if (!res.success) {
-        alert('Onaylama başarısız: ' + res.error);
+      if (!res?.success) {
+        alert('Onaylama başarısız: ' + (res?.error || 'Bilinmeyen Hata'));
         setIsSubmitting(false);
       } else {
-        window.location.href = '/ledger/approval';
+        router.push('/ledger/approval');
       }
-    } catch (e) {
-      window.location.href = '/ledger/approval';
+    } catch (e: any) {
+      console.error('Action failed:', e);
+      alert('Sistemsel Hata (500): ' + e.message);
+      setIsSubmitting(false);
     }
   };
 
