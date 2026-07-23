@@ -253,8 +253,8 @@ export async function getClientsAction(): Promise<{ advisorCode: string | null; 
 
     return { advisorCode, clients: clientsList };
 
-  } catch (error) {
+  } catch (error: any) {
     console.error('getClientsAction Error:', error);
-    return { advisorCode: null, clients: [] };
+    return { advisorCode: `Sistem Hatası: ${error?.message || 'Bilinmeyen Hata'}`, clients: [] };
   }
 }
