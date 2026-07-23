@@ -83,20 +83,25 @@ export default function ApprovalPage({
     const vName = activeDocument.title || activeDocument.counterparty_name || activeDocument.vendor_name || 'Bilinmiyor';
     const vTaxId = activeDocument.tax_id || activeDocument.vendor_tax_identifier || '';
 
-    const res = await approveDocumentAction(
-      activeDocument.id, 
-      accountId, 
-      true, 
-      vName, 
-      vTaxId
-    );
+    try {
+      const res = await approveDocumentAction(
+        activeDocument.id, 
+        accountId, 
+        true, 
+        vName, 
+        vTaxId
+      );
 
-    if (!res.success) {
-      alert('Onaylama başarısız: ' + res.error);
-      setIsSubmitting(false);
-    } else {
-      router.push('/approval');
-      router.refresh();
+      if (!res.success) {
+        alert('Onaylama başarısız: ' + res.error);
+        setIsSubmitting(false);
+      } else {
+        router.push('/approval');
+        router.refresh();
+      }
+    } catch (e) {
+      // Catch Next.js internal 500 errors that happen during re-render
+      window.location.href = '/approval';
     }
   };
 
@@ -105,14 +110,19 @@ export default function ApprovalPage({
     if (!confirm('Bu evrakı tamamen silmek istediğinize emin misiniz?')) return;
     
     setIsSubmitting(true);
-    const res = await deleteDocumentAction(activeDocument.id);
-    
-    if (!res.success) {
-      alert('Silme başarısız: ' + res.error);
-      setIsSubmitting(false);
-    } else {
-      router.push('/approval');
-      router.refresh();
+    try {
+      const res = await deleteDocumentAction(activeDocument.id);
+      
+      if (!res.success) {
+        alert('Silme başarısız: ' + res.error);
+        setIsSubmitting(false);
+      } else {
+        router.push('/approval');
+        router.refresh();
+      }
+    } catch (e) {
+      // Catch Next.js internal 500 errors that happen during re-render
+      window.location.href = '/approval';
     }
   };
 
@@ -189,6 +199,9 @@ export default function ApprovalPage({
                       setIsSubmitting(false);
                       if (!res.success) alert('Silme başarısız: ' + res.error);
                       else { router.push('/approval'); router.refresh(); }
+                    }).catch(e => {
+                      // Catch Next.js internal 500 errors
+                      window.location.href = '/approval';
                     });
                   }
                 }}
@@ -311,8 +324,9 @@ export default function ApprovalPage({
                                 } else if (parsedTaxDetails && parsedTaxDetails[key]) {
                                   val = parsedTaxDetails[key];
                                 } else {
-                                  const fallbackKey = key === 'FATURA NUMARASI' ? 'invoice_number' 
-                                    : key === 'FATURA TARIHI' ? 'date' 
+                                  const fallbackKey = (key === 'FATURA NUMARASI' || key === 'FATURA NO') ? 'invoice_number' 
+                                    : (key === 'FATURA TARIHI' || key === 'FATURA TARİHİ') ? 'date' 
+                                    : key === 'AÇIKLAMA' ? 'title'
                                     : key === 'VKN TCKN' ? 'vendor_tax_id'
                                     : key === 'TOPLAM' ? 'amount'
                                     : null;
