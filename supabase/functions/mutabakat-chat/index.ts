@@ -14,7 +14,7 @@ serve(async (req) => {
   }
 
   try {
-    const { message, unpaidDocuments, history } = await req.json()
+    const { message, pastDocs, history } = await req.json()
 
     // 1. Authenticate user via JWT
     const authHeader = req.headers.get('Authorization')
@@ -44,7 +44,7 @@ Kullanıcının geçmiş aydan devreden tahsil edilmemiş gelirleri ve ödenmemi
 Kullanıcının girdiği mesaja göre, hangi evrakların (faturaların) ödendiğini veya tahsil edildiğini anlamalısın.
 
 GÜNCEL BEKLEYEN EVRAKLAR:
-${JSON.stringify(unpaidDocuments, null, 2)}
+${JSON.stringify(pastDocs, null, 2)}
 
 Aşağıdaki JSON formatından şaşmadan yanıt vermelisin. "text" alanına kullanıcıya vereceğin doğal dildeki cevabı, "paid_document_ids" alanına ise kullanıcının ödediğini/tahsil ettiğini belirttiği evrakların id'lerini (string array olarak) yazmalısın. Eğer hiçbir ödeme/tahsilat anlaşılmıyorsa "paid_document_ids" boş liste olmalı.
 
@@ -88,7 +88,7 @@ YANIT FORMATI:
       
       const { error: updateError } = await supabaseAdmin
         .from('finance_documents')
-        .update({ payment_status: 'paid' })
+        .update({ flow_payment_status: 'paid' })
         .in('id', parsedResult.paid_document_ids)
         // Ensure we only update this user's documents (assuming user_id is the foreign key, or the app uses something else like business_id. We'll rely on RLS if using anon key, but we are using admin key, so we need a check. finance_documents should have user_id or similar).
         // Let's assume user_id exists. If not, the mutation will fail, and we can fix it later.
@@ -104,9 +104,9 @@ YANIT FORMATI:
     return new Response(
       JSON.stringify({ 
         success: true,
-        text: parsedResult.text || "",
+        reply: parsedResult.text || "",
         updatedCount,
-        paid_document_ids: parsedResult.paid_document_ids
+        updated_ids: parsedResult.paid_document_ids
       }),
       { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     )

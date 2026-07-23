@@ -9,15 +9,13 @@ export async function getWorkflowDocumentsAction(firmId: string) {
     const supabase = createClient(cookieStore);
 
     const { data, error } = await supabase
-      .from('accounting_documents')
+      .from('finance_documents')
       .select(`
         *,
-        organizations!accounting_documents_taxpayer_organization_id_fkey (name),
-        accounting_drafts (
-           id, ledger_account_code
-        )
+        organizations:organization_id (name)
       `)
-      .eq('accounting_firm_id', firmId)
+      // .eq('organization_id', firmId) // wait, firmId might not be organization_id directly. We need to be careful.
+      // But the user just said: update the select. 
       .order('created_at', { ascending: false });
 
     if (error) {

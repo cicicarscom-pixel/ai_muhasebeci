@@ -7,18 +7,17 @@ import Link from 'next/link';
 
 export default function WorkflowPage({ initialDocuments = [] }: { initialDocuments?: any[] }) {
   // 1. Yeni Geldi (uploaded and not yet processing)
-  const yeniGeldi = initialDocuments.filter(d => d.processing_status === 'uploaded');
+  // Flow'dan gelen evraklar direkt taslak olarak gelir, o yuzden bunu bos birakabiliriz
+  const yeniGeldi = initialDocuments.filter(d => !d.ledger_official_status && !d.flow_payment_status);
   
   // 2. AI İşliyor (currently processing by AI)
-  const aiIsliyor = initialDocuments.filter(d => d.processing_status === 'processing');
+  const aiIsliyor = initialDocuments.filter(d => false);
   
-  // 3. Kontrol Bekliyor (AI finished or failed, review pending)
-  const kontrolBekliyor = initialDocuments.filter(d => 
-    (d.processing_status === 'completed' || d.processing_status === 'failed') && d.review_status === 'pending'
-  );
+  // 3. Kontrol Bekliyor (Taslak durumunda)
+  const kontrolBekliyor = initialDocuments.filter(d => d.ledger_official_status === 'taslak');
   
-  // 4. Onaylandı (review completed/approved)
-  const onaylandi = initialDocuments.filter(d => d.review_status === 'approved');
+  // 4. Onaylandı (Onaylandı durumunda)
+  const onaylandi = initialDocuments.filter(d => d.ledger_official_status === 'onaylandi');
 
   const formatCurrency = (amount: number, currency: string) => {
     if (amount === undefined || amount === null) return '-';
@@ -29,7 +28,7 @@ export default function WorkflowPage({ initialDocuments = [] }: { initialDocumen
     }
   };
 
-  const totalAmount = initialDocuments.reduce((acc, doc) => acc + (Number(doc.total_amount) || 0), 0);
+  const totalAmount = initialDocuments.reduce((acc, doc) => acc + ((Number(doc.amount_minor) || 0) / 100), 0);
 
   return (
     <div className="flex flex-col h-full w-full bg-surface text-text p-6 overflow-hidden gap-6">
@@ -164,11 +163,11 @@ export default function WorkflowPage({ initialDocuments = [] }: { initialDocumen
                   </div>
                   <div className="flex items-center gap-2 mb-2">
                     <span className="material-symbols-outlined text-text-muted text-[18px]">domain</span>
-                    <span className="text-body font-semibold text-text truncate" title={doc.vendor_name || 'Okunamadı'}>{doc.vendor_name || 'Okunamadı'}</span>
+                    <span className="text-body font-semibold text-text truncate" title={doc.title || 'Okunamadı'}>{doc.title || 'Okunamadı'}</span>
                   </div>
                   <div className="flex items-center gap-2 mb-2">
                     <span className="material-symbols-outlined text-text-muted text-[18px]">payments</span>
-                    <span className="text-card-title font-bold text-text">{formatCurrency(doc.total_amount, doc.currency)}</span>
+                    <span className="text-card-title font-bold text-text">{formatCurrency((doc.amount_minor || 0) / 100, doc.currency_code)}</span>
                   </div>
                   {doc.accounting_drafts?.[0]?.ledger_account_code && (
                     <div className="flex items-center gap-2 mt-3 pt-3 border-t border-border">
@@ -207,11 +206,11 @@ export default function WorkflowPage({ initialDocuments = [] }: { initialDocumen
                 </div>
                 <div className="flex items-center gap-2 mb-2">
                   <span className="material-symbols-outlined text-text-muted text-[18px]">domain</span>
-                  <span className="text-body font-semibold text-text truncate" title={doc.vendor_name || 'Okunamadı'}>{doc.vendor_name || 'Okunamadı'}</span>
+                  <span className="text-body font-semibold text-text truncate" title={doc.title || 'Okunamadı'}>{doc.title || 'Okunamadı'}</span>
                 </div>
                 <div className="flex items-center gap-2 mb-2">
                   <span className="material-symbols-outlined text-text-muted text-[18px]">payments</span>
-                  <span className="text-card-title font-bold text-text">{formatCurrency(doc.total_amount, doc.currency)}</span>
+                  <span className="text-card-title font-bold text-text">{formatCurrency((doc.amount_minor || 0) / 100, doc.currency_code)}</span>
                 </div>
                 {doc.accounting_drafts?.[0]?.ledger_account_code && (
                   <div className="flex items-center gap-2 mt-3 pt-3 border-t border-border">

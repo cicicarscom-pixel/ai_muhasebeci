@@ -3,6 +3,8 @@ import { cookies } from 'next/headers';
 import WorkflowPage from '@/components/ledger/workflow/WorkflowPage';
 import { getWorkflowDocumentsAction } from '../../modules/ledger-ai/application/workflow.action';
 
+export const dynamic = 'force-dynamic';
+
 export default async function Page() {
   const cookieStore = await cookies();
   const supabase = createClient(cookieStore);

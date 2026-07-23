@@ -157,12 +157,12 @@ export default function ApprovalPage({
               <InvoiceCard
                 key={doc.id}
                 id={doc.id}
-                vendorName={doc.vendor_name}
+                vendorName={doc.title || 'Okunamadı'}
                 taxpayerName={doc.organizations?.name || 'Test Mükellefi'}
                 type={doc.type || 'expense'}
-                amountMinor={doc.amount_minor || (doc.total_amount * 100) || 0}
-                currencyCode={doc.currency_code || doc.currency || 'TRY'}
-                date={doc.issue_date || new Date(doc.created_at).toLocaleDateString('tr-TR')}
+                amountMinor={doc.amount_minor || 0}
+                currencyCode={doc.currency_code || 'TRY'}
+                date={doc.created_at ? new Date(doc.created_at).toLocaleDateString('tr-TR') : 'Bilinmiyor'}
                 isActive={activeDocument?.id === doc.id}
                 onSelect={() => router.push(`/approval/${doc.id}`)}
                 onDelete={() => {

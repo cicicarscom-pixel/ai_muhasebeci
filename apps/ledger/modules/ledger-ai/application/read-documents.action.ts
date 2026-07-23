@@ -10,21 +10,19 @@ export async function getPendingDocumentsAction(firmId: string) {
     const supabase = createClient(cookieStore);
 
     const { data, error } = await supabase
-      .from('accounting_documents')
+      .from('finance_documents')
       .select(`
         id,
-        document_type,
-        issue_date,
-        vendor_name,
-        total_amount,
-        currency,
-        processing_status,
-        review_status,
+        type,
         created_at,
-        organizations!accounting_documents_taxpayer_organization_id_fkey (name)
+        title,
+        amount_minor,
+        currency_code,
+        ledger_official_status,
+        flow_payment_status,
+        organizations:organization_id (name)
       `)
-      .eq('accounting_firm_id', firmId)
-      .eq('review_status', 'pending')
+      .eq('ledger_official_status', 'taslak')
       .order('created_at', { ascending: false });
 
     if (error) {
@@ -45,10 +43,10 @@ export async function getDocumentDetailsAction(documentId: string) {
 
     // Get document metadata
     const { data: document, error: docError } = await supabase
-      .from('accounting_documents')
+      .from('finance_documents')
       .select(`
         *,
-        organizations!accounting_documents_taxpayer_organization_id_fkey (name)
+        organizations:organization_id (name)
       `)
       .eq('id', documentId)
       .single();
@@ -69,23 +67,12 @@ export async function getDocumentDetailsAction(documentId: string) {
       .eq('document_id', documentId)
       .order('created_at', { ascending: true });
 
-    // Generate Signed URL for the image using Admin Client (since bucket is private without RLS)
-    const adminSupabase = createAdminClient();
-    const { data: signedUrlData, error: signedUrlError } = await adminSupabase
-      .storage
-      .from(document.storage_bucket)
-      .createSignedUrl(document.storage_path, 3600); // 1 hour
-
-    if (signedUrlError) {
-      console.error('Error generating signed URL:', signedUrlError);
-    }
-
     return {
       success: true,
       document,
       draft,
       lines: lines || [],
-      imageUrl: signedUrlData?.signedUrl || null
+      imageUrl: document.image_url || null
     };
   } catch (error: any) {
     console.error('getDocumentDetailsAction error:', error);

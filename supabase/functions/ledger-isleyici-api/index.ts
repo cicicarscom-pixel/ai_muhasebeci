@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.182.0/http/server.ts";
 import { GoogleGenAI } from "npm:@google/genai";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.40.0";
+import { encode, decode } from "https://deno.land/std@0.168.0/encoding/base64.ts";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -13,10 +14,10 @@ serve(async (req) => {
   }
 
   try {
-    const { invoiceBase64, invoiceMimeType, taxpayer_id } = await req.json();
+    const { document_id, prompt, imageBase64, imageUrl, mimeType } = await req.json();
 
-    if (!invoiceBase64 || !taxpayer_id) {
-      return new Response(JSON.stringify({ error: "Missing required fields: invoiceBase64 and taxpayer_id." }), {
+    if (!document_id || (!imageBase64 && !imageUrl && !prompt)) {
+      return new Response(JSON.stringify({ error: "Missing required fields." }), {
         status: 400,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
@@ -27,84 +28,51 @@ serve(async (req) => {
       throw new Error("LEDGER_GEMINI_API_KEY is not set.");
     }
 
-    const supabaseClient = createClient(
-      Deno.env.get('SUPABASE_URL') ?? '',
-      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
-    );
+    let activeBase64 = imageBase64;
 
-    // Fetch schema rules (global now)
-    const { data: schemaData, error: schemaError } = await supabaseClient
-      .from('invoice_schemas')
-      .select('schema_rules')
-      .order('created_at', { ascending: false })
-      .limit(1)
-      .maybeSingle();
-
-    if (schemaError) throw schemaError;
-    
-    const schemaRules = schemaData?.schema_rules || [];
-
-    // Mükellefin adını al (taxpayer_id ile)
-    const { data: taxpayerData, error: taxpayerError } = await supabaseClient
-      .from('taxpayers')
-      .select('name')
-      .eq('id', taxpayer_id)
-      .single();
-
-    if (taxpayerError) throw taxpayerError;
-    const taxpayerName = taxpayerData.name;
+    // Eger base64 yoksa ama URL geldiyse (ornegin frontend Storage'a attiysa), resmi indirip base64 yap
+    if (!activeBase64 && imageUrl) {
+      console.log("Fetching image from Storage URL...");
+      const imgRes = await fetch(imageUrl);
+      if (imgRes.ok) {
+        const arrayBuffer = await imgRes.arrayBuffer();
+        activeBase64 = encode(new Uint8Array(arrayBuffer));
+      }
+    }
 
     const ai = new GoogleGenAI({ apiKey });
-
-    // Build the dynamic schema for structured output
-    const dynamicDataProperties: Record<string, any> = {};
-    for (const rule of schemaRules) {
-      dynamicDataProperties[rule.target_column] = {
-        type: rule.type === 'number' ? "number" : "string",
-        description: `Eşleşme kaynağı: ${rule.source_field}`
-      };
-    }
 
     const responseSchema = {
       type: "object",
       properties: {
-        preview: {
-          type: "object",
-          properties: {
-            mukellef_adi: { type: "string" },
-            kesen_firma: { type: "string" },
-            fatura_tipi: { type: "string", description: "Alış veya Satış" },
-            fatura_tutari: { type: "number" }
-          },
-          required: ["mukellef_adi", "kesen_firma", "fatura_tipi", "fatura_tutari"]
-        },
-        dynamic_data: {
-          type: "object",
-          properties: dynamicDataProperties,
-          description: "Mimar asistanının belirlediği özel kolon verileri"
-        }
+        amount: { type: "number", description: "Faturadaki toplam tutar" },
+        date: { type: "string", description: "YYYY-MM-DD formatında fatura tarihi" },
+        title: { type: "string", description: "Karşı tarafın (satıcı/alıcı) kısa unvanı veya işlem başlığı" },
+        type: { type: "string", description: "income veya expense" }
       },
-      required: ["preview", "dynamic_data"]
+      required: ["amount", "title", "type"]
     };
 
     const systemInstruction = `Sen Workigom Ledger AI projesinin 'İşleyici Asistanı'sın.
-Sistem şu mükellef için fatura işliyor: "${taxpayerName}".
-KURAL: Eğer faturayı düzenleyen (satıcı) bizim mükellefimiz ise bu bir SATIŞ faturasıdır. Eğer fatura edilen (alıcı) bizim mükellefimiz ise bu bir ALIŞ faturasıdır.
-Lütfen bu kurala ve sana verilen şemaya kesinlikle uyarak çıkarım yap.`;
+Flow uygulamasından gelen ham evrakları (veya metni) analiz et ve şu formatta veri çıkar: tutar, tarih, işlem başlığı (karşı taraf) ve işlem tipi.
+Sadece JSON dön. Başka bir şey yazma.`;
 
-    const promptText = `Ekteki faturayı analiz et ve belirtilen JSON şemasına uygun olarak verileri çıkar.`;
+    const inputParts: any[] = [
+      { type: "text", text: prompt || "Lütfen bu belgeyi analiz et ve bilgileri çıkar." }
+    ];
+
+    if (activeBase64) {
+      inputParts.push({
+        type: "image",
+        mime_type: mimeType || "image/jpeg",
+        data: activeBase64.replace(/^data:image\/\w+;base64,/, '')
+      });
+    }
 
     const interaction = await ai.interactions.create({
       model: "gemini-3.5-flash",
       system_instruction: systemInstruction,
-      input: [
-        { type: "text", text: promptText },
-        {
-          type: "image",
-          mime_type: invoiceMimeType || "image/jpeg",
-          data: invoiceBase64.replace(/^data:image\/\w+;base64,/, '')
-        }
-      ],
+      input: inputParts,
       response_format: [
         {
           type: "text",
@@ -115,28 +83,79 @@ Lütfen bu kurala ve sana verilen şemaya kesinlikle uyarak çıkarım yap.`;
     });
 
     let text = interaction.output_text || "";
-    if (!text) {
-      throw new Error("Empty response from Gemini.");
-    }
+    if (!text) throw new Error("Empty response from Gemini.");
 
     const extractedData = JSON.parse(text);
 
-    // Save to invoices table
-    const { data: invoiceData, error: insertError } = await supabaseClient
-      .from('invoices')
-      .insert({
-        taxpayer_id: taxpayer_id,
-        image_url: "uploaded_via_base64", // In a real app, upload image to storage and save URL
-        status: 'pending',
-        preview_data: extractedData.preview,
-        mapped_data: extractedData.dynamic_data
-      })
+    const supabaseClient = createClient(
+      Deno.env.get('SUPABASE_URL') ?? '',
+      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
+    );
+
+    // Upload base64 to Storage
+    let uploadedImageUrl = null;
+    if (activeBase64) {
+      try {
+        const ext = mimeType === 'application/pdf' ? 'pdf' : 'jpg';
+        const fileName = `${Date.now()}_${Math.floor(Math.random()*1000)}.${ext}`;
+        const uint8Array = decode(activeBase64.replace(/^data:image\/\w+;base64,/, '')); 
+        
+        const { data: uploadData, error: uploadError } = await supabaseClient
+          .storage
+          .from('finance_receipts')
+          .upload(fileName, uint8Array, {
+             contentType: mimeType || 'image/jpeg',
+             upsert: true
+          });
+
+        if (!uploadError && uploadData) {
+           const { data: publicData } = supabaseClient.storage.from('finance_receipts').getPublicUrl(fileName);
+           uploadedImageUrl = publicData.publicUrl;
+        } else {
+           console.warn("Storage upload failed in edge function", uploadError);
+        }
+      } catch (e) {
+        console.warn("Exception during storage upload in edge function", e);
+      }
+    }
+
+    const amountMinor = Math.round((extractedData.amount || 0) * 100);
+    const dateIso = extractedData.date ? new Date(extractedData.date).toISOString() : new Date().toISOString();
+
+    // Çift Statü Güncellemesi: finance_documents tablosundaki taslak kaydı güncelle
+    const updatePayload: any = {
+      amount_minor: amountMinor,
+      title: extractedData.title,
+      type: extractedData.type,
+      created_at: dateIso,
+      flow_payment_status: 'paid', // Flow tarafında anında listelerde görünmesi için
+      ledger_official_status: 'taslak', // Resmi muhasebe için onay bekliyor
+      tax_details: extractedData // JSON olarak ham veriyi de sakla
+    };
+
+    if (uploadedImageUrl) {
+      updatePayload.image_url = uploadedImageUrl;
+    }
+
+    const { data: updatedDoc, error: updateError } = await supabaseClient
+      .from('finance_documents')
+      .update(updatePayload)
+      .eq('id', document_id)
       .select()
       .single();
 
-    if (insertError) throw insertError;
+    if (updateError) throw updateError;
 
-    return new Response(JSON.stringify({ success: true, invoice: invoiceData }), {
+    // Log the event
+    await supabaseClient.from('document_events').insert({
+      finance_document_id: document_id,
+      event_type: 'ai_extraction',
+      new_value: extractedData
+    });
+
+    const successMessage = `Harika! ${extractedData.title || 'Bilinmeyen'} firmasına ait, ${extractedData.date || 'bugün'} tarihli ve ${extractedData.amount || 0} TL tutarındaki belgeniz başarıyla işlendi ve onay için taslaklara gönderildi.`;
+
+    return new Response(JSON.stringify({ success: true, document: updatedDoc, message: successMessage }), {
       status: 200,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
