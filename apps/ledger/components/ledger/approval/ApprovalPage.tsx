@@ -285,11 +285,14 @@ export default function ApprovalPage({
                             dynamicSchema.map(field => {
                               const key = field.target_column;
                               let val = '';
+                              const parsedMappedData = typeof activeDocument.mapped_data === 'string' ? JSON.parse(activeDocument.mapped_data) : activeDocument.mapped_data;
+                              const parsedTaxDetails = typeof activeDocument.tax_details === 'string' ? JSON.parse(activeDocument.tax_details) : activeDocument.tax_details;
+
                               if (activeDocument) {
-                                if (activeDocument.mapped_data && activeDocument.mapped_data[key]) {
-                                  val = activeDocument.mapped_data[key];
-                                } else if (activeDocument.tax_details && activeDocument.tax_details[key]) {
-                                  val = activeDocument.tax_details[key];
+                                if (parsedMappedData && parsedMappedData[key]) {
+                                  val = parsedMappedData[key];
+                                } else if (parsedTaxDetails && parsedTaxDetails[key]) {
+                                  val = parsedTaxDetails[key];
                                 } else {
                                   // Fallback for older documents without mapped_data
                                   val = activeDocument[key] || '';
@@ -368,7 +371,14 @@ export default function ApprovalPage({
                   <div className="px-8 py-6 max-w-xl mx-auto w-full flex items-center justify-between mt-2 border-t border-border">
                     <div className="flex flex-col">
                       <span className="text-[10px] font-bold text-text-muted tracking-wider uppercase mb-1">Genel Toplam</span>
-                      <span className="text-text text-[24px] font-bold font-mono">{activeDocument ? formatCurrency(activeDocument.amount_minor ? activeDocument.amount_minor / 100 : (activeDocument.tax_details?.amount || activeDocument.total_amount), activeDocument.currency_code || activeDocument.currency) : '0,00 ₺'}</span>
+                      <span className="text-text text-[24px] font-bold font-mono">
+                        {activeDocument ? formatCurrency(
+                          activeDocument.amount_minor != null 
+                            ? activeDocument.amount_minor / 100 
+                            : ((typeof activeDocument.tax_details === 'string' ? JSON.parse(activeDocument.tax_details) : activeDocument.tax_details)?.amount || activeDocument.total_amount), 
+                          activeDocument.currency_code || activeDocument.currency
+                        ) : '0,00 ₺'}
+                      </span>
                     </div>
                     <div className="flex items-center gap-3">
                       <GhostButton onClick={handleDelete} disabled={isSubmitting || !activeDocument} className="text-[#FF4A4A] hover:bg-[#FF4A4A]/10 border border-transparent hover:border-[#FF4A4A]/20 transition-colors">Sil</GhostButton>
