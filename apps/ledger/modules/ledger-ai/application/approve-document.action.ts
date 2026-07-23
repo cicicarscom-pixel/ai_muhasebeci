@@ -19,14 +19,17 @@ export async function approveDocumentAction(
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) throw new Error('Oturum bulunamadı.');
 
-    if (!process.env.SUPABASE_SERVICE_ROLE_KEY || !process.env.NEXT_PUBLIC_SUPABASE_URL) {
-      throw new Error('Sunucu yapılandırması eksik.');
-    }
-
     const supabaseAdmin = createAdminClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL,
       process.env.SUPABASE_SERVICE_ROLE_KEY
     );
+
+    // DEBUG: Log that the action started
+    await supabaseAdmin.from('ai_decision_events').insert({
+      document_id: documentId,
+      decision_type: 'debug_action_start',
+      explanation: 'Server Action approveDocumentAction started successfully.'
+    });
 
     // 1. Get the document to verify firm access
     const { data: document, error: docError } = await supabaseAdmin
@@ -111,6 +114,24 @@ export async function approveDocumentAction(
     return { success: true };
   } catch (error: any) {
     console.error('approveDocumentAction error:', error);
-    return { success: false, error: error.message };
+    let msg = 'Bilinmeyen Hata';
+    try {
+      msg = error?.message || String(error);
+    } catch(e) {}
+    
+    // Attempt to log the error to DB if possible
+    try {
+      const adminClient = createAdminClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.SUPABASE_SERVICE_ROLE_KEY!
+      );
+      await adminClient.from('ai_decision_events').insert({
+        document_id: documentId,
+        decision_type: 'debug_action_error',
+        explanation: 'Action caught error: ' + msg
+      });
+    } catch(e) {}
+
+    return { success: false, error: msg };
   }
 }
