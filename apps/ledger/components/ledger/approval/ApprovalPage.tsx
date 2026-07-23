@@ -148,7 +148,7 @@ export default function ApprovalPage({
         alert('Onaylama başarısız: ' + (res?.error || 'Bilinmeyen Hata'));
         setIsSubmitting(false);
       } else {
-        router.push('/ledger/approval');
+        router.push('/approval');
       }
     } catch (e: any) {
       console.error('Action failed:', e);
