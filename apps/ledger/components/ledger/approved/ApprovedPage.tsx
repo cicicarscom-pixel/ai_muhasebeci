@@ -201,9 +201,9 @@ export default function ApprovedPage({ documents = [] }: { documents: any[] }) {
     docs.forEach(doc => {
       const td = parseTaxDetails(doc);
       xml += '  <Fatura>\n';
-      xml += `    <Tarih>${td.date || ''}</Tarih>\n`;
+      xml += `    <Tarih>${td.date || (doc.created_at ? new Date(doc.created_at).toLocaleDateString('tr-TR') : '')}</Tarih>\n`;
       xml += `    <FaturaNo>${td.invoice_number || ''}</FaturaNo>\n`;
-      xml += `    <FaturaTuru>${td.type || ''}</FaturaTuru>\n`;
+      xml += `    <FaturaTuru>${td.type || (doc.type === 'expense' ? 'ALIŞ' : doc.type === 'sales' ? 'SATIŞ' : '')}</FaturaTuru>\n`;
       xml += `    <VKN>${td.vendor_tax_id || ''}</VKN>\n`;
       xml += `    <Aciklama>${(td.title || doc.title || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</Aciklama>\n`;
       xml += `    <TevkifatOrani>${td.tevkifat_orani || ''}</TevkifatOrani>\n`;
