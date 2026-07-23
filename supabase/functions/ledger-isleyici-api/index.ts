@@ -73,7 +73,7 @@ serve(async (req) => {
         invoice_number: { type: "string", description: "Fatura numarası (genelde 16 haneli harf ve rakam)" },
         vendor_tax_id: { type: "string", description: "Karşı tarafın VKN veya TCKN'si (10 veya 11 haneli sayı)" }
       },
-      required: ["amount", "title", "type"]
+      required: ["amount", "title", "type", "date", "invoice_number", "vendor_tax_id"]
     };
 
     const systemInstruction = `Sen Workigom Ledger AI projesinin 'İşleyici Asistanı'sın.

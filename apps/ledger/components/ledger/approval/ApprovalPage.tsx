@@ -101,7 +101,7 @@ export default function ApprovalPage({
       }
     } catch (e) {
       // Catch Next.js internal 500 errors that happen during re-render
-      window.location.href = '/approval';
+      window.location.href = '/ledger/approval';
     }
   };
 
@@ -122,7 +122,7 @@ export default function ApprovalPage({
       }
     } catch (e) {
       // Catch Next.js internal 500 errors that happen during re-render
-      window.location.href = '/approval';
+      window.location.href = '/ledger/approval';
     }
   };
 
@@ -201,7 +201,7 @@ export default function ApprovalPage({
                       else { router.push('/approval'); router.refresh(); }
                     }).catch(e => {
                       // Catch Next.js internal 500 errors
-                      window.location.href = '/approval';
+                      window.location.href = '/ledger/approval';
                     });
                   }
                 }}
