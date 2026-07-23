@@ -4,9 +4,42 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 export default function ApprovedPage({ documents = [] }: { documents: any[] }) {
   const [expandedGroups, setExpandedGroups] = useState<string[]>([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [monthFilter, setMonthFilter] = useState('');
+
+  const parseTaxDetails = (doc: any) => {
+    if (!doc.tax_details) return {};
+    try {
+      return typeof doc.tax_details === 'string' ? JSON.parse(doc.tax_details) : doc.tax_details;
+    } catch (e) { return {}; }
+  };
+
+  // Filter documents
+  const filteredDocuments = documents.filter(doc => {
+    const td = parseTaxDetails(doc);
+    const orgName = (doc.organizations?.name || 'Bilinmeyen Mükellef').toLowerCase();
+    
+    const matchesSearch = orgName.includes(searchQuery.toLowerCase());
+    
+    let matchesDate = true;
+    if (monthFilter) {
+      const [year, month] = monthFilter.split('-');
+      if (td.date) {
+        const parts = td.date.split('.');
+        if (parts.length === 3) {
+          matchesDate = parts[1] === month && parts[2] === year;
+        }
+      } else if (doc.created_at) {
+        const d = new Date(doc.created_at);
+        matchesDate = d.getFullYear() === parseInt(year) && (d.getMonth() + 1).toString().padStart(2, '0') === month;
+      }
+    }
+    
+    return matchesSearch && matchesDate;
+  });
 
   // Group by organization
-  const groupedDocs = documents.reduce((acc, doc) => {
+  const groupedDocs = filteredDocuments.reduce((acc, doc) => {
     const orgId = doc.organization_id || 'unknown';
     if (!acc[orgId]) {
       acc[orgId] = {
@@ -24,12 +57,7 @@ export default function ApprovedPage({ documents = [] }: { documents: any[] }) {
     );
   };
 
-  const parseTaxDetails = (doc: any) => {
-    if (!doc.tax_details) return {};
-    try {
-      return typeof doc.tax_details === 'string' ? JSON.parse(doc.tax_details) : doc.tax_details;
-    } catch (e) { return {}; }
-  };
+
 
   const handleExportCSV = (orgName: string, docs: any[]) => {
     // A-R sütunları - muhasebecinin Excel formatıyla birebir
@@ -173,6 +201,37 @@ export default function ApprovedPage({ documents = [] }: { documents: any[] }) {
       {/* Main Content */}
       <main className="flex-1 overflow-y-auto p-8 custom-scrollbar">
         <div className="max-w-6xl mx-auto space-y-4">
+          
+          {/* Filters */}
+          <div className="flex items-center gap-4 bg-card border border-border p-4 rounded-xl shadow-sm">
+            <div className="flex-1 flex items-center gap-2 bg-[#0E1116] border border-border rounded-lg px-3 py-2 focus-within:border-primary transition-colors">
+              <span className="material-symbols-outlined text-text-muted text-[20px]">search</span>
+              <input 
+                type="text" 
+                placeholder="Mükellef adına göre ara..." 
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="bg-transparent border-none outline-none text-sm text-text placeholder:text-text-muted w-full"
+              />
+            </div>
+            <div className="flex items-center gap-2 bg-[#0E1116] border border-border rounded-lg px-3 py-2 focus-within:border-primary transition-colors">
+              <span className="material-symbols-outlined text-text-muted text-[20px]">calendar_month</span>
+              <input 
+                type="month" 
+                value={monthFilter}
+                onChange={(e) => setMonthFilter(e.target.value)}
+                className="bg-transparent border-none outline-none text-sm text-text placeholder:text-text-muted [&::-webkit-calendar-picker-indicator]:filter [&::-webkit-calendar-picker-indicator]:invert-[0.6]"
+              />
+            </div>
+            {(searchQuery || monthFilter) && (
+              <button 
+                onClick={() => { setSearchQuery(''); setMonthFilter(''); }}
+                className="text-[13px] text-text-muted hover:text-white px-2 py-1 rounded-md hover:bg-white/5 transition-colors"
+              >
+                Temizle
+              </button>
+            )}
+          </div>
           
           {Object.entries(groupedDocs).length === 0 ? (
             <div className="flex flex-col items-center justify-center py-20 text-text-muted">
