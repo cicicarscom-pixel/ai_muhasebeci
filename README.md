@@ -12,10 +12,12 @@ Proje, bir **Turborepo** monorepo yapısı üzerine inşa edilmiştir.
 
 Klasör dizini şu şekildedir:
 ```text
-workigom/
+ai_muhasebeci/
 ├── apps/
-│   └── marketing/       # Ana Landing Page uygulaması (Flow & Ledger)
+│   ├── ledger/          # Mali müşavir uygulaması (Ana odak)
+│   └── marketing/       # Ana Landing Page uygulaması (www.workigom.com)
 ├── packages/            # Gelecekte eklenebilecek ortak kütüphaneler
+├── supabase/            # Veritabanı fonksiyonları (Edge Functions) ve migrations
 ├── pnpm-workspace.yaml  # Monorepo yapılandırması
 └── turbo.json           # Turborepo yapılandırması
 ```

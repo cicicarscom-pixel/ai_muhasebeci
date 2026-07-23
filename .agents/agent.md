@@ -4,7 +4,7 @@
 **HER DEĞİŞİKLİKTE GITHUB'A PUSH YAPILACAKTIR.** Yapılan geliştirmeler, hata düzeltmeleri veya dosya güncellemeleri tamamlandıktan hemen sonra, ilgili projenin (çalışılan dizinin) GitHub deposuna `git add .`, `git commit -m "..."` ve `git push` komutlarıyla gönderilmelidir.
 
 ## Alınan Mimari Kararlar ve Kurallar
-1. **Mevcut Yapıyı Koruma:** Geliştirmeler yapılırken `apps/marketing/app/ledger/layout.tsx` dosyasındaki ana layout yapısına, kenar boşluklarına (padding), Sidebar'a veya wrapper yapısına dokunulmamalıdır. Yalnızca hedeflenen bileşenler içeriğe izole bir şekilde eklenmelidir.
+1. **Mevcut Yapıyı Koruma:** Geliştirmeler yapılırken `apps/ledger/app/layout.tsx` dosyasındaki ana layout yapısına, kenar boşluklarına (padding), Sidebar'a veya wrapper yapısına dokunulmamalıdır. Yalnızca hedeflenen bileşenler içeriğe izole bir şekilde eklenmelidir.
 2. **Küçük ve Kontrollü Onaylar:** Büyük özellikler geliştirilirken ("Mükellefler Operasyon Merkezi" ve "Floating AI") önce plan sunulur, sadece tek bir özellik için geliştirme yapılır ve onay alındıktan sonra ikinci aşamaya geçilir.
 3. **UI/UX Prensipleri:** 
    - Workigom'un ana renk paletine (sci-fi karanlık, siber-uzaylı, yeşil/mavi neon, `#12151C`, `#161B22`) sadık kalınmalıdır.
