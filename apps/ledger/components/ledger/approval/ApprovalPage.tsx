@@ -9,25 +9,24 @@ import { approveDocumentAction } from '../../../modules/ledger-ai/application/ap
 
 import { createClient } from '@/utils/supabase/client';
 
-// Fixed field list - no longer depends on dynamic schema from DB
+// Exactly mirrors the accountant's Excel column structure
 const INVOICE_FIELDS = [
-  { key: 'invoice_number', label: 'FATURA NUMARASI' },
   { key: 'date', label: 'FATURA TARİHİ' },
+  { key: 'invoice_number', label: 'FATURA NUMARASI' },
   { key: 'type', label: 'FATURA TÜRÜ' },
   { key: 'vendor_tax_id', label: 'VKN / TCKN' },
   { key: 'title', label: 'AÇIKLAMA' },
-  { key: 'tax_rate', label: 'TOPLAM ORAN' },
-  { key: 'amount', label: 'ÖZL MATRAHİ' },
+  { key: 'tevkifat_orani', label: 'TEVKİFAT ORANI' },
+  { key: 'ozel_matrah', label: 'ÖZEL MATRAH' },
   { key: 'kdv_1', label: '%1\'LİK KDV' },
-  { key: 'kdv_8', label: '%8\'LİK KDV' },
   { key: 'kdv_10', label: '%10\'LUK KDV' },
   { key: 'kdv_18', label: '%18\'LİK KDV' },
   { key: 'kdv_20', label: '%20\'LİK KDV' },
-  { key: 'kdv_total_1', label: '%1\'LİK MATRAHİ' },
-  { key: 'kdv_total_8', label: '%8\'LİK MATRAHİ' },
-  { key: 'kdv_total_10', label: '%10\'LUK MATRAHİ' },
-  { key: 'kdv_total_18', label: '%18\'LİK MATRAHİ' },
-  { key: 'kdv_total_20', label: '%20\'LİK MATRAHİ' },
+  { key: 'matrah_1', label: '%1\'LİK MATRAH' },
+  { key: 'matrah_8', label: '%8\'LİK MATRAH' },
+  { key: 'matrah_10', label: '%10\'LUK MATRAH' },
+  { key: 'matrah_18', label: '%18\'LİK MATRAH' },
+  { key: 'matrah_20', label: '%20\'LİK MATRAH' },
   { key: 'total', label: 'TOPLAM' },
 ];
 
@@ -64,17 +63,43 @@ export default function ApprovalPage({
     }
     const values: Record<string, string> = {};
     INVOICE_FIELDS.forEach(field => {
-      const val = taxDetails[field.key];
+      let val = taxDetails[field.key];
+      
+      // Remap old AI key names to new field keys
+      if ((val === undefined || val === null || val === '') && field.key === 'matrah_18') {
+        // Try old key name 'kdv_total_18' or 'kdv_18' (whichever has the base amount)
+        const candidate1 = taxDetails['matrah_18'];
+        const candidate2 = taxDetails['kdv_total_18'];
+        // The matrah (base) is the larger number
+        if (candidate1) val = candidate1;
+        else if (candidate2 && Number(candidate2) > Number(taxDetails['kdv_18'] || 0)) val = candidate2;
+      }
+      if ((val === undefined || val === null || val === '') && field.key === 'kdv_18') {
+        // The KDV amount is the smaller number
+        const candidate1 = taxDetails['kdv_18'];
+        const candidate2 = taxDetails['kdv_total_18'];
+        if (candidate1 && Number(candidate1) < Number(taxDetails['matrah_18'] || 9999)) val = candidate1;
+        else if (candidate2 && Number(candidate2) < Number(taxDetails['matrah_18'] || 9999)) val = candidate2;
+      }
+      // Similarly for other KDV rates
+      if ((val === undefined || val === null || val === '') && field.key === 'matrah_1') val = taxDetails['kdv_total_1'];
+      if ((val === undefined || val === null || val === '') && field.key === 'matrah_8') val = taxDetails['kdv_total_8'];
+      if ((val === undefined || val === null || val === '') && field.key === 'matrah_10') val = taxDetails['kdv_total_10'];
+      if ((val === undefined || val === null || val === '') && field.key === 'matrah_20') val = taxDetails['kdv_total_20'];
+      
       if (val !== undefined && val !== null && val !== '') {
+        // Convert expense/sales to Turkish labels
+        if (field.key === 'type') {
+          val = val === 'expense' ? 'ALIŞ' : val === 'sales' ? 'SATIŞ' : val;
+        }
         values[field.key] = String(val);
       } else {
         // Direct document fields
-        const directVal = activeDocument[field.key];
-        if (directVal !== undefined && directVal !== null && directVal !== '') {
-          values[field.key] = String(directVal);
-        } else {
-          values[field.key] = '';
+        let directVal = activeDocument[field.key];
+        if (field.key === 'type' && directVal) {
+          directVal = directVal === 'expense' ? 'ALIŞ' : directVal === 'sales' ? 'SATIŞ' : directVal;
         }
+        values[field.key] = (directVal !== undefined && directVal !== null && directVal !== '') ? String(directVal) : '';
       }
     });
     setFieldValues(values);

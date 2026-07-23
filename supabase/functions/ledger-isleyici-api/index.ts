@@ -66,45 +66,49 @@ serve(async (req) => {
     const responseSchema = {
       type: "object",
       properties: {
-        amount: { type: "number", description: "KDV hariç matrah (vergi tabanı)" },
-        total: { type: "number", description: "KDV dahil genel toplam tutar" },
+        amount: { type: "number", description: "KDV haric toplam matrah (vergi tabanı). Ornegin bu faturada 800" },
+        total: { type: "number", description: "KDV dahil odencek toplam tutar. Ornegin bu faturada 944" },
         date: { type: "string", description: "YYYY-MM-DD formatinda fatura tarihi" },
-        title: { type: "string", description: "Karsı tarafın (satıcı/alıcı) unvanı" },
-        type: { type: "string", description: "'expense' veya 'sales'" },
-        invoice_number: { type: "string", description: "Fatura numarasi (genellikle harf+rakam karisimlı)" },
-        vendor_tax_id: { type: "string", description: "Karsı tarafın VKN veya TCKN'si (10 veya 11 haneli)" },
-        tax_rate: { type: "string", description: "Faturadaki KDV oranı, ornegin: %20, %10, %1" },
-        kdv_1: { type: "number", description: "%1 KDV matrahı" },
-        kdv_8: { type: "number", description: "%8 KDV matrahı" },
-        kdv_10: { type: "number", description: "%10 KDV matrahı" },
-        kdv_18: { type: "number", description: "%18 KDV matrahı" },
-        kdv_20: { type: "number", description: "%20 KDV matrahı" },
-        kdv_total_1: { type: "number", description: "%1 KDV tutarı" },
-        kdv_total_8: { type: "number", description: "%8 KDV tutarı" },
-        kdv_total_10: { type: "number", description: "%10 KDV tutarı" },
-        kdv_total_18: { type: "number", description: "%18 KDV tutarı" },
-        kdv_total_20: { type: "number", description: "%20 KDV tutarı" }
+        title: { type: "string", description: "Karsi tarafin (satici veya alici) ticari unvani" },
+        type: { type: "string", description: "'expense' veya 'sales'. Alici bizim mukellefimiz ise expense, satici ise sales" },
+        invoice_number: { type: "string", description: "Fatura numarasi. Ornegin AAA2022000000135" },
+        vendor_tax_id: { type: "string", description: "Karsi tarafin VKN (10 hane) veya TCKN (11 hane)" },
+        tevkifat_orani: { type: "string", description: "Tevkifat oran\u0131, genellikle bos" },
+        ozel_matrah: { type: "number", description: "Ozel matrah, genellikle bos" },
+        kdv_1: { type: "number", description: "SADECE %1 KDV'nin HESAPLANAN TUTARI (miktari). Matrah degil. Bu faturada bos. Ornek: 18% KDV icin 144 olan KDV MIKTARI" },
+        kdv_10: { type: "number", description: "SADECE %10 KDV'nin HESAPLANAN TUTARI (miktari). Matrah degil." },
+        kdv_18: { type: "number", description: "SADECE %18 KDV'nin HESAPLANAN TUTARI (miktari). Bu faturada 144. DIKKAT: 800 degil, 144!" },
+        kdv_20: { type: "number", description: "SADECE %20 KDV'nin HESAPLANAN TUTARI (miktari). Matrah degil." },
+        matrah_1: { type: "number", description: "%1 KDV'nin uygulandigi TABAN TUTAR (matrah). Bu faturada bos." },
+        matrah_8: { type: "number", description: "%8 KDV'nin uygulandigi TABAN TUTAR (matrah). Bu faturada bos." },
+        matrah_10: { type: "number", description: "%10 KDV'nin uygulandigi TABAN TUTAR (matrah). Bu faturada bos." },
+        matrah_18: { type: "number", description: "%18 KDV'nin uygulandigi TABAN TUTAR (matrah). Bu faturada 800. DIKKAT: 144 degil, 800!" },
+        matrah_20: { type: "number", description: "%20 KDV'nin uygulandigi TABAN TUTAR (matrah). Bu faturada bos." }
       },
       required: ["amount", "title", "type", "date", "invoice_number", "vendor_tax_id"]
     };
 
-    const systemInstruction = `Sen Türk vergi mevzuatında uzman bir muhasebe asistanısın.
-Görevin: Sana gönderilen fatura görselini analiz edip aşağıdaki bilgileri JSON formatında döndürmek.
+    const systemInstruction = `Sen Turk vergi mevzuatinda uzman bir muhasebe asistanisın.
+Gorev: Fatura gorselini analiz et ve verileri JSON olarak domdur.
 
-FATURA OKUMA KURALLARI:
-1. invoice_number: Fatura numarasını bul. Genellikle "Fatura No:", "F.No:", "Belge No:" gibi etiketlerle başlar. 16 haneli alfanumerik olabilir.
-2. date: Fatura tarihini YYYY-MM-DD formatında ver. "Düzenleme Tarihi" veya "Tarih" olarak geçer.
-3. vendor_tax_id: Karsı tarafın (satıcı) VKN'sini veya TCKN'sini bul. 10 haneli ise VKN, 11 haneli ise TCKN.
-4. amount: KDV HARIÇ matrah tutarı. Faturanın alt kısmındaki toplam tablosundan al.
-5. total: KDV DAHİL TOPLAM tutar.
-6. tax_rate: Faturada uygulanan KDV oranını yaz (orneğin: %20).
-7. KDV ayrıntılarını ilgili alanlara yaz.
+KRITIK KURALLAR - DIKKATLE OKU:
 
-ÖNEMLİ: Bu faturayı yükleyen mükellefin unvanı: "${taxpayerName}".
-- Faturanın ALICI kısmı bu ünvanla eşleşiyorsa: type = "expense" (gider)
-- Faturanın SATICI kısmı bu ünvanla eşleşiyorsa: type = "sales" (gelir)
+=== KDV ANALIZI ===
+Faturanin alt kismindaki TOPLAM TABLOSUNA bak:
+- "KDV Matrahi (%18): 800,00" yaziyorsa => matrah_18 = 800 (BU BUYUK SAYI = matrah)
+- "Hesaplanan KDV (%18): 144,00" yaziyorsa => kdv_18 = 144 (BU KUCUK SAYI = vergi miktari)
+- "Vergiler Dahil Toplam: 944,00" yaziyorsa => total = 944
+- kdv_18 HER ZAMAN matrah_18'den KUCUKTUR!
 
-Sadece JSON formatında yanıt ver. Başka hiçbir şey yazma.`;
+=== DIGER ALANLAR ===
+- invoice_number: Fatura numarasi (orn: AAA2022000000135)
+- date: YYYY-MM-DD formatinda (orn: 2022-09-07)
+- vendor_tax_id: KARSI TARAFIN VKN/TCKN'si (fatura kesicinin VKN'si)
+- title: KARSI TARAFIN unvani
+- type: Mükellefimiz "${taxpayerName}" - ALICI ise "expense", SATICI ise "sales"
+
+Sadece JSON domdur. Baska hicbir sey yazma.`;
+
 
     const inputParts: any[] = [
       { type: "text", text: prompt || "Lütfen bu belgeyi analiz et ve bilgileri çıkar." }
