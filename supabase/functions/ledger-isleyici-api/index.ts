@@ -136,10 +136,13 @@ Sadece JSON formatında yanıt ver. Baska hicbir sey yazma.`;
       model: "gemini-3.5-flash",
       system_instruction: systemInstruction,
       input: inputParts,
-      generation_config: {
-        response_mime_type: "application/json",
-        response_schema: responseSchema
-      }
+      response_format: [
+        {
+          type: "text",
+          mime_type: "application/json",
+          schema: responseSchema
+        }
+      ]
     });
 
     let text = interaction.output_text || "";
