@@ -295,8 +295,8 @@ export default function ApprovalPage({
                             dynamicSchema.map(field => {
                               const key = field.target_column;
                               let val = '';
-                              const parsedMappedData = safeParseJSON(activeDocument.mapped_data);
-                              const parsedTaxDetails = safeParseJSON(activeDocument.tax_details);
+                              const parsedMappedData = activeDocument ? safeParseJSON(activeDocument.mapped_data) : null;
+                              const parsedTaxDetails = activeDocument ? safeParseJSON(activeDocument.tax_details) : null;
 
                               if (activeDocument) {
                                 if (parsedMappedData && parsedMappedData[key]) {
@@ -304,8 +304,16 @@ export default function ApprovalPage({
                                 } else if (parsedTaxDetails && parsedTaxDetails[key]) {
                                   val = parsedTaxDetails[key];
                                 } else {
-                                  // Fallback for older documents without mapped_data
-                                  val = activeDocument[key] || '';
+                                  const fallbackKey = key === 'FATURA NUMARASI' ? 'invoice_number' 
+                                    : key === 'FATURA TARIHI' ? 'date' 
+                                    : key === 'VKN TCKN' ? 'vendor_tax_id'
+                                    : key === 'TOPLAM' ? 'amount'
+                                    : null;
+                                  if (fallbackKey && parsedTaxDetails && parsedTaxDetails[fallbackKey]) {
+                                    val = parsedTaxDetails[fallbackKey];
+                                  } else {
+                                    val = activeDocument[key] || '';
+                                  }
                                 }
                               }
                               return (
