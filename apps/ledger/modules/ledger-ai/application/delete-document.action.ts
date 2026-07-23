@@ -21,8 +21,8 @@ export async function deleteDocumentAction(documentId: string) {
 
     // Get the document to find its storage path before deletion
     const { data: document, error: fetchError } = await supabaseAdmin
-      .from('accounting_documents')
-      .select('storage_bucket, storage_path')
+      .from('finance_documents')
+      .select('image_url')
       .eq('id', documentId)
       .single();
 
@@ -31,21 +31,31 @@ export async function deleteDocumentAction(documentId: string) {
     }
 
     // 1. Delete from storage (prepare promise)
-    const storagePromise = (document.storage_bucket && document.storage_path) 
-      ? supabaseAdmin.storage.from(document.storage_bucket).remove([document.storage_path]).catch(err => console.error('Storage deletion error:', err))
-      : Promise.resolve();
+    let storagePromise = Promise.resolve();
+    if (document.image_url) {
+      try {
+        const urlObj = new URL(document.image_url);
+        const parts = urlObj.pathname.split('/');
+        const bucketIndex = parts.indexOf('finance_receipts');
+        if (bucketIndex !== -1 && parts.length > bucketIndex + 1) {
+          const path = parts.slice(bucketIndex + 1).join('/');
+          storagePromise = supabaseAdmin.storage.from('finance_receipts').remove([path]).catch(err => console.error('Storage deletion error:', err)) as any;
+        }
+      } catch (e) {
+        console.error('Failed to parse image_url for deletion', e);
+      }
+    }
 
     // 2. Delete from database (Cascade children manually and concurrently)
-    const p1 = supabaseAdmin.from('accounting_document_lines').delete().eq('document_id', documentId);
-    const p2 = supabaseAdmin.from('accounting_drafts').delete().eq('document_id', documentId);
-    const p3 = supabaseAdmin.from('document_processing_runs').delete().eq('document_id', documentId);
-    const p4 = supabaseAdmin.from('client_documents').delete().eq('document_id', documentId);
+    const p1 = supabaseAdmin.from('accounting_drafts').delete().eq('document_id', documentId);
+    const p2 = supabaseAdmin.from('document_events').delete().eq('document_id', documentId);
+    const p3 = supabaseAdmin.from('client_documents').delete().eq('document_id', documentId);
 
     // Wait for all child records and storage to be deleted concurrently
-    await Promise.all([storagePromise, p1, p2, p3, p4]);
+    await Promise.all([storagePromise, p1, p2, p3]);
     
     const { data: deletedRows, error: deleteError } = await supabaseAdmin
-      .from('accounting_documents')
+      .from('finance_documents')
       .delete()
       .eq('id', documentId)
       .select('id');
