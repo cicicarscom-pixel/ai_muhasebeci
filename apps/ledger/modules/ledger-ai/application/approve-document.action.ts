@@ -1,6 +1,7 @@
 'use server';
 
 import { createClient } from '@/utils/supabase/server';
+import { createClient as createAdminClient } from '@supabase/supabase-js';
 import { cookies } from 'next/headers';
 
 export async function approveDocumentAction(
@@ -8,7 +9,8 @@ export async function approveDocumentAction(
   accountId: string, 
   rememberRule: boolean,
   vendorName: string,
-  vendorTaxId: string
+  vendorTaxId: string,
+  fieldValues?: Record<string, string>
 ) {
   try {
     const cookieStore = await cookies();
@@ -17,17 +19,55 @@ export async function approveDocumentAction(
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) throw new Error('Oturum bulunamadı.');
 
+    if (!process.env.SUPABASE_SERVICE_ROLE_KEY || !process.env.NEXT_PUBLIC_SUPABASE_URL) {
+      throw new Error('Sunucu yapılandırması eksik.');
+    }
+
+    const supabaseAdmin = createAdminClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL,
+      process.env.SUPABASE_SERVICE_ROLE_KEY
+    );
+
     // 1. Get the document to verify firm access
-    const { data: document, error: docError } = await supabase
+    const { data: document, error: docError } = await supabaseAdmin
       .from('finance_documents')
-      .select('organization_id')
+      .select('organization_id, tax_details')
       .eq('id', documentId)
       .single();
 
     if (docError || !document) throw new Error('Belge bulunamadı.');
 
-    // 2. Update Draft Status
-    const { error: draftError } = await supabase
+    // 2. Merge existing tax_details with any user edits from fieldValues
+    let existingDetails: any = {};
+    if (document.tax_details) {
+      try {
+        existingDetails = typeof document.tax_details === 'string'
+          ? JSON.parse(document.tax_details)
+          : document.tax_details;
+      } catch (e) {}
+    }
+    const mergedDetails = {
+      ...existingDetails,
+      ...(fieldValues || {})
+    };
+
+    // 3. Update the document - lock all field values and set status to 'onaylandi'
+    const { error: updateDocError } = await supabaseAdmin
+      .from('finance_documents')
+      .update({ 
+        ledger_official_status: 'onaylandi',
+        tax_details: mergedDetails,
+        title: fieldValues?.title || existingDetails.title || vendorName,
+        // Store invoice-specific fields directly for easy export
+        issue_date: fieldValues?.date || existingDetails.date || null,
+        vendor_tax_identifier: fieldValues?.vendor_tax_id || existingDetails.vendor_tax_id || vendorTaxId || null,
+      })
+      .eq('id', documentId);
+
+    if (updateDocError) throw new Error('Belge durumu güncellenemedi: ' + updateDocError.message);
+
+    // 4. Update Draft Status
+    const { error: draftError } = await supabaseAdmin
       .from('accounting_drafts')
       .update({
         ledger_account_code: accountId,
@@ -41,23 +81,14 @@ export async function approveDocumentAction(
       console.warn('Draft update error (may not exist):', draftError);
     }
 
-    // 3. Update Document Status
-    const { error: updateDocError } = await supabase
-      .from('finance_documents')
-      .update({ ledger_official_status: 'onaylandi' })
-      .eq('id', documentId);
-
-    if (updateDocError) throw new Error('Belge durumu güncellenemedi.');
-
-    // 4. Create Memory Rule if requested
+    // 5. Create Memory Rule if requested
     if (rememberRule && vendorName && document.organization_id) {
-      // Create a rule for this taxpayer + supplier
-      const { data: rule, error: ruleError } = await supabase
+      const { data: rule, error: ruleError } = await supabaseAdmin
         .from('ledger_ai_rules')
         .insert({
           scope_level: 'taxpayer_supplier_rule',
           taxpayer_organization_id: document.organization_id,
-          supplier_tax_identifier: vendorTaxId || vendorName, // Use name as fallback if no tax ID
+          supplier_tax_identifier: vendorTaxId || vendorName,
           rule_type: 'account_code_mapping',
           condition_json: { vendor_name: vendorName },
           action_json: { account_code: accountId },
@@ -67,8 +98,7 @@ export async function approveDocumentAction(
         .single();
 
       if (!ruleError && rule) {
-        // Log the decision event
-        await supabase.from('ai_decision_events').insert({
+        await supabaseAdmin.from('ai_decision_events').insert({
           taxpayer_organization_id: document.organization_id,
           document_id: documentId,
           decision_type: 'rule_created',

@@ -24,31 +24,63 @@ export default function ApprovedPage({ documents = [] }: { documents: any[] }) {
     );
   };
 
-  const handleExport = (format: string, orgName: string, docs: any[]) => {
-    // In a real app, this would call an API endpoint or generate the file client-side.
-    // For now, we simulate the download for CSV to show it works, and alert for others.
-    if (format === 'csv') {
-      const headers = ['Tarih', 'Fatura No', 'Tip', 'Tutar', 'Para Birimi', 'Durum'];
-      const rows = docs.map(d => {
-        const date = d.document_date ? new Date(d.document_date).toLocaleDateString('tr-TR') : '-';
-        const no = d.document_number || '-';
-        const type = d.type === 'sales' ? 'SATIŞ' : 'GİDER';
-        const amount = d.amount_minor ? d.amount_minor / 100 : (d.total_amount || 0);
-        const curr = d.currency_code || 'TRY';
-        const status = d.ledger_official_status;
-        return [date, no, type, amount, curr, status].join(',');
-      });
-      const csvContent = "data:text/csv;charset=utf-8," + [headers.join(','), ...rows].join('\n');
-      const encodedUri = encodeURI(csvContent);
-      const link = document.createElement("a");
-      link.setAttribute("href", encodedUri);
-      link.setAttribute("download", `${orgName.replace(/\s+/g, '_')}_faturalar.csv`);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    } else {
-      alert(`${orgName} için ${format.toUpperCase()} dışa aktarımı başlatılıyor... (${docs.length} evrak)`);
-    }
+  const parseTaxDetails = (doc: any) => {
+    if (!doc.tax_details) return {};
+    try {
+      return typeof doc.tax_details === 'string' ? JSON.parse(doc.tax_details) : doc.tax_details;
+    } catch (e) { return {}; }
+  };
+
+  const handleExportCSV = (orgName: string, docs: any[]) => {
+    const headers = [
+      'Fatura No', 'Tarih', 'Tip', 'Karşı Taraf', 'VKN/TCKN',
+      'Matrah', 'Toplam Tutar', 'Para Birimi', 'Durum'
+    ];
+    const rows = docs.map(doc => {
+      const td = parseTaxDetails(doc);
+      const invoiceNo = td.invoice_number || doc.invoice_number || '-';
+      const date = td.date || doc.issue_date || (doc.created_at ? new Date(doc.created_at).toLocaleDateString('tr-TR') : '-');
+      const type = doc.type === 'sales' ? 'SATIŞ' : 'GİDER';
+      const name = td.title || doc.title || doc.counterparty_name || '-';
+      const taxId = td.vendor_tax_id || doc.vendor_tax_identifier || '-';
+      const amount = td.amount || (doc.amount_minor != null ? doc.amount_minor / 100 : 0);
+      const total = td.total || amount;
+      const currency = doc.currency_code || 'TRY';
+      const status = 'ONAYLANDI';
+      return [invoiceNo, date, type, `"${name}"`, taxId, amount, total, currency, status].join(',');
+    });
+    const csvContent = "data:text/csv;charset=utf-8,\uFEFF" + [headers.join(','), ...rows].join('\n');
+    const link = document.createElement("a");
+    link.setAttribute("href", encodeURI(csvContent));
+    link.setAttribute("download", `${orgName.replace(/\s+/g, '_')}_faturalar.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const handleExportExcel = (orgName: string, docs: any[]) => {
+    // Excel-compatible tab-separated format
+    const headers = ['Fatura No', 'Tarih', 'Tip', 'Karşı Taraf', 'VKN/TCKN', 'Matrah', 'Toplam Tutar', 'Durum'];
+    const rows = docs.map(doc => {
+      const td = parseTaxDetails(doc);
+      return [
+        td.invoice_number || '-',
+        td.date || (doc.created_at ? new Date(doc.created_at).toLocaleDateString('tr-TR') : '-'),
+        doc.type === 'sales' ? 'SATIŞ' : 'GİDER',
+        td.title || doc.title || '-',
+        td.vendor_tax_id || '-',
+        td.amount || (doc.amount_minor != null ? (doc.amount_minor / 100).toFixed(2) : '0'),
+        td.total || td.amount || (doc.amount_minor != null ? (doc.amount_minor / 100).toFixed(2) : '0'),
+        'ONAYLANDI'
+      ].join('\t');
+    });
+    const content = "data:application/vnd.ms-excel;charset=utf-8,\uFEFF" + [headers.join('\t'), ...rows].join('\n');
+    const link = document.createElement("a");
+    link.setAttribute("href", encodeURI(content));
+    link.setAttribute("download", `${orgName.replace(/\s+/g, '_')}_faturalar.xls`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   const formatCurrency = (amount: number, currency: string) => {
@@ -71,8 +103,13 @@ export default function ApprovedPage({ documents = [] }: { documents: any[] }) {
           <div>
             <h1 className="text-[20px] font-bold text-white tracking-tight">Arşiv & Dışa Aktarım</h1>
             <p className="text-[13px] text-text-muted mt-0.5">
-              Onaylanmış evrakları görüntüleyin ve Excel, XML, PDF olarak dışa aktarın.
+              Onaylanmış evrakları görüntüleyin ve Excel, CSV olarak dışa aktarın.
             </p>
+          </div>
+          <div className="ml-auto">
+            <span className="px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-[12px] font-bold">
+              {documents.length} Evrak
+            </span>
           </div>
         </div>
       </header>
@@ -84,12 +121,16 @@ export default function ApprovedPage({ documents = [] }: { documents: any[] }) {
           {Object.entries(groupedDocs).length === 0 ? (
             <div className="flex flex-col items-center justify-center py-20 text-text-muted">
               <span className="material-symbols-outlined text-[48px] mb-4 opacity-50">inventory_2</span>
-              <p>Henüz onaylanmış veya arşivlenmiş evrak bulunmuyor.</p>
+              <p className="font-medium">Henüz onaylanmış evrak bulunmuyor.</p>
+              <p className="text-[13px] mt-1">Onay Merkezi'nden evrakları onayladığınızda burada görünecektir.</p>
             </div>
           ) : (
             Object.entries(groupedDocs).map(([orgId, group]: [string, any]) => {
               const isExpanded = expandedGroups.includes(orgId);
               const orgName = group.organization?.name || 'Bilinmeyen Mükellef';
+              const totalAmount = group.documents.reduce((sum: number, doc: any) => {
+                return sum + (doc.amount_minor != null ? doc.amount_minor / 100 : 0);
+              }, 0);
               
               return (
                 <div key={orgId} className="bg-card border border-border rounded-xl overflow-hidden shadow-sm">
@@ -99,7 +140,7 @@ export default function ApprovedPage({ documents = [] }: { documents: any[] }) {
                     onClick={() => toggleGroup(orgId)}
                   >
                     <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 rounded-full bg-brand-primary/20 text-brand-primary flex items-center justify-center font-bold text-lg border border-brand-primary/30 shadow-glow-primary">
+                      <div className="w-10 h-10 rounded-full bg-primary/20 text-primary flex items-center justify-center font-bold text-lg border border-primary/30">
                         {orgName ? orgName.charAt(0).toUpperCase() : '?'}
                       </div>
                       <div>
@@ -109,24 +150,24 @@ export default function ApprovedPage({ documents = [] }: { documents: any[] }) {
                             {group.documents.length} Evrak
                           </span>
                         </h3>
-                        <p className="text-[12px] text-text-muted mt-0.5">Toplu dışa aktarım seçenekleri için tıklayın.</p>
+                        <p className="text-[12px] text-text-muted mt-0.5">
+                          Toplam: <span className="text-white font-mono font-semibold">{formatCurrency(totalAmount, 'TRY')}</span>
+                        </p>
                       </div>
                     </div>
                     
                     <div className="flex items-center gap-4" onClick={(e) => e.stopPropagation()}>
                       {/* Export Buttons */}
                       <div className="flex items-center gap-2 mr-4">
-                        <button onClick={() => handleExport('excel', orgName, group.documents)} className="h-8 px-3 rounded-md bg-[#107C41]/10 text-[#107C41] border border-[#107C41]/20 hover:bg-[#107C41]/20 text-[12px] font-bold flex items-center gap-1.5 transition-colors">
+                        <button 
+                          onClick={() => handleExportExcel(orgName, group.documents)} 
+                          className="h-8 px-3 rounded-md bg-[#107C41]/10 text-[#107C41] border border-[#107C41]/20 hover:bg-[#107C41]/20 text-[12px] font-bold flex items-center gap-1.5 transition-colors">
                           <span className="material-symbols-outlined text-[16px]">table_view</span> Excel
                         </button>
-                        <button onClick={() => handleExport('xml', orgName, group.documents)} className="h-8 px-3 rounded-md bg-[#F48024]/10 text-[#F48024] border border-[#F48024]/20 hover:bg-[#F48024]/20 text-[12px] font-bold flex items-center gap-1.5 transition-colors">
-                          <span className="material-symbols-outlined text-[16px]">code</span> XML
-                        </button>
-                        <button onClick={() => handleExport('csv', orgName, group.documents)} className="h-8 px-3 rounded-md bg-brand-primary/10 text-brand-primary border border-brand-primary/20 hover:bg-brand-primary/20 text-[12px] font-bold flex items-center gap-1.5 transition-colors">
+                        <button 
+                          onClick={() => handleExportCSV(orgName, group.documents)} 
+                          className="h-8 px-3 rounded-md bg-primary/10 text-primary border border-primary/20 hover:bg-primary/20 text-[12px] font-bold flex items-center gap-1.5 transition-colors">
                           <span className="material-symbols-outlined text-[16px]">data_object</span> CSV
-                        </button>
-                        <button onClick={() => handleExport('pdf', orgName, group.documents)} className="h-8 px-3 rounded-md bg-[#E3242B]/10 text-[#E3242B] border border-[#E3242B]/20 hover:bg-[#E3242B]/20 text-[12px] font-bold flex items-center gap-1.5 transition-colors">
-                          <span className="material-symbols-outlined text-[16px]">picture_as_pdf</span> PDF
                         </button>
                       </div>
                       
@@ -153,28 +194,31 @@ export default function ApprovedPage({ documents = [] }: { documents: any[] }) {
                                 <th className="px-5 py-3 font-medium">Tarih</th>
                                 <th className="px-5 py-3 font-medium">Tip</th>
                                 <th className="px-5 py-3 font-medium">Karşı Taraf</th>
+                                <th className="px-5 py-3 font-medium">VKN/TCKN</th>
                                 <th className="px-5 py-3 font-medium text-right">Tutar</th>
                                 <th className="px-5 py-3 font-medium text-center">Durum</th>
                               </tr>
                             </thead>
                             <tbody className="divide-y divide-border">
                               {group.documents.map((doc: any) => {
-                                const amount = doc.amount_minor != null ? doc.amount_minor / 100 : (doc.total_amount || 0);
+                                const td = parseTaxDetails(doc);
+                                const invoiceNo = td.invoice_number || doc.invoice_number || '-';
+                                const date = td.date || doc.issue_date || (doc.created_at ? new Date(doc.created_at).toLocaleDateString('tr-TR') : '-');
+                                const name = td.title || doc.title || doc.counterparty_name || '-';
+                                const taxId = td.vendor_tax_id || doc.vendor_tax_identifier || '-';
+                                const amount = doc.amount_minor != null ? doc.amount_minor / 100 : 0;
                                 const isSales = doc.type === 'sales';
                                 return (
                                   <tr key={doc.id} className="hover:bg-white/5 transition-colors">
-                                    <td className="px-5 py-3 text-white font-medium">{doc.document_number || '-'}</td>
-                                    <td className="px-5 py-3 text-text-muted">
-                                      {doc.document_date ? new Date(doc.document_date).toLocaleDateString('tr-TR') : '-'}
-                                    </td>
+                                    <td className="px-5 py-3 text-white font-medium font-mono text-[12px]">{invoiceNo}</td>
+                                    <td className="px-5 py-3 text-text-muted">{date}</td>
                                     <td className="px-5 py-3">
                                       <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${isSales ? 'bg-success/20 text-success' : 'bg-[#9D5CFF]/20 text-[#9D5CFF]'}`}>
                                         {isSales ? 'SATIŞ' : 'GİDER'}
                                       </span>
                                     </td>
-                                    <td className="px-5 py-3 text-text-muted truncate max-w-[200px]" title={doc.vendor_name || '-'}>
-                                      {doc.vendor_name || '-'}
-                                    </td>
+                                    <td className="px-5 py-3 text-text-muted truncate max-w-[200px]" title={name}>{name}</td>
+                                    <td className="px-5 py-3 text-text-muted font-mono text-[12px]">{taxId}</td>
                                     <td className="px-5 py-3 text-white text-right font-mono font-medium">
                                       {formatCurrency(amount, doc.currency_code || 'TRY')}
                                     </td>

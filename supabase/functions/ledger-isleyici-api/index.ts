@@ -66,24 +66,45 @@ serve(async (req) => {
     const responseSchema = {
       type: "object",
       properties: {
-        amount: { type: "number", description: "Faturadaki toplam tutar" },
-        date: { type: "string", description: "YYYY-MM-DD formatında fatura tarihi" },
-        title: { type: "string", description: "Karşı tarafın (satıcı/alıcı) kısa unvanı veya işlem başlığı" },
-        type: { type: "string", description: "income veya expense" },
-        invoice_number: { type: "string", description: "Fatura numarası (genelde 16 haneli harf ve rakam)" },
-        vendor_tax_id: { type: "string", description: "Karşı tarafın VKN veya TCKN'si (10 veya 11 haneli sayı)" }
+        amount: { type: "number", description: "KDV hariç matrah (vergi tabanı)" },
+        total: { type: "number", description: "KDV dahil genel toplam tutar" },
+        date: { type: "string", description: "YYYY-MM-DD formatinda fatura tarihi" },
+        title: { type: "string", description: "Karsı tarafın (satıcı/alıcı) unvanı" },
+        type: { type: "string", description: "'expense' veya 'sales'" },
+        invoice_number: { type: "string", description: "Fatura numarasi (genellikle harf+rakam karisimlı)" },
+        vendor_tax_id: { type: "string", description: "Karsı tarafın VKN veya TCKN'si (10 veya 11 haneli)" },
+        tax_rate: { type: "string", description: "Faturadaki KDV oranı, ornegin: %20, %10, %1" },
+        kdv_1: { type: "number", description: "%1 KDV matrahı" },
+        kdv_8: { type: "number", description: "%8 KDV matrahı" },
+        kdv_10: { type: "number", description: "%10 KDV matrahı" },
+        kdv_18: { type: "number", description: "%18 KDV matrahı" },
+        kdv_20: { type: "number", description: "%20 KDV matrahı" },
+        kdv_total_1: { type: "number", description: "%1 KDV tutarı" },
+        kdv_total_8: { type: "number", description: "%8 KDV tutarı" },
+        kdv_total_10: { type: "number", description: "%10 KDV tutarı" },
+        kdv_total_18: { type: "number", description: "%18 KDV tutarı" },
+        kdv_total_20: { type: "number", description: "%20 KDV tutarı" }
       },
       required: ["amount", "title", "type", "date", "invoice_number", "vendor_tax_id"]
     };
 
-    const systemInstruction = `Sen Workigom Ledger AI projesinin 'İşleyici Asistanı'sın.
-Flow uygulamasından gelen ham evrakları (veya metni) analiz et ve şu formatta veri çıkar: tutar, tarih, işlem başlığı (karşı taraf) ve işlem tipi.
+    const systemInstruction = `Sen Türk vergi mevzuatında uzman bir muhasebe asistanısın.
+Görevin: Sana gönderilen fatura görselini analiz edip aşağıdaki bilgileri JSON formatında döndürmek.
 
-ÖNEMLİ KURAL: Bu evrakı sisteme yükleyen mükellefimizin unvanı: "${taxpayerName}".
-Faturanın üzerindeki 'Alıcı/Müşteri' kısmındaki unvan ile mükellefimizin unvanı eşleşiyorsa (kısaltmalar dahil, örn: "Güleç Oto." ile "Güleç Otomasyon"), bu bir 'expense' (gider) faturasıdır.
-Eğer faturayı kesen 'Satıcı' kısmı mükellefimizin unvanı ise bu bir 'sales' (gelir) faturasıdır.
+FATURA OKUMA KURALLARI:
+1. invoice_number: Fatura numarasını bul. Genellikle "Fatura No:", "F.No:", "Belge No:" gibi etiketlerle başlar. 16 haneli alfanumerik olabilir.
+2. date: Fatura tarihini YYYY-MM-DD formatında ver. "Düzenleme Tarihi" veya "Tarih" olarak geçer.
+3. vendor_tax_id: Karsı tarafın (satıcı) VKN'sini veya TCKN'sini bul. 10 haneli ise VKN, 11 haneli ise TCKN.
+4. amount: KDV HARIÇ matrah tutarı. Faturanın alt kısmındaki toplam tablosundan al.
+5. total: KDV DAHİL TOPLAM tutar.
+6. tax_rate: Faturada uygulanan KDV oranını yaz (orneğin: %20).
+7. KDV ayrıntılarını ilgili alanlara yaz.
 
-Sadece JSON dön. Başka bir şey yazma.`;
+ÖNEMLİ: Bu faturayı yükleyen mükellefin unvanı: "${taxpayerName}".
+- Faturanın ALICI kısmı bu ünvanla eşleşiyorsa: type = "expense" (gider)
+- Faturanın SATICI kısmı bu ünvanla eşleşiyorsa: type = "sales" (gelir)
+
+Sadece JSON formatında yanıt ver. Başka hiçbir şey yazma.`;
 
     const inputParts: any[] = [
       { type: "text", text: prompt || "Lütfen bu belgeyi analiz et ve bilgileri çıkar." }

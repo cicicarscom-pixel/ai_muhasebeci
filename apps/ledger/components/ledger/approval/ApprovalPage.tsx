@@ -6,9 +6,30 @@ import { motion } from 'framer-motion';
 import { GhostButton, PrimaryButton, SecondaryButton } from '../ui/Buttons';
 import { InvoiceCard } from '../ui/InvoiceCard';
 import { approveDocumentAction } from '../../../modules/ledger-ai/application/approve-document.action';
-import { deleteDocumentAction } from '../../../modules/ledger-ai/application/delete-document.action';
 
 import { createClient } from '@/utils/supabase/client';
+
+// Fixed field list - no longer depends on dynamic schema from DB
+const INVOICE_FIELDS = [
+  { key: 'invoice_number', label: 'FATURA NUMARASI' },
+  { key: 'date', label: 'FATURA TARİHİ' },
+  { key: 'type', label: 'FATURA TÜRÜ' },
+  { key: 'vendor_tax_id', label: 'VKN / TCKN' },
+  { key: 'title', label: 'AÇIKLAMA' },
+  { key: 'tax_rate', label: 'TOPLAM ORAN' },
+  { key: 'amount', label: 'ÖZL MATRAHİ' },
+  { key: 'kdv_1', label: '%1\'LİK KDV' },
+  { key: 'kdv_8', label: '%8\'LİK KDV' },
+  { key: 'kdv_10', label: '%10\'LUK KDV' },
+  { key: 'kdv_18', label: '%18\'LİK KDV' },
+  { key: 'kdv_20', label: '%20\'LİK KDV' },
+  { key: 'kdv_total_1', label: '%1\'LİK MATRAHİ' },
+  { key: 'kdv_total_8', label: '%8\'LİK MATRAHİ' },
+  { key: 'kdv_total_10', label: '%10\'LUK MATRAHİ' },
+  { key: 'kdv_total_18', label: '%18\'LİK MATRAHİ' },
+  { key: 'kdv_total_20', label: '%20\'LİK MATRAHİ' },
+  { key: 'total', label: 'TOPLAM' },
+];
 
 export default function ApprovalPage({ 
   queue = [], 
@@ -25,24 +46,39 @@ export default function ApprovalPage({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [zoom, setZoom] = useState(100);
   const [rotation, setRotation] = useState(0);
-  const [dynamicSchema, setDynamicSchema] = useState<any[]>([]);
+  const [fieldValues, setFieldValues] = useState<Record<string, string>>({});
 
-  React.useEffect(() => {
-    const fetchSchema = async () => {
-      const supabase = createClient();
-      const { data } = await supabase
-        .from('invoice_schemas')
-        .select('schema_rules')
-        .order('created_at', { ascending: false })
-        .limit(1)
-        .maybeSingle();
-
-      if (data && data.schema_rules) {
-        setDynamicSchema(data.schema_rules);
+  // Parse tax_details from activeDocument and populate fields
+  useEffect(() => {
+    if (!activeDocument) {
+      setFieldValues({});
+      return;
+    }
+    let taxDetails: any = {};
+    if (activeDocument.tax_details) {
+      try {
+        taxDetails = typeof activeDocument.tax_details === 'string'
+          ? JSON.parse(activeDocument.tax_details)
+          : activeDocument.tax_details;
+      } catch (e) {}
+    }
+    const values: Record<string, string> = {};
+    INVOICE_FIELDS.forEach(field => {
+      const val = taxDetails[field.key];
+      if (val !== undefined && val !== null && val !== '') {
+        values[field.key] = String(val);
+      } else {
+        // Direct document fields
+        const directVal = activeDocument[field.key];
+        if (directVal !== undefined && directVal !== null && directVal !== '') {
+          values[field.key] = String(directVal);
+        } else {
+          values[field.key] = '';
+        }
       }
-    };
-    fetchSchema();
-  }, []);
+    });
+    setFieldValues(values);
+  }, [activeDocument?.id]);
 
   // Reset zoom and rotation when active document changes
   React.useEffect(() => {
@@ -51,7 +87,6 @@ export default function ApprovalPage({
   }, [activeDocument?.id]);
 
   useEffect(() => {
-    // Client-side redirect if no document is selected but queue has items
     if (!activeDocument && queue.length > 0) {
       router.push(`/approval/${queue[0].id}`);
     }
@@ -59,29 +94,19 @@ export default function ApprovalPage({
 
   const formatCurrency = (amount: number, currency: string) => {
     if (amount === undefined || amount === null) return '0,00 ₺';
-    // Use amount_minor / 100 for display
-    const value = amount > 1000 ? amount / 100 : amount; // Simple check if it's already minor or not for demo
     try {
-      return new Intl.NumberFormat('tr-TR', { style: 'currency', currency: currency || 'TRY' }).format(value);
+      return new Intl.NumberFormat('tr-TR', { style: 'currency', currency: currency || 'TRY' }).format(amount);
     } catch (e) {
-      return `${value} ${currency || 'TRY'}`;
+      return `${amount} ${currency || 'TRY'}`;
     }
-  };
-
-  const safeParseJSON = (data: any) => {
-    if (typeof data === 'string') {
-      try { return JSON.parse(data); } catch (e) { return {}; }
-    }
-    return data || {};
   };
 
   const handleApprove = async () => {
     if (!activeDocument) return;
     setIsSubmitting(true);
-    // Just a placeholder account code since the original design didn't have an input for it
     const accountId = draft?.ledger_account_code || '770'; 
-    const vName = activeDocument.title || activeDocument.counterparty_name || activeDocument.vendor_name || 'Bilinmiyor';
-    const vTaxId = activeDocument.tax_id || activeDocument.vendor_tax_identifier || '';
+    const vName = fieldValues['title'] || activeDocument.title || activeDocument.counterparty_name || 'Bilinmiyor';
+    const vTaxId = fieldValues['vendor_tax_id'] || activeDocument.tax_id || '';
 
     try {
       const res = await approveDocumentAction(
@@ -89,18 +114,17 @@ export default function ApprovalPage({
         accountId, 
         true, 
         vName, 
-        vTaxId
+        vTaxId,
+        fieldValues  // Pass all field values to lock into the record
       );
 
       if (!res.success) {
         alert('Onaylama başarısız: ' + res.error);
         setIsSubmitting(false);
       } else {
-        router.push('/approval');
-        router.refresh();
+        window.location.href = '/ledger/approval';
       }
     } catch (e) {
-      // Catch Next.js internal 500 errors that happen during re-render
       window.location.href = '/ledger/approval';
     }
   };
@@ -109,6 +133,7 @@ export default function ApprovalPage({
     if (!activeDocument) return;
     if (!confirm('Bu evrakı tamamen silmek istediğinize emin misiniz?')) return;
     
+    setIsSubmitting(true);
     try {
       const res = await fetch('/ledger/api/delete-document', {
         method: 'POST',
@@ -273,7 +298,7 @@ export default function ApprovalPage({
 
                 <div className="w-full max-w-[600px] h-full max-h-[800px] bg-white rounded-card shadow-2xl relative overflow-auto border border-border flex flex-col items-center print:border-none print:shadow-none print:max-h-none print:h-auto print:max-w-none">
                   
-                  {/* Ownership Stamp / Header for Print & View */}
+                  {/* Ownership Stamp / Header */}
                   <div className="w-full bg-slate-100 border-b border-border py-3 px-6 text-center text-slate-800 font-bold uppercase tracking-wider text-[11px] print:bg-white print:border-black print:text-black print:text-sm shrink-0">
                     MÜKELLEF: {activeDocument.organizations?.name || 'Bilinmiyor'}
                   </div>
@@ -305,140 +330,66 @@ export default function ApprovalPage({
             )}
           </section>
 
-          {/* Right Column: Operation Panel (Always Visible) */}
+          {/* Right Column: Operation Panel */}
           <section className="w-[550px] flex-shrink-0 h-full bg-card flex flex-col border-l border-border relative overflow-y-auto custom-scrollbar">
-                <div className="flex-1 flex flex-col justify-center min-h-max py-6">
-                  {/* Form Area */}
-                  <div className="px-8 pb-6">
-                    <div className="max-w-xl mx-auto space-y-4">
-                      
-                      {/* Dinamik Şema Alanları (Dynamic Fields from extraction_schema) */}
-                      <div className="space-y-4">
-                        <div className="bg-primary/5 border border-primary/20 rounded-lg p-3 flex items-center gap-2">
-                          <span className="material-symbols-outlined text-primary text-[18px]">auto_awesome</span>
-                          <span className="text-[12px] font-medium text-text-muted">Bu alanlar yapay zeka ayarlarınızdaki dinamik şemaya göre oluşturulmuştur.</span>
-                        </div>
-                        
-                        <div className="grid grid-cols-2 gap-3">
-                          {dynamicSchema.length > 0 ? (
-                            dynamicSchema.map(field => {
-                              const key = field.target_column;
-                              let val = '';
-                              const parsedMappedData = activeDocument ? safeParseJSON(activeDocument.mapped_data) : null;
-                              const parsedTaxDetails = activeDocument ? safeParseJSON(activeDocument.tax_details) : null;
-
-                              if (activeDocument) {
-                                if (parsedMappedData && parsedMappedData[key]) {
-                                  val = parsedMappedData[key];
-                                } else if (parsedTaxDetails && parsedTaxDetails[key]) {
-                                  val = parsedTaxDetails[key];
-                                } else {
-                                  const fallbackKey = (key === 'FATURA NUMARASI' || key === 'FATURA NO') ? 'invoice_number' 
-                                    : (key === 'FATURA TARIHI' || key === 'FATURA TARİHİ') ? 'date' 
-                                    : key === 'AÇIKLAMA' ? 'title'
-                                    : key === 'VKN TCKN' ? 'vendor_tax_id'
-                                    : key === 'TOPLAM' ? 'amount'
-                                    : null;
-                                  if (fallbackKey && parsedTaxDetails && parsedTaxDetails[fallbackKey]) {
-                                    val = parsedTaxDetails[fallbackKey];
-                                  } else {
-                                    val = activeDocument[key] || '';
-                                  }
-                                }
-                              }
-                              return (
-                                <div key={key} className="space-y-1">
-                                  <label className="text-[10px] font-medium text-text-muted tracking-wider uppercase">{key}</label>
-                                  <input 
-                                    className={`w-full h-10 bg-[#1A1D24] border border-white/10 rounded-lg text-[13px] text-white px-3 focus:outline-none focus:border-brand-primary transition-all`}
-                                    type="text" 
-                                    defaultValue={val} 
-                                    disabled={!activeDocument} 
-                                  />
-                                </div>
-                              );
-                            })
-                          ) : (
-                            <div className="col-span-2 text-sm text-text-muted text-center py-4">
-                              Dinamik şema yükleniyor veya ayarlanmamış...
-                            </div>
-                          )}
-                        </div>
-                      </div>
-
-                      {/* Dinamik Fatura Kalemleri (Invoice Table) */}
-                      {activeDocument?.line_items && activeDocument.line_items.length > 0 && (
-                        <div className="mt-6 border border-white/5 rounded-xl overflow-hidden bg-[#090B10]">
-                          <div className="bg-[#1A1D24] px-4 py-2 border-b border-white/5 flex items-center gap-2">
-                            <span className="material-symbols-outlined text-text-muted text-[16px]">list_alt</span>
-                            <span className="text-xs font-bold text-white">Fatura Kalemleri</span>
-                          </div>
-                          <div className="overflow-x-auto w-full">
-                            <table className="w-full text-left text-xs text-text-muted">
-                              <thead className="bg-white/5 text-[10px] uppercase">
-                                <tr>
-                                  {activeDocument.columns ? (
-                                    activeDocument.columns.map((col: any, idx: number) => (
-                                      <th key={idx} className="px-4 py-2 font-medium">{col.name}</th>
-                                    ))
-                                  ) : (
-                                    Object.keys(activeDocument.line_items[0]).map((key, idx) => (
-                                      <th key={idx} className="px-4 py-2 font-medium">{key}</th>
-                                    ))
-                                  )}
-                                </tr>
-                              </thead>
-                              <tbody className="divide-y divide-white/5">
-                                {activeDocument.line_items.map((item: any, rowIdx: number) => (
-                                  <tr key={rowIdx} className="hover:bg-white/5 transition-colors">
-                                    {activeDocument.columns ? (
-                                      activeDocument.columns.map((col: any, colIdx: number) => (
-                                        <td key={colIdx} className="px-4 py-3 text-white">
-                                          {item[col.name] || item[col.mapped_from] || '-'}
-                                        </td>
-                                      ))
-                                    ) : (
-                                      Object.values(item).map((val: any, valIdx: number) => (
-                                        <td key={valIdx} className="px-4 py-3 text-white">
-                                          {typeof val === 'object' ? JSON.stringify(val) : String(val)}
-                                        </td>
-                                      ))
-                                    )}
-                                  </tr>
-                                ))}
-                              </tbody>
-                            </table>
-                          </div>
-                        </div>
-                      )}
-
-                    </div>
-                  </div>
-
-                  {/* Action Area */}
-                  <div className="px-8 py-6 max-w-xl mx-auto w-full flex items-center justify-between mt-2 border-t border-border">
-                    <div className="flex flex-col">
-                      <span className="text-[10px] font-bold text-text-muted tracking-wider uppercase mb-1">Genel Toplam</span>
-                      <span className="text-text text-[24px] font-bold font-mono">
-                        {activeDocument ? formatCurrency(
-                          activeDocument.amount_minor != null 
-                            ? activeDocument.amount_minor / 100 
-                            : (safeParseJSON(activeDocument.tax_details)?.amount || activeDocument.total_amount), 
-                          activeDocument.currency_code || activeDocument.currency
-                        ) : '0,00 ₺'}
+            <div className="flex-1 flex flex-col justify-center min-h-max py-6">
+              {/* Form Area */}
+              <div className="px-8 pb-6">
+                <div className="max-w-xl mx-auto space-y-4">
+                  
+                  {/* AI Info Banner */}
+                  <div className="space-y-4">
+                    <div className="bg-primary/5 border border-primary/20 rounded-lg p-3 flex items-center gap-2">
+                      <span className="material-symbols-outlined text-primary text-[18px]">auto_awesome</span>
+                      <span className="text-[12px] font-medium text-text-muted">
+                        {activeDocument ? 'AI tarafından taranan fatura bilgileri. Düzenleyebilir ve onaylayabilirsiniz.' : 'Soldan bir evrak seçerek AI analizini başlatın.'}
                       </span>
                     </div>
-                    <div className="flex items-center gap-3">
-                      <GhostButton onClick={handleDelete} disabled={isSubmitting || !activeDocument} className="text-[#FF4A4A] hover:bg-[#FF4A4A]/10 border border-transparent hover:border-[#FF4A4A]/20 transition-colors">Sil</GhostButton>
-                      <SecondaryButton onClick={() => router.push('/approval')} disabled={!activeDocument}>Taslak</SecondaryButton>
-                      <PrimaryButton onClick={handleApprove} disabled={isSubmitting || !activeDocument} className="flex items-center gap-2 group">
-                        {isSubmitting ? 'Onaylanıyor...' : 'Onayla'}
-                        <span className="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
-                      </PrimaryButton>
+                    
+                    {/* Invoice Fields Grid */}
+                    <div className="grid grid-cols-2 gap-3">
+                      {INVOICE_FIELDS.map(field => (
+                        <div key={field.key} className="space-y-1">
+                          <label className="text-[10px] font-medium text-text-muted tracking-wider uppercase">{field.label}</label>
+                          <input 
+                            className="w-full h-10 bg-[#1A1D24] border border-white/10 rounded-lg text-[13px] text-white px-3 focus:outline-none focus:border-primary transition-all"
+                            type="text" 
+                            value={fieldValues[field.key] || ''}
+                            onChange={(e) => setFieldValues(prev => ({ ...prev, [field.key]: e.target.value }))}
+                            disabled={!activeDocument} 
+                            placeholder={activeDocument ? '—' : ''}
+                          />
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </div>
-              </section>
+              </div>
+
+              {/* Action Area */}
+              <div className="px-8 py-6 max-w-xl mx-auto w-full flex items-center justify-between mt-2 border-t border-border">
+                <div className="flex flex-col">
+                  <span className="text-[10px] font-bold text-text-muted tracking-wider uppercase mb-1">Genel Toplam</span>
+                  <span className="text-text text-[24px] font-bold font-mono">
+                    {activeDocument ? formatCurrency(
+                      activeDocument.amount_minor != null 
+                        ? activeDocument.amount_minor / 100 
+                        : 0, 
+                      activeDocument.currency_code || 'TRY'
+                    ) : '0,00 ₺'}
+                  </span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <GhostButton onClick={handleDelete} disabled={isSubmitting || !activeDocument} className="text-[#FF4A4A] hover:bg-[#FF4A4A]/10 border border-transparent hover:border-[#FF4A4A]/20 transition-colors">Sil</GhostButton>
+                  <SecondaryButton onClick={() => router.push('/approval')} disabled={!activeDocument}>Taslak</SecondaryButton>
+                  <PrimaryButton onClick={handleApprove} disabled={isSubmitting || !activeDocument} className="flex items-center gap-2 group">
+                    {isSubmitting ? 'Onaylanıyor...' : 'Onayla'}
+                    <span className="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                  </PrimaryButton>
+                </div>
+              </div>
+            </div>
+          </section>
 
         </div>
       </main>
