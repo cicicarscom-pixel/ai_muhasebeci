@@ -3,7 +3,6 @@
 import { createClient } from '@/utils/supabase/server';
 import { createClient as createAdminClient } from '@supabase/supabase-js';
 import { cookies } from 'next/headers';
-import { revalidatePath } from 'next/cache';
 
 export async function deleteDocumentAction(documentId: string) {
   try {
@@ -67,9 +66,6 @@ export async function deleteDocumentAction(documentId: string) {
     if (!deletedRows || deletedRows.length === 0) {
       throw new Error('Veritabanı silme işlemi başarısız (kayıt bulunamadı).');
     }
-
-    revalidatePath('/approval');
-    revalidatePath('/workflow');
 
     return { success: true };
   } catch (error: any) {
