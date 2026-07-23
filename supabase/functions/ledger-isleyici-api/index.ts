@@ -66,7 +66,6 @@ serve(async (req) => {
     const responseSchema = {
       type: "object",
       properties: {
-        amount: { type: "number", description: "Internal: KDV haric toplam matrah, amount_minor icin kullanilir" },
         date: { type: "string", description: "A sutunu: GG.AA.YYYY formatinda fatura tarihi (orn: 07.09.2022)" },
         invoice_number: { type: "string", description: "B sutunu: Fatura belgesi uzerindeki numara (orn: AAA2022000000135)" },
         type: { type: "string", description: "C sutunu: 'ALIS' veya 'SATIS'. DIKKAT: Satici firmasi mukellefimiz ise SATIS, alici firmasi mukellefimiz ise ALIS" },
@@ -86,7 +85,7 @@ serve(async (req) => {
         matrah_20: { type: "number", description: "Q sutunu: %20 KDV icin MATRAH (KDV haric net tutar). Yoksa null" },
         total: { type: "number", description: "R sutunu: Faturanin ODENCEK GENEL TOPLAMI (Matrah + KDV). Bu ornekte = 944" }
       },
-      required: ["amount", "date", "invoice_number", "type", "vendor_tax_id", "title", "total"]
+      required: ["date", "invoice_number", "type", "vendor_tax_id", "title", "total"]
     };
 
     const systemInstruction = `Sen Turk vergi mevzuatinda uzman bir muhasebe asistanisın.
@@ -185,7 +184,7 @@ Sadece JSON formatında yanıt ver. Baska hicbir sey yazma.`;
       }
     }
 
-    const amountMinor = Math.round((extractedData.amount || extractedData.total || 0) * 100);
+    const amountMinor = Math.round((extractedData.total || 0) * 100);
     
     // Parse date - handle both GG.AA.YYYY and YYYY-MM-DD formats
     let dateIso = new Date().toISOString();
