@@ -61,17 +61,27 @@ export default function ApprovalPage({
     }
   };
 
+  const safeParseJSON = (data: any) => {
+    if (typeof data === 'string') {
+      try { return JSON.parse(data); } catch (e) { return {}; }
+    }
+    return data || {};
+  };
+
   const handleApprove = async () => {
     if (!activeDocument) return;
     setIsSubmitting(true);
     // Just a placeholder account code since the original design didn't have an input for it
     const accountId = draft?.ledger_account_code || '770'; 
+    const vName = activeDocument.title || activeDocument.counterparty_name || activeDocument.vendor_name || 'Bilinmiyor';
+    const vTaxId = activeDocument.tax_id || activeDocument.vendor_tax_identifier || '';
+
     const res = await approveDocumentAction(
       activeDocument.id, 
       accountId, 
       true, 
-      activeDocument.vendor_name, 
-      activeDocument.vendor_tax_identifier
+      vName, 
+      vTaxId
     );
 
     if (!res.success) {
@@ -111,7 +121,7 @@ export default function ApprovalPage({
           <div className="h-6 w-[1px] bg-border mx-2"></div>
           {activeDocument ? (
             <h1 className="text-body font-bold text-text flex items-center gap-2">
-              {activeDocument.vendor_name || 'Bilinmiyor'}
+              {activeDocument.title || activeDocument.counterparty_name || activeDocument.vendor_name || 'Bilinmiyor'}
               <span className="text-text-muted text-label font-medium">• {activeDocument.issue_date || 'Tarih Yok'}</span>
             </h1>
           ) : (
@@ -157,8 +167,8 @@ export default function ApprovalPage({
               <InvoiceCard
                 key={doc.id}
                 id={doc.id}
-                vendorName={doc.title || 'Okunamadı'}
-                taxpayerName={doc.organizations?.name || 'Test Mükellefi'}
+                vendorName={doc.title || doc.counterparty_name || doc.vendor_name || 'Okunamadı'}
+                taxpayerName={doc.organizations?.name || 'Bilinmiyor'}
                 type={doc.type || 'expense'}
                 amountMinor={doc.amount_minor || 0}
                 currencyCode={doc.currency_code || 'TRY'}
@@ -285,8 +295,8 @@ export default function ApprovalPage({
                             dynamicSchema.map(field => {
                               const key = field.target_column;
                               let val = '';
-                              const parsedMappedData = typeof activeDocument.mapped_data === 'string' ? JSON.parse(activeDocument.mapped_data) : activeDocument.mapped_data;
-                              const parsedTaxDetails = typeof activeDocument.tax_details === 'string' ? JSON.parse(activeDocument.tax_details) : activeDocument.tax_details;
+                              const parsedMappedData = safeParseJSON(activeDocument.mapped_data);
+                              const parsedTaxDetails = safeParseJSON(activeDocument.tax_details);
 
                               if (activeDocument) {
                                 if (parsedMappedData && parsedMappedData[key]) {
@@ -375,7 +385,7 @@ export default function ApprovalPage({
                         {activeDocument ? formatCurrency(
                           activeDocument.amount_minor != null 
                             ? activeDocument.amount_minor / 100 
-                            : ((typeof activeDocument.tax_details === 'string' ? JSON.parse(activeDocument.tax_details) : activeDocument.tax_details)?.amount || activeDocument.total_amount), 
+                            : (safeParseJSON(activeDocument.tax_details)?.amount || activeDocument.total_amount), 
                           activeDocument.currency_code || activeDocument.currency
                         ) : '0,00 ₺'}
                       </span>

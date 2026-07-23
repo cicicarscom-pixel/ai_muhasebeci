@@ -89,7 +89,7 @@ export default function ApprovedPage({ documents = [] }: { documents: any[] }) {
           ) : (
             Object.entries(groupedDocs).map(([orgId, group]: [string, any]) => {
               const isExpanded = expandedGroups.includes(orgId);
-              const orgName = group.organization.name;
+              const orgName = group.organization?.name || 'Bilinmeyen Mükellef';
               
               return (
                 <div key={orgId} className="bg-card border border-border rounded-xl overflow-hidden shadow-sm">
@@ -100,7 +100,7 @@ export default function ApprovedPage({ documents = [] }: { documents: any[] }) {
                   >
                     <div className="flex items-center gap-4">
                       <div className="w-10 h-10 rounded-full bg-brand-primary/20 text-brand-primary flex items-center justify-center font-bold text-lg border border-brand-primary/30 shadow-glow-primary">
-                        {orgName.charAt(0).toUpperCase()}
+                        {orgName ? orgName.charAt(0).toUpperCase() : '?'}
                       </div>
                       <div>
                         <h3 className="text-white font-bold text-base flex items-center gap-2">
