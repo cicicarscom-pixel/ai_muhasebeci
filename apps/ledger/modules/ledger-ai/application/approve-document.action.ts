@@ -60,10 +60,7 @@ export async function approveDocumentAction(
       .update({ 
         ledger_official_status: 'onaylandi',
         tax_details: mergedDetails,
-        title: fieldValues?.title || existingDetails.title || vendorName,
-        // Store invoice-specific fields directly for easy export
-        issue_date: fieldValues?.date || existingDetails.date || null,
-        vendor_tax_identifier: fieldValues?.vendor_tax_id || existingDetails.vendor_tax_id || vendorTaxId || null,
+        title: fieldValues?.title || existingDetails.title || vendorName
       })
       .eq('id', documentId);
 
