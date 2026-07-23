@@ -81,7 +81,9 @@ export async function getClientsAction(): Promise<{ advisorCode: string | null; 
         .maybeSingle();
         
       if (insertError) {
-        advisorCode = `Hata (Insert Firm): ${insertError.message}`;
+        const key = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
+        const diag = `(Uzunluk: ${key.length}, Başlangıç: ${key.substring(0, 5)})`;
+        advisorCode = `Hata (Insert Firm): ${insertError.message} ${diag}`;
         console.error('Auto-generate firm error:', insertError);
       } else if (newFirm) {
         // Also insert membership
