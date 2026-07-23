@@ -48,6 +48,19 @@ export default function ApprovalPage({
   const [rotation, setRotation] = useState(0);
   const [fieldValues, setFieldValues] = useState<Record<string, string>>({});
 
+  useEffect(() => {
+    const supabase = createClient();
+    const channel = supabase.channel('realtime-approval-docs')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'finance_documents' }, () => {
+        router.refresh();
+      })
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [router]);
+
   // Parse tax_details from activeDocument and populate fields
   useEffect(() => {
     if (!activeDocument) {

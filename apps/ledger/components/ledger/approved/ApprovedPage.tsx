@@ -1,11 +1,27 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useRouter } from 'next/navigation';
+import { createClient } from '@/utils/supabase/client';
 
 export default function ApprovedPage({ documents = [] }: { documents: any[] }) {
   const [expandedGroups, setExpandedGroups] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [monthFilter, setMonthFilter] = useState('');
+  const router = useRouter();
+
+  useEffect(() => {
+    const supabase = createClient();
+    const channel = supabase.channel('realtime-approved-docs')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'finance_documents' }, () => {
+        router.refresh();
+      })
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [router]);
 
   const parseTaxDetails = (doc: any) => {
     if (!doc.tax_details) return {};

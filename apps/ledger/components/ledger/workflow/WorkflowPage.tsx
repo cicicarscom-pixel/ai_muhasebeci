@@ -1,10 +1,11 @@
 'use client';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { PageTitle, SectionHeader } from '../ui/Typography';
 import { MetricCard, AppCard } from '../ui/Cards';
 import { SecondaryButton, GhostButton, PrimaryButton } from '../ui/Buttons';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { createClient } from '@/utils/supabase/client';
 
 export default function WorkflowPage({ initialDocuments = [] }: { initialDocuments?: any[] }) {
   // 1. Yeni Geldi (uploaded and not yet processing)
@@ -32,6 +33,19 @@ export default function WorkflowPage({ initialDocuments = [] }: { initialDocumen
   }, {});
 
   const router = useRouter();
+
+  useEffect(() => {
+    const supabase = createClient();
+    const channel = supabase.channel('realtime-workflow-docs')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'finance_documents' }, () => {
+        router.refresh();
+      })
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [router]);
 
   const formatCurrency = (amount: number, currency: string) => {
     if (amount === undefined || amount === null) return '-';
