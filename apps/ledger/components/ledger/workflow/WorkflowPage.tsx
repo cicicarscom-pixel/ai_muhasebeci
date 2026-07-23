@@ -2,8 +2,10 @@
 import React from 'react';
 import { PageTitle, SectionHeader } from '../ui/Typography';
 import { MetricCard, AppCard } from '../ui/Cards';
-import { SecondaryButton, GhostButton } from '../ui/Buttons';
+import { SecondaryButton, GhostButton, PrimaryButton } from '../ui/Buttons';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { bulkExportAction } from '../../../modules/ledger-ai/application/bulk-export.action';
 
 export default function WorkflowPage({ initialDocuments = [] }: { initialDocuments?: any[] }) {
   // 1. Yeni Geldi (uploaded and not yet processing)
@@ -18,6 +20,31 @@ export default function WorkflowPage({ initialDocuments = [] }: { initialDocumen
   
   // 4. Onaylandı (Onaylandı durumunda)
   const onaylandi = initialDocuments.filter(d => d.ledger_official_status === 'onaylandi');
+
+  // Group by organization
+  const groupedOnaylandi = onaylandi.reduce((acc: Record<string, { orgName: string, orgId: string, docs: any[] }>, doc) => {
+    const orgId = doc.organization_id || 'unknown';
+    const orgName = doc.organizations?.name || 'Bilinmiyor';
+    if (!acc[orgId]) {
+      acc[orgId] = { orgName, orgId, docs: [] };
+    }
+    acc[orgId].docs.push(doc);
+    return acc;
+  }, {});
+
+  const router = useRouter();
+  const [isExporting, setIsExporting] = React.useState<string | null>(null);
+
+  const handleExport = async (orgId: string) => {
+    setIsExporting(orgId);
+    const res = await bulkExportAction(orgId);
+    setIsExporting(null);
+    if (!res.success) {
+      alert('Dışa aktarma başarısız: ' + res.error);
+    } else {
+      router.refresh();
+    }
+  };
 
   const formatCurrency = (amount: number, currency: string) => {
     if (amount === undefined || amount === null) return '-';
@@ -92,8 +119,10 @@ export default function WorkflowPage({ initialDocuments = [] }: { initialDocumen
             )}
             {yeniGeldi.map(doc => (
               <AppCard key={doc.id} className="p-4 cursor-pointer">
-                <div className="flex justify-between items-center mb-4">
-                  <span className="text-muted text-[#58A6FF] font-semibold truncate" title={doc.organizations?.name}>{doc.organizations?.name || 'Bilinmiyor'}</span>
+                  <div className="flex justify-between items-center mb-4">
+                    <span className="bg-[#FFB020]/10 text-[#FFB020] border border-[#FFB020]/20 text-[10px] px-2 py-1 rounded-full font-bold uppercase truncate max-w-[150px]" title={doc.organizations?.name}>
+                      {doc.organizations?.name || 'BİLİNMİYOR'}
+                    </span>
                   <span className="material-symbols-outlined text-text-muted text-[16px]">description</span>
                 </div>
                 <div className="flex items-center gap-2 mb-2">
@@ -124,8 +153,10 @@ export default function WorkflowPage({ initialDocuments = [] }: { initialDocumen
              )}
              {aiIsliyor.map(doc => (
                <AppCard key={doc.id} className="p-4 cursor-pointer">
-                 <div className="flex justify-between items-center mb-4">
-                   <span className="text-muted text-[#58A6FF] font-semibold truncate" title={doc.organizations?.name}>{doc.organizations?.name || 'Bilinmiyor'}</span>
+                  <div className="flex justify-between items-center mb-4">
+                    <span className="bg-[#FFB020]/10 text-[#FFB020] border border-[#FFB020]/20 text-[10px] px-2 py-1 rounded-full font-bold uppercase truncate max-w-[150px]" title={doc.organizations?.name}>
+                      {doc.organizations?.name || 'BİLİNMİYOR'}
+                    </span>
                    <span className="material-symbols-outlined text-primary text-[18px] animate-spin">progress_activity</span>
                  </div>
                  <div className="flex items-center gap-2 mb-2">
@@ -158,7 +189,9 @@ export default function WorkflowPage({ initialDocuments = [] }: { initialDocumen
               <Link href={`/approval/${doc.id}`} key={doc.id}>
                 <AppCard className="p-4 cursor-pointer hover:border-warning/50 transition-colors">
                   <div className="flex justify-between items-center mb-4">
-                    <span className="text-muted text-[#58A6FF] font-semibold truncate" title={doc.organizations?.name}>{doc.organizations?.name || 'Bilinmiyor'}</span>
+                    <span className="bg-[#58A6FF]/10 text-[#58A6FF] border border-[#58A6FF]/20 text-[10px] px-2 py-1 rounded-full font-bold uppercase truncate max-w-[150px]" title={doc.organizations?.name}>
+                      {doc.organizations?.name || 'BİLİNMİYOR'}
+                    </span>
                     <span className="bg-surface text-primary border border-primary/20 text-[10px] px-2 py-1 rounded-badge font-bold uppercase">AI</span>
                   </div>
                   <div className="flex items-center gap-2 mb-2">
@@ -198,27 +231,48 @@ export default function WorkflowPage({ initialDocuments = [] }: { initialDocumen
                  Burada henüz evrak yok
               </GhostButton>
             )}
-            {onaylandi.map(doc => (
-              <AppCard key={doc.id} className="p-4 cursor-pointer">
-                <div className="flex justify-between items-center mb-4">
-                  <span className="text-muted text-[#9D5CFF] font-semibold truncate" title={doc.organizations?.name}>{doc.organizations?.name || 'Bilinmiyor'}</span>
-                  <span className="material-symbols-outlined text-success text-[18px]">check_circle</span>
-                </div>
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="material-symbols-outlined text-text-muted text-[18px]">domain</span>
-                  <span className="text-body font-semibold text-text truncate" title={doc.title || 'Okunamadı'}>{doc.title || 'Okunamadı'}</span>
-                </div>
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="material-symbols-outlined text-text-muted text-[18px]">payments</span>
-                  <span className="text-card-title font-bold text-text">{formatCurrency((doc.amount_minor || 0) / 100, doc.currency_code)}</span>
-                </div>
-                {doc.accounting_drafts?.[0]?.ledger_account_code && (
-                  <div className="flex items-center gap-2 mt-3 pt-3 border-t border-border">
-                    <span className="text-label font-bold text-success">{doc.accounting_drafts[0].ledger_account_code}</span>
-                    <span className="text-muted text-text-muted">Onaylanan Kod</span>
+            {Object.values(groupedOnaylandi).map((group) => (
+              <div key={group.orgId} className="mb-4">
+                <div className="flex items-center justify-between mb-2 px-1">
+                  <div className="flex flex-col">
+                    <span className="text-[11px] font-bold text-text truncate max-w-[150px]" title={group.orgName}>{group.orgName}</span>
+                    <span className="text-[10px] text-text-muted">{group.docs.length} Evrak</span>
                   </div>
-                )}
-              </AppCard>
+                  <PrimaryButton 
+                    onClick={() => handleExport(group.orgId)} 
+                    disabled={isExporting === group.orgId}
+                    className="text-[10px] px-2 py-1 h-auto min-h-0 bg-success/10 text-success hover:bg-success hover:text-white border-transparent"
+                  >
+                    {isExporting === group.orgId ? 'Aktarılıyor...' : 'Dışa Aktar'}
+                  </PrimaryButton>
+                </div>
+                <div className="flex flex-col gap-1">
+                  {group.docs.map(doc => (
+                    <AppCard key={doc.id} className="p-4 cursor-pointer">
+                      <div className="flex justify-between items-center mb-4">
+                        <span className="bg-[#9D5CFF]/10 text-[#9D5CFF] border border-[#9D5CFF]/20 text-[10px] px-2 py-1 rounded-full font-bold uppercase truncate max-w-[150px]" title={doc.organizations?.name}>
+                          {doc.organizations?.name || 'BİLİNMİYOR'}
+                        </span>
+                        <span className="material-symbols-outlined text-success text-[18px]">check_circle</span>
+                      </div>
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="material-symbols-outlined text-text-muted text-[18px]">domain</span>
+                        <span className="text-body font-semibold text-text truncate" title={doc.title || 'Okunamadı'}>{doc.title || 'Okunamadı'}</span>
+                      </div>
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="material-symbols-outlined text-text-muted text-[18px]">payments</span>
+                        <span className="text-card-title font-bold text-text">{formatCurrency((doc.amount_minor || 0) / 100, doc.currency_code)}</span>
+                      </div>
+                      {doc.accounting_drafts?.[0]?.ledger_account_code && (
+                        <div className="flex items-center gap-2 mt-3 pt-3 border-t border-border">
+                          <span className="text-label font-bold text-success">{doc.accounting_drafts[0].ledger_account_code}</span>
+                          <span className="text-muted text-text-muted">Onaylanan Kod</span>
+                        </div>
+                      )}
+                    </AppCard>
+                  ))}
+                </div>
+              </div>
             ))}
           </div>
         </div>

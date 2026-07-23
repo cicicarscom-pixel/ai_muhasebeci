@@ -28,6 +28,27 @@ serve(async (req) => {
       throw new Error("LEDGER_GEMINI_API_KEY is not set.");
     }
 
+    const supabaseClient = createClient(
+      Deno.env.get('SUPABASE_URL') ?? '',
+      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
+    );
+
+    // Fetch taxpayer (Mükellef) name to determine sales vs expense
+    let taxpayerName = "Bilinmiyor";
+    try {
+      const { data: docData } = await supabaseClient
+        .from('finance_documents')
+        .select(`organizations:organization_id (name)`)
+        .eq('id', document_id)
+        .single();
+      
+      if (docData && docData.organizations && docData.organizations.name) {
+        taxpayerName = docData.organizations.name;
+      }
+    } catch (e) {
+      console.warn("Could not fetch taxpayer name", e);
+    }
+
     let activeBase64 = imageBase64;
 
     // Eger base64 yoksa ama URL geldiyse (ornegin frontend Storage'a attiysa), resmi indirip base64 yap
@@ -55,6 +76,11 @@ serve(async (req) => {
 
     const systemInstruction = `Sen Workigom Ledger AI projesinin 'İşleyici Asistanı'sın.
 Flow uygulamasından gelen ham evrakları (veya metni) analiz et ve şu formatta veri çıkar: tutar, tarih, işlem başlığı (karşı taraf) ve işlem tipi.
+
+ÖNEMLİ KURAL: Bu evrakı sisteme yükleyen mükellefimizin unvanı: "${taxpayerName}".
+Faturanın üzerindeki 'Alıcı/Müşteri' kısmındaki unvan ile mükellefimizin unvanı eşleşiyorsa (kısaltmalar dahil, örn: "Güleç Oto." ile "Güleç Otomasyon"), bu bir 'expense' (gider) faturasıdır.
+Eğer faturayı kesen 'Satıcı' kısmı mükellefimizin unvanı ise bu bir 'sales' (gelir) faturasıdır.
+
 Sadece JSON dön. Başka bir şey yazma.`;
 
     const inputParts: any[] = [
@@ -86,11 +112,6 @@ Sadece JSON dön. Başka bir şey yazma.`;
     if (!text) throw new Error("Empty response from Gemini.");
 
     const extractedData = JSON.parse(text);
-
-    const supabaseClient = createClient(
-      Deno.env.get('SUPABASE_URL') ?? '',
-      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
-    );
 
     // Upload base64 to Storage
     let uploadedImageUrl = null;

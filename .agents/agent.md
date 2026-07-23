@@ -50,3 +50,11 @@ ull\ veya boş string dönülmeyecek.
 - **Dinamik Onay Merkezi (ApprovalPage):** Önceden sabit (dummySchema) olan onay merkezi arayüzü, tamamen dinamik hale getirildi. Bileşen artık yüklendiğinde `invoice_schemas` tablosundan en güncel kuralları çekip, sağ taraftaki veri giriş alanlarını o kural setine göre (ve `activeDocument.mapped_data` içeriğiyle) render ediyor.
 - **İşleyici AI Yön Kuralı (Alış/Satış):** İşleyici AI'a veritabanından faturanın ait olduğu mükellefin unvanı çekilerek gönderiliyor. AI'a verilen prompt: "Faturayı kesen bu firmaysa SATIŞ, fatura bu firmaya kesilmişse ALIŞ faturasıdır." olarak netleştirildi.
 - **Gemini Interactions API Geçişi:** Eski `@google/genai` kütüphanesinin `generateContent` metodunun deprecate olup 500 hatası vermesi üzerine tüm Edge Fonksiyonları (Mimar ve İşleyici) yeni nesil **Interactions API** (`ai.interactions.create`) ve `gemini-3.5-flash` modeline taşındı. Structured Output için response_schema kuralları uygulandı.
+
+### 4. Operasyonel Ekstra Geliştirmeler (23 Temmuz 2026)
+- **RLS Bypass İptali ve Güvenlik:** Test aşamasında faturaların İş Akışı ekranına düşmemesi problemi incelendi. RLS (Row Level Security) kalkanını bypass etmek (service_role) yerine, Müşavir-Mükellef bağının kopuk olduğu senaryolarda `accountant_taxpayer_links` tablosu üzerinden dinamik bağlantı sorguları kullanılması gerektiğine karar verildi. Güvenlik ön planda tutuldu.
+- **Dinamik Veri Bağlama (AI Data Binding):** `ApprovalPage.tsx` içerisinde input'ların sadece eski `mapped_data` ile değil, yeni sistemdeki `tax_details` (örneğin fatura numarası, tarih) objesiyle ve `amount_minor / 100` ile de çalışabilmesi için fallback zinciri kuruldu.
+- **Sahiplik Damgası (Ownership Badge):** Tüm iş akışı kartlarına mükellef adının yazdığı renk kodlu bir damga (badge) eklendi.
+- **Toplu Dışa Aktarım (Akordeon Gruplama):** `WorkflowPage.tsx` sayfasındaki "Onaylandı" kolonu mükelleflere (`organization_id`) göre gruplanarak listelendi. Yeni eklenen `bulk-export.action.ts` sayesinde bu gruplar toplu halde `archived` konumuna alınıyor.
+- **Alış/Satış Tespit Promptu:** Edge Function `ledger-isleyici-api`'ye, faturanın türünü tespit edebilmesi için işlem öncesinde `organization_id` üzerinden Mükellef Unvanını çekme ve bu unvanı faturadaki "Alıcı/Müşteri" veya "Satıcı" ile kıyaslama komutu (prompt engineering) eklendi.
+

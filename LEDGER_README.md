@@ -93,3 +93,28 @@ supabase functions serve process-document --env-file ./supabase/.env.local
 ```bash
 supabase functions deploy process-document
 ```
+
+---
+
+## 6. Operasyonel Ekstra Geliştirmeler (V2.1 - İş Akışı & Onay)
+
+Son geliştirmelerle sistem daha sağlam bir RLS, UI ve AI entegrasyonuna kavuşmuştur:
+
+### 6.1. Veritabanı ve RLS (Row Level Security) Optimizasyonları
+- `finance_documents` tablosu üzerinde Müşavir (Accountant) erişim kontrolleri `accountant_taxpayer_links` ve `accounting_firm_members` üzerinden yapılandırılmıştır.
+- **Güvenlikten Ödün Vermemek İçin:** RLS bypass (service_role vb.) kullanılmamış, ancak veriye erişim optimize edilerek sadece Müşavirin yetkili olduğu Mükelleflerin evraklarını görmesi sağlanmıştır.
+
+### 6.2. AI Verilerinin Forma Bağlanması (Onay Ekranı)
+- Edge Function tarafından çıkarılan `tax_details` (Fatura Numarası, Tarih vb. dinamik AI verisi), Onay Formu (`ApprovalPage.tsx`) üzerindeki `dynamicSchema` inputlarına otomatik `defaultValue` olarak bağlanmıştır.
+- Faturanın `amount` değeri (ister `amount_minor / 100` ister `tax_details.amount`) doğrudan **Genel Toplam** olarak okunmaktadır.
+
+### 6.3. Sahiplik Damgası ve Toplu Dışa Aktarma
+- İş Akışı kartlarının (WorkflowPage) üzerine, Mükellefin adını (Örn: "Güleç Otomasyon") gösteren belirgin bir "Sahiplik Damgası" eklendi. Renk kodlamasıyla kolay ayırt edilebilir hale getirildi.
+- "Onaylandı" sütunu, Mükelleflere (`organization_id`) göre gruplanarak **Akordeon/Grup** stiline geçirildi.
+- Her gruba **"Toplu Dışa Aktar"** butonu eklendi; bu buton arka planda `bulk-export.action.ts` çağırarak `ledger_official_status`'u `archived` konumuna alıyor.
+
+### 6.4. Edge Function Prompt Güncellemesi (Alış/Satış)
+- `ledger-isleyici-api` adlı Edge Function, fatura tipi tespitini mükemmelleştirmek adına güncellendi.
+- Artık çalışmadan önce `organization_id`'yi kullanarak **Mükellef Unvanını** çekiyor ve Gemini Prompt'una enjekte ediyor.
+- *Prompt Kuralı:* "Faturanın üzerindeki 'Alıcı/Müşteri' kısmındaki unvan ile {Mükellef Unvanı} eşleşiyorsa (kısaltmalar dahil), bu bir 'expense' (gider) faturasıdır." mantığıyla `type` tespitini yapıp Supabase'e kaydediyor.
+
