@@ -109,20 +109,23 @@ export default function ApprovalPage({
     if (!activeDocument) return;
     if (!confirm('Bu evrakı tamamen silmek istediğinize emin misiniz?')) return;
     
-    setIsSubmitting(true);
     try {
-      const res = await deleteDocumentAction(activeDocument.id);
+      const res = await fetch('/ledger/api/delete-document', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ documentId: activeDocument.id })
+      });
+      const data = await res.json();
       
-      if (!res.success) {
-        alert('Silme başarısız: ' + res.error);
+      if (!data.success) {
+        alert('Silme başarısız: ' + data.error);
         setIsSubmitting(false);
       } else {
-        router.push('/approval');
-        router.refresh();
+        window.location.href = '/ledger/approval';
       }
     } catch (e) {
-      // Catch Next.js internal 500 errors that happen during re-render
-      window.location.href = '/ledger/approval';
+      alert('Sunucu hatası. Lütfen sayfayı yenileyip tekrar deneyin.');
+      setIsSubmitting(false);
     }
   };
 
@@ -192,17 +195,23 @@ export default function ApprovalPage({
                 date={doc.created_at ? new Date(doc.created_at).toLocaleDateString('tr-TR') : 'Bilinmiyor'}
                 isActive={activeDocument?.id === doc.id}
                 onSelect={() => router.push(`/approval/${doc.id}`)}
-                onDelete={() => {
+                onDelete={async () => {
                   if (confirm('Bu evrakı tamamen silmek istediğinize emin misiniz?')) {
                     setIsSubmitting(true);
-                    deleteDocumentAction(doc.id).then((res) => {
+                    try {
+                      const res = await fetch('/ledger/api/delete-document', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ documentId: doc.id })
+                      });
+                      const data = await res.json();
                       setIsSubmitting(false);
-                      if (!res.success) alert('Silme başarısız: ' + res.error);
-                      else { router.push('/approval'); router.refresh(); }
-                    }).catch(e => {
-                      // Catch Next.js internal 500 errors
-                      window.location.href = '/ledger/approval';
-                    });
+                      if (!data.success) alert('Silme başarısız: ' + data.error);
+                      else window.location.href = '/ledger/approval';
+                    } catch (e) {
+                      setIsSubmitting(false);
+                      alert('Sunucu hatası oluştu.');
+                    }
                   }
                 }}
               />
