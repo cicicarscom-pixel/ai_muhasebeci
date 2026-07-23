@@ -158,7 +158,7 @@ export default function ApprovedPage({ documents = [] }: { documents: any[] }) {
                               </tr>
                             </thead>
                             <tbody className="divide-y divide-border">
-                              {group.documents.map((doc) => {
+                              {group.documents.map((doc: any) => {
                                 const amount = doc.amount_minor != null ? doc.amount_minor / 100 : (doc.total_amount || 0);
                                 const isSales = doc.type === 'sales';
                                 return (
