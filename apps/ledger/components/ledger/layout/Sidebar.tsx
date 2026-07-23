@@ -29,6 +29,7 @@ export default function Sidebar() {
         <SidebarItem icon="groups" label="Mükellefler" href="/clients" active={isActive('/clients')} />
         <SidebarItem icon="account_tree" label="İş Akışı" href="/workflow" active={isActive('/workflow')} />
         <SidebarItem icon="fact_check" label="Onay Merkezi" href="/approval" active={pathname?.startsWith('/approval')} />
+        <SidebarItem icon="archive" label="Arşiv" href="/approved" active={isActive('/approved')} />
         <SidebarItem icon="analytics" label="Analitik" href="/analytics" active={isActive('/analytics')} />
         <SidebarItem icon="settings" label="Ayarlar" href="/settings" active={isActive('/settings') || isActive('/ai-settings')} />
       </div>
