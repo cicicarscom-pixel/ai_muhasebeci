@@ -133,16 +133,13 @@ Sadece JSON formatında yanıt ver. Baska hicbir sey yazma.`;
     }
 
     const interaction = await ai.interactions.create({
-      model: "gemini-3.5-flash",
+      model: "gemini-2.0-flash",
       system_instruction: systemInstruction,
       input: inputParts,
-      response_format: [
-        {
-          type: "text",
-          mime_type: "application/json",
-          schema: responseSchema
-        }
-      ]
+      config: {
+        response_mime_type: "application/json",
+        response_schema: responseSchema
+      }
     });
 
     let text = interaction.output_text || "";
@@ -177,14 +174,38 @@ Sadece JSON formatında yanıt ver. Baska hicbir sey yazma.`;
       }
     }
 
-    const amountMinor = Math.round((extractedData.amount || 0) * 100);
-    const dateIso = extractedData.date ? new Date(extractedData.date).toISOString() : new Date().toISOString();
+    const amountMinor = Math.round((extractedData.amount || extractedData.total || 0) * 100);
+    
+    // Parse date - handle both GG.AA.YYYY and YYYY-MM-DD formats
+    let dateIso = new Date().toISOString();
+    if (extractedData.date) {
+      try {
+        const d = extractedData.date.trim();
+        if (d.includes('.')) {
+          // GG.AA.YYYY format
+          const parts = d.split('.');
+          if (parts.length === 3) {
+            const [day, month, year] = parts;
+            dateIso = new Date(`${year}-${month.padStart(2,'0')}-${day.padStart(2,'0')}`).toISOString();
+          }
+        } else if (d.includes('-')) {
+          // YYYY-MM-DD format
+          dateIso = new Date(d).toISOString();
+        }
+      } catch(e) {
+        console.warn('Date parse error:', e);
+      }
+    }
+
+    // Determine type label for storage
+    const typeLabel = extractedData.type || 'expense';
+    const isAlis = typeLabel === 'ALIS' || typeLabel === 'expense';
 
     // Çift Statü Güncellemesi: finance_documents tablosundaki taslak kaydı güncelle
     const updatePayload: any = {
       amount_minor: amountMinor,
       title: extractedData.title,
-      type: extractedData.type,
+      type: isAlis ? 'expense' : 'sales', // Keep internal type as expense/sales
       created_at: dateIso,
       flow_payment_status: 'paid', // Flow tarafında anında listelerde görünmesi için
       ledger_official_status: 'taslak', // Resmi muhasebe için onay bekliyor
@@ -204,12 +225,16 @@ Sadece JSON formatında yanıt ver. Baska hicbir sey yazma.`;
 
     if (updateError) throw updateError;
 
-    // Log the event
-    await supabaseClient.from('document_events').insert({
-      finance_document_id: document_id,
-      event_type: 'ai_extraction',
-      new_value: extractedData
-    });
+    // Log the event (silent - don't fail if this errors)
+    try {
+      await supabaseClient.from('document_events').insert({
+        document_id: document_id,
+        event_type: 'ai_extraction',
+        new_value: extractedData
+      });
+    } catch(logErr) {
+      console.warn('document_events log error (non-fatal):', logErr);
+    }
 
     const successMessage = `Harika! ${extractedData.title || 'Bilinmeyen'} firmasına ait, ${extractedData.date || 'bugün'} tarihli ve ${extractedData.amount || 0} TL tutarındaki belgeniz başarıyla işlendi ve onay için taslaklara gönderildi.`;
 
