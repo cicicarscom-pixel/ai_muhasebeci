@@ -167,6 +167,95 @@ export default function ApprovedPage({ documents = [] }: { documents: any[] }) {
     document.body.removeChild(link);
   };
 
+  const handleExportXML = (orgName: string, docs: any[]) => {
+    let xml = '<?xml version="1.0" encoding="UTF-8"?>\n<Faturalar>\n';
+    docs.forEach(doc => {
+      const td = parseTaxDetails(doc);
+      xml += '  <Fatura>\n';
+      xml += `    <Tarih>${td.date || ''}</Tarih>\n`;
+      xml += `    <FaturaNo>${td.invoice_number || ''}</FaturaNo>\n`;
+      xml += `    <FaturaTuru>${td.type || ''}</FaturaTuru>\n`;
+      xml += `    <VKN>${td.vendor_tax_id || ''}</VKN>\n`;
+      xml += `    <Aciklama>${(td.title || doc.title || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</Aciklama>\n`;
+      xml += `    <TevkifatOrani>${td.tevkifat_orani || ''}</TevkifatOrani>\n`;
+      xml += `    <OzelMatrah>${td.ozel_matrah || ''}</OzelMatrah>\n`;
+      xml += `    <KDV1>${td.kdv_1 || ''}</KDV1>\n`;
+      xml += `    <KDV8>${td.kdv_8 || ''}</KDV8>\n`;
+      xml += `    <KDV10>${td.kdv_10 || ''}</KDV10>\n`;
+      xml += `    <KDV18>${td.kdv_18 || ''}</KDV18>\n`;
+      xml += `    <KDV20>${td.kdv_20 || ''}</KDV20>\n`;
+      xml += `    <Matrah1>${td.matrah_1 || ''}</Matrah1>\n`;
+      xml += `    <Matrah8>${td.matrah_8 || ''}</Matrah8>\n`;
+      xml += `    <Matrah10>${td.matrah_10 || ''}</Matrah10>\n`;
+      xml += `    <Matrah18>${td.matrah_18 || ''}</Matrah18>\n`;
+      xml += `    <Matrah20>${td.matrah_20 || ''}</Matrah20>\n`;
+      xml += `    <Toplam>${td.total || (doc.amount_minor != null ? (doc.amount_minor / 100).toFixed(2) : '')}</Toplam>\n`;
+      xml += '  </Fatura>\n';
+    });
+    xml += '</Faturalar>';
+    
+    const blob = new Blob([xml], { type: 'text/xml' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `${orgName.replace(/\s+/g, '_')}_faturalar.xml`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
+  const handleExportPDF = (orgName: string, docs: any[]) => {
+    const headers = ['Fatura Tarihi', 'Fatura Numarası', 'Fatura Türü', 'VKN TCKN', 'Açıklama', 'Toplam'];
+    const rows = docs.map(doc => {
+      const td = parseTaxDetails(doc);
+      return [
+        td.date || '',
+        td.invoice_number || '',
+        td.type || '',
+        td.vendor_tax_id || '',
+        td.title || doc.title || '',
+        td.total || (doc.amount_minor != null ? (doc.amount_minor / 100).toFixed(2) : '')
+      ];
+    });
+
+    const html = `
+      <html>
+        <head>
+          <title>${orgName} - Faturalar</title>
+          <style>
+            body { font-family: sans-serif; padding: 20px; }
+            h2 { text-align: center; color: #333; }
+            table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+            th, td { border: 1px solid #ddd; padding: 8px; text-align: left; font-size: 12px; }
+            th { background-color: #f2f2f2; }
+          </style>
+        </head>
+        <body>
+          <h2>${orgName} - Fatura Listesi</h2>
+          <table>
+            <thead>
+              <tr>${headers.map(h => \`<th>\${h}</th>\`).join('')}</tr>
+            </thead>
+            <tbody>
+              ${rows.map(row => \`<tr>\${row.map(cell => \`<td>\${cell}</td>\`).join('')}</tr>\`).join('')}
+            </tbody>
+          </table>
+          <script>
+            window.onload = function() { window.print(); window.close(); }
+          </script>
+        </body>
+      </html>
+    `;
+    const win = window.open('', '_blank');
+    if (win) {
+      win.document.write(html);
+      win.document.close();
+    } else {
+      alert("Lütfen PDF yazdırmak için açılır pencere (pop-up) engelleyicisini kapatın.");
+    }
+  };
+
   const formatCurrency = (amount: number, currency: string) => {
     if (amount === undefined || amount === null) return '0,00 ₺';
     try {
@@ -283,6 +372,16 @@ export default function ApprovedPage({ documents = [] }: { documents: any[] }) {
                           onClick={() => handleExportCSV(orgName, group.documents)} 
                           className="h-8 px-3 rounded-md bg-primary/10 text-primary border border-primary/20 hover:bg-primary/20 text-[12px] font-bold flex items-center gap-1.5 transition-colors">
                           <span className="material-symbols-outlined text-[16px]">data_object</span> CSV
+                        </button>
+                        <button 
+                          onClick={() => handleExportXML(orgName, group.documents)} 
+                          className="h-8 px-3 rounded-md bg-[#D97706]/10 text-[#D97706] border border-[#D97706]/20 hover:bg-[#D97706]/20 text-[12px] font-bold flex items-center gap-1.5 transition-colors">
+                          <span className="material-symbols-outlined text-[16px]">code</span> XML
+                        </button>
+                        <button 
+                          onClick={() => handleExportPDF(orgName, group.documents)} 
+                          className="h-8 px-3 rounded-md bg-[#EF4444]/10 text-[#EF4444] border border-[#EF4444]/20 hover:bg-[#EF4444]/20 text-[12px] font-bold flex items-center gap-1.5 transition-colors">
+                          <span className="material-symbols-outlined text-[16px]">picture_as_pdf</span> PDF
                         </button>
                       </div>
                       

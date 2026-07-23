@@ -3,6 +3,8 @@ import { createClient as createAdminClient } from '@supabase/supabase-js';
 import { cookies } from 'next/headers';
 import ApprovedPage from '@/components/ledger/approved/ApprovedPage';
 
+export const dynamic = 'force-dynamic';
+
 export default async function Page() {
   const cookieStore = await cookies();
   const supabase = createClient(cookieStore);
