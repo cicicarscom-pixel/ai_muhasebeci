@@ -87,7 +87,7 @@ export default function ApprovedPage({ documents = [] }: { documents: any[] }) {
               <p>Henüz onaylanmış veya arşivlenmiş evrak bulunmuyor.</p>
             </div>
           ) : (
-            Object.entries(groupedDocs).map(([orgId, group]) => {
+            Object.entries(groupedDocs).map(([orgId, group]: [string, any]) => {
               const isExpanded = expandedGroups.includes(orgId);
               const orgName = group.organization.name;
               
