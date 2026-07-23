@@ -5,7 +5,6 @@ import { MetricCard, AppCard } from '../ui/Cards';
 import { SecondaryButton, GhostButton, PrimaryButton } from '../ui/Buttons';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { bulkExportAction } from '../../../modules/ledger-ai/application/bulk-export.action';
 
 export default function WorkflowPage({ initialDocuments = [] }: { initialDocuments?: any[] }) {
   // 1. Yeni Geldi (uploaded and not yet processing)
@@ -33,18 +32,6 @@ export default function WorkflowPage({ initialDocuments = [] }: { initialDocumen
   }, {});
 
   const router = useRouter();
-  const [isExporting, setIsExporting] = React.useState<string | null>(null);
-
-  const handleExport = async (orgId: string) => {
-    setIsExporting(orgId);
-    const res = await bulkExportAction(orgId);
-    setIsExporting(null);
-    if (!res.success) {
-      alert('Dışa aktarma başarısız: ' + res.error);
-    } else {
-      router.refresh();
-    }
-  };
 
   const formatCurrency = (amount: number, currency: string) => {
     if (amount === undefined || amount === null) return '-';
@@ -238,13 +225,6 @@ export default function WorkflowPage({ initialDocuments = [] }: { initialDocumen
                     <span className="text-[11px] font-bold text-text truncate max-w-[150px]" title={group.orgName}>{group.orgName}</span>
                     <span className="text-[10px] text-text-muted">{group.docs.length} Evrak</span>
                   </div>
-                  <PrimaryButton 
-                    onClick={() => handleExport(group.orgId)} 
-                    disabled={isExporting === group.orgId}
-                    className="text-[10px] px-2 py-1 h-auto min-h-0 bg-success/10 text-success hover:bg-success hover:text-white border-transparent"
-                  >
-                    {isExporting === group.orgId ? 'Aktarılıyor...' : 'Dışa Aktar'}
-                  </PrimaryButton>
                 </div>
                 <div className="flex flex-col gap-1">
                   {group.docs.map(doc => (

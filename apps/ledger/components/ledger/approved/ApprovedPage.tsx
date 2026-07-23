@@ -157,7 +157,7 @@ export default function ApprovedPage({ documents = [] }: { documents: any[] }) {
             <span className="material-symbols-outlined text-primary text-[20px]">archive</span>
           </div>
           <div>
-            <h1 className="text-[20px] font-bold text-white tracking-tight">Arşiv & Dışa Aktarım</h1>
+            <h1 className="text-[20px] font-bold text-white tracking-tight">Onaylananlar & Dışa Aktarım</h1>
             <p className="text-[13px] text-text-muted mt-0.5">
               Onaylanmış evrakları görüntüleyin ve Excel, CSV olarak dışa aktarın.
             </p>
