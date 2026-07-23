@@ -32,22 +32,49 @@ export default function ApprovedPage({ documents = [] }: { documents: any[] }) {
   };
 
   const handleExportCSV = (orgName: string, docs: any[]) => {
+    // A-R sütunları - muhasebecinin Excel formatıyla birebir
     const headers = [
-      'Fatura No', 'Tarih', 'Tip', 'Karşı Taraf', 'VKN/TCKN',
-      'Matrah', 'Toplam Tutar', 'Para Birimi', 'Durum'
+      'A-Fatura Tarihi',
+      'B-Fatura Numarası',
+      'C-Fatura Türü',
+      'D-VKN TCKN',
+      'E-Açıklama',
+      'F-Tevkifat Oranı',
+      'G-Özel Matrah',
+      'H-%1 KDV Tutarı',
+      'I-%8 KDV Tutarı',
+      'J-%10 KDV Tutarı',
+      'K-%18 KDV Tutarı',
+      'L-%20 KDV Tutarı',
+      'M-%1 Matrah',
+      'N-%8 Matrah',
+      'O-%10 Matrah',
+      'P-%18 Matrah',
+      'Q-%20 Matrah',
+      'R-Toplam'
     ];
     const rows = docs.map(doc => {
       const td = parseTaxDetails(doc);
-      const invoiceNo = td.invoice_number || doc.invoice_number || '-';
-      const date = td.date || doc.issue_date || (doc.created_at ? new Date(doc.created_at).toLocaleDateString('tr-TR') : '-');
-      const type = doc.type === 'sales' ? 'SATIŞ' : 'GİDER';
-      const name = td.title || doc.title || doc.counterparty_name || '-';
-      const taxId = td.vendor_tax_id || doc.vendor_tax_identifier || '-';
-      const amount = td.amount || (doc.amount_minor != null ? doc.amount_minor / 100 : 0);
-      const total = td.total || amount;
-      const currency = doc.currency_code || 'TRY';
-      const status = 'ONAYLANDI';
-      return [invoiceNo, date, type, `"${name}"`, taxId, amount, total, currency, status].join(',');
+      return [
+        td.date || (doc.created_at ? new Date(doc.created_at).toLocaleDateString('tr-TR') : ''),
+        td.invoice_number || '',
+        td.type || (doc.type === 'expense' ? 'ALIŞ' : doc.type === 'sales' ? 'SATIŞ' : ''),
+        td.vendor_tax_id || '',
+        `"${(td.title || doc.title || '').replace(/"/g, '""')}"`,
+        td.tevkifat_orani || '',
+        td.ozel_matrah || '',
+        td.kdv_1 || '',
+        td.kdv_8 || '',
+        td.kdv_10 || '',
+        td.kdv_18 || '',
+        td.kdv_20 || '',
+        td.matrah_1 || '',
+        td.matrah_8 || '',
+        td.matrah_10 || '',
+        td.matrah_18 || '',
+        td.matrah_20 || '',
+        td.total || (doc.amount_minor != null ? (doc.amount_minor / 100).toFixed(2) : '')
+      ].join(',');
     });
     const csvContent = "data:text/csv;charset=utf-8,\uFEFF" + [headers.join(','), ...rows].join('\n');
     const link = document.createElement("a");
@@ -59,19 +86,48 @@ export default function ApprovedPage({ documents = [] }: { documents: any[] }) {
   };
 
   const handleExportExcel = (orgName: string, docs: any[]) => {
-    // Excel-compatible tab-separated format
-    const headers = ['Fatura No', 'Tarih', 'Tip', 'Karşı Taraf', 'VKN/TCKN', 'Matrah', 'Toplam Tutar', 'Durum'];
+    // A-R sütunları - muhasebecinin Excel formatıyla birebir (tab ayrımlı)
+    const headers = [
+      'Fatura Tarihi',
+      'Fatura Numarası',
+      'Fatura Türü',
+      'VKN TCKN',
+      'Açıklama',
+      'Tevkifat Oranı',
+      'Özel Matrah',
+      '%1 KDV',
+      '%8 KDV',
+      '%10 KDV',
+      '%18 KDV',
+      '%20 KDV',
+      '%1 Matrah',
+      '%8 Matrah',
+      '%10 Matrah',
+      '%18 Matrah',
+      '%20 Matrah',
+      'Toplam'
+    ];
     const rows = docs.map(doc => {
       const td = parseTaxDetails(doc);
       return [
-        td.invoice_number || '-',
-        td.date || (doc.created_at ? new Date(doc.created_at).toLocaleDateString('tr-TR') : '-'),
-        doc.type === 'sales' ? 'SATIŞ' : 'GİDER',
-        td.title || doc.title || '-',
-        td.vendor_tax_id || '-',
-        td.amount || (doc.amount_minor != null ? (doc.amount_minor / 100).toFixed(2) : '0'),
-        td.total || td.amount || (doc.amount_minor != null ? (doc.amount_minor / 100).toFixed(2) : '0'),
-        'ONAYLANDI'
+        td.date || (doc.created_at ? new Date(doc.created_at).toLocaleDateString('tr-TR') : ''),
+        td.invoice_number || '',
+        td.type || (doc.type === 'expense' ? 'ALIŞ' : doc.type === 'sales' ? 'SATIŞ' : ''),
+        td.vendor_tax_id || '',
+        td.title || doc.title || '',
+        td.tevkifat_orani || '',
+        td.ozel_matrah || '',
+        td.kdv_1 || '',
+        td.kdv_8 || '',
+        td.kdv_10 || '',
+        td.kdv_18 || '',
+        td.kdv_20 || '',
+        td.matrah_1 || '',
+        td.matrah_8 || '',
+        td.matrah_10 || '',
+        td.matrah_18 || '',
+        td.matrah_20 || '',
+        td.total || (doc.amount_minor != null ? (doc.amount_minor / 100).toFixed(2) : '')
       ].join('\t');
     });
     const content = "data:application/vnd.ms-excel;charset=utf-8,\uFEFF" + [headers.join('\t'), ...rows].join('\n');

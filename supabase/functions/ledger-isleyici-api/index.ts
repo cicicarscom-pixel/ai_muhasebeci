@@ -66,48 +66,58 @@ serve(async (req) => {
     const responseSchema = {
       type: "object",
       properties: {
-        amount: { type: "number", description: "KDV haric toplam matrah (vergi tabanı). Ornegin bu faturada 800" },
-        total: { type: "number", description: "KDV dahil odencek toplam tutar. Ornegin bu faturada 944" },
-        date: { type: "string", description: "YYYY-MM-DD formatinda fatura tarihi" },
-        title: { type: "string", description: "Karsi tarafin (satici veya alici) ticari unvani" },
-        type: { type: "string", description: "'expense' veya 'sales'. Alici bizim mukellefimiz ise expense, satici ise sales" },
-        invoice_number: { type: "string", description: "Fatura numarasi. Ornegin AAA2022000000135" },
-        vendor_tax_id: { type: "string", description: "Karsi tarafin VKN (10 hane) veya TCKN (11 hane)" },
-        tevkifat_orani: { type: "string", description: "Tevkifat oran\u0131, genellikle bos" },
-        ozel_matrah: { type: "number", description: "Ozel matrah, genellikle bos" },
-        kdv_1: { type: "number", description: "SADECE %1 KDV'nin HESAPLANAN TUTARI (miktari). Matrah degil. Bu faturada bos. Ornek: 18% KDV icin 144 olan KDV MIKTARI" },
-        kdv_10: { type: "number", description: "SADECE %10 KDV'nin HESAPLANAN TUTARI (miktari). Matrah degil." },
-        kdv_18: { type: "number", description: "SADECE %18 KDV'nin HESAPLANAN TUTARI (miktari). Bu faturada 144. DIKKAT: 800 degil, 144!" },
-        kdv_20: { type: "number", description: "SADECE %20 KDV'nin HESAPLANAN TUTARI (miktari). Matrah degil." },
-        matrah_1: { type: "number", description: "%1 KDV'nin uygulandigi TABAN TUTAR (matrah). Bu faturada bos." },
-        matrah_8: { type: "number", description: "%8 KDV'nin uygulandigi TABAN TUTAR (matrah). Bu faturada bos." },
-        matrah_10: { type: "number", description: "%10 KDV'nin uygulandigi TABAN TUTAR (matrah). Bu faturada bos." },
-        matrah_18: { type: "number", description: "%18 KDV'nin uygulandigi TABAN TUTAR (matrah). Bu faturada 800. DIKKAT: 144 degil, 800!" },
-        matrah_20: { type: "number", description: "%20 KDV'nin uygulandigi TABAN TUTAR (matrah). Bu faturada bos." }
+        amount: { type: "number", description: "Internal: KDV haric toplam matrah, amount_minor icin kullanilir" },
+        date: { type: "string", description: "A sutunu: GG.AA.YYYY formatinda fatura tarihi (orn: 07.09.2022)" },
+        invoice_number: { type: "string", description: "B sutunu: Fatura belgesi uzerindeki numara (orn: AAA2022000000135)" },
+        type: { type: "string", description: "C sutunu: 'ALIS' veya 'SATIS'. DIKKAT: Satici firmasi mukellefimiz ise SATIS, alici firmasi mukellefimiz ise ALIS" },
+        vendor_tax_id: { type: "string", description: "D sutunu: KARSI TARAFIN VKN (10 hane) veya TCKN (11 hane). Karsi taraf = mukellefimiz olmayan taraf" },
+        title: { type: "string", description: "E sutunu: KARSI TARAFIN (mukellefimiz olmayan firma) ticari unvani" },
+        tevkifat_orani: { type: "string", description: "F sutunu: Tevkifat orani (orn: 2/10). Yoksa null" },
+        ozel_matrah: { type: "number", description: "G sutunu: Ozel matraha tabi tutar. Yoksa null" },
+        kdv_1: { type: "number", description: "H sutunu: %1 KDV TUTARI (vergi miktari, matrah degil). Yoksa null" },
+        kdv_8: { type: "number", description: "I sutunu: %8 KDV TUTARI (vergi miktari, matrah degil). Yoksa null" },
+        kdv_10: { type: "number", description: "J sutunu: %10 KDV TUTARI (vergi miktari, matrah degil). Yoksa null" },
+        kdv_18: { type: "number", description: "K sutunu: %18 KDV TUTARI (vergi miktari, matrah degil). Bu ornekte = 144. Matrah degil!" },
+        kdv_20: { type: "number", description: "L sutunu: %20 KDV TUTARI (vergi miktari, matrah degil). Yoksa null" },
+        matrah_1: { type: "number", description: "M sutunu: %1 KDV icin MATRAH (KDV haric net tutar). Yoksa null" },
+        matrah_8: { type: "number", description: "N sutunu: %8 KDV icin MATRAH (KDV haric net tutar). Yoksa null" },
+        matrah_10: { type: "number", description: "O sutunu: %10 KDV icin MATRAH (KDV haric net tutar). Yoksa null" },
+        matrah_18: { type: "number", description: "P sutunu: %18 KDV icin MATRAH (KDV haric net tutar). Bu ornekte = 800. KDV tutari degil!" },
+        matrah_20: { type: "number", description: "Q sutunu: %20 KDV icin MATRAH (KDV haric net tutar). Yoksa null" },
+        total: { type: "number", description: "R sutunu: Faturanin ODENCEK GENEL TOPLAMI (Matrah + KDV). Bu ornekte = 944" }
       },
-      required: ["amount", "title", "type", "date", "invoice_number", "vendor_tax_id"]
+      required: ["amount", "date", "invoice_number", "type", "vendor_tax_id", "title", "total"]
     };
 
     const systemInstruction = `Sen Turk vergi mevzuatinda uzman bir muhasebe asistanisın.
-Gorev: Fatura gorselini analiz et ve verileri JSON olarak domdur.
+Gorev: Fatura gorselini analiz edip asagidaki JSON alanlarini doldur.
 
-KRITIK KURALLAR - DIKKATLE OKU:
+== FATURA TURU BELIRLEME (C sutunu) ==
+- Faturanin EN UST KISMINDA (satici bolumu) MUKELLEFIMIZIN UNVANI varsa => type = "SATIS"
+- Faturanin EN UST KISMINDA BASKA BIR FIRMA varsa ve MUKELLEFIMIZ ortada/altta ALICI olarak geciyorsa => type = "ALIS"
+- Mukellefimizin unvani: "${taxpayerName}"
 
-=== KDV ANALIZI ===
-Faturanin alt kismindaki TOPLAM TABLOSUNA bak:
-- "KDV Matrahi (%18): 800,00" yaziyorsa => matrah_18 = 800 (BU BUYUK SAYI = matrah)
-- "Hesaplanan KDV (%18): 144,00" yaziyorsa => kdv_18 = 144 (BU KUCUK SAYI = vergi miktari)
-- "Vergiler Dahil Toplam: 944,00" yaziyorsa => total = 944
-- kdv_18 HER ZAMAN matrah_18'den KUCUKTUR!
+== KDV ANALIZI (en kritik kisim) ==
+Faturanin alt kismindaki TOPLAM TABLOSUNU bul ve soyle ayir:
+- "KDV Matrahi (%18): 800" => matrah_18 = 800   (Bu BUYUK rakam, vergisiz net tutar = P sutunu)
+- "Hesaplanan KDV (%18): 144" => kdv_18 = 144    (Bu KUCUK rakam, vergi miktari = K sutunu)
+- "Vergiler Dahil Toplam: 944" => total = 944     (R sutunu)
+- KURAL: kdv_18 HER ZAMAN matrah_18'den kucuktur!
+- Sadece o faturada GERCEKTEN OLAN KDV oranlari icin deger yaz, diger oranlar null olmali.
 
-=== DIGER ALANLAR ===
-- invoice_number: Fatura numarasi (orn: AAA2022000000135)
-- date: YYYY-MM-DD formatinda (orn: 2022-09-07)
-- vendor_tax_id: KARSI TARAFIN VKN/TCKN'si (fatura kesicinin VKN'si)
-- title: KARSI TARAFIN unvani
-- type: Mükellefimiz "${taxpayerName}" - ALICI ise "expense", SATICI ise "sales"
+== KARSI TARAF BILGILERI ==
+- vendor_tax_id (D sutunu): Mukellefimiz OLMAYAN tarafin VKN/TCKN'si
+  * ALIS faturasinда => satici firmanin VKN'si
+  * SATIS faturasinда => alici firmanin VKN'si
+- title (E sutunu): Karsi tarafin (mukellefimiz olmayan) ticari unvani
 
-Sadece JSON domdur. Baska hicbir sey yazma.`;
+== TARIH ==
+- date: GG.AA.YYYY formatinda (orn: 07.09.2022)
+
+== FATURA NUMARASI ==
+- invoice_number: Fatura No / Belge No (orn: AAA2022000000135)
+
+Sadece JSON formatında yanıt ver. Baska hicbir sey yazma.`;
 
 
     const inputParts: any[] = [

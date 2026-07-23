@@ -9,25 +9,26 @@ import { approveDocumentAction } from '../../../modules/ledger-ai/application/ap
 
 import { createClient } from '@/utils/supabase/client';
 
-// Exactly mirrors the accountant's Excel column structure
+// Excel sütunlarıyla birebir eşleşme: A→R
 const INVOICE_FIELDS = [
-  { key: 'date', label: 'FATURA TARİHİ' },
-  { key: 'invoice_number', label: 'FATURA NUMARASI' },
-  { key: 'type', label: 'FATURA TÜRÜ' },
-  { key: 'vendor_tax_id', label: 'VKN / TCKN' },
-  { key: 'title', label: 'AÇIKLAMA' },
-  { key: 'tevkifat_orani', label: 'TEVKİFAT ORANI' },
-  { key: 'ozel_matrah', label: 'ÖZEL MATRAH' },
-  { key: 'kdv_1', label: '%1\'LİK KDV' },
-  { key: 'kdv_10', label: '%10\'LUK KDV' },
-  { key: 'kdv_18', label: '%18\'LİK KDV' },
-  { key: 'kdv_20', label: '%20\'LİK KDV' },
-  { key: 'matrah_1', label: '%1\'LİK MATRAH' },
-  { key: 'matrah_8', label: '%8\'LİK MATRAH' },
-  { key: 'matrah_10', label: '%10\'LUK MATRAH' },
-  { key: 'matrah_18', label: '%18\'LİK MATRAH' },
-  { key: 'matrah_20', label: '%20\'LİK MATRAH' },
-  { key: 'total', label: 'TOPLAM' },
+  { key: 'date',           label: 'FATURA TARİHİ',    col: 'A' },
+  { key: 'invoice_number', label: 'FATURA NUMARASI', col: 'B' },
+  { key: 'type',           label: 'FATURA TÜRÜ',     col: 'C' },
+  { key: 'vendor_tax_id',  label: 'VKN / TCKN',      col: 'D' },
+  { key: 'title',          label: 'AÇIKLAMA',         col: 'E' },
+  { key: 'tevkifat_orani', label: 'TEVKİFAT ORANI',  col: 'F' },
+  { key: 'ozel_matrah',    label: 'ÖZEL MATRAH',      col: 'G' },
+  { key: 'kdv_1',          label: '%1 KDV TUTARI',    col: 'H' },
+  { key: 'kdv_8',          label: '%8 KDV TUTARI',    col: 'I' },
+  { key: 'kdv_10',         label: '%10 KDV TUTARI',   col: 'J' },
+  { key: 'kdv_18',         label: '%18 KDV TUTARI',   col: 'K' },
+  { key: 'kdv_20',         label: '%20 KDV TUTARI',   col: 'L' },
+  { key: 'matrah_1',       label: '%1 MATRAH',        col: 'M' },
+  { key: 'matrah_8',       label: '%8 MATRAH',        col: 'N' },
+  { key: 'matrah_10',      label: '%10 MATRAH',       col: 'O' },
+  { key: 'matrah_18',      label: '%18 MATRAH',       col: 'P' },
+  { key: 'matrah_20',      label: '%20 MATRAH',       col: 'Q' },
+  { key: 'total',          label: 'TOPLAM',            col: 'R' },
 ];
 
 export default function ApprovalPage({ 
