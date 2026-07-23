@@ -1,11 +1,11 @@
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-
 export const createAdminClient = () => {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
   if (!supabaseUrl || !supabaseServiceKey) {
-    throw new Error('Supabase URL and SUPABASE_SERVICE_ROLE_KEY must be provided in environment variables.');
+    throw new Error(`Eksik Değişkenler: ${!supabaseUrl ? 'NEXT_PUBLIC_SUPABASE_URL eksik. ' : ''}${!supabaseServiceKey ? 'SUPABASE_SERVICE_ROLE_KEY eksik.' : ''}`);
   }
 
   return createClient(supabaseUrl, supabaseServiceKey, {
