@@ -20,7 +20,8 @@ export async function getPendingDocumentsAction(firmId: string) {
         currency_code,
         ledger_official_status,
         flow_payment_status,
-        organizations:organization_id (name)
+        organization_id,
+        organizations (name)
       `)
       .eq('ledger_official_status', 'taslak')
       .order('created_at', { ascending: false });
@@ -46,7 +47,8 @@ export async function getDocumentDetailsAction(documentId: string) {
       .from('finance_documents')
       .select(`
         *,
-        organizations:organization_id (name)
+        organization_id,
+        organizations (name)
       `)
       .eq('id', documentId)
       .single();

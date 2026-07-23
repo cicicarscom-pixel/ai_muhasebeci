@@ -19,8 +19,8 @@ export async function approveDocumentAction(
 
     // 1. Get the document to verify firm access
     const { data: document, error: docError } = await supabase
-      .from('accounting_documents')
-      .select('accounting_firm_id, taxpayer_organization_id')
+      .from('finance_documents')
+      .select('organization_id')
       .eq('id', documentId)
       .single();
 
@@ -37,25 +37,26 @@ export async function approveDocumentAction(
       })
       .eq('document_id', documentId);
 
-    if (draftError) throw new Error('Taslak güncellenemedi.');
+    if (draftError) {
+      console.warn('Draft update error (may not exist):', draftError);
+    }
 
     // 3. Update Document Status
     const { error: updateDocError } = await supabase
-      .from('accounting_documents')
-      .update({ review_status: 'approved' })
+      .from('finance_documents')
+      .update({ ledger_official_status: 'onaylandi' })
       .eq('id', documentId);
 
     if (updateDocError) throw new Error('Belge durumu güncellenemedi.');
 
     // 4. Create Memory Rule if requested
-    if (rememberRule && vendorName) {
+    if (rememberRule && vendorName && document.organization_id) {
       // Create a rule for this taxpayer + supplier
       const { data: rule, error: ruleError } = await supabase
         .from('ledger_ai_rules')
         .insert({
           scope_level: 'taxpayer_supplier_rule',
-          accounting_firm_id: document.accounting_firm_id,
-          taxpayer_organization_id: document.taxpayer_organization_id,
+          taxpayer_organization_id: document.organization_id,
           supplier_tax_identifier: vendorTaxId || vendorName, // Use name as fallback if no tax ID
           rule_type: 'account_code_mapping',
           condition_json: { vendor_name: vendorName },
@@ -68,8 +69,7 @@ export async function approveDocumentAction(
       if (!ruleError && rule) {
         // Log the decision event
         await supabase.from('ai_decision_events').insert({
-          accounting_firm_id: document.accounting_firm_id,
-          taxpayer_organization_id: document.taxpayer_organization_id,
+          taxpayer_organization_id: document.organization_id,
           document_id: documentId,
           decision_type: 'rule_created',
           explanation: `${vendorName} için ${accountId} hesap kodu kuralı oluşturuldu.`,

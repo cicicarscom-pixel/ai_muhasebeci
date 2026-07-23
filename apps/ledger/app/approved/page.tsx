@@ -34,7 +34,7 @@ export default async function Page() {
       .from('finance_documents')
       .select(`
         *,
-        organizations:organization_id (id, name, logo_url)
+        organizations (id, name, logo_url)
       `)
       .in('organization_id', taxpayerIds)
       .in('ledger_official_status', ['archived', 'onaylandi'])
