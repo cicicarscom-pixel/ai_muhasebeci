@@ -23,10 +23,27 @@ export default function ApprovedPage({ documents = [] }: { documents: any[] }) {
     };
   }, [router]);
 
+  const formatNum = (val: any) => {
+    if (val === null || val === undefined || val === '') return '';
+    let numStr = String(val).trim();
+    if (numStr.includes(',') && !numStr.includes('.')) numStr = numStr.replace(',', '.');
+    else if (numStr.includes(',') && numStr.includes('.')) numStr = numStr.replace(/\./g, '').replace(',', '.');
+    const num = parseFloat(numStr);
+    if (isNaN(num)) return String(val);
+    return num.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  };
+
   const parseTaxDetails = (doc: any) => {
     if (!doc.tax_details) return {};
     try {
-      return typeof doc.tax_details === 'string' ? JSON.parse(doc.tax_details) : doc.tax_details;
+      const details = typeof doc.tax_details === 'string' ? JSON.parse(doc.tax_details) : { ...doc.tax_details };
+      const numFields = ['ozel_matrah', 'kdv_1', 'kdv_8', 'kdv_10', 'kdv_18', 'kdv_20', 'matrah_1', 'matrah_8', 'matrah_10', 'matrah_18', 'matrah_20', 'total'];
+      numFields.forEach(field => {
+        if (details[field] !== undefined && details[field] !== '') {
+          details[field] = formatNum(details[field]);
+        }
+      });
+      return details;
     } catch (e) { return {}; }
   };
 
