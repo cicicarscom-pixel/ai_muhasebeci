@@ -118,9 +118,9 @@ export default function ApprovedPage({ documents = [] }: { documents: any[] }) {
         td.matrah_18 || '',
         td.matrah_20 || '',
         td.total || (doc.amount_minor != null ? (doc.amount_minor / 100).toFixed(2) : '')
-      ].join(',');
+      ].join(';');
     });
-    const csvContent = "data:text/csv;charset=utf-8,\uFEFF" + [headers.join(','), ...rows].join('\n');
+    const csvContent = "data:text/csv;charset=utf-8,\uFEFF" + [headers.join(';'), ...rows].join('\n');
     const link = document.createElement("a");
     link.setAttribute("href", encodeURI(csvContent));
     link.setAttribute("download", `${orgName.replace(/\s+/g, '_')}_faturalar.csv`);
@@ -151,36 +151,49 @@ export default function ApprovedPage({ documents = [] }: { documents: any[] }) {
       '%20 Matrah',
       'Toplam'
     ];
-    const rows = docs.map(doc => {
+    const rowsHtml = docs.map(doc => {
       const td = parseTaxDetails(doc);
-      return [
-        td.date || (doc.created_at ? new Date(doc.created_at).toLocaleDateString('tr-TR') : ''),
-        td.invoice_number || '',
-        td.type || (doc.type === 'expense' ? 'ALIŞ' : doc.type === 'sales' ? 'SATIŞ' : ''),
-        td.vendor_tax_id || '',
-        td.title || doc.title || '',
-        td.tevkifat_orani || '',
-        td.ozel_matrah || '',
-        td.kdv_1 || '',
-        td.kdv_8 || '',
-        td.kdv_10 || '',
-        td.kdv_18 || '',
-        td.kdv_20 || '',
-        td.matrah_1 || '',
-        td.matrah_8 || '',
-        td.matrah_10 || '',
-        td.matrah_18 || '',
-        td.matrah_20 || '',
-        td.total || (doc.amount_minor != null ? (doc.amount_minor / 100).toFixed(2) : '')
-      ].join('\t');
-    });
-    const content = "data:application/vnd.ms-excel;charset=utf-8,\uFEFF" + [headers.join('\t'), ...rows].join('\n');
+      return `<tr>
+        <td>${td.date || (doc.created_at ? new Date(doc.created_at).toLocaleDateString('tr-TR') : '')}</td>
+        <td>${td.invoice_number || ''}</td>
+        <td>${td.type || (doc.type === 'expense' ? 'ALIŞ' : doc.type === 'sales' ? 'SATIŞ' : '')}</td>
+        <td>${td.vendor_tax_id || ''}</td>
+        <td>${td.title || doc.title || ''}</td>
+        <td>${td.tevkifat_orani || ''}</td>
+        <td>${td.ozel_matrah || ''}</td>
+        <td>${td.kdv_1 || ''}</td>
+        <td>${td.kdv_8 || ''}</td>
+        <td>${td.kdv_10 || ''}</td>
+        <td>${td.kdv_18 || ''}</td>
+        <td>${td.kdv_20 || ''}</td>
+        <td>${td.matrah_1 || ''}</td>
+        <td>${td.matrah_8 || ''}</td>
+        <td>${td.matrah_10 || ''}</td>
+        <td>${td.matrah_18 || ''}</td>
+        <td>${td.matrah_20 || ''}</td>
+        <td>${td.total || (doc.amount_minor != null ? (doc.amount_minor / 100).toFixed(2) : '')}</td>
+      </tr>`;
+    }).join('');
+
+    const html = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
+      <head><meta charset="utf-8" /></head>
+      <body>
+        <table border="1">
+          <thead><tr>${headers.map(h => `<th>${h}</th>`).join('')}</tr></thead>
+          <tbody>${rowsHtml}</tbody>
+        </table>
+      </body>
+    </html>`;
+
+    const blob = new Blob([html], { type: 'application/vnd.ms-excel;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
-    link.setAttribute("href", encodeURI(content));
-    link.setAttribute("download", `${orgName.replace(/\s+/g, '_')}_faturalar.xls`);
+    link.href = url;
+    link.download = `${orgName.replace(/\s+/g, '_')}_faturalar.xls`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    URL.revokeObjectURL(url);
   };
 
   const handleExportXML = (orgName: string, docs: any[]) => {
