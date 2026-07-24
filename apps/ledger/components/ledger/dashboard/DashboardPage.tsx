@@ -113,27 +113,35 @@ export default function DashboardPage({ documents = [], rssFeeds = [] }: { docum
             Operasyon Akışı
           </SectionHeader>
           <div className="flex flex-col gap-2">
-            <div className="flex items-start gap-3 p-3 bg-surface rounded-card border border-border/50">
-              <span className="material-symbols-outlined text-success mt-0.5 text-[18px]">check_circle</span>
-              <div className="flex flex-col">
-                <span className="text-body font-medium text-text">Ahmet Yılmaz faturası onaylandı.</span>
-                <span className="text-muted text-text-muted">10 dk önce</span>
+            {recentDocs.length === 0 ? (
+              <div className="text-text-muted text-center p-4 bg-surface rounded-card border border-border/50 text-body">
+                Henüz operasyon hareketi yok.
               </div>
-            </div>
-            <div className="flex items-start gap-3 p-3 bg-surface rounded-card border border-border/50">
-              <span className="material-symbols-outlined text-warning mt-0.5 text-[18px]">warning</span>
-              <div className="flex flex-col">
-                <span className="text-body font-medium text-text">Gider fişi için açıklama eksik.</span>
-                <span className="text-muted text-text-muted">45 dk önce</span>
+            ) : recentDocs.map((doc, idx) => (
+              <div key={doc.id || idx} className="flex items-start gap-3 p-3 bg-surface rounded-card border border-border/50">
+                <span className={`material-symbols-outlined mt-0.5 text-[18px] ${
+                  doc.ledger_official_status === 'onaylandi' || doc.ledger_official_status === 'muhasebelesti' ? 'text-success' :
+                  doc.ledger_official_status === 'hata' ? 'text-warning' : 'text-primary'
+                }`}>
+                  {doc.ledger_official_status === 'onaylandi' || doc.ledger_official_status === 'muhasebelesti' ? 'check_circle' :
+                   doc.ledger_official_status === 'hata' ? 'warning' : 'bolt'}
+                </span>
+                <div className="flex flex-col">
+                  <span className="text-body font-medium text-text">
+                    {doc.title || 'İsimsiz Evrak'} {
+                      doc.ledger_official_status === 'onaylandi' ? 'onaylandı.' :
+                      doc.ledger_official_status === 'muhasebelesti' ? 'muhasebeleşti.' :
+                      doc.ledger_official_status === 'taslak' ? 'kontrol bekliyor.' :
+                      doc.ledger_official_status === 'isleniyor' ? 'yapay zeka tarafından işleniyor.' :
+                      doc.ledger_official_status === 'hata' ? 'işlenirken hata oluştu.' : 'sisteme aktarıldı.'
+                    }
+                  </span>
+                  <span className="text-muted text-text-muted">
+                    {new Date(doc.created_at).toLocaleDateString('tr-TR', { hour: '2-digit', minute: '2-digit' })}
+                  </span>
+                </div>
               </div>
-            </div>
-            <div className="flex items-start gap-3 p-3 bg-surface rounded-card border border-border/50">
-              <span className="material-symbols-outlined text-primary mt-0.5 text-[18px]">bolt</span>
-              <div className="flex flex-col">
-                <span className="text-body font-medium text-text">15 yeni evrak sisteme aktarıldı.</span>
-                <span className="text-muted text-text-muted">2 saat önce</span>
-              </div>
-            </div>
+            ))}
           </div>
         </AppCard>
 

@@ -4,6 +4,8 @@ import DashboardPage from '@/components/ledger/dashboard/DashboardPage';
 import { getDashboardDocumentsAction } from '../../modules/ledger-ai/application/read-documents.action';
 import { getIsmmmoRssFeedsAction } from '../../modules/ledger-ai/application/rss.action';
 
+export const dynamic = 'force-dynamic';
+
 export default async function Page() {
   const cookieStore = await cookies();
   const supabase = createClient(cookieStore);
