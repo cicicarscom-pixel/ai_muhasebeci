@@ -281,51 +281,6 @@ export default function DashboardPage({ documents = [], rssFeeds = [] }: { docum
           </div>
         </AppCard>
       </div>
-
-      <div className="grid grid-cols-12 gap-1 pt-2">
-        {/* ROW 4 */}
-        {/* Recent Documents (6 cols) */}
-        <AppCard className="col-span-6 p-6">
-          <div className="flex justify-between items-center mb-4">
-            <SectionHeader>Son Gelenler</SectionHeader>
-            <a className="text-primary hover:underline transition-colors text-label font-medium" href="#">Tümü</a>
-          </div>
-          <div className="flex flex-col gap-2">
-            {recentDocs.length === 0 ? (
-              <div className="text-text-muted text-center p-4 bg-surface rounded-card border border-border/50 text-body">
-                Henüz evrak yüklenmemiş.
-              </div>
-            ) : recentDocs.map((doc, idx) => (
-              <div key={doc.id || idx} className="flex items-center justify-between p-3 bg-surface rounded-card border border-border/50 hover:border-primary/50 cursor-pointer transition-colors">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded bg-primary/10 flex items-center justify-center text-primary">
-                    <span className="material-symbols-outlined text-[20px]">
-                      {doc.type === 'fatura' ? 'receipt_long' : doc.type === 'fis' ? 'receipt' : 'description'}
-                    </span>
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="text-body font-medium text-text">{doc.title || 'İsimsiz Evrak'}</span>
-                    <span className="text-muted text-text-muted">
-                      {doc.counterparty_name || 'Bilinmeyen Cari'} • {formatCurrency(doc.amount_minor ? doc.amount_minor / 100 : 0, doc.currency_code)}
-                    </span>
-                  </div>
-                </div>
-                <StatusBadge status={
-                  doc.ledger_official_status === 'taslak' ? 'warning' :
-                  doc.ledger_official_status === 'onaylandi' || doc.ledger_official_status === 'muhasebelesti' ? 'success' : 'neutral'
-                }>
-                  {doc.ledger_official_status === 'taslak' ? 'Kontrol Bekliyor' : 
-                   doc.ledger_official_status === 'onaylandi' ? 'Onaylandı' : 
-                   doc.ledger_official_status === 'muhasebelesti' ? 'Muhasebeleşti' : 'İşleniyor'}
-                </StatusBadge>
-              </div>
-            ))}
-          </div>
-        </AppCard>
-
-        {/* Empty space for future cards (6 cols) */}
-        <div className="col-span-6"></div>
-      </div>
     </div>
   );
 }

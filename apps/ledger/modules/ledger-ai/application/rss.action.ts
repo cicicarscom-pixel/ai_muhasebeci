@@ -1,44 +1,44 @@
 'use server';
 
-import Parser from 'rss-parser';
-
 export async function getIsmmmoRssFeedsAction() {
   try {
-    const parser = new Parser({
-      timeout: 5000,
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8'
+    const fetchFeed = async (url: string, label: string) => {
+      const res = await fetch(url, {
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+        },
+        cache: 'no-store'
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const text = await res.text();
+      
+      const items = [];
+      const itemRegex = /<item>([\s\S]*?)<\/item>/g;
+      let match;
+      while ((match = itemRegex.exec(text)) !== null && items.length < 3) {
+        const itemHtml = match[1];
+        const titleMatch = itemHtml.match(/<title><!\[CDATA\[([\s\S]*?)\]\]><\/title>/) || itemHtml.match(/<title>([\s\S]*?)<\/title>/);
+        const linkMatch = itemHtml.match(/<link>([\s\S]*?)<\/link>/);
+        const dateMatch = itemHtml.match(/<pubDate>([\s\S]*?)<\/pubDate>/);
+        const descMatch = itemHtml.match(/<description><!\[CDATA\[([\s\S]*?)\]\]><\/description>/) || itemHtml.match(/<description>([\s\S]*?)<\/description>/);
+        
+        items.push({
+          title: titleMatch ? titleMatch[1].trim() : 'Başlıksız',
+          link: linkMatch ? linkMatch[1].trim() : '#',
+          pubDate: dateMatch ? dateMatch[1].trim() : new Date().toISOString(),
+          contentSnippet: descMatch ? descMatch[1].replace(/<[^>]*>?/gm, '').trim() : '',
+          label
+        });
       }
-    });
-    
-    // As per user screenshot, fetch Mevzuat and Kurumsal or Ana Sayfa
-    const feeds = [
-      { url: 'http://rss.istanbulsmmmodasi.org.tr/mevzuat.xml', label: 'Mevzuat Birimi' },
-      { url: 'http://rss.istanbulsmmmodasi.org.tr/anasayfa.xml', label: 'Ana Sayfa' },
-    ];
+      return items;
+    };
 
-    const results = await Promise.allSettled(
-      feeds.map(feed => parser.parseURL(feed.url).then(parsed => ({ ...parsed, label: feed.label })))
-    );
+    const mevzuatItems = await fetchFeed('http://rss.istanbulsmmmodasi.org.tr/mevzuat.xml', 'Mevzuat Birimi').catch(() => []);
+    const anasayfaItems = await fetchFeed('http://rss.istanbulsmmmodasi.org.tr/anasayfa.xml', 'Ana Sayfa').catch(() => []);
 
-    let allItems: any[] = [];
+    const allItems = [...mevzuatItems, ...anasayfaItems];
 
-    results.forEach(result => {
-      if (result.status === 'fulfilled' && result.value.items) {
-        const feedLabel = result.value.label;
-        const items = result.value.items.slice(0, 3).map(item => ({
-          title: item.title,
-          link: item.link,
-          pubDate: item.pubDate,
-          contentSnippet: item.contentSnippet,
-          label: feedLabel
-        }));
-        allItems = [...allItems, ...items];
-      }
-    });
-
-    // Sort by pubDate descending
     allItems.sort((a, b) => {
       return new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime();
     });
