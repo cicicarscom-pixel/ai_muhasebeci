@@ -34,8 +34,12 @@ export async function getIsmmmoRssFeedsAction() {
       return items;
     };
 
-    const mevzuatItems = await fetchFeed('http://rss.istanbulsmmmodasi.org.tr/mevzuat.xml', 'Mevzuat Birimi').catch(() => []);
-    const anasayfaItems = await fetchFeed('http://rss.istanbulsmmmodasi.org.tr/anasayfa.xml', 'Ana Sayfa').catch(() => []);
+    const mevzuatItems = await fetchFeed('http://rss.istanbulsmmmodasi.org.tr/mevzuat.xml', 'Mevzuat Birimi').catch((e) => [{
+      title: 'Hata: ' + e.message, link: '#', pubDate: new Date().toISOString(), contentSnippet: e.stack, label: 'Error'
+    }]);
+    const anasayfaItems = await fetchFeed('http://rss.istanbulsmmmodasi.org.tr/anasayfa.xml', 'Ana Sayfa').catch((e) => [{
+      title: 'Hata: ' + e.message, link: '#', pubDate: new Date().toISOString(), contentSnippet: e.stack, label: 'Error'
+    }]);
 
     const allItems = [...mevzuatItems, ...anasayfaItems];
 
