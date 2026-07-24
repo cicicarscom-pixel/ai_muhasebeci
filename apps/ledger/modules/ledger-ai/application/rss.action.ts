@@ -5,7 +5,16 @@ export async function getIsmmmoRssFeedsAction() {
     const fetchFeed = async (url: string, label: string) => {
       // Use allorigins to bypass IP blocking
       const apiUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
-      const res = await fetch(apiUrl, { cache: 'no-store' });
+      
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 2500); // 2.5 saniye timeout
+      
+      const res = await fetch(apiUrl, { 
+        cache: 'no-store',
+        signal: controller.signal
+      });
+      
+      clearTimeout(timeoutId);
       
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
