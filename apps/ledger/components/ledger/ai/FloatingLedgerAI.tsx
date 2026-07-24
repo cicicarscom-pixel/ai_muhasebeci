@@ -71,8 +71,6 @@ export function FloatingLedgerAI() {
   let contextLabel = "Kontrol Merkezi";
   if (pathname?.includes("/clients")) {
     contextLabel = "Mükellefler";
-  } else if (pathname?.includes("/workflow")) {
-    contextLabel = "İş Akışı";
   } else if (pathname?.includes("/approval")) {
     contextLabel = "Evrak Onay";
   } else if (pathname?.includes("/dashboard")) {

@@ -27,7 +27,6 @@ export default function Sidebar() {
       <div className="flex-1 w-full flex flex-col gap-2 items-center">
         <SidebarItem icon="dashboard" label="Dashboard" href="/dashboard" active={isActive('/dashboard')} />
         <SidebarItem icon="groups" label="Mükellefler" href="/clients" active={isActive('/clients')} />
-        <SidebarItem icon="account_tree" label="İş Akışı" href="/workflow" active={isActive('/workflow')} />
         <SidebarItem icon="fact_check" label="Onay Merkezi" href="/approval" active={pathname?.startsWith('/approval')} />
         <SidebarItem icon="archive" label="Onaylananlar" href="/approved" active={isActive('/approved')} />
         <SidebarItem icon="analytics" label="Analitik" href="/analytics" active={isActive('/analytics')} />

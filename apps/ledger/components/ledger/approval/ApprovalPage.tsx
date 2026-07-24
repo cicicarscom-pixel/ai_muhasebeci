@@ -200,7 +200,7 @@ export default function ApprovalPage({
       {/* Top Navigation Bar */}
       <header className="flex justify-between items-center w-full px-6 z-50 bg-card/80 backdrop-blur-md top-0 sticky h-[64px] border-b border-border">
         <div className="flex items-center gap-1">
-          <Link href="/workflow" className="flex items-center gap-2 text-text-muted hover:text-text transition-colors duration-fast">
+          <Link href="/dashboard" className="flex items-center gap-2 text-text-muted hover:text-text transition-colors duration-fast">
             <span className="material-symbols-outlined text-[20px]">arrow_back</span>
             <span className="font-semibold text-body">Geri</span>
           </Link>
