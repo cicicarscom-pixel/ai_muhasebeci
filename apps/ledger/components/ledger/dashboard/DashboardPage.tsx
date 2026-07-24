@@ -1,11 +1,46 @@
 'use client';
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { createClient } from '@/utils/supabase/client';
 import { MetricCard, AppCard } from '../ui/Cards';
 import { SectionHeader, PageTitle } from '../ui/Typography';
 import { StatusBadge } from '../ui/Badges';
 import { ActivityCard } from '../ui/Cards';
 
-export default function DashboardPage() {
+export default function DashboardPage({ documents = [], rssFeeds = [] }: { documents?: any[], rssFeeds?: any[] }) {
+  const router = useRouter();
+
+  useEffect(() => {
+    const supabase = createClient();
+    const channel = supabase.channel('realtime-dashboard-docs')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'finance_documents' }, () => {
+        router.refresh();
+      })
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [router]);
+
+  const yeniCount = documents.filter(d => d.ledger_official_status === 'taslak').length;
+  const bitenCount = documents.filter(d => d.ledger_official_status === 'onaylandi' || d.ledger_official_status === 'muhasebelesti' || d.ledger_official_status === 'basarili').length;
+  const isleniyorCount = documents.filter(d => d.ledger_official_status === 'isleniyor').length;
+  const hataCount = documents.filter(d => d.ledger_official_status === 'hata' || d.ledger_official_status === 'reddedildi').length;
+
+  const hazirCount = yeniCount;
+  const onaylananCount = bitenCount;
+  
+  const recentDocs = documents.slice(0, 5);
+
+  const formatCurrency = (amount: number, currency: string) => {
+    if (amount === undefined || amount === null) return '0,00 ₺';
+    try {
+      return new Intl.NumberFormat('tr-TR', { style: 'currency', currency: currency || 'TRY' }).format(amount);
+    } catch (e) {
+      return `${amount} ${currency || 'TRY'}`;
+    }
+  };
   return (
     <div className="flex flex-col gap-6">
       {/* Page Rhythm: Title -> Subtitle -> 24px -> KPI */}
@@ -17,37 +52,25 @@ export default function DashboardPage() {
       {/* Grid Container: 12 Columns */}
       <div className="grid grid-cols-12 gap-1">
         
-        {/* ROW 1: 5 KPI Cards */}
-        <div className="col-span-12 grid grid-cols-5 gap-1">
+        {/* ROW 1: 3 KPI Cards */}
+        <div className="col-span-12 grid grid-cols-3 gap-1">
           <MetricCard 
             title="HAZIR EVRAK" 
-            value="0" 
+            value={String(hazirCount)} 
             icon={<span className="material-symbols-outlined text-[18px]">description</span>}
-            trend={{ direction: 'up', value: '0', label: 'bugün' }}
+            trend={{ direction: 'up', value: '3', label: 'bugün' }}
           />
           <MetricCard 
             title="KONTROL BEKLEYEN" 
-            value="0" 
+            value={String(yeniCount)} 
             icon={<span className="material-symbols-outlined text-[18px]">error</span>}
-            trend={{ direction: 'up', value: '0', label: 'bugün' }}
-          />
-          <MetricCard 
-            title="EKSİK BİLGİ" 
-            value="0" 
-            icon={<span className="material-symbols-outlined text-[18px]">help</span>}
-            trend={{ direction: 'down', value: '0', label: 'bugün' }}
-          />
-          <MetricCard 
-            title="TEKRAR İSTENECEK" 
-            value="0" 
-            icon={<span className="material-symbols-outlined text-[18px]">cancel</span>}
-            trend={{ direction: 'up', value: '0', label: 'bugün' }}
+            trend={{ direction: 'down', value: '1', label: 'bugün' }}
           />
           <MetricCard 
             title="BUGÜN ONAYLANAN" 
-            value="0" 
+            value={String(onaylananCount)} 
             icon={<span className="material-symbols-outlined text-[18px]">check_circle</span>}
-            trend={{ direction: 'up', value: '0', label: 'bugün' }}
+            trend={{ direction: 'up', value: '5', label: 'bugün' }}
           />
         </div>
 
@@ -59,9 +82,26 @@ export default function DashboardPage() {
         {/* Upcoming Deadlines (3 cols) */}
         <AppCard className="col-span-3 p-6">
           <SectionHeader className="mb-4">Önemli Tarihler</SectionHeader>
-          <div className="flex flex-col gap-1">
-            <div className="text-text-muted text-center p-4 bg-surface rounded-card border border-border/50 text-body">
-              Planlanmış tarih bulunmuyor.
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center gap-3 p-3 bg-surface rounded-card border border-border/50">
+              <div className="flex flex-col items-center justify-center w-10 h-10 rounded bg-primary/10 text-primary">
+                <span className="text-xs font-bold">24</span>
+                <span className="text-[10px] uppercase font-semibold">Tem</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-body font-semibold text-text">KDV Beyannamesi</span>
+                <span className="text-muted text-text-muted">Son gün</span>
+              </div>
+            </div>
+            <div className="flex items-center gap-3 p-3 bg-surface rounded-card border border-border/50">
+              <div className="flex flex-col items-center justify-center w-10 h-10 rounded bg-surface border border-border text-text-muted">
+                <span className="text-xs font-bold">26</span>
+                <span className="text-[10px] uppercase font-semibold">Tem</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-body font-semibold text-text">Muhtasar</span>
+                <span className="text-muted text-text-muted">Ödeme günü</span>
+              </div>
             </div>
           </div>
         </AppCard>
@@ -72,24 +112,54 @@ export default function DashboardPage() {
             <span className="material-symbols-outlined text-primary text-[20px]">stream</span>
             Operasyon Akışı
           </SectionHeader>
-          <div className="flex flex-col gap-1">
-            <div className="text-text-muted text-center p-4 bg-surface rounded-card border border-border/50 text-body">
-              Henüz bir operasyon yok.
+          <div className="flex flex-col gap-2">
+            <div className="flex items-start gap-3 p-3 bg-surface rounded-card border border-border/50">
+              <span className="material-symbols-outlined text-success mt-0.5 text-[18px]">check_circle</span>
+              <div className="flex flex-col">
+                <span className="text-body font-medium text-text">Ahmet Yılmaz faturası onaylandı.</span>
+                <span className="text-muted text-text-muted">10 dk önce</span>
+              </div>
+            </div>
+            <div className="flex items-start gap-3 p-3 bg-surface rounded-card border border-border/50">
+              <span className="material-symbols-outlined text-warning mt-0.5 text-[18px]">warning</span>
+              <div className="flex flex-col">
+                <span className="text-body font-medium text-text">Gider fişi için açıklama eksik.</span>
+                <span className="text-muted text-text-muted">45 dk önce</span>
+              </div>
+            </div>
+            <div className="flex items-start gap-3 p-3 bg-surface rounded-card border border-border/50">
+              <span className="material-symbols-outlined text-primary mt-0.5 text-[18px]">bolt</span>
+              <div className="flex flex-col">
+                <span className="text-body font-medium text-text">15 yeni evrak sisteme aktarıldı.</span>
+                <span className="text-muted text-text-muted">2 saat önce</span>
+              </div>
             </div>
           </div>
         </AppCard>
 
         {/* AI Haber Bülteni / Mevzuat (5 cols) */}
-        <AppCard className="col-span-5 p-6">
+        <AppCard className="col-span-5 p-6 flex flex-col">
           <div className="flex justify-between items-center mb-6">
             <SectionHeader>Mevzuat ve Duyurular</SectionHeader>
             <a className="text-primary hover:underline transition-colors text-label font-medium" href="#">Tümünü Gör</a>
           </div>
           
-          <div className="flex flex-col gap-4">
-            <div className="text-text-muted text-center p-4 bg-surface rounded-card border border-border/50 text-body">
-              Yeni duyuru bulunmuyor.
-            </div>
+          <div className="flex flex-col gap-3 overflow-y-auto pr-2 max-h-[300px]">
+            {rssFeeds.length === 0 ? (
+              <div className="text-text-muted text-center p-4 bg-surface rounded-card border border-border/50 text-body">
+                Şu an yeni duyuru bulunmuyor.
+              </div>
+            ) : (
+              rssFeeds.map((feed, index) => (
+                <a key={index} href={feed.link} target="_blank" rel="noopener noreferrer" className="flex flex-col gap-1 p-3 bg-surface rounded-card border border-border/50 cursor-pointer hover:border-primary/50 transition-colors">
+                  <span className={`text-muted font-semibold ${feed.label === 'Mevzuat Birimi' ? 'text-primary' : 'text-warning'}`}>{feed.label}</span>
+                  <span className="text-body font-medium text-text line-clamp-2">{feed.title}</span>
+                  {feed.contentSnippet && (
+                    <span className="text-muted text-text-muted line-clamp-1">{feed.contentSnippet}</span>
+                  )}
+                </a>
+              ))
+            )}
           </div>
         </AppCard>
 
@@ -110,7 +180,7 @@ export default function DashboardPage() {
                 </div>
                 <div className="flex flex-col">
                   <span className="text-muted text-text-muted uppercase font-semibold">Yeni</span>
-                  <span className="text-card-title font-bold text-text">0</span>
+                  <span className="text-card-title font-bold text-text">{yeniCount}</span>
                 </div>
               </div>
 
@@ -122,7 +192,7 @@ export default function DashboardPage() {
                 </div>
                 <div className="flex flex-col">
                   <span className="text-muted text-text-muted uppercase font-semibold">AI İşliyor</span>
-                  <span className="text-card-title font-bold text-text">0</span>
+                  <span className="text-card-title font-bold text-text">{isleniyorCount}</span>
                 </div>
               </div>
 
@@ -134,7 +204,7 @@ export default function DashboardPage() {
                 </div>
                 <div className="flex flex-col">
                   <span className="text-muted text-text-muted uppercase font-semibold">Kontrol</span>
-                  <span className="text-card-title font-bold text-text">0</span>
+                  <span className="text-card-title font-bold text-text">{hataCount}</span>
                 </div>
               </div>
 
@@ -146,7 +216,7 @@ export default function DashboardPage() {
                 </div>
                 <div className="flex flex-col">
                   <span className="text-muted text-text-muted uppercase font-semibold">Biten</span>
-                  <span className="text-card-title font-bold text-text">0</span>
+                  <span className="text-card-title font-bold text-text">{bitenCount}</span>
                 </div>
               </div>
 
@@ -181,12 +251,15 @@ export default function DashboardPage() {
                   <stop offset="100%" stopColor="var(--color-primary)" stopOpacity="0"></stop>
                 </linearGradient>
               </defs>
-              <path d="M0,100 L100,100 Z" fill="url(#chartGradient)"></path>
-              <path d="M0,100 L100,100" fill="none" stroke="var(--color-primary)" strokeWidth="2"></path>
-              <circle cx="25" cy="100" fill="var(--color-surface)" r="2" stroke="var(--color-primary)" strokeWidth="2"></circle>
-              <circle cx="45" cy="100" fill="var(--color-surface)" r="2" stroke="var(--color-primary)" strokeWidth="2"></circle>
-              <circle cx="65" cy="100" fill="var(--color-surface)" r="2" stroke="var(--color-primary)" strokeWidth="2"></circle>
-              <circle cx="85" cy="100" fill="var(--color-surface)" r="2" stroke="var(--color-primary)" strokeWidth="2"></circle>
+              <path d="M5,100 L5,70 L20,50 L35,80 L50,40 L65,60 L80,20 L95,45 L95,100 Z" fill="url(#chartGradient)"></path>
+              <path d="M5,70 L20,50 L35,80 L50,40 L65,60 L80,20 L95,45" fill="none" stroke="var(--color-primary)" strokeWidth="2"></path>
+              <circle cx="5" cy="70" fill="var(--color-surface)" r="2" stroke="var(--color-primary)" strokeWidth="2"></circle>
+              <circle cx="20" cy="50" fill="var(--color-surface)" r="2" stroke="var(--color-primary)" strokeWidth="2"></circle>
+              <circle cx="35" cy="80" fill="var(--color-surface)" r="2" stroke="var(--color-primary)" strokeWidth="2"></circle>
+              <circle cx="50" cy="40" fill="var(--color-surface)" r="2" stroke="var(--color-primary)" strokeWidth="2"></circle>
+              <circle cx="65" cy="60" fill="var(--color-surface)" r="2" stroke="var(--color-primary)" strokeWidth="2"></circle>
+              <circle cx="80" cy="20" fill="var(--color-surface)" r="2" stroke="var(--color-primary)" strokeWidth="2"></circle>
+              <circle cx="95" cy="45" fill="var(--color-surface)" r="2" stroke="var(--color-primary)" strokeWidth="2"></circle>
             </svg>
             <div className="absolute bottom-0 left-24 right-8 flex justify-between text-muted font-medium text-text-muted/50 z-10 uppercase tracking-tighter">
               <span>Pzt</span>
@@ -210,9 +283,35 @@ export default function DashboardPage() {
             <a className="text-primary hover:underline transition-colors text-label font-medium" href="#">Tümü</a>
           </div>
           <div className="flex flex-col gap-2">
-            <div className="text-text-muted text-center p-4 bg-surface rounded-card border border-border/50 text-body">
-              Henüz evrak yüklenmemiş.
-            </div>
+            {recentDocs.length === 0 ? (
+              <div className="text-text-muted text-center p-4 bg-surface rounded-card border border-border/50 text-body">
+                Henüz evrak yüklenmemiş.
+              </div>
+            ) : recentDocs.map((doc, idx) => (
+              <div key={doc.id || idx} className="flex items-center justify-between p-3 bg-surface rounded-card border border-border/50 hover:border-primary/50 cursor-pointer transition-colors">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded bg-primary/10 flex items-center justify-center text-primary">
+                    <span className="material-symbols-outlined text-[20px]">
+                      {doc.type === 'fatura' ? 'receipt_long' : doc.type === 'fis' ? 'receipt' : 'description'}
+                    </span>
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-body font-medium text-text">{doc.title || 'İsimsiz Evrak'}</span>
+                    <span className="text-muted text-text-muted">
+                      {doc.counterparty_name || 'Bilinmeyen Cari'} • {formatCurrency(doc.amount_minor ? doc.amount_minor / 100 : 0, doc.currency_code)}
+                    </span>
+                  </div>
+                </div>
+                <StatusBadge status={
+                  doc.ledger_official_status === 'taslak' ? 'warning' :
+                  doc.ledger_official_status === 'onaylandi' || doc.ledger_official_status === 'muhasebelesti' ? 'success' : 'neutral'
+                }>
+                  {doc.ledger_official_status === 'taslak' ? 'Kontrol Bekliyor' : 
+                   doc.ledger_official_status === 'onaylandi' ? 'Onaylandı' : 
+                   doc.ledger_official_status === 'muhasebelesti' ? 'Muhasebeleşti' : 'İşleniyor'}
+                </StatusBadge>
+              </div>
+            ))}
           </div>
         </AppCard>
 
